@@ -76,6 +76,7 @@ public class Scanner {
 
             // Marks the end of a comment
             else if (inComment && current == '\n') {
+                System.out.println("No more comment");
                 inComment = false;
             }
 
@@ -90,8 +91,8 @@ public class Scanner {
                     if (prefix.length() > k) k = prefix.length();
 
                 if (k > 0) {
+                    System.out.println("Token = " + input.substring(i, i + k - 1));
                     i += k;
-                    System.out.println("s = " + s);
                 } else throw new IllegalStateException(lineNumber + ":" + tokenInLineNumber
                         + " Cannot scan: " + current);
             }
