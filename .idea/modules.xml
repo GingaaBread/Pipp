@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TokensUebung.iml" filepath="$PROJECT_DIR$/TokensUebung.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TokensUebung.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TokensUebung.main.iml" />
     </modules>
   </component>
 </project>

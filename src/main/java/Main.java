@@ -1,10 +1,19 @@
+import creation.PDFCreator;
+import lexical_analysis.Scanner;
+import processing.StyleSheet;
+import processing.work.Author;
+import processing.work.Book;
+import processing.work.Publication;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Calendar;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Specify the file path relative to the src/ folder
-        String filePath = "src/Sample.pipp";
+        String filePath = "src/main/resources/Sample.pipp";
 
         // Create a File object with the file path
         File file = new File(filePath);
@@ -13,7 +22,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         try {
-            // Create a Scanner to read the file
+            // Create a lexical_analysis.Scanner to read the file
             var scanner = new java.util.Scanner(file);
 
             // Read the file contents line by line
@@ -23,7 +32,7 @@ public class Main {
                 sb.append(System.lineSeparator()); // Append line separator for each line
             }
 
-            // Close the Scanner
+            // Close the lexical_analysis.Scanner
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filePath);
@@ -38,6 +47,17 @@ public class Main {
 
         System.out.println(fileContents);
 
-        var scanner = new Scanner(fileContents);
+        // Scan the file
+        new Scanner(fileContents);
+
+        /* PDF Creation */
+
+        var publication = new Publication("Grün Verlag");
+        publication.setDate(new Calendar.Builder().set(Calendar.YEAR, 1990).build());
+        Book book = new Book(new Author("Peter", "Fox"), "Mein Leben", publication);
+
+        System.out.println(book.toBibliography(StyleSheet.MLA9));
+
+        PDFCreator.create(StyleSheet.MLA9);
     }
 }
