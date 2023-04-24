@@ -1,0 +1,50 @@
+bibliography "1.0"
+    name "HP"
+        type "Book"
+        author "J.K. Rowling"
+        title "Harry Potter and the Philosopher's Stone"
+        publication
+            name "Bloomsbury (UK)"
+            date "06/26/1997"
+            in "United Kingdom"
+
+    name "Chilli"
+        type "Webpage"
+        author "Susan Lundman"
+        title "How to Make Vegetarian Chilli"
+        publication
+            name "eHow"
+            www "www.ehow.com/how_10727_make-vegetarian-chili.html.*"
+        
+    name "Voices"
+        type "Periodical"
+        author "Alaknanda Bagchi"
+        title "Conflicting Nationalisms: The Voice of the Subaltern in Mahasweta Devi's Bashai
+            Tudu."
+        publication
+            name "Tulsa Studies in Women's Literature"
+            of "15"
+            id "1"
+            date "1996"
+            page "41-50"
+
+    name "Mockingbird"
+        type "Music"
+        author "Eminem"
+        title "Mockingbird"
+        of "Encore"
+        publication
+            name "Shady Records"
+            date "2004"
+
+    name "Girl"
+        type "Poem"
+        author "Jamaica Kincaid"
+        title "Girl"
+        publication
+            title "The Vintage Book of Contemporary American Short Stories"
+            name "Vintage"
+            role "Editor", "Tobias Wolf"
+            date "1994"
+            page "306-307"
+
