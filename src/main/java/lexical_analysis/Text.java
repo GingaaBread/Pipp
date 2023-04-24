@@ -29,4 +29,5 @@ public class Text implements DFA {
     public void reset() {
         state = 0;
     }
+
 }

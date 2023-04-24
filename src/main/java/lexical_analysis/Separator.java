@@ -27,4 +27,5 @@ public class Separator implements DFA {
     public void reset() {
         state = 0;
     }
+
 }

@@ -52,9 +52,10 @@ public class Main {
 
         /* PDF Creation */
 
-        var publication = new Publication("Grün Verlag");
+        var publication = new Publication();
+        publication.setName("Grün Verlag");
         publication.setDate(new Calendar.Builder().set(Calendar.YEAR, 1990).build());
-        Book book = new Book(new Author("Peter", "Fox"), "Mein Leben", publication);
+        Book book = new Book(new Author[] { new Author("Peter", "Fox") }, "Mein Leben", publication);
 
         System.out.println(book.toBibliography(StyleSheet.MLA9));
 

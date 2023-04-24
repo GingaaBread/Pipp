@@ -1,3 +1,5 @@
+package lexical_analysis;
+
 import lexical_analysis.DFA;
 import lexical_analysis.Separator;
 import lexical_analysis.Text;
@@ -5,6 +7,10 @@ import lexical_analysis.keywords.*;
 
 import java.util.ArrayList;
 
+/**
+ *  Responsible for the lexical analysis of .pipp files
+ *  Uses DFAs to convert the input into a set of tokens
+ */
 public class Scanner {
 
     /**
@@ -50,7 +56,7 @@ public class Scanner {
     /**
      * Uses the algorithm of the lecture
      *
-     * @param input
+     * @param input - the input of the file that should be analysed
      */
     private void scan(final String input) {
         // Keeps track of the current character
@@ -102,9 +108,9 @@ public class Scanner {
     /**
      * Finds the longest prefix using the second algorithm of the lecture
      *
-     * @param input
-     * @param dfa
-     * @return
+     * @param input - the input of the file that should be analysed
+     * @param dfa - the current DFA trying to match
+     * @return - the longest accepted prefix as a String
      */
     private String longestPrefix(String input, DFA dfa) {
         var longestAcceptedPrefix = new StringBuilder();
