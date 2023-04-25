@@ -1,6 +1,7 @@
 import creation.PDFCreator;
 import lexical_analysis.Scanner;
 import processing.StyleSheet;
+import processing.style.MLA9;
 import processing.work.Author;
 import processing.work.Book;
 import processing.work.Publication;
@@ -48,9 +49,11 @@ public class Main {
         System.out.println(fileContents);
 
         // Scan the file
-        new Scanner(fileContents);
+        //new Scanner(fileContents);
 
         /* PDF Creation */
+
+        /*
 
         var publication = new Publication();
         publication.setName("Grün Verlag");
@@ -60,5 +63,11 @@ public class Main {
         System.out.println(book.toBibliography(StyleSheet.MLA9));
 
         PDFCreator.create(StyleSheet.MLA9);
+
+         */
+
+        var test = new MLA9();
+
+        System.out.println(test.formatText("        Hello   this \t\t is a test ."));
     }
 }

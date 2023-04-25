@@ -1,3 +1,5 @@
+#version "1.0"
+
 config
     # Double spacing, 12pt font, one space after punctuation, 1 inch margin all around, 1st line indentation
     # page numbers in the upper right corner one-half inch from the top, etc.
