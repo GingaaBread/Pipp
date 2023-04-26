@@ -1,8 +1,5 @@
 package lexical_analysis;
 
-import lexical_analysis.DFA;
-import lexical_analysis.Separator;
-import lexical_analysis.Text;
 import lexical_analysis.keywords.*;
 
 import java.util.ArrayList;
@@ -74,17 +71,14 @@ public class Scanner {
             // Increases the debugging variables
             if (current == '\n') {
                 lineNumber++;
-                tokenInLineNumber = 1;
+                tokenInLineNumber = 0;
             } else tokenInLineNumber++;
 
             // Starts ignoring the line if the character is a comment (#)
             if (current == '#') inComment = true;
 
             // Marks the end of a comment
-            else if (inComment && current == '\n') {
-                System.out.println("No more comment");
-                inComment = false;
-            }
+            else if (inComment && current == '\n') inComment = false;
 
             // Ignores spaces (but NOT new line or tabulator characters!)
             else if (!inComment && current != ' ') {

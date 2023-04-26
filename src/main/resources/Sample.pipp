@@ -1,5 +1,5 @@
 config
-    version "1.0"
+    #version "1.0"
 
     style "MLA"
 
@@ -11,9 +11,9 @@ config
     publication
         title "Welcome to the Jungle: Narrating and Constructing the Rainforest"
         date "07/07/1999"
-    assessor
-        firstname "Dr. Alice"
-        lastname "Anderson"
+    #assessor
+    #    firstname "Dr. Alice"
+    #    lastname "Anderson"
 
     #chair
     #    of "Technische Universität Dortmund"

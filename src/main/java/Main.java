@@ -1,3 +1,4 @@
+import lexical_analysis.Scanner;
 import processing.style.MLA9;
 
 import java.io.File;
@@ -41,8 +42,10 @@ public class Main {
 
         System.out.println(fileContents);
 
+        System.out.println("Output:");
+
         // Scan the file
-        //new Scanner(fileContents);
+        new Scanner(fileContents);
 
         /* PDF Creation */
 
@@ -59,8 +62,10 @@ public class Main {
 
          */
 
+        /*
         var test = new MLA9();
 
         System.out.println(test.formatText("        Hello   this \t\t is a test ."));
+         */
     }
 }
