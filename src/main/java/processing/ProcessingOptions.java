@@ -1,9 +1,9 @@
 package processing;
 
+import processing.style.StyleSheet;
+
 /**
  *  Contains information and options about the compilation process
- *
- *  //todo remove stylesheet use and replace it with this
  *
  *  @since 1.0
  *  @version 1.0
@@ -22,5 +22,10 @@ public class ProcessingOptions {
      *  Determines which stylesheet should be used during compilation
      */
     public static StyleSheet usedStyleSheet = null;
+
+    /**
+     *  Determines the document's configuration options specified by the user
+     */
+    public static Configuration configuration = null;
 
 }

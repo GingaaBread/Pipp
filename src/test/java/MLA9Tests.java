@@ -32,7 +32,10 @@ public class MLA9Tests {
      */
     @Test
     public void unnecessaryWhiteSpaceIsRemovedFromTexts() {
-
+        Assertions.assertEquals(mla.formatText("This    is  a    test."), "This is a test.");
+        Assertions.assertEquals(mla.formatText("This  \t\t  is \t  a\t    test."), "This is a test.");
+        Assertions.assertEquals(mla.formatText("This \n\n   is  \na \n\n   test."), "This is a test.");
+        Assertions.assertEquals(mla.formatText("This \n\t    is  \t\na\t\n\n\t   test."), "This is a test.");
     }
 
     /**
@@ -42,7 +45,13 @@ public class MLA9Tests {
      */
     @Test
     public void fullstopIsAddedAfterEmptySentences() {
-
+        Assertions.assertEquals(mla.formatText("This is a test"), "This is a test.");
+        Assertions.assertEquals(mla.formatText("This is a test."), "This is a test.");
+        Assertions.assertEquals(mla.formatText("This is a test!"), "This is a test!");
+        Assertions.assertEquals(mla.formatText("This is a test?"), "This is a test?");
+        Assertions.assertEquals(mla.formatText("This is a test,"), "This is a test,");
+        Assertions.assertEquals(mla.formatText("This is a test;"), "This is a test;");
+        Assertions.assertEquals(mla.formatText("This is a test:"), "This is a test:");
     }
 
     /**
@@ -52,7 +61,12 @@ public class MLA9Tests {
      */
     @Test
     public void exactlyOneSpaceBeforeNewSentencesInTexts() {
-
+        Assertions.assertEquals(mla.formatText("This.Is,      an! \n\t Example?"),
+                "This. Is, an! Example?");
+        Assertions.assertEquals(mla.formatText("This         .Is\t\t\t\n\t,      an! \n\t Example?"),
+                "This. Is, an! Example?");
+        Assertions.assertEquals(mla.formatText("This. Is, an! Example?"),
+                "This. Is, an! Example?");
     }
 
     /**
@@ -62,7 +76,12 @@ public class MLA9Tests {
      */
     @Test
     public void capitalLetterAfterSentenceInTexts() {
-
+        Assertions.assertEquals(mla.formatText("Hello. world."), "Hello. World.");
+        Assertions.assertEquals(mla.formatText("Hello! world."), "Hello! World.");
+        Assertions.assertEquals(mla.formatText("Hello?` world."), "Hello? World.");
+        Assertions.assertEquals(mla.formatText("Hello: world."), "Hello: world.");
+        Assertions.assertEquals(mla.formatText("Hello; world."), "Hello; world.");
+        Assertions.assertEquals(mla.formatText("Hello, world."), "Hello, world.");
     }
 
     /**
@@ -71,7 +90,12 @@ public class MLA9Tests {
      */
     @Test
     public void unnecessarySpaceBeforePunctuationIsRemovedInTexts() {
-
+        Assertions.assertEquals(mla.formatText("Hello    ."), "Hello.");
+        Assertions.assertEquals(mla.formatText("Hello    ,"), "Hello,");
+        Assertions.assertEquals(mla.formatText("Hello    !"), "Hello!");
+        Assertions.assertEquals(mla.formatText("Hello    ?"), "Hello?");
+        Assertions.assertEquals(mla.formatText("Hello    :"), "Hello:");
+        Assertions.assertEquals(mla.formatText("Hello    ;"), "Hello;");
     }
 
     //// Paragraph Format

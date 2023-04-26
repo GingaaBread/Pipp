@@ -1,6 +1,9 @@
-package processing.work;
+package processing;
 
 import lombok.Data;
+import processing.Role;
+import processing.work.WebPage;
+import processing.work.Work;
 
 import java.util.Calendar;
 

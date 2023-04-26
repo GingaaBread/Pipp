@@ -1,24 +1,24 @@
-#version "1.0"
-
 config
-    # Double spacing, 12pt font, one space after punctuation, 1 inch margin all around, 1st line indentation
-    # page numbers in the upper right corner one-half inch from the top, etc.
+    version "1.0"
+
     style "MLA"
 
-    type
-        of "Paper"
-        name "AT Portfolio"
-    title "Welcome to the Jungle: Narrating and Constructing the Rainforest"
-    author
-        name "John Doe"
+    #type
+    #    of "Paper"
+    #    name "AT Portfolio"
+
+    author "John Doe"
     publication
-        date "Month yyyy"
+        title "Welcome to the Jungle: Narrating and Constructing the Rainforest"
+        date "07/07/1999"
     assessor
-        name "Alice Anderson"
-    chair
-        of "Technische Universität Dortmund"
-        name "Anglistik & Amerikanistik"
-        www "https://anglistik.kuwi.tu-dortmund.de/"
+        firstname "Dr. Alice"
+        lastname "Anderson"
+
+    #chair
+    #    of "Technische Universität Dortmund"
+    #    name "Anglistik & Amerikanistik"
+    #    www "https://anglistik.kuwi.tu-dortmund.de/"
 
 titlepage
 blank

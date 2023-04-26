@@ -1,10 +1,8 @@
 package processing.work;
 
-import processing.StyleSheet;
-
 public class Poem extends Work {
     @Override
-    public String toBibliography(StyleSheet styleSheet) {
+    public String toBibliography() {
         return null;
     }
 }

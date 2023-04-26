@@ -1,7 +1,8 @@
-package processing.work;
+package processing;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import processing.work.Work;
 
 /**
  *  Represents a role of a person having worked on a work other than the author

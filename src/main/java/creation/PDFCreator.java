@@ -1,27 +1,23 @@
 package creation;
 
-import org.apache.pdfbox.contentstream.PDContentStream;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import processing.StyleSheet;
+import processing.ProcessingOptions;
 
-import java.awt.*;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Calendar;
 
 public class PDFCreator {
 
     public static final String outputPath = "src/main/resources/out.pdf";
 
-    public static void create(StyleSheet styleSheet) throws IOException {
+    public static void create() throws IOException {
         var doc = new PDDocument();
 
-        switch (styleSheet) {
-            case MLA9 -> {
+        if (ProcessingOptions.configuration != null) {
                 // MLA uses "standard, white 8.5 x 11-inch paper"
                 var blankPage = new PDPage(PDRectangle.LETTER);
 
@@ -52,10 +48,8 @@ public class PDFCreator {
                 contentStream.close();
 
                 doc.addPage(blankPage);
-            }
-            default -> throw new UnsupportedOperationException("Stylesheet " + styleSheet + " is not supported.");
         }
-
+        else throw new UnsupportedOperationException("Stylesheet is not supported or does not exist.");
 
         doc.save(outputPath);
         doc.close();

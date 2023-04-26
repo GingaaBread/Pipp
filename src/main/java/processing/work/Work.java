@@ -1,6 +1,7 @@
 package processing.work;
 
-import processing.StyleSheet;
+import processing.Author;
+import processing.Publication;
 
 /**
  *  A work represents any kind of work done by someone other than the author, which needs to be referenced.
@@ -29,9 +30,8 @@ public abstract class Work {
     /**
      *  Turns the work into a string, adhering to the bibliography (or works-cited) formalities of the
      *  specified style sheet.
-     * @param styleSheet - the style sheet that determines the formal aspects of the conversion
      * @return - the work as a String ready to be rendered in the bibliography section of a document
      */
-    public abstract String toBibliography(StyleSheet styleSheet);
+    public abstract String toBibliography();
 
 }

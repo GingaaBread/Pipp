@@ -1,8 +1,9 @@
-package processing.work;
+package processing;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import processing.work.Work;
 
 /**
  *  Represents the author of a work represented by a first and last name.

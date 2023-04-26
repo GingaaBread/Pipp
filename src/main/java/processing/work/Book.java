@@ -2,7 +2,9 @@ package processing.work;
 
 import lombok.Builder;
 import lombok.NonNull;
-import processing.StyleSheet;
+import processing.Author;
+import processing.ProcessingOptions;
+import processing.Publication;
 
 import java.util.Calendar;
 
@@ -24,9 +26,8 @@ public class Book extends Work {
     }
 
     @Override
-    public String toBibliography(StyleSheet styleSheet) {
-        switch (styleSheet) {
-            case MLA9 -> {
+    public String toBibliography() {
+        if (ProcessingOptions.usedStyleSheet != null) {
                 if (publication.getDate() == null)
                     throw new IllegalArgumentException("Book has no publication date");
 
@@ -34,9 +35,7 @@ public class Book extends Work {
 
                 return super.authors[0].getLastName() + ", " + super.authors[0].getFirstName() + ". _" +
                     title + "_. " + publication.getName() + ", " + publication.getDate().get(Calendar.YEAR) + ".";
-            }
-            default -> throw new UnsupportedOperationException("A 'Book' work type does not support the specified " +
-                    styleSheet + " stylesheet.");
         }
+        else throw new UnsupportedOperationException("Style sheet is not supported or does not exist");
     }
 }

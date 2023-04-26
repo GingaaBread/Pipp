@@ -1,15 +1,8 @@
-import creation.PDFCreator;
-import lexical_analysis.Scanner;
-import processing.StyleSheet;
 import processing.style.MLA9;
-import processing.work.Author;
-import processing.work.Book;
-import processing.work.Publication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Calendar;
 
 public class Main {
     public static void main(String[] args) throws IOException {
