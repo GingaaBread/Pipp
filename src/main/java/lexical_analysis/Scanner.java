@@ -91,7 +91,6 @@ public class Scanner {
                     if (prefix.length() > k) k = prefix.length();
 
                 if (k > 0) {
-                    System.out.println("Token = " + input.substring(i, i + k - 1));
                     i += k;
                 } else throw new IllegalStateException(lineNumber + ":" + tokenInLineNumber
                         + " Cannot scan: " + current);

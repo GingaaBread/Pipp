@@ -2,7 +2,7 @@ package lexical_analysis.keywords;
 
 import lexical_analysis.DFA;
 
-public class TableOfContents implements DFA {
+public class TableOfContents extends DFA {
 
     private int state;
 
@@ -80,8 +80,4 @@ public class TableOfContents implements DFA {
         return state == 15;
     }
 
-    @Override
-    public void reset() {
-        state = 0;
-    }
 }

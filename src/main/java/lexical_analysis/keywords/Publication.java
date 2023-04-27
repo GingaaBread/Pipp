@@ -2,7 +2,7 @@ package lexical_analysis.keywords;
 
 import lexical_analysis.DFA;
 
-public class Publication implements DFA {
+public class Publication extends DFA {
 
     private int state;
 
@@ -64,8 +64,4 @@ public class Publication implements DFA {
         return state == 11;
     }
 
-    @Override
-    public void reset() {
-        state = 0;
-    }
 }

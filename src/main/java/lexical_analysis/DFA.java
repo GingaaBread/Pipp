@@ -5,7 +5,9 @@ package lexical_analysis;
  *  transition from one state to another, determine if it is in an accepting state, and reset its state to the
  *  starting state q0
  */
-public interface DFA {
+public abstract class DFA {
+
+    protected int state = 0;
 
     /**
      * Reading the new character, tries to transition to the next state.
@@ -14,16 +16,24 @@ public interface DFA {
      * @param character - the newly read character
      * @return - true if a transition exists and has been done, false if no transition using the character exists
      */
-    boolean transition(char character);
+    public abstract boolean transition(char character);
 
     /**
      * Determines if the current state is an accepting state
      * @return - true if in an accepting state, false if in an rejecting state
      */
-    boolean inAcceptState();
+    public abstract boolean inAcceptState();
 
     /**
      *  Resets the state to the starting state q0
      */
-    void reset();
+    protected void reset() {
+        state = 0;
+    }
+
+    protected void performAction() {
+        if (inAcceptState()) {
+            System.out.println("Token: " + getClass().getName());
+        }
+    }
 }

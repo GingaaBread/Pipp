@@ -2,9 +2,7 @@ package lexical_analysis.keywords;
 
 import lexical_analysis.DFA;
 
-public class Author implements DFA {
-
-    private int state;
+public class Author extends DFA {
 
     @Override
     public boolean transition(char character) {
@@ -44,8 +42,4 @@ public class Author implements DFA {
         return state == 6;
     }
 
-    @Override
-    public void reset() {
-        state = 0;
-    }
 }

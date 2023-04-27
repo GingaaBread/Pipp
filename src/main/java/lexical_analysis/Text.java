@@ -1,8 +1,6 @@
 package lexical_analysis;
 
-public class Text implements DFA {
-
-    private int state;
+public class Text extends DFA {
 
     public boolean transition(char character) {
         switch (state) {
@@ -23,11 +21,6 @@ public class Text implements DFA {
     @Override
     public boolean inAcceptState() {
         return state == 2;
-    }
-
-    @Override
-    public void reset() {
-        state = 0;
     }
 
 }

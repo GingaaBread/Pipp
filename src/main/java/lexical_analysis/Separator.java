@@ -1,8 +1,6 @@
 package lexical_analysis;
 
-public class Separator implements DFA {
-
-    private int state;
+public class Separator extends DFA {
 
     public boolean transition(char character) {
         switch (state) {
@@ -21,11 +19,6 @@ public class Separator implements DFA {
     @Override
     public boolean inAcceptState() {
         return state == 1 || state == 2 || state == 3;
-    }
-
-    @Override
-    public void reset() {
-        state = 0;
     }
 
 }
