@@ -1,36 +1,12 @@
 config
-    #version "1.0"
-
-    style "MLA"
-
-    #type
-    #    of "Paper"
-    #    name "AT Portfolio"
-
-    author "John Doe"
-    publication
-        title "Welcome to the Jungle: Narrating and Constructing the Rainforest"
-        date "07/07/1999"
-    #assessor
-    #    firstname "Dr. Alice"
-    #    lastname "Anderson"
-
-    #chair
-    #    of "Technische Universität Dortmund"
-    #    name "Anglistik & Amerikanistik"
-    #    www "https://anglistik.kuwi.tu-dortmund.de/"
-
-titlepage
-blank
-
-tableofcontents
-blank
-
-chapter "Lexeme"
-
-    "Test"
-
-workscited
-
-blank
-appendix
+	title "Test"
+	author
+		of
+			firstname "John"
+			lastname "Doe"
+		of
+			firstname "Harald J."
+			lastname "Brown"
+	publication
+		title "Test"
+		date "03/03/2023"

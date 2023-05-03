@@ -1,51 +1,33 @@
 import lexical_analysis.Scanner;
 import processing.style.MLA9;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+
+        var scanner = new Scanner();
+
         // Specify the file path relative to the src/ folder
         String filePath = "src/main/resources/Sample.pipp";
 
         // Create a File object with the file path
         File file = new File(filePath);
 
-        // Create a StringBuilder to store the file contents
-        StringBuilder sb = new StringBuilder();
-
         try {
-            // Create a lexical_analysis.Scanner to read the file
-            var scanner = new java.util.Scanner(file);
+            var bufferedReader = new BufferedReader(new FileReader(file));
 
-            // Read the file contents line by line
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                sb.append(line);
-                sb.append(System.lineSeparator()); // Append line separator for each line
+            int current;
+            while ((current = bufferedReader.read()) != -1) {
+                scanner.scan((char) current);
             }
-
-            // Close the lexical_analysis.Scanner
-            scanner.close();
+            bufferedReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filePath);
             e.printStackTrace();
         }
 
-        // Convert the StringBuilder to a String
-        String fileContents = sb.toString();
 
-        // Print the file contents
-        System.out.println("File Contents:");
-
-        System.out.println(fileContents);
-
-        System.out.println("Output:");
-
-        // Scan the file
-        new Scanner(fileContents);
 
         /* PDF Creation */
 

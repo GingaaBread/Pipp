@@ -6,7 +6,7 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 /**
  *  Defines traits and rules that a formal style sheet uses.
  *  An example style sheet is the MLA style in its 9th edition.
- *  To create a custom style sheet, extend from this class and specify the values.
+ *  To create a custom style sheet, extend this class and specify the values.
  */
 public abstract class StyleSheet {
 

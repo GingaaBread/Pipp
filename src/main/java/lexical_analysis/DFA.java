@@ -32,8 +32,6 @@ public abstract class DFA {
     }
 
     protected void performAction() {
-        if (inAcceptState()) {
-            System.out.println("Token: " + getClass().getName());
-        }
+        System.out.println("Token: " + getClass().getName());
     }
 }

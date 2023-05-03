@@ -26,4 +26,5 @@ public class Author
      *  The last name of the author. If the author has multiple last names, they can all be put in the variable.
      */
     private String lastName;
+
 }
