@@ -1,12 +1,9 @@
-import lexical_analysis.Scanner;
-import processing.style.MLA9;
+import frontend.FrontEndBridge;
 
 import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
-        var scanner = new Scanner();
 
         // Specify the file path relative to the src/ folder
         String filePath = "src/main/resources/Sample.pipp";
@@ -14,20 +11,8 @@ public class Main {
         // Create a File object with the file path
         File file = new File(filePath);
 
-        try {
-            var bufferedReader = new BufferedReader(new FileReader(file));
-
-            int current;
-            while ((current = bufferedReader.read()) != -1) {
-                scanner.scan((char) current);
-            }
-            bufferedReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filePath);
-            e.printStackTrace();
-        }
-
-
+        var frontEndBridge = new FrontEndBridge(file);
+        frontEndBridge.compile();
 
         /* PDF Creation */
 

@@ -1,8 +1,7 @@
-package lexical_analysis;
+package frontend.lexical_analysis;
 
-import lexical_analysis.keywords.*;
-
-import java.util.ArrayList;
+import frontend.FrontEndBridge;
+import frontend.parsing.Parser;
 
 /**
  * Responsible for the lexical analysis of .pipp files
@@ -10,23 +9,30 @@ import java.util.ArrayList;
  */
 public class Scanner {
 
-    private final String[] builtinKeywords = new String[]{
+    /**
+     *  Defines the keywords that come with Pipp
+     *  They are usable without having to be imported
+     */
+    private final String[] builtinKeywords = new String[] {
             "appendix",
             "article",
             "assessor",
             "author",
             "bibliography",
             "blank",
+            "bold",
             "chair",
             "chapter",
             "citation",
             "config",
             "date",
             "firstname",
+            "italic",
             "lastname",
             "name",
             "of",
             "publication",
+            "strikethrough",
             "style",
             "tableofcontents",
             "title",
@@ -34,11 +40,18 @@ public class Scanner {
             "www"
     };
 
+    private FrontEndBridge frontEndBridge;
+
+    public Scanner(final FrontEndBridge frontEndBridge) {
+        this.frontEndBridge = frontEndBridge;
+    }
+
     private int tabulationLevel = 0;
 
     // Variables for debugging purposes
     private int lineNumber = 0, tokenInLineNumber = 0;
 
+    // Token analysis
     private StringBuilder currentlyRead = new StringBuilder();
     private TokenType currentTokenType;
 
@@ -103,45 +116,15 @@ public class Scanner {
         }
     }
 
-    private void submitToken() {
+    public void submitToken() {
         if (currentTokenType != null)
         {
-            System.out.println("Token: " + currentTokenType + ", "
-                + (currentlyRead.toString().equals("\n") ? "<newline>" : currentlyRead.toString()));
+            var token = new Token(currentTokenType, currentlyRead.toString());
+            frontEndBridge.receiveToken(token);
+
             currentTokenType = null;
             currentlyRead = new StringBuilder();
         }
     }
 
-    /**
-     * Finds the longest prefix using the second algorithm of the lecture
-     *
-     * @param input - the input of the file that should be analysed
-     * @param dfa   - the current DFA trying to match
-     * @return - the longest accepted prefix as a String
-     */
-    private String longestPrefix(String input, DFA dfa) {
-        var longestAcceptedPrefix = new StringBuilder();
-        var scannedPrefix = new StringBuilder();
-        dfa.reset();
-
-        for (char current : input.toCharArray()) {
-            boolean transitionExists = dfa.transition(current);
-
-            if (!transitionExists) break;
-
-            scannedPrefix.append(current);
-
-            if (dfa.inAcceptState()) longestAcceptedPrefix = scannedPrefix;
-        }
-
-        if (longestAcceptedPrefix.length() > 0)
-            System.out.println("Longest accepted string: " + longestAcceptedPrefix
-                    .toString()
-                    .replaceAll("\t", "<tabulation>")
-                    .replaceAll("\n", "<newline>")
-                    .replace(' ', '_'));
-
-        return longestAcceptedPrefix.toString();
-    }
 }

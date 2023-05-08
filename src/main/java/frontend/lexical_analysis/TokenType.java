@@ -1,4 +1,4 @@
-package lexical_analysis;
+package frontend.lexical_analysis;
 
 public enum TokenType {
     KEYWORD,
