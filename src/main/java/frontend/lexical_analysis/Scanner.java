@@ -1,7 +1,6 @@
 package frontend.lexical_analysis;
 
 import frontend.FrontEndBridge;
-import frontend.parsing.Parser;
 
 /**
  * Responsible for the lexical analysis of .pipp files
@@ -40,7 +39,7 @@ public class Scanner {
             "www"
     };
 
-    private FrontEndBridge frontEndBridge;
+    private final FrontEndBridge frontEndBridge;
 
     public Scanner(final FrontEndBridge frontEndBridge) {
         this.frontEndBridge = frontEndBridge;
@@ -120,7 +119,7 @@ public class Scanner {
         if (currentTokenType != null)
         {
             var token = new Token(currentTokenType, currentlyRead.toString());
-            frontEndBridge.receiveToken(token);
+            frontEndBridge.getTokens().add(token);
 
             currentTokenType = null;
             currentlyRead = new StringBuilder();

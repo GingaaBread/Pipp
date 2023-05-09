@@ -13,25 +13,26 @@ public class Parser {
         this.frontEndBridge = frontEndBridge;
     }
 
-    public void provideToken(final Token token) {
-        current = token;
-    }
-
     private void consume(Token requiredToken) {
+        if (current == null) {
+            throw new IllegalArgumentException("Unexpected end: Still expecting: " + requiredToken);
+        }
         if (current.type == TokenType.TEXT && requiredToken.type == TokenType.TEXT ||
                 current.type == requiredToken.type && current.value.equals(requiredToken.value)) {
-            current = null;
-            frontEndBridge.requestNextToken();
+            current = frontEndBridge.getTokens().poll();
         }
         else throw new IllegalArgumentException("Unexpected token: " + current.toString()
-                + ". Expected: " + requiredToken.toString());
+                + ". Expected: " + requiredToken);
     }
 
     /**
      *  S or empty
      */
     public void s() {
+        current = frontEndBridge.getTokens().poll();
+
         document();
+        System.out.println("Successfully matched s");
     }
 
     /**
@@ -40,6 +41,8 @@ public class Parser {
     private void document() {
         optConfigContainer();
         instructionParagraphList();
+        System.out.println("Successfully matched document");
+
     }
 
     /**
@@ -47,6 +50,8 @@ public class Parser {
      */
     private void optConfigContainer() {
         configContainer();
+        System.out.println("Successfully matched optConfigContainer");
+
     }
 
     /**
@@ -54,6 +59,8 @@ public class Parser {
      */
     private void configContainer() {
         consume(new Token(TokenType.KEYWORD, "config"));
+        System.out.println("Successfully matched configContainer");
+
     }
 
     /**
@@ -61,13 +68,22 @@ public class Parser {
      */
     private void instructionParagraphList() {
         consume(new Token(TokenType.TEXT, null));
+        System.out.println("Successfully matched instructionParagraphList");
+
     }
 
     /**
-     *  (Text, ParagraphInstruction)* NewLine
+     *  Textual+ (ParagraphInstruction, Textual)* NewLine
+     *  Paragraph := TextualList
      */
     private void paragraph() {
 
+    }
+
+    /**
+     *  Textual TextualList | Textual
+     */
+    private void textualList() {
     }
 
     /**
@@ -75,6 +91,36 @@ public class Parser {
      */
     private void paragraphInstruction() {
 
+    }
+
+    /**
+     *  (Text, Citation)* Textual
+     *  CitedTextual := Text CitedTextual | Citation CitedTextual | Textual
+     */
+    private void citedTextual() {
+        if (current.type == TokenType.TEXT) {
+            consume(new Token(TokenType.TEXT, null));
+            citedTextual();
+        } else if (current.type == TokenType.KEYWORD && current.value.equals("citation")) {
+            citation();
+            citedTextual();
+        } else textual();
+    }
+
+    /**
+     *  "citation" Textual
+     */
+    private void citation() {
+        consume(new Token(TokenType.KEYWORD, "citation"));
+        textual();
+    }
+
+    /**
+     *  Text Newline
+     */
+    private void textual() {
+        consume(new Token(TokenType.TEXT, null));
+        consume(new Token(TokenType.NEW_LINE, null));
     }
 
 }

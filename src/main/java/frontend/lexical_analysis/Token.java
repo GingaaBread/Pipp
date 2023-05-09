@@ -8,4 +8,8 @@ import lombok.Data;
 public class Token {
     public TokenType type;
     public String value;
+
+    public String getErrorMessage() {
+        return type == TokenType.KEYWORD ? value : type.toString();
+    }
 }
