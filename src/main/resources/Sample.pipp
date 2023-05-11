@@ -1,12 +1,17 @@
 config
+	style "MLA9"
 	type "Paper"
+	title
+		citation
+			of "This house is bitchin'"
+			in "The Flash"
+			page "89"
+	publication
+		title "English Class"
+		date "23.04.1022"
 	author
-		of "test"
-		of
-			name "te"
-			id "me"
-		of
-			firstname "gf"
-			lastname "f"
-	title ""
-	style "opownpr"
+		name "Theodore Rose"
+	assessor
+		firstname "Dr. Mathias"
+		lastname "Green"
+		role "Assassin"

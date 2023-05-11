@@ -27,15 +27,20 @@ public class Scanner {
             "date",
             "firstname",
             "italic",
+            "id",
+            "in",
             "lastname",
             "name",
             "of",
+            "page",
             "publication",
+            "role",
             "strikethrough",
             "style",
             "tableofcontents",
             "title",
             "titlepage",
+            "type",
             "www"
     };
 
@@ -81,7 +86,7 @@ public class Scanner {
                 if (current == '\t') {
                     submitToken();
                     tabulationLevel++;
-                } else if (current == ' ') {
+                } else if (current == ' ' && currentTokenType != TokenType.TEXT) {
                     submitToken();
                 }
                 else if (current == ',') {
@@ -119,6 +124,19 @@ public class Scanner {
         if (currentTokenType != null)
         {
             var token = new Token(currentTokenType, currentlyRead.toString());
+
+            if (token.type == TokenType.KEYWORD) {
+                var isLegalKeyword = false;
+                for (var keyword : builtinKeywords) {
+                    if (keyword.equals(token.value)) {
+                        isLegalKeyword = true;
+                        break;
+                    }
+                }
+
+                if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
+            }
+
             frontEndBridge.enqueue(token);
 
             currentTokenType = null;
