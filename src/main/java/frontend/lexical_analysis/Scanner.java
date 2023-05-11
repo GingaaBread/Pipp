@@ -119,7 +119,7 @@ public class Scanner {
         if (currentTokenType != null)
         {
             var token = new Token(currentTokenType, currentlyRead.toString());
-            frontEndBridge.getTokens().add(token);
+            frontEndBridge.enqueue(token);
 
             currentTokenType = null;
             currentlyRead = new StringBuilder();

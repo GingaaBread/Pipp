@@ -3,11 +3,10 @@ package frontend;
 import frontend.lexical_analysis.Scanner;
 import frontend.lexical_analysis.Token;
 import frontend.parsing.Parser;
-import lombok.Getter;
 
 import java.io.*;
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FrontEndBridge {
 
@@ -17,15 +16,34 @@ public class FrontEndBridge {
 
     private BufferedReader reader;
 
-    @Getter
-    private final Queue<Token> tokens;
+    private final List<Token> tokens;
 
     public FrontEndBridge(File fileToRead) {
         this.fileToRead = fileToRead;
-        tokens = new ArrayDeque<>();
+        tokens = new LinkedList<>();
 
         this.parser = new Parser(this);
         this.scanner = new Scanner(this);
+    }
+
+    public void enqueue(Token token) {
+        tokens.add(token);
+    }
+
+    public Token dequeue() {
+        if (tokens.isEmpty()) throw new IllegalStateException("Token Queue is empty");
+
+        return tokens.remove(0);
+    }
+
+    public Token lookahead(int index) {
+        if (index >= tokens.size() || index < 0) throw new IndexOutOfBoundsException();
+
+        return tokens.get(index);
+    }
+
+    public boolean isNotEmpty() {
+        return !tokens.isEmpty();
     }
 
     public void compile() {

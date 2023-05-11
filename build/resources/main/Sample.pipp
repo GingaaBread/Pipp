@@ -1,1 +1,12 @@
-config "test"
+config
+	type "Paper"
+	author
+		of "test"
+		of
+			name "te"
+			id "me"
+		of
+			firstname "gf"
+			lastname "f"
+	title ""
+	style "opownpr"
