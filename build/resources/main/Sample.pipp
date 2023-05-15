@@ -1,17 +1,48 @@
 config
-	style "MLA9"
+	style
+	    of "MLA9"
+	    layout
+	        width "5"
+	        height "5"
+	        margin "5"
+	        spacing "5"
+	    font
+	        name "Arial"
+	        colour "Black"
+	        size "18"
+	    structure
+	        paragraph
+	            indentation "8"
+	        sentence
+	            before " "
+	            allow
+	                whitespace "Escape"
+	                bold "No"
+	                italic "If Necessary"
+            endnotes
+                allow
+                    before bibliography
 	type "Paper"
 	title
 		citation
-			of "This"
-			in "Bible"
+			of "This house is bitchin'"
+			in "The Flash"
 			page "89"
 	publication
 		title "English Class"
 		date "23.04.1022"
 	author
-		name "Theodore Rose"
+	    of
+		    name "Theodore Rose"
+		    id "229198"
+		of
+		    firstname "Gino"
+		    lastname "Glink"
 	assessor
-		firstname "Dr. Mathias"
-		lastname "Green"
-		role "Assassin"
+	    of
+		    firstname "Dr. Mathias"
+		    lastname "Green"
+		    role "Assassin"
+		of
+		    name "Tim Dolton"
+		    role "d"

@@ -3,6 +3,7 @@ package frontend.parsing;
 import frontend.FrontEndBridge;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
+import lombok.extern.slf4j.XSlf4j;
 
 /**
  *  The Parser class is responsible for creating a syntax tree for the Pipp document.
@@ -328,13 +329,248 @@ public class Parser {
     }
 
     /**
-     *  StyleConfiguration := "style" Textual
-     *
-     *  TODO: Add style overrides
+     *  StyleConfiguration := "style" NewLine Textual | "style" NewLine CustomStyle
      */
     private void styleConfiguration() {
         consume(new Token(TokenType.KEYWORD, "style"));
+        newline();
+
+        if (current.type == TokenType.KEYWORD && current.value.equals("of")) customStyle();
+        else textual();
+    }
+
+    /**
+     *  CustomStyle := "of" Textual OptionalCustomStyleList
+     */
+    private void customStyle() {
+        consume(new Token(TokenType.KEYWORD, "of"));
         textual();
+        optionalCustomStyleList();
+    }
+
+    /**
+     *  OptionalCustomStyleList := epsilon | GeneralLayoutStyle | PageNumerationStyle | FontStyle | StructuresStyle |
+     *                     GeneralLayoutStyle CustomStyleList |
+     *                     PageNumerationStyle CustomStyleList |
+     *                     FontStyle CustomStyleList |
+     *                     StructuresStyle | CustomStyleList
+     */
+    private void optionalCustomStyleList() {
+        while (current.value.equals("layout") || current.value.equals("numeration")
+                || current.value.equals("font") || current.value.equals("structure")) {
+            switch (current.value) {
+                case "layout" -> generalLayoutStyle();
+                case "numeration" -> pageNumerationStyle();
+                case "font" -> fontStyle();
+                case "structure" -> structureStyle();
+                default -> error();
+            }
+        }
+    }
+
+    /**
+     *  StructureStyle := "structure" NewLine ParagraphStructureStyle |
+     *                    "sentence" NewLine SentenceStructureStyle |
+     *                    "endnotes" NewLine EndnotesStructureStyle
+     */
+    private void structureStyle() {
+        if (current.type == TokenType.KEYWORD) {
+            consume(new Token(TokenType.KEYWORD, "structure"));
+            newline();
+            do {
+                switch (current.value) {
+                    case "paragraph" -> paragraphStructureStyle();
+                    case "sentence" -> sentenceStructureStyle();
+                    case "endnotes" -> endnotesStructureStyle();
+                    default -> error();
+                }
+            } while (current.value.equals("paragraph") || current.value.equals("sentence") ||
+                    current.value.equals("endnotes"));
+        } else error();
+    }
+
+    /**
+     *  EndnotesStructureStyle := "endnotes" NewLine "allow" NewLine "before" Textual
+     */
+    private void endnotesStructureStyle() {
+        consume(new Token(TokenType.KEYWORD, "endnotes"));
+        newline();
+        consume(new Token(TokenType.KEYWORD, "allow"));
+        newline();
+        consume(new Token(TokenType.KEYWORD, "before"));
+        structuralInstruction();
+    }
+
+    /**
+     *  SentenceStructureStyle := "sentence" NewLine SentenceStructureStyleList
+     */
+    private void sentenceStructureStyle() {
+        consume(new Token(TokenType.KEYWORD, "sentence"));
+        newline();
+        sentenceStructureStyleList();
+    }
+
+    /**
+     * SentenceStructureStyleList := "before" Textual SentenceStructureStyleList |
+     *                               "allow" NewLine SentenceStructureStyleAllowConfiguration SentenceStructureStyleList |
+     *                               "before" Textual |
+     *                               "allow" NewLine SentenceStructureStyleAllowConfiguration
+     */
+    private void sentenceStructureStyleList() {
+        if (current.type == TokenType.KEYWORD) {
+            do {
+                switch (current.value) {
+                    case "before" -> {
+                        consume(new Token(TokenType.KEYWORD, "before"));
+                        textual();
+                    }
+                    case "allow" -> {
+                        consume(new Token(TokenType.KEYWORD, "allow"));
+                        newline();
+                        sentenceStructureStyleAllowConfiguration();
+                    }
+                    default -> error();
+                }
+            } while (current.value.equals("before") || current.value.equals("allow"));
+        } else error();
+    }
+
+    /**
+     *  SentenceStructureStyleAllowConfiguration := "whitespace" Textual SentenceStructureStyleAllowConfiguration |
+     *                                              "bold" Textual SentenceStructureStyleAllowConfiguration |
+     *                                              "italic" Textual SentenceStructureStyleAllowConfiguration |
+     *                                              "whitespace" Textual |
+     *                                              "bold" Textual |
+     *                                              "italic" Textual
+     */
+    private void sentenceStructureStyleAllowConfiguration() {
+        if (current.type == TokenType.KEYWORD) {
+            do {
+                switch (current.value) {
+                    case "whitespace" -> consume(new Token(TokenType.KEYWORD, "whitespace"));
+                    case "bold" -> consume(new Token(TokenType.KEYWORD, "bold"));
+                    case "italic" -> consume(new Token(TokenType.KEYWORD, "italic"));
+                    default -> error();
+                }
+                textual();
+            } while (current.value.equals("whitespace") || current.value.equals("bold") ||
+                    current.value.equals("italic"));
+        } else error();
+    }
+
+    /**
+     *  ParagraphStructureStyle := "paragraph" NewLine "indentation" Textual
+     */
+    private void paragraphStructureStyle() {
+        consume(new Token(TokenType.KEYWORD, "paragraph"));
+        newline();
+        consume(new Token(TokenType.KEYWORD, "indentation"));
+        textual();
+    }
+
+    /**
+     *  FontStyle := "font" NewLine FontStyleList
+     */
+    private void fontStyle() {
+        consume(new Token(TokenType.KEYWORD, "font"));
+        newline();
+        fontStyleList();
+    }
+
+    /**
+     *  FontStyleList := "name" Textual FontStyleList |
+     *                   "size" Textual FontStyleList |
+     *                   "colour" Textual FontStyleList |
+     *                   "name" Textual | "size" Textual | "colour" Textual
+     */
+    private void fontStyleList() {
+        if (current.type == TokenType.KEYWORD) {
+            do {
+                switch (current.value) {
+                    case "name" -> consume(new Token(TokenType.KEYWORD, "name"));
+                    case "size" -> consume(new Token(TokenType.KEYWORD, "size"));
+                    case "colour" -> consume(new Token(TokenType.KEYWORD, "colour"));
+                    default -> error();
+                }
+                textual();
+            } while (current.value.equals("name") || current.value.equals("size") ||
+                    current.value.equals("colour"));
+        } else error();
+    }
+
+    /**
+     *  PageNumerationStyle := "numeration" NewLine PageNumerationStyleList
+     */
+    private void pageNumerationStyle() {
+        consume(new Token(TokenType.KEYWORD, "numeration"));
+        newline();
+        pageNumerationStyleList();
+    }
+
+    /**
+     *  PageNumerationStyleList := "in" Textual PageNumerationStyleList |
+     *                             "display" Textual PageNumerationStyleList |
+     *                             "margin" Textual PageNumerationStyleList |
+     *                             "skip" TextualList PageNumerationStyleList |
+     *                             "in" Textual | "display" Textual | "margin" Textual | "skip" TextualList
+     */
+    private void pageNumerationStyleList() {
+        if (current.type == TokenType.KEYWORD) {
+            do {
+                switch (current.value) {
+                    case "in" -> {
+                        consume(new Token(TokenType.KEYWORD, "in"));
+                        textual();
+                    }
+                    case "display" -> {
+                        consume(new Token(TokenType.KEYWORD, "display"));
+                        textual();
+                    }
+                    case "margin" -> {
+                        consume(new Token(TokenType.KEYWORD, "margin"));
+                        textual();
+                    }
+                    case "skip" -> {
+                        consume(new Token(TokenType.KEYWORD, "skip"));
+                        textualList();
+                    }
+                    default -> error();
+                }
+            } while (current.value.equals("in") || current.value.equals("display") ||
+                    current.value.equals("margin") || current.value.equals("skip"));
+        } else error();
+    }
+
+    /**
+     *  GeneralLayoutStyle := "layout" NewLine LayoutStyleList
+     */
+    private void generalLayoutStyle() {
+        consume(new Token(TokenType.KEYWORD, "layout"));
+        newline();
+        layoutStyleList();
+    }
+
+    /**
+     *  LayoutStyleList := "width" Textual | "height" Textual | "margin" Textual | "spacing" Textual |
+     *                     "width" Textual LayoutStyleList |
+     *                     "height" Textual LayoutStyleList |
+     *                     "margin" Textual LayoutStyleList |
+     *                     "spacing" Textual LayoutStyleList
+     */
+    private void layoutStyleList() {
+        if (current.type == TokenType.KEYWORD) {
+            do {
+                switch (current.value) {
+                    case "width" -> consume(new Token(TokenType.KEYWORD, "width"));
+                    case "height" -> consume(new Token(TokenType.KEYWORD, "height"));
+                    case "margin" -> consume(new Token(TokenType.KEYWORD, "margin"));
+                    case "spacing" -> consume(new Token(TokenType.KEYWORD, "spacing"));
+                    default -> error();
+                }
+                textual();
+            } while (current.value.equals("width") || current.value.equals("height") ||
+                    current.value.equals("margin") || current.value.equals("spacing"));
+        } else error();
     }
 
     /**
@@ -348,6 +584,21 @@ public class Parser {
                 else textual();
             } while (frontEndBridge.isNotEmpty() && (current.type == TokenType.KEYWORD && current.value.equals("citation") ||
                     current.type == TokenType.TEXT));
+        } else error();
+    }
+
+    /**
+     *  StructuralInstruction := "bibliography" NewLine | "appendix" NewLine | "tableofcontents" NewLine
+     */
+    private void structuralInstruction() {
+        if (current.type == TokenType.KEYWORD) {
+            switch (current.value) {
+                case "bibliography" -> consume(new Token(TokenType.KEYWORD, "bibliography"));
+                case "appendix" -> consume(new Token(TokenType.KEYWORD, "appendix"));
+                case "tableofcontents" -> consume(new Token(TokenType.KEYWORD, "tableofcontents"));
+                default -> error();
+            }
+            newline();
         } else error();
     }
 
@@ -385,6 +636,19 @@ public class Parser {
         newline();
     }
 
+    /**
+     *  TextualList := Textual | Textual "," TextualList
+     */
+    private void textualList() {
+        do {
+            textual();
+            consume(new Token(TokenType.LIST_SEPARATOR, null));
+        } while (current.type == TokenType.TEXT);
+    }
+
+    /**
+     *  NewLine := "NewLine" | epsilon
+     */
     private void newline() {
         if (frontEndBridge.isNotEmpty()) consume(new Token(TokenType.NEW_LINE, null));
     }

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Pipp.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Pipp.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Pipp.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Pipp.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TokensUebung.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TokensUebung.main.iml" />
     </modules>
   </component>
 </project>
