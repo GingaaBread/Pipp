@@ -28,6 +28,7 @@ public class Scanner {
             "config",
             "colour",
             "date",
+            "display",
             "endnotes",
             "firstname",
             "font",
@@ -42,7 +43,6 @@ public class Scanner {
             "numeration",
             "margin",
             "of",
-            "page",
             "paragraph",
             "publication",
             "role",
@@ -52,7 +52,7 @@ public class Scanner {
             "structure",
             "style",
             "spacing",
-            "size",
+            "skip",
             "tableofcontents",
             "title",
             "titlepage",
@@ -68,10 +68,7 @@ public class Scanner {
         this.frontEndBridge = frontEndBridge;
     }
 
-    private int tabulationLevel = 0;
-
-    // Variables for debugging purposes
-    private int lineNumber = 0, tokenInLineNumber = 0;
+    private int indendationLevel = 0;
 
     // Token analysis
     private StringBuilder currentlyRead = new StringBuilder();
@@ -81,29 +78,19 @@ public class Scanner {
     // Determines if the scanner is currently in a comment and should ignore the characters
     private boolean inComment = false;
 
-    /**
-     * Uses the algorithm of the lecture
-     *
-     * @param current - the input of the file that should be analysed
-     */
     public void scan(final char current) {
-            // Increases the debugging variables
-            if (current == '\n') {
-                lineNumber++;
-                tokenInLineNumber = 0;
-            } else tokenInLineNumber++;
-
             // Starts ignoring the line if the character is a comment (#)
             if (current == '#') inComment = true;
 
-                // Marks the end of a comment
+            // Marks the end of a comment
             else if (inComment && current == '\n') inComment = false;
 
-                // Ignores spaces (but NOT new line or tabulator characters!)
+            // Ignores spaces (but NOT new line or tabulator characters!)
             else if (!inComment && current != '\r') {
                 if (current == '\t') {
-                    submitToken();
-                    tabulationLevel++;
+                    if (currentTokenType != TokenType.INDENT) submitToken();
+                    currentTokenType = TokenType.INDENT;
+                    indendationLevel++;
                 } else if (current == ' ' && currentTokenType != TokenType.TEXT) {
                     submitToken();
                 }
@@ -116,7 +103,7 @@ public class Scanner {
                     submitToken();
                     currentlyRead.append(current);
                     currentTokenType = TokenType.NEW_LINE;
-                    tabulationLevel = 0;
+                    indendationLevel = 0;
                     submitToken();
                 } else if (current == '"') {
                     if (currentlyRead.isEmpty()) {
@@ -132,6 +119,8 @@ public class Scanner {
                 } else if (currentTokenType == TokenType.TEXT) {
                     currentlyRead.append(current);
                 } else {
+                    if (currentTokenType != null && currentTokenType != TokenType.KEYWORD) submitToken();
+
                     currentTokenType = TokenType.KEYWORD;
                     currentlyRead.append(current);
                 }
@@ -153,8 +142,9 @@ public class Scanner {
                 }
 
                 if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
-            }
+            } else if (token.type == TokenType.INDENT) token.value = Integer.toString(indendationLevel);
 
+            System.out.println(token);
             frontEndBridge.enqueue(token);
 
             currentTokenType = null;

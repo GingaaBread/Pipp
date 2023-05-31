@@ -28,11 +28,46 @@ public class Parser {
     private Token current;
 
     /**
+     *  Keeps track of the currently required indentation level
+     */
+    private int currentIndentationLevel = 0;
+
+    private int currentLine = 0;
+
+    /**
      *  Creates the parser by supplying the bridge.
      * @param frontEndBridge - the bridge between the Scanner and Parser
      */
     public Parser(final FrontEndBridge frontEndBridge) {
         this.frontEndBridge = frontEndBridge;
+    }
+
+    /**
+     *  Tries to parse an INDENT token and checks if its indentation value (amount of tabs) corresponds to the
+     *  required amount. If not, an indentation error is thrown, but if it does, the parser skips to the next token
+     */
+    private void expectIndentation() {
+        if (current.type == TokenType.INDENT) {
+            if (Integer.parseInt(current.value) != currentIndentationLevel + 1) indendationError();
+            else if (frontEndBridge.isNotEmpty()) {
+                current = frontEndBridge.dequeue();
+
+                assert current.type != TokenType.INDENT;
+
+                currentIndentationLevel++;
+            }
+        } else indendationError();
+    }
+
+    /**
+     *  Decreases the expected indentation level if possible.
+     *  Else, an IllegalStateException is thrown
+     */
+    private void forgoIndentation() {
+        if (currentIndentationLevel <= 0) throw new IllegalStateException("Should not try to forgo " +
+                "indentation as there is no more indentation");
+
+        currentIndentationLevel--;
     }
 
     /**
@@ -44,6 +79,9 @@ public class Parser {
      * @param requiredToken - the required token compared to the current token
      */
     private void consume(final Token requiredToken) {
+        // For debugging purposes
+        if (current.type == TokenType.NEW_LINE) currentLine++;
+
         if (current == null) {
             throw new IllegalStateException("Unexpected end: Still expecting: " + requiredToken);
         } else if (current.type == TokenType.KEYWORD && requiredToken.type == TokenType.KEYWORD &&
@@ -51,7 +89,8 @@ public class Parser {
                 current.type == requiredToken.type) {
             if (frontEndBridge.isNotEmpty()) current = frontEndBridge.dequeue();
         }
-        else throw new IllegalArgumentException("Unexpected token: " + current + ". Expected: " + requiredToken);
+        else throw new IllegalArgumentException("Unexpected token: " + current + ". Expected: " +
+                    requiredToken);
     }
 
     /**
@@ -59,7 +98,15 @@ public class Parser {
      *  consume a token directly. In that case, an IllegalArgumentException is thrown.
      */
     private void error() {
-        throw new IllegalArgumentException("Unexpected token: " + current);
+        throw new IllegalArgumentException("(" + currentLine + ") Unexpected token: " + current);
+    }
+
+    /**
+     *  This method is called whenever an indentation is expected, but not given by the user
+     */
+    private void indendationError() {
+        throw new IllegalArgumentException("(" + currentLine + ") Indentation expected. Current token is: " +
+                current);
     }
 
     /**
@@ -81,12 +128,14 @@ public class Parser {
     }
 
     /**
-     *  ConfigContainer := "config" Newline ConfigList
+     *  ConfigContainer := "config" Newline INDENT ConfigList DEDENT
      */
     private void configContainer() {
         consume(new Token(TokenType.KEYWORD, "config"));
-        consume(new Token(TokenType.NEW_LINE, null));
+        newline();
+        expectIndentation();
         configList();
+        forgoIndentation();
     }
 
     /**
@@ -120,14 +169,15 @@ public class Parser {
     }
 
     /**
-     *  PublicationConfiguration := "publication" NewLine TitleConfiguration DateConfiguration |
-     *                              "publication" NewLine DateConfiguration TitleConfiguration |
-     *                              "publication" NewLine TitleConfiguration |
-     *                              "publication" NewLine DateConfiguration
+     *  PublicationConfiguration := "publication" NewLine INDENT TitleConfiguration DateConfiguration |
+     *                              "publication" NewLine INDENT DateConfiguration TitleConfiguration |
+     *                              "publication" NewLine INDENT TitleConfiguration DEDENT |
+     *                              "publication" NewLine INDENT DateConfiguration DEDENT
      */
     private void publicationConfiguration() {
         consume(new Token(TokenType.KEYWORD, "publication"));
-        consume(new Token(TokenType.NEW_LINE, null));
+        newline();
+        expectIndentation();
 
         if (current.type == TokenType.KEYWORD) {
             if (current.value.equals("title")) {
@@ -140,6 +190,8 @@ public class Parser {
                 if (current.value.equals("title")) titleConfiguration();
             }
         } else error();
+
+        forgoIndentation();
     }
 
     /**
@@ -159,17 +211,20 @@ public class Parser {
     }
 
     /**
-     *  AssessorConfiguration := "assessor" NewLine AssessorSpecification | "assessor" Textual
+     *  AssessorConfiguration := "assessor" NewLine INDENT AssessorSpecification DEDENT | "assessor" Textual
      */
     private void assessorConfiguration() {
         consume(new Token(TokenType.KEYWORD, "assessor"));
+        expectIndentation();
 
         if (current.type == TokenType.NEW_LINE) {
-            consume(new Token(TokenType.NEW_LINE, null));
+            newline();
             assessorSpecification();
         } else if (current.type == TokenType.TEXT) {
             textual();
         } else error();
+
+        forgoIndentation();
     }
 
     /**
@@ -195,14 +250,16 @@ public class Parser {
     }
 
     /**
-     *  AssessorItem := "of" NewLine NameSpecificationWithOptRole | "of" Textual
+     *  AssessorItem := "of" NewLine INDENT NameSpecificationWithOptRole DEDENT | "of" Textual
      */
     private void assessorItem() {
         consume(new Token(TokenType.KEYWORD, "of"));
 
         if (current.type == TokenType.NEW_LINE) {
-            consume(new Token(TokenType.NEW_LINE, null));
+            newline();
+            expectIndentation();
             nameSpecificationWithOptRole();
+            forgoIndentation();
         } else if (current.type == TokenType.TEXT) {
             textual();
         }
@@ -220,14 +277,16 @@ public class Parser {
     }
 
     /**
-     *  AuthorConfiguration := "author" NewLine AuthorSpecification | "author" Textual
+     *  AuthorConfiguration := "author" INDENT NewLine AuthorSpecification DEDENT | "author" Textual
      */
     private void authorConfiguration() {
         consume(new Token(TokenType.KEYWORD, "author"));
 
         if (current.type == TokenType.NEW_LINE) {
-            consume(new Token(TokenType.NEW_LINE, null));
+            newline();
+            expectIndentation();
             authorSpecification();
+            forgoIndentation();
         } else if (current.type == TokenType.TEXT) {
             textual();
         } else error();
@@ -256,17 +315,17 @@ public class Parser {
     }
 
     /**
-     *  AuthorItem := "of" NewLine NameSpecificationWithOptID | "of" Textual
+     *  AuthorItem := "of" NewLine INDENT NameSpecificationWithOptID DEDENT | "of" Textual
      */
     private void authorItem() {
         consume(new Token(TokenType.KEYWORD, "of"));
 
         if (current.type == TokenType.NEW_LINE) {
-            consume(new Token(TokenType.NEW_LINE, null));
+            newline();
+            expectIndentation();
             nameSpecificationWithOptId();
-        } else if (current.type == TokenType.TEXT) {
-            textual();
-        }
+            forgoIndentation();
+        } else if (current.type == TokenType.TEXT) textual();
     }
 
     /**
@@ -318,25 +377,33 @@ public class Parser {
     }
 
     /**
-     *  TitleConfiguration := "title" CitedTextual | "title" NewLine CitedTextual
+     *  TitleConfiguration := "title" Textual | "title" NewLine INDENT CitedTextual DEDENT
      */
     private void titleConfiguration() {
         consume(new Token(TokenType.KEYWORD, "title"));
 
-        if (current.type == TokenType.NEW_LINE) consume(new Token(TokenType.NEW_LINE, null));
-
-        citedTextual();
+        if (current.type == TokenType.NEW_LINE) {
+            newline();
+            expectIndentation();
+            citedTextual();
+            forgoIndentation();
+        } else if (current.type == TokenType.TEXT) textual();
+        else error();
     }
 
     /**
-     *  StyleConfiguration := "style" NewLine Textual | "style" NewLine CustomStyle
+     *  StyleConfiguration := "style" Textual | "style" NewLine INDENT CustomStyle DEDENT
      */
     private void styleConfiguration() {
         consume(new Token(TokenType.KEYWORD, "style"));
-        newline();
 
-        if (current.type == TokenType.KEYWORD && current.value.equals("of")) customStyle();
-        else textual();
+        if (current.type == TokenType.TEXT) textual();
+        else {
+            newline();
+            expectIndentation();
+            customStyle();
+            forgoIndentation();
+        }
     }
 
     /**
@@ -369,14 +436,16 @@ public class Parser {
     }
 
     /**
-     *  StructureStyle := "structure" NewLine ParagraphStructureStyle |
-     *                    "sentence" NewLine SentenceStructureStyle |
-     *                    "endnotes" NewLine EndnotesStructureStyle
+     *  StructureStyle := "structure" NewLine INDENT ParagraphStructureStyle DEDENT |
+     *                    "structure" NewLine INDENT SentenceStructureStyle DEDENT |
+     *                    "structure" NewLine INDENT EndnotesStructureStyle DEDENT
      */
     private void structureStyle() {
         if (current.type == TokenType.KEYWORD) {
             consume(new Token(TokenType.KEYWORD, "structure"));
             newline();
+            expectIndentation();
+
             do {
                 switch (current.value) {
                     case "paragraph" -> paragraphStructureStyle();
@@ -386,33 +455,45 @@ public class Parser {
                 }
             } while (current.value.equals("paragraph") || current.value.equals("sentence") ||
                     current.value.equals("endnotes"));
+
+            forgoIndentation();
         } else error();
     }
 
     /**
-     *  EndnotesStructureStyle := "endnotes" NewLine "allow" NewLine "before" Textual
+     *  EndnotesStructureStyle := "endnotes" NewLine INDENT "allow" NewLine INDENT "before" Textual DEDENT DEDENT
      */
     private void endnotesStructureStyle() {
         consume(new Token(TokenType.KEYWORD, "endnotes"));
         newline();
+        expectIndentation();
+
         consume(new Token(TokenType.KEYWORD, "allow"));
         newline();
+        expectIndentation();
+
         consume(new Token(TokenType.KEYWORD, "before"));
         structuralInstruction();
+
+        forgoIndentation();
+        forgoIndentation();
     }
 
     /**
-     *  SentenceStructureStyle := "sentence" NewLine SentenceStructureStyleList
+     *  SentenceStructureStyle := "sentence" NewLine INDENT SentenceStructureStyleList DEDENT
      */
     private void sentenceStructureStyle() {
         consume(new Token(TokenType.KEYWORD, "sentence"));
         newline();
+        expectIndentation();
         sentenceStructureStyleList();
+        forgoIndentation();
     }
 
     /**
      * SentenceStructureStyleList := "before" Textual SentenceStructureStyleList |
-     *                               "allow" NewLine SentenceStructureStyleAllowConfiguration SentenceStructureStyleList |
+     *                               "allow" NewLine INDENT SentenceStructureStyleAllowConfiguration
+     *                                  SentenceStructureStyleList DEDENT |
      *                               "before" Textual |
      *                               "allow" NewLine SentenceStructureStyleAllowConfiguration
      */
@@ -427,7 +508,9 @@ public class Parser {
                     case "allow" -> {
                         consume(new Token(TokenType.KEYWORD, "allow"));
                         newline();
+                        expectIndentation();
                         sentenceStructureStyleAllowConfiguration();
+                        forgoIndentation();
                     }
                     default -> error();
                 }
@@ -459,22 +542,26 @@ public class Parser {
     }
 
     /**
-     *  ParagraphStructureStyle := "paragraph" NewLine "indentation" Textual
+     *  ParagraphStructureStyle := "paragraph" NewLine INDENT "indentation" Textual DEDENT
      */
     private void paragraphStructureStyle() {
         consume(new Token(TokenType.KEYWORD, "paragraph"));
         newline();
+        expectIndentation();
         consume(new Token(TokenType.KEYWORD, "indentation"));
         textual();
+        forgoIndentation();
     }
 
     /**
-     *  FontStyle := "font" NewLine FontStyleList
+     *  FontStyle := "font" NewLine INDENT FontStyleList DEDENT
      */
     private void fontStyle() {
         consume(new Token(TokenType.KEYWORD, "font"));
         newline();
+        expectIndentation();
         fontStyleList();
+        forgoIndentation();
     }
 
     /**
@@ -499,12 +586,14 @@ public class Parser {
     }
 
     /**
-     *  PageNumerationStyle := "numeration" NewLine PageNumerationStyleList
+     *  PageNumerationStyle := "numeration" NewLine INDENT PageNumerationStyleList DEDENT
      */
     private void pageNumerationStyle() {
         consume(new Token(TokenType.KEYWORD, "numeration"));
         newline();
+        expectIndentation();
         pageNumerationStyleList();
+        forgoIndentation();
     }
 
     /**
@@ -542,12 +631,14 @@ public class Parser {
     }
 
     /**
-     *  GeneralLayoutStyle := "layout" NewLine LayoutStyleList
+     *  GeneralLayoutStyle := "layout" NewLine INDENT LayoutStyleList DEDENT
      */
     private void generalLayoutStyle() {
         consume(new Token(TokenType.KEYWORD, "layout"));
         newline();
+        expectIndentation();
         layoutStyleList();
+        forgoIndentation();
     }
 
     /**
@@ -603,11 +694,12 @@ public class Parser {
     }
 
     /**
-     *  Citation := "citation" NewLine "of" Textual "in" Textual "page" Textual
+     *  Citation := "citation" NewLine INDENT "of" Textual "in" Textual "numeration" Textual DEDENT
      */
     private void citation() {
         consume(new Token(TokenType.KEYWORD, "citation"));
-        consume(new Token(TokenType.NEW_LINE, null));
+        newline();
+        expectIndentation();
 
         consume(new Token(TokenType.KEYWORD, "of"));
         textual();
@@ -615,17 +707,10 @@ public class Parser {
         consume(new Token(TokenType.KEYWORD, "in"));
         textual();
 
-        consume(new Token(TokenType.KEYWORD, "page"));
+        consume(new Token(TokenType.KEYWORD, "numeration"));
         textual();
-    }
 
-    /**
-     *  AnyLineTextual := Textual | Text
-     */
-    private void anyLineTextual() {
-        if (frontEndBridge.lookahead(1).type == TokenType.NEW_LINE) {
-            textual();
-        } else consume(new Token(TokenType.TEXT, null));
+        forgoIndentation();
     }
 
     /**
