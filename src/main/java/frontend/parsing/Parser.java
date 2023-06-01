@@ -31,6 +31,9 @@ public class Parser {
      */
     private int currentIndentationLevel = 0;
 
+    /**
+     *  Marks the currently parsed line for debugging messages
+     */
     private int currentLine = 0;
 
     /**
@@ -52,6 +55,8 @@ public class Parser {
                 current = frontEndBridge.dequeue();
                 assert current.type != TokenType.INDENT;
 
+                if (current.type == TokenType.NEW_LINE) currentLine++;
+
                 currentIndentationLevel++;
             }
         } else indendationError();
@@ -62,24 +67,31 @@ public class Parser {
      *  Else, an IllegalStateException is thrown
      */
     private void forgoIndentation() {
-        if (currentIndentationLevel <= 0) throw new IllegalStateException("Should not try to forgo " +
-                "indentation as there is no more indentation");
+        if (frontEndBridge.isNotEmpty()) {
+            if (currentIndentationLevel <= 0) throw new IllegalStateException("(" + currentLine + ") Should not try" +
+                    " to forgo indentation as there is no more indentation");
 
-        currentIndentationLevel--;
+            currentIndentationLevel--;
+        }
     }
 
     /**
      *  Tries to consume the current INDENT token which has the same indentation level as the currently required
      */
     private void remainIndentation() {
-        if (current.type != TokenType.INDENT) throw new IllegalStateException("Should remain at the current " +
-                "indentation level (" + currentIndentationLevel + ")");
+        if (frontEndBridge.isNotEmpty()) {
+            if (current.type != TokenType.INDENT) throw new IllegalStateException("(" + currentLine + ") Should" +
+                    " remain at the current indentation level (" + currentIndentationLevel + "). Instead" +
+                    " found unexpected token: " + current);
 
-        if (Integer.parseInt(current.value) != currentIndentationLevel) indendationError();
-        else if (frontEndBridge.isNotEmpty()) {
-            current = frontEndBridge.dequeue();
-            assert current.type != TokenType.INDENT;
-        } else error();
+            if (Integer.parseInt(current.value) != currentIndentationLevel) indendationError();
+            else if (frontEndBridge.isNotEmpty()) {
+                current = frontEndBridge.dequeue();
+                assert current.type != TokenType.INDENT;
+
+                if (current.type == TokenType.NEW_LINE) currentLine++;
+            } else error();
+        }
     }
 
     /**
@@ -99,8 +111,8 @@ public class Parser {
                 current.type == requiredToken.type) {
             if (frontEndBridge.isNotEmpty()) current = frontEndBridge.dequeue();
         }
-        else throw new IllegalArgumentException("Unexpected token: " + current + ". Expected: " +
-                    requiredToken);
+        else throw new IllegalArgumentException("(" + currentLine + ") Unexpected token: " + current +
+                ". Expected: " + requiredToken);
     }
 
     /**
@@ -115,7 +127,7 @@ public class Parser {
      *  This method is called whenever an indentation is expected, but not given by the user
      */
     private void indendationError() {
-        throw new IllegalArgumentException("(" + currentLine + ") Indentation expected. Current token is: " +
+        throw new IllegalArgumentException("(" + currentLine + ") Indentation error. Current token is: " +
                 current);
     }
 
@@ -154,6 +166,14 @@ public class Parser {
     private void configList() {
         do {
             configuration();
+
+            if (frontEndBridge.isNotEmpty()) {
+                var ahead = frontEndBridge.lookahead(0);
+                if (ahead.value.equals("style") || ahead.value.equals("title") || ahead.value.equals("author") ||
+                        ahead.value.equals("assessor") || ahead.value.equals("type") ||
+                        ahead.value.equals("publication"))
+                    remainIndentation();
+            }
         } while (frontEndBridge.isNotEmpty() && current.type == TokenType.KEYWORD && (
                 current.value.equals("style") || current.value.equals("title") || current.value.equals("author") ||
                 current.value.equals("assessor") || current.value.equals("type") ||
@@ -193,14 +213,14 @@ public class Parser {
             if (current.value.equals("title")) {
                 titleConfiguration();
 
-                if (current.value.equals("date")) {
+                if (frontEndBridge.lookahead(0).value.equals("date")) {
                     remainIndentation();
                     dateConfiguration();
                 }
             } else if (current.value.equals("date")) {
                 dateConfiguration();
 
-                if (current.value.equals("title")) {
+                if (frontEndBridge.lookahead(0).value.equals("title")) {
                     remainIndentation();
                     titleConfiguration();
                 }
@@ -231,16 +251,15 @@ public class Parser {
      */
     private void assessorConfiguration() {
         consume(new Token(TokenType.KEYWORD, "assessor"));
-        expectIndentation();
 
         if (current.type == TokenType.NEW_LINE) {
             newline();
+            expectIndentation();
             assessorSpecification();
+            forgoIndentation();
         } else if (current.type == TokenType.TEXT) {
             textual();
         } else error();
-
-        forgoIndentation();
     }
 
     /**
@@ -261,24 +280,18 @@ public class Parser {
      */
     private void assessorList() {
         do {
-            assessorItem();
+            consume(new Token(TokenType.KEYWORD, "of"));
+
+            if (current.type == TokenType.NEW_LINE) {
+                newline();
+                expectIndentation();
+                nameSpecificationWithOptRole();
+                forgoIndentation();
+                remainIndentation();
+            } else if (current.type == TokenType.TEXT) {
+                textual();
+            }
         } while (frontEndBridge.isNotEmpty() && current.type == TokenType.KEYWORD && current.value.equals("of"));
-    }
-
-    /**
-     *  AssessorItem := "of" NewLine INDENT NameSpecificationWithOptRole DEDENT | "of" Textual
-     */
-    private void assessorItem() {
-        consume(new Token(TokenType.KEYWORD, "of"));
-
-        if (current.type == TokenType.NEW_LINE) {
-            newline();
-            expectIndentation();
-            nameSpecificationWithOptRole();
-            forgoIndentation();
-        } else if (current.type == TokenType.TEXT) {
-            textual();
-        }
     }
 
     /**
@@ -328,22 +341,18 @@ public class Parser {
      */
     private void authorList() {
         do {
-            authorItem();
+            consume(new Token(TokenType.KEYWORD, "of"));
+
+            if (current.type == TokenType.NEW_LINE) {
+                newline();
+                expectIndentation();
+                nameSpecificationWithOptId();
+                forgoIndentation();
+
+                if (frontEndBridge.lookahead(0).value.equals("of")) remainIndentation();
+            } else if (current.type == TokenType.TEXT) textual();
+            else error();
         } while (frontEndBridge.isNotEmpty() && current.type == TokenType.KEYWORD && current.value.equals("of"));
-    }
-
-    /**
-     *  AuthorItem := "of" NewLine INDENT NameSpecificationWithOptID DEDENT | "of" Textual
-     */
-    private void authorItem() {
-        consume(new Token(TokenType.KEYWORD, "of"));
-
-        if (current.type == TokenType.NEW_LINE) {
-            newline();
-            expectIndentation();
-            nameSpecificationWithOptId();
-            forgoIndentation();
-        } else if (current.type == TokenType.TEXT) textual();
     }
 
     /**
@@ -351,7 +360,9 @@ public class Parser {
      */
     private void nameSpecificationWithOptId() {
         nameSpecification();
-        if (current.type == TokenType.KEYWORD && current.value.equals("id")) {
+        if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
+                frontEndBridge.lookahead(0).value.equals("id")) {
+            remainIndentation();
             consume(new Token(TokenType.KEYWORD, "id"));
             textual();
         }
@@ -422,6 +433,7 @@ public class Parser {
             expectIndentation();
             customStyle();
             forgoIndentation();
+            remainIndentation();
         }
     }
 
@@ -477,6 +489,7 @@ public class Parser {
                     current.value.equals("endnotes"));
 
             forgoIndentation();
+            remainIndentation();
         } else error();
     }
 
@@ -508,6 +521,7 @@ public class Parser {
         expectIndentation();
         sentenceStructureStyleList();
         forgoIndentation();
+        remainIndentation();
     }
 
     /**
@@ -534,6 +548,10 @@ public class Parser {
                     }
                     default -> error();
                 }
+
+                var ahead = frontEndBridge.lookahead(0);
+                if (ahead.value.equals("before") || ahead.value.equals("allow"))
+                    remainIndentation();
             } while (current.value.equals("before") || current.value.equals("allow"));
         } else error();
     }
@@ -548,7 +566,6 @@ public class Parser {
      */
     private void sentenceStructureStyleAllowConfiguration() {
         if (current.type == TokenType.KEYWORD) {
-            boolean parsedOneItem = false;
             do {
                 switch (current.value) {
                     case "whitespace" -> consume(new Token(TokenType.KEYWORD, "whitespace"));
@@ -558,9 +575,10 @@ public class Parser {
                 }
                 textual();
 
-                if (parsedOneItem) remainIndentation();
-
-                parsedOneItem = true;
+                var ahead = frontEndBridge.lookahead(0);
+                if (ahead.value.equals("whitespace") || ahead.value.equals("bold") ||
+                        ahead.value.equals("italic"))
+                    remainIndentation();
             } while (current.value.equals("whitespace") || current.value.equals("bold") ||
                     current.value.equals("italic"));
         } else error();
@@ -576,6 +594,7 @@ public class Parser {
         consume(new Token(TokenType.KEYWORD, "indentation"));
         textual();
         forgoIndentation();
+        remainIndentation();
     }
 
     /**
@@ -587,6 +606,7 @@ public class Parser {
         expectIndentation();
         fontStyleList();
         forgoIndentation();
+        remainIndentation();
     }
 
     /**
@@ -597,7 +617,6 @@ public class Parser {
      */
     private void fontStyleList() {
         if (current.type == TokenType.KEYWORD) {
-            boolean parsedOneItem = false;
             do {
                 switch (current.value) {
                     case "name" -> consume(new Token(TokenType.KEYWORD, "name"));
@@ -607,9 +626,9 @@ public class Parser {
                 }
                 textual();
 
-                if (parsedOneItem) remainIndentation();
-
-                parsedOneItem = true;
+                var ahead = frontEndBridge.lookahead(0);
+                if (ahead.value.equals("name") || ahead.value.equals("size") || ahead.value.equals("colour"))
+                    remainIndentation();
             } while (current.value.equals("name") || current.value.equals("size") ||
                     current.value.equals("colour"));
         } else error();
@@ -635,8 +654,6 @@ public class Parser {
      */
     private void pageNumerationStyleList() {
         if (current.type == TokenType.KEYWORD) {
-            boolean parsedOneItem = false;
-
             do {
                 switch (current.value) {
                     case "in" -> {
@@ -658,9 +675,10 @@ public class Parser {
                     default -> error();
                 }
 
-                if (parsedOneItem) remainIndentation();
-
-                parsedOneItem = true;
+                var ahead = frontEndBridge.lookahead(0);
+                if (ahead.value.equals("in") || ahead.value.equals("display") ||
+                        ahead.value.equals("margin") || ahead.value.equals("skip"))
+                    remainIndentation();
             } while (current.value.equals("in") || current.value.equals("display") ||
                     current.value.equals("margin") || current.value.equals("skip"));
         } else error();
@@ -675,6 +693,7 @@ public class Parser {
         expectIndentation();
         layoutStyleList();
         forgoIndentation();
+        remainIndentation();
     }
 
     /**
@@ -696,7 +715,6 @@ public class Parser {
                 }
                 textual();
 
-                // TODO: Apply this solution to the other methods
                 var ahead = frontEndBridge.lookahead(0);
                 if (ahead.value.equals("width") || ahead.value.equals("height") ||
                         ahead.value.equals("margin") || ahead.value.equals("spacing"))
@@ -771,10 +789,12 @@ public class Parser {
      *  TextualList := Textual | Textual "," TextualList
      */
     private void textualList() {
-        do {
-            textual();
+        textual();
+
+        if (current.type == TokenType.LIST_SEPARATOR) {
             consume(new Token(TokenType.LIST_SEPARATOR, null));
-        } while (current.type == TokenType.TEXT);
+            textualList();
+        }
     }
 
     /**

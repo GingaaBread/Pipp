@@ -151,7 +151,6 @@ public class Scanner {
                 if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
             } else if (token.type == TokenType.INDENT) token.value = Integer.toString(indendationLevel);
 
-            System.out.println(token);
             frontEndBridge.enqueue(token);
 
             currentTokenType = null;
