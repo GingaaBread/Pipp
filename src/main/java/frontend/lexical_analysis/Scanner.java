@@ -93,9 +93,11 @@ public class Scanner {
                     indendationLevel++;
                 } else if (current == ' ' && currentTokenType != TokenType.TEXT) {
                     submitToken();
+                    indendationLevel = 0;
                 }
                 else if (current == ',') {
                     submitToken();
+                    indendationLevel = 0;
                     currentlyRead.append(current);
                     currentTokenType = TokenType.LIST_SEPARATOR;
                     submitToken();
@@ -108,19 +110,24 @@ public class Scanner {
                 } else if (current == '"') {
                     if (currentlyRead.isEmpty()) {
                         submitToken();
+                        indendationLevel = 0;
                         currentlyRead.append(current);
                         currentTokenType = TokenType.TEXT;
                     } else if (currentlyRead.length() > 1 && currentlyRead.charAt(0) == '"') {
                         currentlyRead.append(current);
                         submitToken();
+                        indendationLevel = 0;
                     } else {
+                        indendationLevel = 0;
                         currentlyRead.append(current);
                     }
                 } else if (currentTokenType == TokenType.TEXT) {
+                    indendationLevel = 0;
                     currentlyRead.append(current);
                 } else {
                     if (currentTokenType != null && currentTokenType != TokenType.KEYWORD) submitToken();
 
+                    indendationLevel = 0;
                     currentTokenType = TokenType.KEYWORD;
                     currentlyRead.append(current);
                 }
