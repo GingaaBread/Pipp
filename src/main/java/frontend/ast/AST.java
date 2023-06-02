@@ -9,6 +9,6 @@ public class AST {
 
     @Override
     public String toString() {
-        return "AST:\n" + configuration.toString();
+        return "AST:\n" + configuration;
     }
 }
