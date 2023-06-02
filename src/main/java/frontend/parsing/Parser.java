@@ -1,6 +1,12 @@
 package frontend.parsing;
 
 import frontend.FrontEndBridge;
+import frontend.ast.AST;
+import frontend.ast.Node;
+import frontend.ast.config.Assessor;
+import frontend.ast.config.Author;
+import frontend.ast.config.CitedText;
+import frontend.ast.config.style.Citation;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
 
@@ -22,9 +28,19 @@ public class Parser {
     private final FrontEndBridge frontEndBridge;
 
     /**
-     *  Tracks the current token, which needs to be parsed.
+     *  Tracks the current token, which needs to be parsed
      */
     private Token current;
+
+    /**
+     *  Tracks the last token, which has already been parsed
+     */
+    private Token last;
+
+    /**
+     *  Tracks the node, which was last added to the AST
+     */
+    private Node lastNode;
 
     /**
      *  Keeps track of the currently required indentation level
@@ -37,11 +53,21 @@ public class Parser {
     private int currentLine = 0;
 
     /**
+     *  Determines the type of container that is currently being parsed.
+     *  This is used to enable different parts to be parsed by different containers
+     *  (for example, the title configuration)
+     */
+    private String currentlyParsedContainer = "Configuration";
+
+    private final AST ast;
+
+    /**
      *  Creates the parser by supplying the bridge.
      * @param frontEndBridge - the bridge between the Scanner and Parser
      */
     public Parser(final FrontEndBridge frontEndBridge) {
         this.frontEndBridge = frontEndBridge;
+        this.ast = new AST();
     }
 
     /**
@@ -113,6 +139,8 @@ public class Parser {
         }
         else throw new IllegalArgumentException("(" + currentLine + ") Unexpected token: " + current +
                 ". Expected: " + requiredToken);
+
+        last = requiredToken;
     }
 
     /**
@@ -139,6 +167,8 @@ public class Parser {
             current = frontEndBridge.dequeue();
             document();
             if (frontEndBridge.isNotEmpty()) error();
+
+            System.out.println(ast);
         }
     }
 
@@ -205,6 +235,8 @@ public class Parser {
      *                              "publication" NewLine INDENT DateConfiguration DEDENT
      */
     private void publicationConfiguration() {
+        currentlyParsedContainer = "publication";
+
         consume(new Token(TokenType.KEYWORD, "publication"));
         newline();
         expectIndentation();
@@ -236,6 +268,13 @@ public class Parser {
     private void dateConfiguration() {
         consume(new Token(TokenType.KEYWORD, "date"));
         textual();
+
+        assert last.type == TokenType.TEXT;
+        if (currentlyParsedContainer.equals("publication")) {
+            ast.getConfiguration().getPublication().setDate(last.value);
+            System.out.println(last);
+            lastNode = ast.getConfiguration().getPublication();
+        }
     }
 
     /**
@@ -244,12 +283,18 @@ public class Parser {
     private void typeConfiguration() {
         consume(new Token(TokenType.KEYWORD, "type"));
         textual();
+
+        assert last.type == TokenType.TEXT;
+        ast.getConfiguration().setType(last.value);
+        lastNode = ast.getConfiguration();
     }
 
     /**
      *  AssessorConfiguration := "assessor" NewLine INDENT AssessorSpecification DEDENT | "assessor" Textual
      */
     private void assessorConfiguration() {
+        currentlyParsedContainer = "Assessor";
+
         consume(new Token(TokenType.KEYWORD, "assessor"));
 
         if (current.type == TokenType.NEW_LINE) {
@@ -259,6 +304,12 @@ public class Parser {
             forgoIndentation();
         } else if (current.type == TokenType.TEXT) {
             textual();
+
+            assert last.type == TokenType.TEXT;
+            var assessor = new Assessor();
+            assessor.setName(last.value);
+            ast.getConfiguration().getAssessors().add(assessor);
+            lastNode = assessor;
         } else error();
     }
 
@@ -290,6 +341,13 @@ public class Parser {
                 remainIndentation();
             } else if (current.type == TokenType.TEXT) {
                 textual();
+                assert last.type == TokenType.TEXT;
+
+                if (currentlyParsedContainer.equals("Assessor")) {
+                    var assessor = new Assessor();
+                    assessor.setName(last.value);
+                    ast.getConfiguration().getAssessors().add(assessor);
+                }
             }
         } while (frontEndBridge.isNotEmpty() && current.type == TokenType.KEYWORD && current.value.equals("of"));
     }
@@ -304,6 +362,11 @@ public class Parser {
             remainIndentation();
             consume(new Token(TokenType.KEYWORD, "role"));
             textual();
+
+            assert last.type == TokenType.TEXT;
+            if (currentlyParsedContainer.equals("Assessor")) {
+                ((Assessor) lastNode).setRole(last.value);
+            }
         }
     }
 
@@ -328,6 +391,7 @@ public class Parser {
      */
     private void authorSpecification() {
         if (current.type == TokenType.KEYWORD) {
+            currentlyParsedContainer = "Author";
             switch (current.value) {
                 case "name", "firstname" -> nameSpecificationWithOptId();
                 case "of" -> authorList();
@@ -365,6 +429,11 @@ public class Parser {
             remainIndentation();
             consume(new Token(TokenType.KEYWORD, "id"));
             textual();
+
+            assert last.type == TokenType.TEXT;
+            if (currentlyParsedContainer.equals("Author")) {
+                ((Author) lastNode).setId(last.value);
+            }
         }
     }
 
@@ -373,11 +442,50 @@ public class Parser {
      */
     private void nameSpecification() {
         if (current.type == TokenType.KEYWORD) {
-            if (current.value.equals("name")) name();
+            if (current.value.equals("name")) {
+                name();
+
+                assert last.type == TokenType.TEXT;
+                if (currentlyParsedContainer.equals("Author")) {
+                    var author = new Author();
+                    author.setName(last.value);
+
+                    ast.getConfiguration().getAuthors().add(author);
+                    lastNode = author;
+                } else if (currentlyParsedContainer.equals("Assessor")) {
+                    var assessor = new Assessor();
+                    assessor.setName(last.value);
+                    ast.getConfiguration().getAssessors().add(assessor);
+                    lastNode = assessor;
+                }
+            }
             else if (current.value.equals("firstname")) {
                 firstname();
+
+                assert last.type == TokenType.TEXT;
+                var firstname = last.value;
+
                 remainIndentation();
                 lastname();
+
+                assert last.type == TokenType.TEXT;
+                var lastname = last.value;
+
+                if (currentlyParsedContainer.equals("Author")) {
+                    var author = new Author();
+                    author.setFirstname(firstname);
+                    author.setLastname(lastname);
+
+                    ast.getConfiguration().getAuthors().add(author);
+                    lastNode = author;
+                } else if (currentlyParsedContainer.equals("Assessor")) {
+                    var assessor = new Assessor();
+                    assessor.setFirstname(firstname);
+                    assessor.setLastname(lastname);
+
+                    ast.getConfiguration().getAssessors().add(assessor);
+                    lastNode = assessor;
+                }
             } else error();
         } else error();
     }
@@ -417,7 +525,19 @@ public class Parser {
             expectIndentation();
             citedTextual();
             forgoIndentation();
-        } else if (current.type == TokenType.TEXT) textual();
+        } else if (current.type == TokenType.TEXT) {
+            textual();
+
+            assert last.type == TokenType.TEXT;
+            if (currentlyParsedContainer.equals("title")) {
+                ast.getConfiguration().getTitle().add(new CitedText(last.value));
+                lastNode = ast.getConfiguration().getTitle();
+            }
+            else if (currentlyParsedContainer.equals("publication")) {
+                ast.getConfiguration().getPublication().getTitle().add(new CitedText(last.value));
+                lastNode = ast.getConfiguration().getPublication().getTitle();
+            }
+        }
         else error();
     }
 
@@ -427,7 +547,13 @@ public class Parser {
     private void styleConfiguration() {
         consume(new Token(TokenType.KEYWORD, "style"));
 
-        if (current.type == TokenType.TEXT) textual();
+        if (current.type == TokenType.TEXT) {
+            textual();
+
+            assert last.type == TokenType.TEXT;
+            ast.getConfiguration().getStyle().setBaseStyle(last.value);
+            lastNode = ast.getConfiguration().getStyle();
+        }
         else {
             newline();
             expectIndentation();
@@ -443,6 +569,11 @@ public class Parser {
     private void customStyle() {
         consume(new Token(TokenType.KEYWORD, "of"));
         textual();
+
+        assert last.type == TokenType.TEXT;
+        ast.getConfiguration().getStyle().setBaseStyle(last.value);
+        lastNode = ast.getConfiguration().getStyle();
+
         optionalCustomStyleList();
     }
 
@@ -508,6 +639,10 @@ public class Parser {
         consume(new Token(TokenType.KEYWORD, "before"));
         structuralInstruction();
 
+        assert last.type == TokenType.KEYWORD;
+        ast.getConfiguration().getStyle().getStructure().getEndnotes().setAllowBeforeStructure(last.value);
+        lastNode = ast.getConfiguration().getStyle().getStructure().getEndnotes();
+
         forgoIndentation();
         forgoIndentation();
     }
@@ -538,6 +673,9 @@ public class Parser {
                     case "before" -> {
                         consume(new Token(TokenType.KEYWORD, "before"));
                         textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getStructure().getSentence().setPrefix(last.value);
+                        lastNode = ast.getConfiguration().getStyle().getStructure().getSentence();
                     }
                     case "allow" -> {
                         consume(new Token(TokenType.KEYWORD, "allow"));
@@ -568,12 +706,28 @@ public class Parser {
         if (current.type == TokenType.KEYWORD) {
             do {
                 switch (current.value) {
-                    case "whitespace" -> consume(new Token(TokenType.KEYWORD, "whitespace"));
-                    case "bold" -> consume(new Token(TokenType.KEYWORD, "bold"));
-                    case "italic" -> consume(new Token(TokenType.KEYWORD, "italic"));
+                    case "whitespace" -> {
+                        consume(new Token(TokenType.KEYWORD, "whitespace"));
+                        textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getStructure().getSentence().setAllowWhitespace(last.value);
+                    }
+                    case "bold" -> {
+                        consume(new Token(TokenType.KEYWORD, "bold"));
+                        textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getStructure().getSentence().setAllowBoldText(last.value);
+                    }
+                    case "italic" -> {
+                        consume(new Token(TokenType.KEYWORD, "italic"));
+                        textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getStructure().getSentence().setAllowItalicText(last.value);
+                    }
                     default -> error();
                 }
-                textual();
+
+                lastNode = ast.getConfiguration().getStyle().getStructure().getSentence();
 
                 var ahead = frontEndBridge.lookahead(0);
                 if (ahead.value.equals("whitespace") || ahead.value.equals("bold") ||
@@ -590,9 +744,16 @@ public class Parser {
     private void paragraphStructureStyle() {
         consume(new Token(TokenType.KEYWORD, "paragraph"));
         newline();
+
         expectIndentation();
         consume(new Token(TokenType.KEYWORD, "indentation"));
         textual();
+
+        assert last.type == TokenType.TEXT;
+        ast.getConfiguration().getStyle().getStructure().getParagraph().setIndentation(last.value);
+
+        lastNode = ast.getConfiguration().getStyle().getStructure().getParagraph();
+
         forgoIndentation();
         remainIndentation();
     }
@@ -619,12 +780,28 @@ public class Parser {
         if (current.type == TokenType.KEYWORD) {
             do {
                 switch (current.value) {
-                    case "name" -> consume(new Token(TokenType.KEYWORD, "name"));
-                    case "size" -> consume(new Token(TokenType.KEYWORD, "size"));
-                    case "colour" -> consume(new Token(TokenType.KEYWORD, "colour"));
+                    case "name" -> {
+                        consume(new Token(TokenType.KEYWORD, "name"));
+                        textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getFont().setName(last.value);
+                    }
+                    case "size" -> {
+                        consume(new Token(TokenType.KEYWORD, "size"));
+                        textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getFont().setSize(last.value);
+                    }
+                    case "colour" -> {
+                        consume(new Token(TokenType.KEYWORD, "colour"));
+                        textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getFont().setName(last.value);
+                    }
                     default -> error();
                 }
-                textual();
+
+                lastNode = ast.getConfiguration().getStyle().getFont();
 
                 var ahead = frontEndBridge.lookahead(0);
                 if (ahead.value.equals("name") || ahead.value.equals("size") || ahead.value.equals("colour"))
@@ -659,21 +836,31 @@ public class Parser {
                     case "in" -> {
                         consume(new Token(TokenType.KEYWORD, "in"));
                         textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getNumeration().setNumerationType(last.value);
                     }
                     case "display" -> {
                         consume(new Token(TokenType.KEYWORD, "display"));
                         textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getNumeration().setPosition(last.value);
                     }
                     case "margin" -> {
                         consume(new Token(TokenType.KEYWORD, "margin"));
                         textual();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getNumeration().setMargin(last.value);
                     }
                     case "skip" -> {
                         consume(new Token(TokenType.KEYWORD, "skip"));
                         textualList();
+                        assert last.type == TokenType.TEXT;
+                        ast.getConfiguration().getStyle().getNumeration().setSkippedPages(last.value);
                     }
                     default -> error();
                 }
+
+                lastNode = ast.getConfiguration().getStyle().getNumeration();
 
                 var ahead = frontEndBridge.lookahead(0);
                 if (ahead.value.equals("in") || ahead.value.equals("display") ||
@@ -707,13 +894,30 @@ public class Parser {
         if (current.type == TokenType.KEYWORD) {
             do {
                 switch (current.value) {
-                    case "width" -> consume(new Token(TokenType.KEYWORD, "width"));
-                    case "height" -> consume(new Token(TokenType.KEYWORD, "height"));
-                    case "margin" -> consume(new Token(TokenType.KEYWORD, "margin"));
-                    case "spacing" -> consume(new Token(TokenType.KEYWORD, "spacing"));
+                    case "width" -> {
+                        consume(new Token(TokenType.KEYWORD, "width"));
+                        textual();
+                        ast.getConfiguration().getStyle().getLayout().setWidth(last.value);
+                    }
+                    case "height" -> {
+                        consume(new Token(TokenType.KEYWORD, "height"));
+                        textual();
+                        ast.getConfiguration().getStyle().getLayout().setHeight(last.value);
+                    }
+                    case "margin" -> {
+                        consume(new Token(TokenType.KEYWORD, "margin"));
+                        textual();
+                        ast.getConfiguration().getStyle().getLayout().setMargin(last.value);
+                    }
+                    case "spacing" -> {
+                        consume(new Token(TokenType.KEYWORD, "spacing"));
+                        textual();
+                        ast.getConfiguration().getStyle().getLayout().setSpacing(last.value);
+                    }
                     default -> error();
                 }
-                textual();
+
+                lastNode = ast.getConfiguration().getStyle().getLayout();
 
                 var ahead = frontEndBridge.lookahead(0);
                 if (ahead.value.equals("width") || ahead.value.equals("height") ||
@@ -732,9 +936,23 @@ public class Parser {
                 current.type == TokenType.TEXT) {
             do {
                 if (current.type == TokenType.KEYWORD) citation();
-                else textual();
-            } while (frontEndBridge.isNotEmpty() && (current.type == TokenType.KEYWORD && current.value.equals("citation") ||
-                    current.type == TokenType.TEXT));
+                else {
+                    consume(new Token(TokenType.TEXT, null));
+
+                    assert last.type == TokenType.TEXT;
+                    var citedText = new CitedText(last.value);
+
+                    if (currentlyParsedContainer.equals("title"))
+                        ast.getConfiguration().getTitle().add(citedText);
+                    else if (currentlyParsedContainer.equals("publication"))
+                        ast.getConfiguration().getPublication().getTitle().add(citedText);
+
+                    lastNode = citedText;
+
+                    newline();
+                }
+            } while (frontEndBridge.isNotEmpty() && (current.type == TokenType.KEYWORD &&
+                    current.value.equals("citation") || current.type == TokenType.TEXT));
         } else error();
     }
 
@@ -757,6 +975,8 @@ public class Parser {
      *  Citation := "citation" NewLine INDENT "of" Textual "in" Textual "numeration" Textual DEDENT
      */
     private void citation() {
+        var citation = new Citation();
+
         consume(new Token(TokenType.KEYWORD, "citation"));
         newline();
         expectIndentation();
@@ -764,15 +984,31 @@ public class Parser {
         consume(new Token(TokenType.KEYWORD, "of"));
         textual();
 
+        assert last.type == TokenType.TEXT;
+        citation.setCitedContent(last.value);
+
         remainIndentation();
 
         consume(new Token(TokenType.KEYWORD, "in"));
         textual();
 
+        assert last.type == TokenType.TEXT;
+        citation.setSource(last.value);
+
         remainIndentation();
 
         consume(new Token(TokenType.KEYWORD, "numeration"));
         textual();
+
+        assert last.type == TokenType.TEXT;
+        citation.setNumeration(last.value);
+
+        if (currentlyParsedContainer.equals("title"))
+            ast.getConfiguration().getTitle().add(new CitedText(citation));
+        else if (currentlyParsedContainer.equals("publication"))
+            ast.getConfiguration().getPublication().getTitle().add(new CitedText(citation));
+
+        lastNode = citation;
 
         forgoIndentation();
     }
