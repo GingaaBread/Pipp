@@ -221,8 +221,8 @@ A structure component is missing
 
 *Cause*:
 This error occurs when trying to confine a structure to only appear once
-a different structure has appeared or will appear, and the specified keyword
-is not a structure or is not allowed to be used in this context.
+a different structure has appeared or will appear, and the specified 
+keyword is not a structure or is not allowed to be used in this context.
 
 *Example:*
 ```pipp
@@ -235,6 +235,29 @@ config
 
 *Fix:*
 Replace the keyword with a legal keyword.
+
+### 323
+
+*Description:*
+The specified style guide is either missing or does not exist.
+Check if it has been imported correctly, or if you misspelled
+the style guide name in the configuration.
+
+*Cause*:
+This error occurs when trying to use a style guide name, which
+the `StyleTable` cannot translate to an actual style guide object.
+If you are using a pre-existing style guide, make sure it is
+not spelled wrong. If it is a custom style guide, make sure it is
+imported correctly.
+
+*Example:*
+```pipp
+config
+    style "Mla9"
+```
+
+*Fix:*
+Use a proper style guide name
 
 ## 3.3 Incorrect Format Errors
 

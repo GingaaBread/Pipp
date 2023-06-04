@@ -1,16 +1,18 @@
 package processing.style;
 
+import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-public class MLA9 extends StyleSheet {
+@Setter
+public class MLA9 extends StyleGuide {
 
     /**
      *  MLA 9 uses the standardised U.S. Letter
      */
     @Override
-    protected PDRectangle pageFormat() {
+    public PDRectangle pageFormat() {
         return PDRectangle.LETTER;
     }
 
@@ -36,6 +38,19 @@ public class MLA9 extends StyleSheet {
     @Override
     protected double indentationPadding() {
         return 0.5d;
+    }
+
+    /**
+     *  MLA uses a margin of 1 inch
+     */
+    @Override
+    public double margin() {
+        return 1;
+    }
+
+    @Override
+    public double spacing() {
+        return 2d;
     }
 
     /**
@@ -72,7 +87,7 @@ public class MLA9 extends StyleSheet {
 
         // Add a full stop if there is no punctuation
         var lastChar = textBlock.charAt(textBlock.length() - 1);
-        if (!StyleSheet.isPunctuation(lastChar)) {
+        if (!StyleGuide.isPunctuation(lastChar)) {
             textBlock += ".";
         }
 

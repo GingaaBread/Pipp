@@ -74,10 +74,7 @@ public class Parser {
     private void afterParsing() {
         if (frontEndBridge.isNotEmpty()) error();
 
-        ast.checkForErrors();
-        ast.checkForWarnings();
-
-        System.out.println(ast);
+        frontEndBridge.startProcessor(ast);
     }
 
     /**

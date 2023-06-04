@@ -2,11 +2,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import processing.style.MLA9;
-import processing.style.StyleSheet;
+import processing.style.StyleGuide;
 
 public class MLA9Tests {
 
-    private StyleSheet mla;
+    private StyleGuide mla;
 
     @BeforeEach
     public void setup() {

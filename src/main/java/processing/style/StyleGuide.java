@@ -1,5 +1,6 @@
 package processing.style;
 
+import lombok.Getter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 
@@ -8,7 +9,7 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
  *  An example style sheet is the MLA style in its 9th edition.
  *  To create a custom style sheet, extend this class and specify the values.
  */
-public abstract class StyleSheet {
+public abstract class StyleGuide {
 
     /**
      *  Helper method to determine if a character is a punctuation character.
@@ -34,7 +35,7 @@ public abstract class StyleSheet {
      *  For example, MLA9 uses standardised American Post paper.
      * @return - the {@link PDRectangle} constant that the creator class should apply
      */
-    protected abstract PDRectangle pageFormat();
+    public abstract PDRectangle pageFormat();
 
     /**
      *  Determines the main font of the style sheet.
@@ -56,6 +57,18 @@ public abstract class StyleSheet {
      * @return - the non-negative padding as a double
      */
     protected abstract double indentationPadding();
+
+    /**
+     *  Determines the margin to the sides of the document.
+     * @return - the non-negative margin as a double
+     */
+    public abstract double margin();
+
+    /**
+     *  Determines the spacing of sentences.
+     * @return - the non-negative spacing as a double
+     */
+    public abstract double spacing();
 
     /**
      *  Determines if the style sheet allows the use of **strong** markdown

@@ -1,8 +1,10 @@
 package frontend;
 
+import frontend.ast.AST;
 import frontend.lexical_analysis.Scanner;
 import frontend.lexical_analysis.Token;
 import frontend.parsing.Parser;
+import processing.Processor;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -40,6 +42,10 @@ public class FrontEndBridge {
         if (index >= tokens.size() || index < 0) throw new IndexOutOfBoundsException();
 
         return tokens.get(index);
+    }
+
+    public void startProcessor(final AST ast) {
+        new Processor().processAST(ast);
     }
 
     public boolean isNotEmpty() {
