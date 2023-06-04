@@ -4,6 +4,7 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 
+// todo: check base style legal, not blank
 @Getter
 @Setter
 public class Style extends Node {
@@ -15,12 +16,28 @@ public class Style extends Node {
 
     @Override
     public String toString() {
-        return "\nStyle{" +
+        return "\n\tStyle{" +
                 "baseStyle='" + baseStyle + '\'' +
                 ", layout=" + layout +
                 ", font=" + font +
                 ", structure=" + structure +
                 ", numeration=" + numeration +
                 '}';
+    }
+
+    @Override
+    public void checkForWarnings() {
+        layout.checkForWarnings();
+        font.checkForWarnings();
+        structure.checkForWarnings();
+        numeration.checkForWarnings();
+    }
+
+    @Override
+    public void checkForErrors() {
+        layout.checkForErrors();
+        font.checkForErrors();
+        structure.checkForErrors();
+        numeration.checkForErrors();
     }
 }

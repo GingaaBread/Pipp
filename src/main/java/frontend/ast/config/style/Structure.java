@@ -4,6 +4,12 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ *  The structure node groups together the structure configuration
+ *
+ *  @since 1.0
+ *  @version 1.0
+ */
 @Getter
 @Setter
 public class Structure extends Node {
@@ -13,10 +19,24 @@ public class Structure extends Node {
 
     @Override
     public String toString() {
-        return "\nStructure{" +
+        return "\n\tStructure{" +
                 "paragraph=" + paragraph +
                 ", sentence=" + sentence +
                 ", endnotes=" + endnotes +
                 '}';
+    }
+
+    @Override
+    protected void checkForWarnings() {
+        paragraph.checkForWarnings();
+        sentence.checkForWarnings();
+        endnotes.checkForWarnings();
+    }
+
+    @Override
+    protected void checkForErrors() {
+        paragraph.checkForErrors();
+        sentence.checkForErrors();
+        endnotes.checkForErrors();
     }
 }

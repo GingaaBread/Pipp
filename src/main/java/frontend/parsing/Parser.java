@@ -71,6 +71,15 @@ public class Parser {
         this.ast = new AST();
     }
 
+    private void afterParsing() {
+        if (frontEndBridge.isNotEmpty()) error();
+
+        ast.checkForErrors();
+        ast.checkForWarnings();
+
+        System.out.println(ast);
+    }
+
     /**
      *  Tries to parse an INDENT token and checks if its indentation value (amount of tabs) corresponds to the
      *  required amount. If not, an indentation error is thrown, but if it does, the parser skips to the next token
@@ -167,9 +176,8 @@ public class Parser {
         if (frontEndBridge.isNotEmpty()) {
             current = frontEndBridge.dequeue();
             document();
-            if (frontEndBridge.isNotEmpty()) error();
 
-            System.out.println(ast);
+            afterParsing();
         }
     }
 

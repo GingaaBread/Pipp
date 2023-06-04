@@ -4,6 +4,7 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 
+// todo: check number formats
 @Getter
 @Setter
 public class Layout extends Node {
@@ -14,11 +15,21 @@ public class Layout extends Node {
 
     @Override
     public String toString() {
-        return "\nLayout{" +
+        return "\n\tLayout{" +
                 "width='" + width + '\'' +
                 ", height='" + height + '\'' +
                 ", margin='" + margin + '\'' +
                 ", spacing='" + spacing + '\'' +
                 '}';
+    }
+
+    @Override
+    protected void checkForWarnings() {
+
+    }
+
+    @Override
+    protected void checkForErrors() {
+
     }
 }

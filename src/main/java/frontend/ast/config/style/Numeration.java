@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+// todo: check numeration type exists, position exists, margin is legal, skipped pages are legal
 public class Numeration extends Node {
     private String numerationType;
     private String position;
@@ -14,11 +15,21 @@ public class Numeration extends Node {
 
     @Override
     public String toString() {
-        return "\nNumeration{" +
+        return "\n\tNumeration{" +
                 "numerationType='" + numerationType + '\'' +
                 ", position='" + position + '\'' +
                 ", margin='" + margin + '\'' +
                 ", skippedPages='" + skippedPages + '\'' +
                 '}';
+    }
+
+    @Override
+    protected void checkForWarnings() {
+
+    }
+
+    @Override
+    protected void checkForErrors() {
+
     }
 }

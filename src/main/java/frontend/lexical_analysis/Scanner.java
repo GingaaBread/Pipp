@@ -139,6 +139,8 @@ public class Scanner {
         {
             var token = new Token(currentTokenType, currentlyRead.toString());
 
+            if (token.type == TokenType.TEXT) token.value = token.value.substring(1, token.value.length() - 1);
+
             if (token.type == TokenType.KEYWORD) {
                 var isLegalKeyword = false;
                 for (var keyword : builtinKeywords) {

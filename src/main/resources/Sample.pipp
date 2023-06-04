@@ -35,7 +35,7 @@ config
 			numeration "89"
 	publication
 		title "English Class"
-		date "23.04.1022"
+		date "23/04/2022"
 	author
 		of
 			name "Theodore Rose"
@@ -43,6 +43,7 @@ config
 		of
 			firstname "Tom"
 			lastname "Tomsen"
+			id "4"
 	assessor
 		of
 			firstname "Dr. Mathias"
@@ -51,4 +52,3 @@ config
 		of
 			name "Tim Dolton"
 			role "d"
-		of "Test"

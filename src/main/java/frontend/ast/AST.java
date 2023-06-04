@@ -11,4 +11,13 @@ public class AST {
     public String toString() {
         return "AST:\n" + configuration;
     }
+
+    public void checkForErrors() {
+        configuration.checkForErrors();
+    }
+
+    public void checkForWarnings() {
+        configuration.checkForWarnings();
+    }
+
 }

@@ -1,0 +1,21 @@
+package processing;
+
+public enum StructureType {
+    TABLEOFCONTENTS,
+    TITLEPAGE,
+    APPENDIX,
+    BLANKPAGE,
+    ABSTRACT,
+    ENDNOTES,
+    PREFACE,
+    ACKNOWLEDGEMENTS,
+    REFERENCES,
+    ABBREVIATIONS,
+    FIGURES,
+    TABLES,
+    GLOSSARY,
+    ACADEMICINTEGRITY,
+    SENTENCE,
+    PARAGRAPH,
+    BIBLIOGRAPHY
+}
