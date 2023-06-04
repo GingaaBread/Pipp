@@ -2,6 +2,8 @@ package processing.style;
 
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import processing.NumerationPosition;
+import processing.NumerationType;
 
 public class Pipp extends StyleGuide {
     @Override
@@ -32,6 +34,21 @@ public class Pipp extends StyleGuide {
     @Override
     public double spacing() {
         return 0;
+    }
+
+    @Override
+    public NumerationType numerationType() {
+        return NumerationType.ARABIC;
+    }
+
+    @Override
+    public NumerationPosition numerationPosition() {
+        return NumerationPosition.TOP_RIGHT;
+    }
+
+    @Override
+    public double numerationMargin() {
+        return 0.5d;
     }
 
     @Override

@@ -4,6 +4,8 @@ import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import processing.NumerationPosition;
+import processing.NumerationType;
 
 @Setter
 public class MLA9 extends StyleGuide {
@@ -48,9 +50,34 @@ public class MLA9 extends StyleGuide {
         return 1;
     }
 
+    /**
+     *  MLA uses double-spacing
+     */
     @Override
     public double spacing() {
         return 2d;
+    }
+
+    /**
+     *  MLA uses arabic numeration
+     */
+    @Override
+    public NumerationType numerationType() {
+        return NumerationType.ARABIC;
+    }
+
+    /**
+     *  MLA uses arabic numeration
+     *  TODO Check accuracy
+     */
+    @Override
+    public NumerationPosition numerationPosition() {
+        return NumerationPosition.BOTTOM;
+    }
+
+    @Override
+    public double numerationMargin() {
+        return 0.5d;
     }
 
     /**

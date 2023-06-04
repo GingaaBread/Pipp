@@ -1,11 +1,16 @@
 package processing;
 
+import error.IncorrectFormatException;
+import error.MissingMemberException;
 import frontend.ast.AST;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import processing.style.Pipp;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Processor {
 
@@ -27,6 +32,14 @@ public class Processor {
     private double margin;
 
     private double spacing;
+
+    private NumerationType numerationType;
+
+    private NumerationPosition numerationPosition;
+
+    private double numerationMargin;
+
+    private List<Integer> skippedPages;
 
     /**
      *  Determines the document's configuration options specified by the user
@@ -96,6 +109,49 @@ public class Processor {
                 default -> spacing = Double.parseDouble(layout.getSpacing());
             }
         } else spacing = usedStyleGuide.spacing();
+
+
+        var numeration = styleConfiguration.getNumeration();
+
+        // Check if the user demands a custom numeration type
+        if (numeration.getNumerationType() != null) {
+            numerationType = switch (numeration.getNumerationType()) {
+                case "Arabic" -> NumerationType.ARABIC;
+                case "Roman" -> NumerationType.ROMAN;
+                default -> throw new MissingMemberException("4: " + "The specified page numeration is either " +
+                        "missing or does not exist. Check if it has been imported correctly, or if you " +
+                        "have misspelled the numeration type in the configuration.");
+            };
+        } else numerationType = usedStyleGuide.numerationType();
+
+        // Check if the user demands a custom numeration position
+        if (numeration.getPosition() != null) {
+            numerationPosition = switch (numeration.getPosition()) {
+                case "Top Left" -> NumerationPosition.TOP_LEFT;
+                case "Top" -> NumerationPosition.TOP;
+                case "Top Right" -> NumerationPosition.TOP_RIGHT;
+                case "Bottom Left" -> NumerationPosition.BOTTOM_LEFT;
+                case "Bottom" -> NumerationPosition.BOTTOM;
+                case "Bottom Right" -> NumerationPosition.BOTTOM_RIGHT;
+                default -> throw new MissingMemberException("5: " + "The specified page position is either " +
+                        "missing or does not exist. Check if it has been imported correctly, or if you " +
+                        "have misspelled the numeration position in the configuration.");
+            };
+        } else numerationPosition = usedStyleGuide.numerationPosition();
+
+        // Check if the user demands a custom numeration margin
+        if (numeration.getMargin() != null) {
+            try {
+                double asNumber = Double.parseDouble(numeration.getMargin());
+                if (asNumber < 0) throw new IncorrectFormatException("2: Non-negative decimal expected.");
+                else numerationMargin = asNumber;
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("2: Non-negative decimal expected.");
+            }
+        } else numerationMargin = usedStyleGuide.numerationMargin();
+
+        // TODO
+        skippedPages = new ArrayList<>();
 
     }
 

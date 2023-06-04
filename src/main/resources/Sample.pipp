@@ -24,8 +24,8 @@ config
 					before bibliography
 		numeration
 			in "Arabic"
-			display "r"
-			margin "op"
+			display "Top"
+			margin "76"
 			skip "1"
 	type "Paper"
 	title

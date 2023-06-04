@@ -259,6 +259,56 @@ config
 *Fix:*
 Use a proper style guide name
 
+### 324
+
+*Description:*
+The specified page numeration is either missing or does not exist.
+Check if it has been imported correctly, or if you have misspelled
+the numeration type in the configuration.
+
+*Cause*:
+This error occurs when trying to use a numeration type, which
+the `Processor` cannot translate to an actual numeration type
+enum value.
+If you are using a pre-existing numeration type, make sure it is
+not spelled incorrectly. If it is a custom type, make sure it is
+imported correctly.
+
+*Example:*
+```pipp
+config
+    numeration
+        in "roman"
+```
+
+*Fix:*
+Use a proper page numeration name
+
+### 325
+
+*Description:*
+The specified page position is either missing or does not exist.
+Check if it has been imported correctly, or if you have misspelled
+the numeration position in the configuration.
+
+*Cause*:
+This error occurs when trying to use a numeration position, which
+the `Processor` cannot translate to an actual numeration position
+enum value.
+If you are using a pre-existing numeration position, make sure it is
+not spelled incorrectly. If it is a custom position, make sure it is
+imported correctly.
+
+*Example:*
+```pipp
+config
+    numeration
+        display "Center"
+```
+
+*Fix:*
+Use a proper page position name
+
 ## 3.3 Incorrect Format Errors
 
 ### 331

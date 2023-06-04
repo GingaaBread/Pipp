@@ -27,7 +27,6 @@ public class Book extends Work {
 
     @Override
     public String toBibliography() {
-        if (ProcessingOptions.usedStyleSheet != null) {
                 if (publication.getDate() == null)
                     throw new IllegalArgumentException("Book has no publication date");
 
@@ -35,7 +34,5 @@ public class Book extends Work {
 
                 return super.authors[0].getLastName() + ", " + super.authors[0].getFirstName() + ". _" +
                     title + "_. " + publication.getName() + ", " + publication.getDate().get(Calendar.YEAR) + ".";
-        }
-        else throw new UnsupportedOperationException("Style sheet is not supported or does not exist");
     }
 }

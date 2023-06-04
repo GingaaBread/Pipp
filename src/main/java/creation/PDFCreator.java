@@ -17,7 +17,6 @@ public class PDFCreator {
     public static void create() throws IOException {
         var doc = new PDDocument();
 
-        if (ProcessingOptions.configuration != null) {
                 // MLA uses "standard, white 8.5 x 11-inch paper"
                 var blankPage = new PDPage(PDRectangle.LETTER);
 
@@ -48,8 +47,6 @@ public class PDFCreator {
                 contentStream.close();
 
                 doc.addPage(blankPage);
-        }
-        else throw new UnsupportedOperationException("Stylesheet is not supported or does not exist.");
 
         doc.save(outputPath);
         doc.close();

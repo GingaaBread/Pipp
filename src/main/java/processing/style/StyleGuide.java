@@ -3,6 +3,8 @@ package processing.style;
 import lombok.Getter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import processing.NumerationPosition;
+import processing.NumerationType;
 
 /**
  *  Defines traits and rules that a formal style sheet uses.
@@ -69,6 +71,24 @@ public abstract class StyleGuide {
      * @return - the non-negative spacing as a double
      */
     public abstract double spacing();
+
+    /**
+     *  Determines which type of numeration is used for page numbers
+     * @return - the numeration type value
+     */
+    public abstract NumerationType numerationType();
+
+    /**
+     *  Determines where the page number is located at
+     * @return - the numeration position value
+     */
+    public abstract NumerationPosition numerationPosition();
+
+    /**
+     *  Determines how far away the page number is from the edges
+     * @return - the non-negative numeration margin as a double
+     */
+    public abstract double numerationMargin();
 
     /**
      *  Determines if the style sheet allows the use of **strong** markdown
