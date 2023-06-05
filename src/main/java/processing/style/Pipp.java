@@ -5,6 +5,8 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import processing.NumerationPosition;
 import processing.NumerationType;
 
+import java.awt.*;
+
 public class Pipp extends StyleGuide {
     @Override
     public PDRectangle pageFormat() {
@@ -12,13 +14,18 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    protected PDFont font() {
+    public PDFont font() {
         return null;
     }
 
     @Override
-    protected int fontSize() {
+    public int fontSize() {
         return 0;
+    }
+
+    @Override
+    public Color fontColour() {
+        return null;
     }
 
     @Override
@@ -59,6 +66,11 @@ public class Pipp extends StyleGuide {
     @Override
     protected boolean allowsItalicMarkdownInTexts() {
         return false;
+    }
+
+    @Override
+    public double paragraphIndentation() {
+        return 0.5d;
     }
 
     @Override

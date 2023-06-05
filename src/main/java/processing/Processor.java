@@ -5,10 +5,16 @@ import error.MissingMemberException;
 import frontend.ast.AST;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.PDType3Font;
+import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import processing.style.Pipp;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +46,14 @@ public class Processor {
     private double numerationMargin;
 
     private List<Integer> skippedPages;
+
+    private PDFont font;
+
+    private int fontSize;
+
+    private Color fontColour;
+
+    private double paragraphIndentation;
 
     /**
      *  Determines the document's configuration options specified by the user
@@ -153,10 +167,58 @@ public class Processor {
         // TODO
         skippedPages = new ArrayList<>();
 
+        var font = styleConfiguration.getFont();
+
+        // Check if the user demands a custom font
+        if (font.getName() != null) {
+            this.font = switch (font.getName()) {
+              case "Times Roman" -> PDType1Font.TIMES_ROMAN;
+              case "Helvetica" -> PDType1Font.HELVETICA;
+              case "Courier" -> PDType1Font.COURIER;
+              case "Symbol" -> PDType1Font.SYMBOL;
+              case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
+              default -> throw new MissingMemberException("6: The specified font is missing or does" +
+                      " not exist.");
+            };
+        } else this.font = usedStyleGuide.font();
+
+        // Check if the user demands a custom font size
+        if (font.getSize() != null) {
+            try {
+                var asNumber = Integer.parseInt(font.getSize());
+                if (asNumber < 0) {
+                    throw new IncorrectFormatException("3: Non-negative integer expected.");
+                } else fontSize = asNumber;
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("3: Non-negative integer expected.");
+            }
+        } else fontSize = usedStyleGuide.fontSize();
+
+        // Check if the user demands a custom font colour
+        if (font.getColour() != null) {
+            try {
+                fontColour = Color.decode(font.getColour());
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("4: Colour expected.");
+            }
+        } else fontColour = usedStyleGuide.fontColour();
+
+        var structure = styleConfiguration.getStructure();
+
+        var paragraph = structure.getParagraph();
+
+        // Check if the user demands a custom paragraph indentation
+        if (paragraph.getIndentation() != null) {
+            try {
+                var asNumber = Double.parseDouble(paragraph.getIndentation());
+                if (asNumber < 0) {
+                    throw new IncorrectFormatException("2: Non-negative decimal expected.");
+                } else paragraphIndentation = asNumber;
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("2: Non-negative decimal expected.");
+            }
+        } else paragraphIndentation = usedStyleGuide.paragraphIndentation();
+
     }
-
-
-
-
 
 }

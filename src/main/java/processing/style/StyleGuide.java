@@ -1,10 +1,11 @@
 package processing.style;
 
-import lombok.Getter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import processing.NumerationPosition;
 import processing.NumerationType;
+
+import java.awt.*;
 
 /**
  *  Defines traits and rules that a formal style sheet uses.
@@ -33,25 +34,31 @@ public abstract class StyleGuide {
     // todo: endnotes
 
     /**
-     *  Defines the page format of the style sheet.
+     *  Defines the page format of the style guide.
      *  For example, MLA9 uses standardised American Post paper.
      * @return - the {@link PDRectangle} constant that the creator class should apply
      */
     public abstract PDRectangle pageFormat();
 
     /**
-     *  Determines the main font of the style sheet.
+     *  Determines the main font of the style guide.
      *  Note that at the moment, only one font type is supported.
      * @return - the {@link PDFont} that should be used by the creator class
      */
-    protected abstract PDFont font();
+    public abstract PDFont font();
 
     /**
-     *  Determines the main font size of the style sheet.
+     *  Determines the main font size of the style guide.
      *  For example, the recommended font size in MLA is 12 pt.
      * @return - the font size as an integer
      */
-    protected abstract int fontSize();
+    public abstract int fontSize();
+
+    /**
+     *  Determines the main font colour of the style guide.
+     * @return - the colour representation as a PDColour
+     */
+    public abstract Color fontColour();
 
     /**
      *  Determines the distance of a tabulation (\t).
@@ -105,6 +112,8 @@ public abstract class StyleGuide {
      * @return - true if italic markdown is supported, false if not.
      */
     protected abstract boolean allowsItalicMarkdownInTexts();
+
+    public abstract double paragraphIndentation();
 
     /**
      *  Defines how the style sheet formats a simple text block.

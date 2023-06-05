@@ -309,6 +309,26 @@ config
 *Fix:*
 Use a proper page position name
 
+### 326
+
+*Description:*
+The specified font is missing or does not exist.
+
+*Cause*:
+This error occurs when trying to use a custom font, which the compiler
+cannot use as an actual font for the document. If you have used a
+font supported by Pipp, check that it is spelled correctly.
+
+*Example:*
+```pipp
+config
+    font
+        name "An unknown font here"
+```
+
+*Fix:*
+Use a proper font name
+
 ## 3.3 Incorrect Format Errors
 
 ### 331
@@ -351,4 +371,42 @@ config
 ```
 
 *Fix:*
-Use the British date format `dd/MM/yyyy` or `None`.
+Use a non-negative decimal (0.0, 23.5, 105.125, ...)
+
+### 333
+
+*Description:*
+Non-negative integer expected.
+
+*Cause*:
+This error occurs when trying to represent a number, which is not a non-negative integer.
+An example is a `-5` font size.
+
+*Example:*
+```pipp
+config
+    font
+        size "25.5"
+```
+
+*Fix:*
+Use a non-negative decimal (0.0, 23.5, 105.125, ...)
+
+### 334
+
+*Description:*
+Colour expected.
+
+*Cause*:
+This error occurs when trying to represent a hexadecimal colour.
+Make sure the colour begins with a '#' and is followed by exactly six integers.
+
+*Example:*
+```pipp
+config
+    font
+        colour "#eee"
+```
+
+*Fix:*
+Use a non-negative decimal (0.0, 23.5, 105.125, ...)

@@ -4,8 +4,11 @@ import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import processing.NumerationPosition;
 import processing.NumerationType;
+
+import java.awt.*;
 
 @Setter
 public class MLA9 extends StyleGuide {
@@ -22,7 +25,7 @@ public class MLA9 extends StyleGuide {
      *  MLA uses the Times New Roman font
      */
     @Override
-    protected PDFont font() {
+    public PDFont font() {
         return PDType1Font.TIMES_ROMAN;
     }
 
@@ -30,8 +33,13 @@ public class MLA9 extends StyleGuide {
      *  MLA uses a recommended default font size of 12
      */
     @Override
-    protected int fontSize() {
+    public int fontSize() {
         return 12;
+    }
+
+    @Override
+    public Color fontColour() {
+        return Color.black;
     }
 
     /**
@@ -94,6 +102,12 @@ public class MLA9 extends StyleGuide {
     @Override
     protected boolean allowsItalicMarkdownInTexts() {
         return true;
+    }
+
+    // todo: check
+    @Override
+    public double paragraphIndentation() {
+        return 0.5d;
     }
 
     /**
