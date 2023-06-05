@@ -410,3 +410,65 @@ config
 
 *Fix:*
 Use a non-negative decimal (0.0, 23.5, 105.125, ...)
+
+### 335
+
+*Description:*
+Allowance type expected.
+
+*Cause*:
+This error occurs when trying to set an allowance type, but not supplying either
+"Yes", "No" or "If Necessary". Check if you misspelled either of these.
+
+*Example:*
+```pipp
+config
+    structure
+        sentence
+            bold "yes"
+```
+
+*Fix:*
+Use either "Yes", "No" or "If Necessary"
+
+### 336
+
+*Description:*
+Whitespace allowance type expected.
+
+*Cause*:
+This error occurs when trying to set a whitespace allowance type,
+but not supplying either "Yes", "Remove" or "Escape".
+Check if you misspelled either of these.
+
+*Example:*
+```pipp
+config
+    structure
+        sentence
+            whitespace "yes"
+```
+
+*Fix:*
+Use either "Yes", "Remove" or "Escape".
+
+### 337
+
+*Description:*
+Structure type expected.
+
+*Cause*:
+This error occurs when trying to refer to a structure.
+Make sure you spelled the structure correctly.
+
+*Example:*
+```pipp
+config
+    structure
+        endnotes
+            allow
+                before workscited
+```
+
+*Fix:*
+Use a correct structure

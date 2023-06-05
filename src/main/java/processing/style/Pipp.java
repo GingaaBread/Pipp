@@ -2,8 +2,7 @@ package processing.style;
 
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import processing.NumerationPosition;
-import processing.NumerationType;
+import processing.*;
 
 import java.awt.*;
 
@@ -59,18 +58,33 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    protected boolean allowsStrongMarkdownInTexts() {
-        return false;
+    public AllowanceType allowsBold() {
+        return null;
     }
 
     @Override
-    protected boolean allowsItalicMarkdownInTexts() {
-        return false;
+    public AllowanceType allowsItalic() {
+        return null;
     }
 
     @Override
     public double paragraphIndentation() {
         return 0.5d;
+    }
+
+    @Override
+    public String sentencePrefix() {
+        return null;
+    }
+
+    @Override
+    public WhitespaceAllowance allowsWhitespace() {
+        return null;
+    }
+
+    @Override
+    public StructureType requiredStructureBeforeEndnotes() {
+        return null;
     }
 
     @Override

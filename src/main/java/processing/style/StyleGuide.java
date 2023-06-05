@@ -2,8 +2,7 @@ package processing.style;
 
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import processing.NumerationPosition;
-import processing.NumerationType;
+import processing.*;
 
 import java.awt.*;
 
@@ -97,23 +96,17 @@ public abstract class StyleGuide {
      */
     public abstract double numerationMargin();
 
-    /**
-     *  Determines if the style sheet allows the use of **strong** markdown
-     *  to create bold text or not. If the style sheet does not allow the use of
-     *  strong markdown, but the user uses it, Pipp will halt and return an error.
-     * @return - true if strong markdown is supported, false if not.
-     */
-    protected abstract boolean allowsStrongMarkdownInTexts();
+    public abstract AllowanceType allowsBold();
 
-    /**
-     *  Determines if the style sheet allows the use of _italic_ markdown
-     *  to create italic text or not. If the style sheet does not allow the use of
-     *  italic markdown, but the user uses it, Pipp will halt and return an error.
-     * @return - true if italic markdown is supported, false if not.
-     */
-    protected abstract boolean allowsItalicMarkdownInTexts();
+    public abstract AllowanceType allowsItalic();
 
     public abstract double paragraphIndentation();
+
+    public abstract String sentencePrefix();
+
+    public abstract WhitespaceAllowance allowsWhitespace();
+
+    public abstract StructureType requiredStructureBeforeEndnotes();
 
     /**
      *  Defines how the style sheet formats a simple text block.

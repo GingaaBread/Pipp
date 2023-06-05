@@ -5,8 +5,7 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
-import processing.NumerationPosition;
-import processing.NumerationType;
+import processing.*;
 
 import java.awt.*;
 
@@ -88,26 +87,35 @@ public class MLA9 extends StyleGuide {
         return 0.5d;
     }
 
-    /**
-     *  MLA does not allow strong markdown
-     */
     @Override
-    protected boolean allowsStrongMarkdownInTexts() {
-        return false;
+    public AllowanceType allowsBold() {
+        return AllowanceType.NO;
     }
 
-    /**
-     *  MLA allows italic markdown if absolutely necessary
-     */
     @Override
-    protected boolean allowsItalicMarkdownInTexts() {
-        return true;
+    public AllowanceType allowsItalic() {
+        return AllowanceType.IF_NECESSARY;
     }
 
     // todo: check
     @Override
     public double paragraphIndentation() {
         return 0.5d;
+    }
+
+    @Override
+    public String sentencePrefix() {
+        return " ";
+    }
+
+    @Override
+    public WhitespaceAllowance allowsWhitespace() {
+        return WhitespaceAllowance.REMOVE;
+    }
+
+    @Override
+    public StructureType requiredStructureBeforeEndnotes() {
+        return StructureType.BIBLIOGRAPHY;
     }
 
     /**
@@ -144,4 +152,5 @@ public class MLA9 extends StyleGuide {
     public String formatParagraph(String[] formattedTextBlocks) {
         return null;
     }
+
 }

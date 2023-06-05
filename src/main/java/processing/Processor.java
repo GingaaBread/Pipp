@@ -6,10 +6,7 @@ import frontend.ast.AST;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.PDType3Font;
-import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import processing.style.Pipp;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
@@ -54,6 +51,14 @@ public class Processor {
     private Color fontColour;
 
     private double paragraphIndentation;
+
+    private String sentencePrefix;
+
+    private AllowanceType allowBoldText;
+    private AllowanceType allowItalicText;
+    private WhitespaceAllowance allowWhitespace;
+
+    private StructureType requiredStructureBeforeEndnotes;
 
     /**
      *  Determines the document's configuration options specified by the user
@@ -218,6 +223,57 @@ public class Processor {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
         } else paragraphIndentation = usedStyleGuide.paragraphIndentation();
+
+        var sentence = structure.getSentence();
+
+        // Check if the user demands a custom sentence prefix
+        if (sentence.getPrefix() != null) {
+            sentencePrefix = sentence.getPrefix();
+        } else sentencePrefix = usedStyleGuide.sentencePrefix();
+
+        // Check if the user demands custom restrictions
+
+        // Bold text
+        if (sentence.getAllowBoldText() != null) {
+            allowBoldText = switch (sentence.getAllowBoldText()) {
+                case "Yes" -> AllowanceType.YES;
+                case "No" -> AllowanceType.NO;
+                case "If Necessary" -> AllowanceType.IF_NECESSARY;
+                default -> throw new IncorrectFormatException("5: Allowance type expected.");
+            };
+        } else allowBoldText = usedStyleGuide.allowsBold();
+
+        // Italic text
+        if (sentence.getAllowItalicText() != null) {
+            allowItalicText = switch (sentence.getAllowItalicText()) {
+                case "Yes" -> AllowanceType.YES;
+                case "No" -> AllowanceType.NO;
+                case "If Necessary" -> AllowanceType.IF_NECESSARY;
+                default -> throw new IncorrectFormatException("5: Allowance type expected.");
+            };
+        } else allowItalicText = usedStyleGuide.allowsItalic();
+
+        // Whitespace
+        if (sentence.getAllowWhitespace() != null) {
+            allowWhitespace = switch (sentence.getAllowWhitespace()) {
+              case "Yes" -> WhitespaceAllowance.YES;
+              case "Remove" -> WhitespaceAllowance.REMOVE;
+              case "Escape" -> WhitespaceAllowance.ESCAPE;
+              default -> throw new IncorrectFormatException("6: Allowance type expected.");
+            };
+        } else allowWhitespace = usedStyleGuide.allowsWhitespace();
+
+        var endnotes = structure.getEndnotes();
+
+        // Check if the user demands a custom endnotes configuration
+        if (endnotes.getAllowBeforeStructure() != null) {
+            try {
+                requiredStructureBeforeEndnotes =
+                        StructureType.valueOf(endnotes.getAllowBeforeStructure().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("7: Structure type expected.");
+            }
+        } else requiredStructureBeforeEndnotes = usedStyleGuide.requiredStructureBeforeEndnotes();
 
     }
 
