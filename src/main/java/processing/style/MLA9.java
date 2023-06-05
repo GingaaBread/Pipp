@@ -118,6 +118,11 @@ public class MLA9 extends StyleGuide {
         return StructureType.BIBLIOGRAPHY;
     }
 
+    @Override
+    public DocumentType documentType() {
+        return DocumentType.PAPER;
+    }
+
     /**
      * MLA uses the following rules:
      *  White space of more than one space is silently removed within texts.

@@ -27,4 +27,10 @@ public class Author
      */
     private String lastName;
 
+    private String id;
+
+    public Author(String name, String id) {
+        // TODO USE CONSTRUCTOR AND CREATE CONSTRUCTOR FOR FIRST AND LASTNAME
+    }
+
 }

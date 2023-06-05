@@ -17,6 +17,8 @@ public class Assessor {
      */
     private String lastname;
 
+    // TODO create constructor for first and lastname and use it instead
+
     /**
      *  Creates a new assessor specifying the name as a whole string.
      *  In that case, all characters until the first white space character are interpreted as the first name,
@@ -24,7 +26,7 @@ public class Assessor {
      *  If the first or last names are blank, the compilation fails with an exception
      * @param name - the name of the assessor as a whole string. For example: "John Doe"
      */
-    public Assessor(String name) {
+    public Assessor(String name, String role) {
         name = name.trim();
         var bobTheBuilder = new StringBuilder();
 

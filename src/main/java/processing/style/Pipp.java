@@ -88,6 +88,11 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
+    public DocumentType documentType() {
+        return null;
+    }
+
+    @Override
     public String formatText(String textBlock) {
         return null;
     }

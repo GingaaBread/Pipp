@@ -11,22 +11,22 @@ public class AssessorTest {
      */
     @Test
     public void testLegalWholeNameSetsFirstAndLastName() {
-        var assessor = new Assessor("John Doe");
+        var assessor = new Assessor("John Doe", null);
 
         Assertions.assertEquals("John", assessor.getFirstname());
         Assertions.assertEquals("Doe", assessor.getLastname());
 
-        assessor = new Assessor("    John    Doe   ");
+        assessor = new Assessor("    John    Doe   ", null);
 
         Assertions.assertEquals("John", assessor.getFirstname());
         Assertions.assertEquals("Doe", assessor.getLastname());
 
-        assessor = new Assessor("\t\t    John    \tDoe\t\t   ");
+        assessor = new Assessor("\t\t    John    \tDoe\t\t   ", null);
 
         Assertions.assertEquals("John", assessor.getFirstname());
         Assertions.assertEquals("Doe", assessor.getLastname());
 
-        assessor = new Assessor("\n\t    John\n    \tDoe\n\t   ");
+        assessor = new Assessor("\n\t    John\n    \tDoe\n\t   ", null);
 
         Assertions.assertEquals("John", assessor.getFirstname());
         Assertions.assertEquals("Doe", assessor.getLastname());

@@ -472,3 +472,21 @@ config
 
 *Fix:*
 Use a correct structure
+
+### 338
+
+*Description:*
+Document type expected.
+
+*Cause*:
+This error occurs when trying to refer to a document type.
+Make sure you spelled the type correctly.
+
+*Example:*
+```pipp
+config
+    type "Novel"
+```
+
+*Fix:*
+Use a correct document type

@@ -80,7 +80,7 @@ public class Scanner {
 
     public void scan(final char current) {
             // Starts ignoring the line if the character is a comment (#)
-            if (current == '#') inComment = true;
+            if (currentTokenType != TokenType.TEXT && current == '#') inComment = true;
 
             // Marks the end of a comment
             else if (inComment && current == '\n') inComment = false;
@@ -139,6 +139,7 @@ public class Scanner {
         {
             var token = new Token(currentTokenType, currentlyRead.toString());
 
+            System.out.println(token);
             if (token.type == TokenType.TEXT) token.value = token.value.substring(1, token.value.length() - 1);
 
             if (token.type == TokenType.KEYWORD) {

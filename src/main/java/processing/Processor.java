@@ -4,6 +4,7 @@ import error.IncorrectFormatException;
 import error.MissingMemberException;
 import frontend.ast.AST;
 import lombok.NonNull;
+import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -13,6 +14,7 @@ import processing.style.StyleTable;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Processor {
@@ -55,15 +57,41 @@ public class Processor {
     private String sentencePrefix;
 
     private AllowanceType allowBoldText;
+
     private AllowanceType allowItalicText;
+
     private WhitespaceAllowance allowWhitespace;
 
     private StructureType requiredStructureBeforeEndnotes;
+    private DocumentType documentType;
+    private Author[] authors;
+    private Assessor[] assessors;
 
-    /**
-     *  Determines the document's configuration options specified by the user
-     */
-    private Configuration configuration;
+    @Override
+    public String toString() {
+        return "Processor{" +
+                "usedStyleGuide=" + usedStyleGuide +
+                ", dimensions=" + dimensions.getWidth() + "/" + dimensions.getHeight() +
+                ", margin=" + margin +
+                ", spacing=" + spacing +
+                ", numerationType=" + numerationType +
+                ", numerationPosition=" + numerationPosition +
+                ", numerationMargin=" + numerationMargin +
+                ", skippedPages=" + skippedPages +
+                ", font=" + font +
+                ", fontSize=" + fontSize +
+                ", fontColour=" + fontColour +
+                ", paragraphIndentation=" + paragraphIndentation +
+                ", sentencePrefix='" + sentencePrefix + '\'' +
+                ", allowBoldText=" + allowBoldText +
+                ", allowItalicText=" + allowItalicText +
+                ", allowWhitespace=" + allowWhitespace +
+                ", requiredStructureBeforeEndnotes=" + requiredStructureBeforeEndnotes +
+                ", documentType=" + documentType +
+                ", authors=" + Arrays.toString(authors) +
+                ", assessors=" + Arrays.toString(assessors) +
+                '}';
+    }
 
     @NonNull
     public void processAST(final AST ast) {
@@ -275,6 +303,39 @@ public class Processor {
             }
         } else requiredStructureBeforeEndnotes = usedStyleGuide.requiredStructureBeforeEndnotes();
 
+        // Check if the user demands a custom document title
+        if (ast.getConfiguration().getType() != null) {
+            try {
+                documentType = DocumentType.valueOf(ast.getConfiguration().getType().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("8: Document type expected.");
+            }
+        } else documentType = usedStyleGuide.documentType();
+
+        // Convert the given author nodes to actual author objects
+        var authors = ast.getConfiguration().getAuthors().getAuthors();
+        this.authors = new Author[authors.size()];
+        int i = 0;
+        for (var author : authors) {
+            this.authors[i] = new Author(author.getName() == null
+                    ? author.getFirstname() + author.getLastname()
+                    : author.getName(), author.getId());
+            i++;
+        }
+
+        // Convert the given author nodes to actual author objects
+        var assessors = ast.getConfiguration().getAssessors().getAssessors();
+        this.assessors = new Assessor[assessors.size()];
+        int j = 0;
+        for (var assessor : assessors) {
+            this.assessors[j] = new Assessor(assessor.getName() == null
+                    ? assessor.getFirstname() + assessor.getLastname()
+                    : assessor.getName(), assessor.getRole());
+            j++;
+        }
+
+        System.out.println("Finished processing.");
+        System.out.println(this);
     }
 
 }

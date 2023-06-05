@@ -108,6 +108,8 @@ public abstract class StyleGuide {
 
     public abstract StructureType requiredStructureBeforeEndnotes();
 
+    public abstract DocumentType documentType();
+    
     /**
      *  Defines how the style sheet formats a simple text block.
      *  Examples could include adding exactly one whitespace after a punctuation mark.
