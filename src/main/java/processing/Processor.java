@@ -5,13 +5,14 @@ import error.MissingMemberException;
 import frontend.ast.AST;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import processing.style.Pipp;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
+import warning.InconsistencyWarning;
+import warning.WarningQueue;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -54,12 +55,12 @@ public class Processor {
      *  All components need to have a minimum position of the margin to the left and top,
      *  and a maximum position of the margin to the right and bottom
      */
-    private double margin;
+    private float margin;
 
     /**
      *  Determines the paragraph spacing, which is the space between each line in a paragraph
      */
-    private double spacing;
+    private float spacing;
 
 
     //// PAGE NUMERATION ////
@@ -78,7 +79,7 @@ public class Processor {
     /**
      *  Determines the page number margin to the respective sides of the document
      */
-    private double numerationMargin;
+    private float numerationMargin;
 
     // TODO
     private List<Integer> skippedPages;
@@ -110,7 +111,7 @@ public class Processor {
      *  Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      *  indented to
      */
-    private double paragraphIndentation;
+    private float paragraphIndentation;
 
 
     //// SENTENCES ////
@@ -206,6 +207,9 @@ public class Processor {
 
         System.out.println(ast);
 
+        boolean inchesUsed = false;
+        boolean mmUsed = false;
+
         var styleConfiguration = ast.getConfiguration().getStyle();
 
         // Check if the user demands a different style than the default style
@@ -218,18 +222,22 @@ public class Processor {
         }
 
         var layout = styleConfiguration.getLayout();
-        var pointsPerInch = 72;
-        var pointsPerMM = 1 / (10 * 2.54f) * pointsPerInch;;
+        int pointsPerInch = 72;
+        var pointsPerMM = 1 / (10 * 2.54f) * pointsPerInch;
 
         // Check if the user demands a custom document dimension
 
         float height;
         if (layout.getHeight() != null) {
             // Check if the user wants to use inches
-            if (layout.getHeight().endsWith("\"")) {
-                var asNumber = layout.getHeight().substring(0, layout.getHeight().length() - 1);
+            if (layout.getHeight().endsWith("in")) {
+                inchesUsed = true;
+
+                var asNumber = layout.getHeight().substring(0, layout.getHeight().length() - 2);
                 height = pointsPerInch *  Float.parseFloat(asNumber);
             } else {
+                mmUsed = true;
+
                 height = pointsPerMM * Float.parseFloat(layout.getHeight());
             }
         } else height = usedStyleGuide.pageFormat().getHeight();
@@ -237,10 +245,14 @@ public class Processor {
         float width;
         if (layout.getWidth() != null) {
             // Check if the user wants to use inches
-            if (layout.getWidth().endsWith("\"")) {
-                var asNumber = layout.getWidth().substring(0, layout.getWidth().length() - 1);
+            if (layout.getWidth().endsWith("in")) {
+                inchesUsed = true;
+
+                var asNumber = layout.getWidth().substring(0, layout.getWidth().length() - 2);
                 width = pointsPerInch *  Float.parseFloat(asNumber);
             } else {
+                mmUsed = true;
+
                 width = pointsPerMM * Float.parseFloat(layout.getWidth());
             }
         } else width = usedStyleGuide.pageFormat().getWidth();
@@ -250,19 +262,33 @@ public class Processor {
 
         // Check if the user demands a custom margin
         if (layout.getMargin() != null) {
-            margin = Double.parseDouble(layout.getMargin());
+            if (layout.getMargin().endsWith("in")) {
+                inchesUsed = true;
+
+                var asNumber = layout.getMargin().substring(0, layout.getMargin().length() - 2);
+                margin = pointsPerInch *  Float.parseFloat(asNumber);
+            } else {
+                mmUsed = true;
+
+                margin = pointsPerMM * Float.parseFloat(layout.getMargin());
+            }
         } else margin = usedStyleGuide.margin();
 
         // Check if the user demands a custom spacing
         if (layout.getSpacing() != null) {
+            if (layout.getSpacing().endsWith("in")) inchesUsed = true;
+            else mmUsed = true;
+
             switch (layout.getSpacing()) {
-                case "Single" -> spacing = 1d;
-                case "Increased" -> spacing = 1.5d;
-                case "Double" -> spacing = 2d;
-                default -> spacing = Double.parseDouble(layout.getSpacing());
+                case "1" -> spacing = pointsPerMM;
+                case "1.5" -> spacing = 1.5f * pointsPerMM;
+                case "2" -> spacing = 2f * pointsPerMM;
+                case "1in" -> spacing = pointsPerInch;
+                case "1.5in" -> spacing = 1.5f * pointsPerInch;
+                case "2in" -> spacing = 2f * pointsPerInch;
+                default -> throw new IncorrectFormatException("10: Incorrect spacing constant.");
             }
         } else spacing = usedStyleGuide.spacing();
-
 
         var numeration = styleConfiguration.getNumeration();
 
@@ -292,12 +318,26 @@ public class Processor {
             };
         } else numerationPosition = usedStyleGuide.numerationPosition();
 
+        var margin = numeration.getMargin();
+
         // Check if the user demands a custom numeration margin
-        if (numeration.getMargin() != null) {
+        if (margin != null) {
             try {
-                double asNumber = Double.parseDouble(numeration.getMargin());
+                float unit;
+                if (numeration.getMargin().endsWith("in")) {
+                    inchesUsed = true;
+
+                    margin = margin.substring(0, margin.length() - 2);
+                    unit = pointsPerInch;
+                } else {
+                    unit = pointsPerMM;
+
+                    mmUsed = true;
+                }
+
+                float asNumber = Float.parseFloat(margin);
                 if (asNumber < 0) throw new IncorrectFormatException("2: Non-negative decimal expected.");
-                else numerationMargin = asNumber;
+                else numerationMargin = asNumber * unit;
             } catch (NumberFormatException e) {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
@@ -345,14 +385,27 @@ public class Processor {
         var structure = styleConfiguration.getStructure();
 
         var paragraph = structure.getParagraph();
+        var indentation = paragraph.getIndentation();
 
         // Check if the user demands a custom paragraph indentation
-        if (paragraph.getIndentation() != null) {
+        if (indentation != null) {
             try {
-                var asNumber = Double.parseDouble(paragraph.getIndentation());
+                float unit;
+                if (indentation.endsWith("in")) {
+                    inchesUsed = true;
+
+                    indentation = indentation.substring(0, indentation.length() - 2);
+                    unit = pointsPerInch;
+                } else {
+                    unit = pointsPerMM;
+
+                    mmUsed = true;
+                }
+
+                float asNumber = Float.parseFloat(indentation);
                 if (asNumber < 0) {
                     throw new IncorrectFormatException("2: Non-negative decimal expected.");
-                } else paragraphIndentation = asNumber;
+                } else paragraphIndentation = asNumber * unit;
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
@@ -444,6 +497,10 @@ public class Processor {
 
             j++;
         }
+
+        if (inchesUsed && mmUsed) WarningQueue.getInstance().enqueue(new InconsistencyWarning(
+                "The style configuration uses both inches and millimeters."
+        ));
 
         System.out.println("Finished processing.");
         System.out.println(this);

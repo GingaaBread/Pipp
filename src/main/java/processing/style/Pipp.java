@@ -28,18 +28,18 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    protected double indentationPadding() {
-        return 0;
+    protected float indentationPadding() {
+        return 0f;
     }
 
     @Override
-    public double margin() {
-        return 0;
+    public float margin() {
+        return 0f;
     }
 
     @Override
-    public double spacing() {
-        return 0;
+    public float spacing() {
+        return 0f;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    public double numerationMargin() {
-        return 0.5d;
+    public float numerationMargin() {
+        return 0.5f;
     }
 
     @Override
@@ -68,8 +68,8 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    public double paragraphIndentation() {
-        return 0.5d;
+    public float paragraphIndentation() {
+        return 0.5f;
     }
 
     @Override

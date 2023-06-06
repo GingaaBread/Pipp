@@ -514,3 +514,25 @@ config
 *Fix:*
 Provide a space or use the `firstname` and `lastname` configurations,
 instead, and provide a non-blank string.
+
+### 3310
+
+*Description:*
+Incorrect spacing constant.
+
+*Cause*:
+This error occurs when trying to use a custom spacing,
+but neither supplying `1`, `1.5` or `2` (with our without the optional
+`in` ending if you want to use inches, instead of millimeters).
+
+*Example:*
+```pipp
+config
+    style
+        layout
+            spacing "3"
+```
+
+*Fix:*
+Use either `1`, `1.5` or `2` (with our without the optional
+`in` ending).

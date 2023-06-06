@@ -67,6 +67,30 @@ config
             id "MD20025"
 ```
 
+## 13
+
+*Description:*
+The style configuration uses both inches and millimeters.
+
+*Cause:*
+This warning occurs when your style configuration uses
+inches for at least one configuration and millimeters
+for at least one configuration.
+
+*To do:*
+Decide whether you really want to have both units of
+measurement in your style, or if you want to confine
+yourself to only use either inches or millimeters.
+
+*Example:*
+```pipp
+config
+    style
+        layout
+            width "5"
+            height "5in"
+```
+
 # 2. Missing Members
 
 Critical Severity

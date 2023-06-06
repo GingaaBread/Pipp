@@ -64,19 +64,19 @@ public abstract class StyleGuide {
      *  For example, MLA uses an indentation padding of 0.5 inches
      * @return - the non-negative padding as a double
      */
-    protected abstract double indentationPadding();
+    protected abstract float indentationPadding();
 
     /**
      *  Determines the margin to the sides of the document.
      * @return - the non-negative margin as a double
      */
-    public abstract double margin();
+    public abstract float margin();
 
     /**
      *  Determines the spacing of sentences.
      * @return - the non-negative spacing as a double
      */
-    public abstract double spacing();
+    public abstract float spacing();
 
     /**
      *  Determines which type of numeration is used for page numbers
@@ -94,13 +94,13 @@ public abstract class StyleGuide {
      *  Determines how far away the page number is from the edges
      * @return - the non-negative numeration margin as a double
      */
-    public abstract double numerationMargin();
+    public abstract float numerationMargin();
 
     public abstract AllowanceType allowsBold();
 
     public abstract AllowanceType allowsItalic();
 
-    public abstract double paragraphIndentation();
+    public abstract float paragraphIndentation();
 
     public abstract String sentencePrefix();
 
