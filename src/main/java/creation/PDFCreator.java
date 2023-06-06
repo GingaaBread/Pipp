@@ -5,7 +5,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import processing.ProcessingOptions;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -21,9 +20,6 @@ public class PDFCreator {
                 var blankPage = new PDPage(PDRectangle.LETTER);
 
                 var contentStream = new PDPageContentStream(doc, blankPage);
-
-                // TODO: 1inch margin all around
-                // TODO: header with page numbers
 
                 contentStream.beginText();
                 contentStream.setLeading(14.5f);

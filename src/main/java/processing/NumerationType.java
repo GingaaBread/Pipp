@@ -3,6 +3,7 @@ package processing;
 /**
  *  The numeration type class determines in which numeration system the numbers are displayed.
  *
+ *  @author Gino Glink
  *  @since 1.0
  *  @version 1.0
  */

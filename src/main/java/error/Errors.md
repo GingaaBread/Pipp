@@ -490,3 +490,27 @@ config
 
 *Fix:*
 Use a correct document type
+
+### 339
+
+*Description:*
+Could not parse name property.
+
+*Cause*:
+This error occurs when trying to use the `name` configuration,
+instead of using the `firstname` and `lastname` configurations,
+but not providing a space. Pipp uses a space to determine
+what is part of the first and what is part of the last name.
+For example, "John Doe" results in the firstname `John`,
+and the last name `Doe`. 
+The error also occurs when providing a blank string.
+
+*Example:*
+```pipp
+config
+    author "Doe"
+```
+
+*Fix:*
+Provide a space or use the `firstname` and `lastname` configurations,
+instead, and provide a non-blank string.

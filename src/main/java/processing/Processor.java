@@ -3,6 +3,7 @@ package processing;
 import error.IncorrectFormatException;
 import error.MissingMemberException;
 import frontend.ast.AST;
+import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -17,56 +18,157 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Data
 public class Processor {
 
     /**
      *  Determines the Pipp versions this compiler supports.
-     *  If the user tries to scan a document with a Pipp version not included in this array, an exception is thrown
+     *  If the user tries to scan a document with a Pipp version not included in this array, an error is thrown,
+     *  and the user should be prompted to update this compiler or check if they misspelled the version.
      */
     public static final String[] SUPPORTED_VERSIONS = new String[] {
             "1.0"
     };
 
+
+    //// GENERAL ////
+
+
     /**
-     *  Determines which stylesheet should be used during compilation
+     *  Determines the type of the document, which currently only affects the document's metadata
+     */
+    private DocumentType documentType;
+
+    /**
+     *  Determines the type of style guide which should be used during compilation
      */
     private StyleGuide usedStyleGuide;
 
+    /**
+     *  Determines the dimensions of the document (the width and height)
+     */
     private PDRectangle dimensions;
 
+    /**
+     *  Determines the margin to all four sides of the document.
+     *  All components need to have a minimum position of the margin to the left and top,
+     *  and a maximum position of the margin to the right and bottom
+     */
     private double margin;
 
+    /**
+     *  Determines the paragraph spacing, which is the space between each line in a paragraph
+     */
     private double spacing;
 
+
+    //// PAGE NUMERATION ////
+
+
+    /**
+     *  Determines how page numbers should be represented
+     */
     private NumerationType numerationType;
 
+    /**
+     *  Determines where in the document page numbers should be displayed
+     */
     private NumerationPosition numerationPosition;
 
+    /**
+     *  Determines the page number margin to the respective sides of the document
+     */
     private double numerationMargin;
 
+    // TODO
     private List<Integer> skippedPages;
 
+
+    //// FONT ////
+
+
+    /**
+     *  Determines the main font family used throughout the document
+     */
     private PDFont font;
 
+    /**
+     *  Determines the main font size used throughout the document
+     */
     private int fontSize;
 
+    /**
+     *  Determines the main font size used throughout the document
+     */
     private Color fontColour;
 
+
+    //// PARAGRAPH ////
+
+
+    /**
+     *  Determines the paragraph indentation, which is the amount of space that a new paragraph will be
+     *  indented to
+     */
     private double paragraphIndentation;
 
+
+    //// SENTENCES ////
+
+
+    /**
+     *  Determines the string that will be appended before each sentence.
+     *  In most style guides, this is a single space.
+     */
     private String sentencePrefix;
 
+    /**
+     *  Determines if the user is allowed to use bold text in a sentence
+     */
     private AllowanceType allowBoldText;
 
+    /**
+     *  Determines if the user is allowed to use italic text in a sentence
+     */
     private AllowanceType allowItalicText;
 
+    /**
+     *  Determines if the user is allowed to use white space in a sentence
+     */
     private WhitespaceAllowance allowWhitespace;
 
+
+    //// END NOTES ////
+
+
+    /**
+     *  Determines the type of structure that needs to appear before the user can declare an end notes section.
+     *  This value can be null, if no structure is required to appear before the section.
+     */
     private StructureType requiredStructureBeforeEndnotes;
-    private DocumentType documentType;
+
+
+    //// AUTHORS & ASSESSORS ////
+
+
+    /**
+     *  Determines the authors that have worked on the document.
+     *  Note that this only includes the authors of the working document, it does not include authors that
+     *  have been cited from in the document
+     */
     private Author[] authors;
+
+    /**
+     *  Determines the assessors that may assess the document
+     */
     private Assessor[] assessors;
 
+
+
+    /**
+     *  A simple automatically-generated method to represent the values of all properties of the processor
+     * @return - the values of the processor
+     */
     @Override
     public String toString() {
         return "Processor{" +
@@ -93,8 +195,12 @@ public class Processor {
                 '}';
     }
 
-    @NonNull
-    public void processAST(final AST ast) {
+    /**
+     *  Starts the processing phase by trying to convert the specified AST into usable objects.
+     *
+     * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
+     */
+    public void processAST(@NonNull final AST ast) {
         ast.checkForErrors();
         ast.checkForWarnings();
 
@@ -317,9 +423,11 @@ public class Processor {
         this.authors = new Author[authors.size()];
         int i = 0;
         for (var author : authors) {
-            this.authors[i] = new Author(author.getName() == null
-                    ? author.getFirstname() + author.getLastname()
-                    : author.getName(), author.getId());
+            if (author.getName() == null)
+                this.authors[i] = new Author(author.getFirstname(), author.getLastname(), author.getId());
+            else
+                this.authors[i] = new Author(author.getName(), author.getId());
+
             i++;
         }
 
@@ -328,9 +436,12 @@ public class Processor {
         this.assessors = new Assessor[assessors.size()];
         int j = 0;
         for (var assessor : assessors) {
-            this.assessors[j] = new Assessor(assessor.getName() == null
-                    ? assessor.getFirstname() + assessor.getLastname()
-                    : assessor.getName(), assessor.getRole());
+            if (assessor.getName() == null)
+                this.assessors[j] = new Assessor(assessor.getFirstname(), assessor.getLastname(),
+                        assessor.getRole());
+            else
+                this.assessors[j] = new Assessor(assessor.getName(), assessor.getRole());
+
             j++;
         }
 

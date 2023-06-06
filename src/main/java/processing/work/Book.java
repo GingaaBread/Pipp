@@ -3,7 +3,6 @@ package processing.work;
 import lombok.Builder;
 import lombok.NonNull;
 import processing.Author;
-import processing.ProcessingOptions;
 import processing.Publication;
 
 import java.util.Calendar;
@@ -32,7 +31,7 @@ public class Book extends Work {
 
                 // todo: handle multiple authors
 
-                return super.authors[0].getLastName() + ", " + super.authors[0].getFirstName() + ". _" +
+                return super.authors[0].getLastname() + ", " + super.authors[0].getFirstname() + ". _" +
                     title + "_. " + publication.getName() + ", " + publication.getDate().get(Calendar.YEAR) + ".";
     }
 }
