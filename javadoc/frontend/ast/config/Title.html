@@ -113,21 +113,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(frontend.ast.config.CitedText)" class="member-name-link">add</a><wbr>(<a href="CitedText.html" title="class in frontend.ast.config">CitedText</a>&nbsp;text)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForErrors()" class="member-name-link">checkForErrors</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Forces all nodes to provide a check for faulty user input.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForWarnings()" class="member-name-link">checkForWarnings</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Forces all nodes to provide a check if the input provided by the user
-  could in any way have unexpected results.</div>
+<div class="block">Adds either a citation or a text to the title list</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForWarnings()" class="member-name-link">checkForWarnings</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The title node does not produce warnings</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">A textual representation of the title node, which contains the formatted text list</div>
+</div>
 </div>
 </div>
 </div>
@@ -162,16 +160,25 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="add(frontend.ast.config.CitedText)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="CitedText.html" title="class in frontend.ast.config">CitedText</a>&nbsp;text)</span></div>
+<div class="member-signature"><span class="annotations">@NonNull
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="CitedText.html" title="class in frontend.ast.config">CitedText</a>&nbsp;text)</span></div>
+<div class="block">Adds either a citation or a text to the title list</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>text</code> - - the text or citation as a cited text, which should be added to the text list</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<div class="block">A textual representation of the title node, which contains the formatted text list</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Returns:</dt>
+<dd>- the title node as a string</dd>
 </dl>
 </section>
 </li>
@@ -179,26 +186,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="checkForWarnings()">
 <h3>checkForWarnings</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkForWarnings</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Node.html#checkForWarnings()">Node</a></code></span></div>
-<div class="block">Forces all nodes to provide a check if the input provided by the user
-  could in any way have unexpected results. These warnings should not depend
-  on the provided style guide.</div>
+<div class="block">The title node does not produce warnings</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../Node.html#checkForWarnings()">checkForWarnings</a></code>&nbsp;in class&nbsp;<code><a href="../Node.html" title="class in frontend.ast">Node</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="checkForErrors()">
-<h3>checkForErrors</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkForErrors</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Node.html#checkForErrors()">Node</a></code></span></div>
-<div class="block">Forces all nodes to provide a check for faulty user input.
-  These errors should not depend on the provided style guide.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../Node.html#checkForErrors()">checkForErrors</a></code>&nbsp;in class&nbsp;<code><a href="../Node.html" title="class in frontend.ast">Node</a></code></dd>
 </dl>
 </section>
 </li>

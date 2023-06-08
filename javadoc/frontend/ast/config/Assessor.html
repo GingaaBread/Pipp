@@ -114,19 +114,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForErrors()" class="member-name-link">checkForErrors</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForWarnings()" class="member-name-link">checkForWarnings</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Forces all nodes to provide a check for faulty user input.</div>
+<div class="block">The Assessor node does not produce warnings</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkForWarnings()" class="member-name-link">checkForWarnings</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Forces all nodes to provide a check if the input provided by the user
-  could in any way have unexpected results.</div>
+<div class="block">A textual representation of the Assessor node, which contains the properties of the node
+  separated in a visual manner</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -162,9 +159,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<div class="block">A textual representation of the Assessor node, which contains the properties of the node
+  separated in a visual manner</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dt>Returns:</dt>
+<dd>- the properties of the Assessor node as a String</dd>
 </dl>
 </section>
 </li>
@@ -172,26 +173,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="checkForWarnings()">
 <h3>checkForWarnings</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkForWarnings</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Node.html#checkForWarnings()">Node</a></code></span></div>
-<div class="block">Forces all nodes to provide a check if the input provided by the user
-  could in any way have unexpected results. These warnings should not depend
-  on the provided style guide.</div>
+<div class="block">The Assessor node does not produce warnings</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../Node.html#checkForWarnings()">checkForWarnings</a></code>&nbsp;in class&nbsp;<code><a href="../Node.html" title="class in frontend.ast">Node</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="checkForErrors()">
-<h3>checkForErrors</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkForErrors</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Node.html#checkForErrors()">Node</a></code></span></div>
-<div class="block">Forces all nodes to provide a check for faulty user input.
-  These errors should not depend on the provided style guide.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../Node.html#checkForErrors()">checkForErrors</a></code>&nbsp;in class&nbsp;<code><a href="../Node.html" title="class in frontend.ast">Node</a></code></dd>
 </dl>
 </section>
 </li>
