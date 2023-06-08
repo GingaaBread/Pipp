@@ -536,3 +536,70 @@ config
 *Fix:*
 Use either `1`, `1.5` or `2` (with our without the optional
 `in` ending).
+
+### 3311
+
+*Description:*
+A page span must include exactly two page-numbers.
+
+*Cause*:
+This error occurs when trying to use a page span, but either
+supplying too many or too little pages in the span.
+For example, `5-12` is a legal page span, whereas
+`5` (only one page is specified) and `5-12-25`
+(three pages are specified) are not.
+
+*Example:*
+```pipp
+config
+    style
+        numeration
+            skip "5-12-25"
+```
+
+*Fix:*
+Use exactly two page-numbers in a page span.
+
+### 3312
+
+*Description:*
+The second page-number must be greater than the first page-number
+in a page span.
+
+*Cause*:
+This error occurs when trying to use a page span, but specifying
+that the destination number is larger than the origin number.
+For example, `3-5` is legal (the destination is larger than the origin),
+whereas `5-3` (the origin is larger than the destination) and `5-5`
+(the origin and destination are the same) are not.
+
+*Example:*
+```pipp
+config
+    style
+        numeration
+            skip "5-3"
+```
+
+*Fix:*
+Increase the second page-number, so that it is greater than the first.
+
+### 3313
+
+*Description:*
+Page number expected.
+
+*Cause*:
+This error occurs when trying to refer to a page number, which is not
+an integer greater than 0. Note that the first page number is always 1.
+
+*Example:*
+```pipp
+config
+    style
+        numeration
+            skip "0"
+```
+
+*Fix:*
+Use an integer greater than 0.

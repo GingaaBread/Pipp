@@ -840,7 +840,6 @@ public class Parser {
                     case "skip" -> {
                         consume(new Token(TokenType.KEYWORD, "skip"));
                         textualList();
-                        ast.getConfiguration().getStyle().getNumeration().setSkippedPages(last.value);
                     }
                     default -> error();
                 }
@@ -1009,6 +1008,10 @@ public class Parser {
      */
     private void textualList() {
         textual();
+
+        if (currentlyParsedContainer.equals("numeration")) {
+            ast.getConfiguration().getStyle().getNumeration().addSkippedPage(last.value);
+        }
 
         if (current.type == TokenType.LIST_SEPARATOR) {
             consume(new Token(TokenType.LIST_SEPARATOR, null));

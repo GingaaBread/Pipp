@@ -4,7 +4,6 @@ import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import processing.*;
 
 import java.awt.*;
@@ -36,17 +35,12 @@ public class MLA9 extends StyleGuide {
         return 12;
     }
 
+    /**
+     *  MLA uses a black font
+     */
     @Override
     public Color fontColour() {
         return Color.black;
-    }
-
-    /**
-     *  MLA uses an indentation padding of 0.5 inches
-     */
-    @Override
-    protected float indentationPadding() {
-        return 0.5f;
     }
 
     /**
@@ -74,50 +68,70 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA uses arabic numeration
-     *  TODO Check accuracy
+     *  MLA displays the page number in the top right corner
      */
     @Override
     public NumerationPosition numerationPosition() {
-        return NumerationPosition.BOTTOM;
+        return NumerationPosition.TOP_RIGHT;
     }
 
+    /**
+     *  MLA displays the page number half an inch away from the top and right sides of the document
+     */
     @Override
     public float numerationMargin() {
         return 0.5f;
     }
 
+    /**
+     *  MLA does not allow bold text
+     */
     @Override
     public AllowanceType allowsBold() {
         return AllowanceType.NO;
     }
 
+    /**
+     *  MLA does only allow italic text if absolutely necessary
+     */
     @Override
     public AllowanceType allowsItalic() {
         return AllowanceType.IF_NECESSARY;
     }
 
-    // todo: check
+    // todo: replace by "\t" as the prefix
     @Override
     public float paragraphIndentation() {
         return 0.5f;
     }
 
+    /**
+     *  MLA inserts a space before every sentence
+     */
     @Override
     public String sentencePrefix() {
         return " ";
     }
 
+    /**
+     *  MLA allows whitespace if it has been escaped
+     */
     @Override
-    public WhitespaceAllowance allowsWhitespace() {
-        return WhitespaceAllowance.REMOVE;
+    public WhitespaceAllowanceType allowsWhitespace() {
+        return WhitespaceAllowanceType.ESCAPED;
     }
 
+    /**
+     *  MLA demands that the bibliography section should appear before the endnotes section
+     */
     @Override
     public StructureType requiredStructureBeforeEndnotes() {
         return StructureType.BIBLIOGRAPHY;
     }
 
+    /**
+     *  MLA uses a default document type of PAPER
+     */
     @Override
     public DocumentType documentType() {
         return DocumentType.PAPER;
@@ -125,7 +139,6 @@ public class MLA9 extends StyleGuide {
 
     /**
      * MLA uses the following rules:
-     *  White space of more than one space is silently removed within texts.
      *  A full-stop is added if the last character is not a punctuation mark
      *  Exactly one space is inserted before a new in-line sentence.
      */
@@ -136,6 +149,7 @@ public class MLA9 extends StyleGuide {
 
         if (textBlock.isBlank()) throw new IllegalArgumentException("Blank text block processed.");
 
+        // todo: use the method instead
         // White space of more than one space is silently removed within texts.
         textBlock = textBlock.replaceAll("\\s+", " ");
 
@@ -144,8 +158,6 @@ public class MLA9 extends StyleGuide {
         if (!StyleGuide.isPunctuation(lastChar)) {
             textBlock += ".";
         }
-
-        // todo: White space separating a character from an unescaped punctuation mark is silently removed.
 
         // todo: Exactly one space is inserted before a new in-line sentence.
 

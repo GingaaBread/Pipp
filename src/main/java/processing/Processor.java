@@ -15,10 +15,18 @@ import warning.InconsistencyWarning;
 import warning.WarningQueue;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
+/**
+ *  The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
+ *  that can be used when creating the document
+ *
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
+ */
 @Data
 public class Processor {
 
@@ -53,7 +61,7 @@ public class Processor {
     /**
      *  Determines the margin to all four sides of the document.
      *  All components need to have a minimum position of the margin to the left and top,
-     *  and a maximum position of the margin to the right and bottom
+     *  and a maximum position of the margin to the right and bottom.
      */
     private float margin;
 
@@ -81,7 +89,13 @@ public class Processor {
      */
     private float numerationMargin;
 
-    // TODO
+    // TODO: Add configuration whether the author's name should be added before the page number
+
+    /**
+     *  Contains all page numbers that the user does not want to have page numbers.
+     *  For each created page, the list will be checked if it contains the current page number,
+     *  and if it does, it will not receive a numeration stamp.
+     */
     private List<Integer> skippedPages;
 
 
@@ -136,7 +150,7 @@ public class Processor {
     /**
      *  Determines if the user is allowed to use white space in a sentence
      */
-    private WhitespaceAllowance allowWhitespace;
+    private WhitespaceAllowanceType allowWhitespace;
 
 
     //// END NOTES ////
@@ -163,7 +177,6 @@ public class Processor {
      *  Determines the assessors that may assess the document
      */
     private Assessor[] assessors;
-
 
 
     /**
@@ -318,6 +331,42 @@ public class Processor {
             };
         } else numerationPosition = usedStyleGuide.numerationPosition();
 
+        // Add all pages that the user desires to be skipped when adding the numeration stamp
+        skippedPages = new LinkedList<>();
+        for (var skippedPage : numeration.getSkippedPages()) {
+            // Check if the user provided a span (for example, 5-12)
+            if (skippedPage.contains("-")) {
+                String[] pageSpan = skippedPage.split("-");
+
+                if (pageSpan.length != 2) throw new IncorrectFormatException("11: A page span must include exactly" +
+                        " two page-numbers.");
+
+                try {
+                    int first = Integer.parseInt(pageSpan[0]);
+                    int second = Integer.parseInt(pageSpan[1]);
+
+                    if (first < 1 || second < 1) throw new IncorrectFormatException("13: Page number expected.");
+                    else if (first >= second) throw new IncorrectFormatException("12: The second page-number must " +
+                            "be greater than the first page-number in a page span.");
+
+                    for (int i = first; i < second; i++)
+                        skippedPages.add(i);
+                } catch (IllegalArgumentException e) {
+                    throw new IncorrectFormatException("13: Page number expected.");
+                }
+            } else {
+                try {
+                    int pageNumber = Integer.parseInt(skippedPage);
+
+                    if (pageNumber < 1) {
+                        throw new IncorrectFormatException("13: Page number expected.");
+                    } else skippedPages.add(pageNumber);
+                } catch (IllegalArgumentException e) {
+                    throw new IncorrectFormatException("13: Page number expected.");
+                }
+            }
+        }
+
         var margin = numeration.getMargin();
 
         // Check if the user demands a custom numeration margin
@@ -342,9 +391,6 @@ public class Processor {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
         } else numerationMargin = usedStyleGuide.numerationMargin();
-
-        // TODO
-        skippedPages = new ArrayList<>();
 
         var font = styleConfiguration.getFont();
 
@@ -443,9 +489,9 @@ public class Processor {
         // Whitespace
         if (sentence.getAllowWhitespace() != null) {
             allowWhitespace = switch (sentence.getAllowWhitespace()) {
-              case "Yes" -> WhitespaceAllowance.YES;
-              case "Remove" -> WhitespaceAllowance.REMOVE;
-              case "Escape" -> WhitespaceAllowance.ESCAPE;
+              case "Yes" -> WhitespaceAllowanceType.YES;
+              case "No" -> WhitespaceAllowanceType.NO;
+              case "Escaped" -> WhitespaceAllowanceType.ESCAPED;
               default -> throw new IncorrectFormatException("6: Allowance type expected.");
             };
         } else allowWhitespace = usedStyleGuide.allowsWhitespace();
@@ -502,6 +548,7 @@ public class Processor {
                 "The style configuration uses both inches and millimeters."
         ));
 
+        // For debugging purposes
         System.out.println("Finished processing.");
         System.out.println(this);
     }

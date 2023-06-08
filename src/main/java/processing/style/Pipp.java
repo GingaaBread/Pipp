@@ -28,11 +28,6 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    protected float indentationPadding() {
-        return 0f;
-    }
-
-    @Override
     public float margin() {
         return 0f;
     }
@@ -78,7 +73,7 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
-    public WhitespaceAllowance allowsWhitespace() {
+    public WhitespaceAllowanceType allowsWhitespace() {
         return null;
     }
 

@@ -4,14 +4,20 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Getter
-@Setter
 // todo: check numeration type exists, position exists, margin is legal, skipped pages are legal
 public class Numeration extends Node {
+    @Setter
     private String numerationType;
+    @Setter
     private String position;
+    @Setter
     private String margin;
-    private String skippedPages;
+
+    private List<String> skippedPages = new LinkedList<>();
 
     @Override
     public String toString() {
@@ -21,6 +27,10 @@ public class Numeration extends Node {
                 ", margin='" + margin + '\'' +
                 ", skippedPages='" + skippedPages + '\'' +
                 '}';
+    }
+
+    public void addSkippedPage(String skippedPage) {
+        skippedPages.add(skippedPage);
     }
 
     @Override
