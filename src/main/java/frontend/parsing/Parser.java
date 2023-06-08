@@ -71,6 +71,10 @@ public class Parser {
         this.ast = new AST();
     }
 
+    /**
+     *  Once done parsing, it throws an error if there are still tokens.
+     *  If there are no more tokens, it starts the processing phase, instead.
+     */
     private void afterParsing() {
         if (frontEndBridge.isNotEmpty()) error();
 
@@ -293,7 +297,7 @@ public class Parser {
         consume(new Token(TokenType.KEYWORD, "type"));
         textual();
 
-        ast.getConfiguration().setType(last.value);
+        ast.getConfiguration().setDocumentType(last.value);
         lastNode = ast.getConfiguration();
     }
 
@@ -804,6 +808,8 @@ public class Parser {
      *  PageNumerationStyle := "numeration" NewLine INDENT PageNumerationStyleList DEDENT
      */
     private void pageNumerationStyle() {
+        currentlyParsedContainer = "Numeration";
+
         consume(new Token(TokenType.KEYWORD, "numeration"));
         newline();
         expectIndentation();
@@ -816,7 +822,9 @@ public class Parser {
      *                             "display" Textual PageNumerationStyleList |
      *                             "margin" Textual PageNumerationStyleList |
      *                             "skip" TextualList PageNumerationStyleList |
-     *                             "in" Textual | "display" Textual | "margin" Textual | "skip" TextualList
+     *                             "author" AuthorNameType PageNumerationStyleList |
+     *                             "in" Textual | "display" Textual | "margin" Textual | "skip" TextualList |
+     *                                  "author" AuthorNameType
      */
     private void pageNumerationStyleList() {
         if (current.type == TokenType.KEYWORD) {
@@ -841,6 +849,10 @@ public class Parser {
                         consume(new Token(TokenType.KEYWORD, "skip"));
                         textualList();
                     }
+                    case "author" -> {
+                        consume(new Token(TokenType.KEYWORD, "author"));
+                        authorNameType();
+                    }
                     default -> error();
                 }
 
@@ -848,11 +860,30 @@ public class Parser {
 
                 var ahead = frontEndBridge.lookahead(0);
                 if (ahead.value.equals("in") || ahead.value.equals("display") ||
-                        ahead.value.equals("margin") || ahead.value.equals("skip"))
+                        ahead.value.equals("margin") || ahead.value.equals("skip") || ahead.value.equals("author"))
                     remainIndentation();
             } while (current.value.equals("in") || current.value.equals("display") ||
-                    current.value.equals("margin") || current.value.equals("skip"));
+                    current.value.equals("margin") || current.value.equals("skip") || current.value.equals("author"));
         } else error();
+    }
+
+    /**
+     *  AuthorNameType := "firstname" | "lastname" | "name" | Textual
+     */
+    private void authorNameType() {
+        if (current.type == TokenType.KEYWORD) {
+            switch (current.value) {
+                case "firstname" -> consume(new Token(TokenType.KEYWORD, "firstname"));
+                case "lastname" -> consume(new Token(TokenType.KEYWORD, "lastname"));
+                case "name" -> consume(new Token(TokenType.KEYWORD, "name"));
+                default -> error();
+            }
+            newline();
+        } else if (current.type == TokenType.TEXT) {
+            textual();
+        } else error();
+
+        ast.getConfiguration().getStyle().getNumeration().setAuthorName(last.value);
     }
 
     /**

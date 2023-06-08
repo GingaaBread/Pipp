@@ -28,8 +28,4 @@ public class Sentence extends Node {
 
     }
 
-    @Override
-    protected void checkForErrors() {
-
-    }
 }

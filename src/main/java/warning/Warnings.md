@@ -155,3 +155,25 @@ config
             name "Alice Alison"
             id "1"
 ```
+
+## 32
+
+*Description:*
+You are using a font size bigger than 96.
+Do you really want to use such a large font?
+
+*Cause:*
+This warning occurs when using a font, which
+has a size of more than 96 points. It seems unlikely
+that such a large font is used voluntarily.
+
+*To do:*
+Decide whether you really want to have a font
+with a size of more than 96 points.
+
+*Example:*
+```pipp
+config
+    font
+        size "222992"
+```

@@ -587,11 +587,12 @@ Increase the second page-number, so that it is greater than the first.
 ### 3313
 
 *Description:*
-Page number expected.
+Integer larger than zero expected.
 
 *Cause*:
 This error occurs when trying to refer to a page number, which is not
 an integer greater than 0. Note that the first page number is always 1.
+It can also occur when trying to use a custom font size, which is 0 or less.
 
 *Example:*
 ```pipp
@@ -603,3 +604,28 @@ config
 
 *Fix:*
 Use an integer greater than 0.
+
+### 3314
+
+*Description:*
+Author numeration name expected.
+
+*Cause*:
+This error occurs when trying to specify how the names of the authors
+should be displayed before the page number, but not specifying either
+the first, last or full name OR specifying that no name should be displayed.
+Use `firstname` if you want to display the first names of all authors,
+`lastname` if you want to display the last names of all authors,
+`name` if you want to display the full names of all authors, or the text
+`"None"` if you do not want to display the authors' names at all.
+
+*Example:*
+```pipp
+config
+    style
+        numeration
+            author "none"
+```
+
+*Fix:*
+Use either `firstname`, `lastname`, `name` or `"None"`.

@@ -1,6 +1,8 @@
 package processing;
 
+import error.IllegalConfigurationException;
 import error.IncorrectFormatException;
+import error.MissingConfigurationException;
 import error.MissingMemberException;
 import frontend.ast.AST;
 import lombok.Data;
@@ -22,6 +24,9 @@ import java.util.List;
 /**
  *  The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
  *  that can be used when creating the document
+ *
+ * TODO: Publication
+ * TODO: Title
  *
  * @author Gino Glink
  * @since 1.0
@@ -89,7 +94,11 @@ public class Processor {
      */
     private float numerationMargin;
 
-    // TODO: Add configuration whether the author's name should be added before the page number
+    /**
+     *  Determines how the names of the authors should be inserted before the page number.
+     *  If there should not be a name before the page number, this value is null.
+     */
+    private String numerationAuthorName;
 
     /**
      *  Contains all page numbers that the user does not want to have page numbers.
@@ -186,26 +195,27 @@ public class Processor {
     @Override
     public String toString() {
         return "Processor{" +
-                "usedStyleGuide=" + usedStyleGuide +
-                ", dimensions=" + dimensions.getWidth() + "/" + dimensions.getHeight() +
-                ", margin=" + margin +
-                ", spacing=" + spacing +
-                ", numerationType=" + numerationType +
-                ", numerationPosition=" + numerationPosition +
-                ", numerationMargin=" + numerationMargin +
-                ", skippedPages=" + skippedPages +
-                ", font=" + font +
-                ", fontSize=" + fontSize +
-                ", fontColour=" + fontColour +
-                ", paragraphIndentation=" + paragraphIndentation +
-                ", sentencePrefix='" + sentencePrefix + '\'' +
-                ", allowBoldText=" + allowBoldText +
-                ", allowItalicText=" + allowItalicText +
-                ", allowWhitespace=" + allowWhitespace +
-                ", requiredStructureBeforeEndnotes=" + requiredStructureBeforeEndnotes +
-                ", documentType=" + documentType +
-                ", authors=" + Arrays.toString(authors) +
-                ", assessors=" + Arrays.toString(assessors) +
+                "\t\nusedStyleGuide=" + usedStyleGuide +
+                ",\t\n dimensions=" + dimensions.getWidth() + "/" + dimensions.getHeight() +
+                ",\t\n margin=" + margin +
+                ",\t\n spacing=" + spacing +
+                ",\t\n numerationType=" + numerationType +
+                ",\t\n numerationPosition=" + numerationPosition +
+                ",\t\n numerationMargin=" + numerationMargin +
+                ",\t\n numerationAuthorName=" + numerationAuthorName +
+                ",\t\n skippedPages=" + skippedPages +
+                ",\t\n font=" + font +
+                ",\t\n fontSize=" + fontSize +
+                ",\t\n fontColour=" + fontColour +
+                ",\t\n paragraphIndentation=" + paragraphIndentation +
+                ",\t\n sentencePrefix='" + sentencePrefix + '\'' +
+                ",\t\n allowBoldText=" + allowBoldText +
+                ",\t\n allowItalicText=" + allowItalicText +
+                ",\t\n allowWhitespace=" + allowWhitespace +
+                ",\t\n requiredStructureBeforeEndnotes=" + requiredStructureBeforeEndnotes +
+                ",\t\n documentType=" + documentType +
+                ",\t\n authors=" + Arrays.toString(authors) +
+                ",\t\n assessors=" + Arrays.toString(assessors) +
                 '}';
     }
 
@@ -215,7 +225,6 @@ public class Processor {
      * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
      */
     public void processAST(@NonNull final AST ast) {
-        ast.checkForErrors();
         ast.checkForWarnings();
 
         System.out.println(ast);
@@ -367,6 +376,16 @@ public class Processor {
             }
         }
 
+        // Check if the user demands a custom author name before the numeration
+        if (numeration.getAuthorName() != null) {
+            if (!numeration.getAuthorName().equals("firstname") && !numeration.getAuthorName().equals("lastname") &&
+                !numeration.getAuthorName().equals("name") && !numeration.getAuthorName().equals("None")) {
+                throw new IncorrectFormatException("14: Author numeration name expected.");
+            }
+
+            numerationAuthorName = numeration.getAuthorName();
+        }
+
         var margin = numeration.getMargin();
 
         // Check if the user demands a custom numeration margin
@@ -411,11 +430,11 @@ public class Processor {
         if (font.getSize() != null) {
             try {
                 var asNumber = Integer.parseInt(font.getSize());
-                if (asNumber < 0) {
-                    throw new IncorrectFormatException("3: Non-negative integer expected.");
+                if (asNumber < 1) {
+                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
                 } else fontSize = asNumber;
             } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("3: Non-negative integer expected.");
+                throw new IncorrectFormatException("13: Integer larger than zero expected.");
             }
         } else fontSize = usedStyleGuide.fontSize();
 
@@ -508,10 +527,10 @@ public class Processor {
             }
         } else requiredStructureBeforeEndnotes = usedStyleGuide.requiredStructureBeforeEndnotes();
 
-        // Check if the user demands a custom document title
-        if (ast.getConfiguration().getType() != null) {
+        // Check if the user demands a custom document type
+        if (ast.getConfiguration().getDocumentType() != null) {
             try {
-                documentType = DocumentType.valueOf(ast.getConfiguration().getType().toUpperCase());
+                documentType = DocumentType.valueOf(ast.getConfiguration().getDocumentType().toUpperCase());
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("8: Document type expected.");
             }
@@ -522,10 +541,32 @@ public class Processor {
         this.authors = new Author[authors.size()];
         int i = 0;
         for (var author : authors) {
-            if (author.getName() == null)
+            if (author.getName() == null && author.getFirstname() == null && author.getLastname() == null)
+                throw new MissingConfigurationException("6: An author requires a name configuration, but neither " +
+                        "name, firstname nor lastname has been configured.");
+            else if (author.getName() != null && (author.getFirstname() != null || author.getLastname() != null))
+                throw new IllegalConfigurationException("7: An author can only be given a name configuration " +
+                        "OR a firstname and lastname configuration.");
+            else if (author.getName() == null && author.getFirstname() != null && author.getLastname() == null)
+                throw new IllegalConfigurationException("8: An author cannot only have a firstname configuration. " +
+                        "Either also provide a lastname configuration or only use the name configuration.");
+            else if (author.getName() == null && author.getFirstname() == null) {
+                throw new IllegalConfigurationException("9: An author cannot only have a lastname configuration. " +
+                        "Either also provide a firstname configuration or only use the name configuration.");
+            }
+
+            if (author.getName() == null) {
+                if (author.getFirstname().isBlank() || author.getLastname().isBlank() ||
+                        author.getId() != null && author.getId().isBlank())
+                    throw new MissingMemberException("1: A text component cannot be blank.");
+
                 this.authors[i] = new Author(author.getFirstname(), author.getLastname(), author.getId());
-            else
+            } else {
+                if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank())
+                    throw new MissingMemberException("1: A text component cannot be blank.");
+
                 this.authors[i] = new Author(author.getName(), author.getId());
+            }
 
             i++;
         }
@@ -535,11 +576,32 @@ public class Processor {
         this.assessors = new Assessor[assessors.size()];
         int j = 0;
         for (var assessor : assessors) {
-            if (assessor.getName() == null)
+            if (assessor.getName() == null && assessor.getFirstname() == null && assessor.getLastname() == null)
+                throw new MissingConfigurationException("1: An assessor requires a name configuration, but neither " +
+                        "name, firstname nor lastname has been configured.");
+            else if (assessor.getName() != null && (assessor.getFirstname() != null || assessor.getLastname() != null))
+                throw new IllegalConfigurationException("2: An assessor can only be given a name configuration " +
+                        "OR a firstname and lastname configuration.");
+            else if (assessor.getName() == null && assessor.getFirstname() != null && assessor.getLastname() == null)
+                throw new IllegalConfigurationException("3: An assessor cannot only have a firstname configuration. " +
+                        "Either also provide a lastname configuration or only use the name configuration.");
+            else if (assessor.getName() == null && assessor.getFirstname() == null)
+                throw new IllegalConfigurationException("4: An assessor cannot only have a lastname configuration. " +
+                        "Either also provide a firstname configuration or only use the name configuration.");
+
+            if (assessor.getName() == null) {
+                if (assessor.getFirstname().isBlank() || assessor.getLastname().isBlank() ||
+                        assessor.getRole() != null && assessor.getRole().isBlank())
+                    throw new MissingMemberException("1: A text component cannot be blank.");
+
                 this.assessors[j] = new Assessor(assessor.getFirstname(), assessor.getLastname(),
                         assessor.getRole());
-            else
+            } else {
+                if (assessor.getName().isBlank() || assessor.getRole() != null && assessor.getRole().isBlank())
+                    throw new MissingMemberException("1: A text component cannot be blank.");
+
                 this.assessors[j] = new Assessor(assessor.getName(), assessor.getRole());
+            }
 
             j++;
         }

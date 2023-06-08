@@ -1,6 +1,5 @@
 package frontend.ast.config.style;
 
-import error.IncorrectFormatException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +7,15 @@ import lombok.Setter;
 /**
  *  The paragraph node represents the structural paragraph style configuration
  *
- *  @since 1.0
- *  @version 1.0
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
  */
 @Getter
 @Setter
 public class Paragraph extends Node {
+
+    // Todo: Change
     private String indentation;
 
     @Override
@@ -26,15 +28,4 @@ public class Paragraph extends Node {
     @Override
     protected void checkForWarnings() {}
 
-    @Override
-    protected void checkForErrors() {
-        if (indentation != null) {
-            try {
-                if (Double.parseDouble(indentation) < 0)
-                    throw new IncorrectFormatException("2: Non-negative decimal expected.");
-            } catch (Exception e) {
-                throw new IncorrectFormatException("2: Non-negative decimal expected.");
-            }
-        }
-    }
 }

@@ -1,23 +1,41 @@
 package frontend.ast.config;
 
-import error.MissingMemberException;
 import frontend.ast.Node;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 
 /**
  *  The title node contains the title of the document
  *
- *  @since 1.0
- *  @version 1.0
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
  */
 public class Title extends Node {
+
+    /**
+     *  A list of textual content within the title.
+     *  The title can include a mix of texts and citations.
+     *  To add an element to the list, use the add-method of this node.
+     */
     private final ArrayList<CitedText> texts = new ArrayList<>();
 
-    public void add(CitedText text) {
+    /**
+     *  Adds either a citation or a text to the title list
+     *
+     * @param text - the text or citation as a cited text, which should be added to the text list
+     */
+    @NonNull
+    public void add(final CitedText text) {
         texts.add(text);
     }
 
+    /**
+     *  A textual representation of the title node, which contains the formatted text list
+     *
+     * @return - the title node as a string
+     */
     @Override
     public String toString() {
         return "\n\tTitle{" +
@@ -25,16 +43,12 @@ public class Title extends Node {
                 '}';
     }
 
+    /**
+     *  The title node does not produce warnings
+     */
     @Override
     protected void checkForWarnings() {
         for (var text : texts) text.checkForWarnings();
     }
 
-    @Override
-    protected void checkForErrors() {
-        if (texts.isEmpty())
-            throw new MissingMemberException("1: A text component cannot be blank");
-
-        for (var text : texts) text.checkForErrors();
-    }
 }

@@ -11,18 +11,34 @@ import java.util.ArrayList;
 /**
  *  The assessors node groups together all assessors specified by the user.
  *
- *  @since 1.0
- *  @version 1.0
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
  */
 @Getter
 public class Assessors extends Node {
+
+    /**
+     *  Contains all assessors specified by the user.
+     *  To add an assessor to the list, use the add-method of this node.
+     */
     private final ArrayList<Assessor> assessors = new ArrayList<>();
 
+    /**
+     *  Adds the specified assessor node to end of the assessors list
+     *
+     * @param assessor - the assessor AST node that should be added to the list
+     */
     @NonNull
-    public void add(Assessor assessor) {
+    public void add(final Assessor assessor) {
         this.assessors.add(assessor);
     }
 
+    /**
+     *  A textual representation of the Assessors node, which contains the assessors list as a string
+     *
+     * @return - the Assessors node as a String
+     */
     @Override
     public String toString() {
         return "\n\tAssessors{" +
@@ -30,6 +46,9 @@ public class Assessors extends Node {
                 '}';
     }
 
+    /**
+     *  Yields a warning if there is at least one assessor with a role and at least one assessor without one
+     */
     @Override
     protected void checkForWarnings() {
         boolean assessorWithRoleExists = false;
@@ -48,8 +67,4 @@ public class Assessors extends Node {
                     " to have a role."));
     }
 
-    @Override
-    protected void checkForErrors() {
-        for (var assessor : assessors) assessor.checkForErrors();
-    }
 }

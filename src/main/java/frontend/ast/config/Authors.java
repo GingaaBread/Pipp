@@ -12,17 +12,33 @@ import java.util.ArrayList;
 /**
  *  The authors node groups together all authors specified by the user
  *
- *  @since 1.0
- *  @version 1.0
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
  */
 @Getter
 public class Authors extends Node {
+
+    /**
+     *  Contains all authors specified by the user.
+     *  To add an author to the list, use the add-method of this node.
+     */
     private final ArrayList<Author> authors = new ArrayList<>();
 
+    /**
+     *  Adds the specified author node to end of the author list
+     *
+     * @param author - the author AST node that should be added to the list
+     */
     public void add(Author author) {
         authors.add(author);
     }
 
+    /**
+     *  A textual representation of the "authors" node, which contains the formatted list of authors
+     *
+     * @return - the "authors" node as a string
+     */
     @Override
     public String toString() {
         return "\n\tAuthors{" +
@@ -30,6 +46,10 @@ public class Authors extends Node {
                 '}';
     }
 
+    /**
+     *  Produces a warning if there is at least one author with an ID, and one author without one
+     *  Also produces a warning if there are two authors with the same ID, and a warning if there is no author
+     */
     @Override
     protected void checkForWarnings() {
         boolean authorWithIDExists = false;
@@ -61,8 +81,4 @@ public class Authors extends Node {
                     " to have an ID."));
     }
 
-    @Override
-    protected void checkForErrors() {
-        for (var author : authors) author.checkForErrors();
-    }
 }

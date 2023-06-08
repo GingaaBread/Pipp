@@ -1,22 +1,32 @@
 package frontend.ast.config.style;
 
-import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
-import processing.StructureType;
 
 /**
  *  The endnotes node represents the endnotes style configuration
  *
- *  @since 1.0
- *  @version 1.0
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
  */
 @Getter
 @Setter
 public class Endnotes extends Node {
+
+    /**
+     *  The structure, which needs to appear in the document before the endnotes structure does.
+     *  For example, the endnotes structure could only be allowed to appear after the bibliography structure.
+     *  If no structure needs to appear first, this is null.
+     */
     private String allowBeforeStructure;
 
+    /**
+     *  A textual representation of the "endnotes" node, which contains the formatted properties
+     *
+     * @return - the properties of the "endnotes" node as a string
+     */
     @Override
     public String toString() {
         return "\n\tEndnotes{" +
@@ -24,18 +34,10 @@ public class Endnotes extends Node {
                 '}';
     }
 
+    /**
+     *  The endnotes node does not produce warnings
+     */
     @Override
     protected void checkForWarnings() { }
 
-    @Override
-    protected void checkForErrors() {
-        if (allowBeforeStructure == null)
-            throw new MissingMemberException("2: A structure component is missing");
-
-        try {
-            StructureType.valueOf(allowBeforeStructure.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new MissingMemberException("2: A structure component is missing");
-        }
-    }
 }
