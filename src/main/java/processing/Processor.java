@@ -1,11 +1,12 @@
 package processing;
 
+import creation.PDFCreator;
 import error.IllegalConfigurationException;
 import error.IncorrectFormatException;
 import error.MissingConfigurationException;
 import error.MissingMemberException;
 import frontend.ast.AST;
-import lombok.Data;
+import frontend.ast.NoArgumentStructure;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -17,14 +18,17 @@ import warning.InconsistencyWarning;
 import warning.WarningQueue;
 
 import java.awt.*;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *  The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
  *  that can be used when creating the document
- *
  * TODO: Publication
  * TODO: Title
  *
@@ -32,7 +36,6 @@ import java.util.List;
  * @since 1.0
  * @version 1.0
  */
-@Data
 public class Processor {
 
     /**
@@ -51,29 +54,31 @@ public class Processor {
     /**
      *  Determines the type of the document, which currently only affects the document's metadata
      */
-    private DocumentType documentType;
+    public static DocumentType documentType;
 
     /**
      *  Determines the type of style guide which should be used during compilation
      */
-    private StyleGuide usedStyleGuide;
+    public static StyleGuide usedStyleGuide;
 
     /**
      *  Determines the dimensions of the document (the width and height)
      */
-    private PDRectangle dimensions;
+    public static PDRectangle dimensions;
 
     /**
-     *  Determines the margin to all four sides of the document.
+     *  Determines the margin in points (pt.) to all four sides of the document.
      *  All components need to have a minimum position of the margin to the left and top,
      *  and a maximum position of the margin to the right and bottom.
      */
-    private float margin;
+    public static float margin;
 
     /**
-     *  Determines the paragraph spacing, which is the space between each line in a paragraph
+     *  Determines the paragraph spacing as a float, which is the space between each line in a paragraph.
+     *  The spacing is multiplied by the font size (and font size increment factor) to calculate line leading.
+     *  Note that the unit is a float! It is not represented in points, inches or any other measurement.
      */
-    private float spacing;
+    public static float spacing;
 
 
     //// PAGE NUMERATION ////
@@ -82,30 +87,30 @@ public class Processor {
     /**
      *  Determines how page numbers should be represented
      */
-    private NumerationType numerationType;
+    public static NumerationType numerationType;
 
     /**
      *  Determines where in the document page numbers should be displayed
      */
-    private NumerationPosition numerationPosition;
+    public static NumerationPosition numerationPosition;
 
     /**
      *  Determines the page number margin to the respective sides of the document
      */
-    private float numerationMargin;
+    public static float numerationMargin;
 
     /**
      *  Determines how the names of the authors should be inserted before the page number.
      *  If there should not be a name before the page number, this value is null.
      */
-    private String numerationAuthorName;
+    public static NumerationAuthorName numerationAuthorName;
 
     /**
      *  Contains all page numbers that the user does not want to have page numbers.
      *  For each created page, the list will be checked if it contains the current page number,
      *  and if it does, it will not receive a numeration stamp.
      */
-    private List<Integer> skippedPages;
+    public static List<Integer> skippedPages;
 
 
     //// FONT ////
@@ -114,17 +119,17 @@ public class Processor {
     /**
      *  Determines the main font family used throughout the document
      */
-    private PDFont font;
+    public static PDFont font;
+
+    /**
+     *  Determines the main font size in points (pt.) used throughout the document
+     */
+    public static float fontSize;
 
     /**
      *  Determines the main font size used throughout the document
      */
-    private int fontSize;
-
-    /**
-     *  Determines the main font size used throughout the document
-     */
-    private Color fontColour;
+    public static Color fontColour;
 
 
     //// PARAGRAPH ////
@@ -134,7 +139,7 @@ public class Processor {
      *  Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      *  indented to
      */
-    private float paragraphIndentation;
+    public static float paragraphIndentation;
 
 
     //// SENTENCES ////
@@ -144,22 +149,22 @@ public class Processor {
      *  Determines the string that will be appended before each sentence.
      *  In most style guides, this is a single space.
      */
-    private String sentencePrefix;
+    public static String sentencePrefix;
 
     /**
      *  Determines if the user is allowed to use bold text in a sentence
      */
-    private AllowanceType allowBoldText;
+    public static AllowanceType allowBoldText;
 
     /**
      *  Determines if the user is allowed to use italic text in a sentence
      */
-    private AllowanceType allowItalicText;
+    public static AllowanceType allowItalicText;
 
     /**
      *  Determines if the user is allowed to use white space in a sentence
      */
-    private WhitespaceAllowanceType allowWhitespace;
+    public static WhitespaceAllowanceType allowWhitespace;
 
 
     //// END NOTES ////
@@ -169,7 +174,7 @@ public class Processor {
      *  Determines the type of structure that needs to appear before the user can declare an end notes section.
      *  This value can be null, if no structure is required to appear before the section.
      */
-    private StructureType requiredStructureBeforeEndnotes;
+    public static StructureType requiredStructureBeforeEndnotes;
 
 
     //// AUTHORS & ASSESSORS ////
@@ -180,12 +185,28 @@ public class Processor {
      *  Note that this only includes the authors of the working document, it does not include authors that
      *  have been cited from in the document
      */
-    private Author[] authors;
+    public static Author[] authors;
 
     /**
      *  Determines the assessors that may assess the document
      */
-    private Assessor[] assessors;
+    public static Assessor[] assessors;
+
+
+    //// Publication ////
+
+
+    /**
+     *  Determines the date of document publication.
+     *  Note that if the user has explicitly expressed not to display the date, this is null.
+     */
+    public static LocalDate publicationDate;
+
+
+    //// Document Body ////
+
+
+    public static Stack<Object> documentBody = new Stack<>();
 
 
     /**
@@ -216,6 +237,8 @@ public class Processor {
                 ",\t\n documentType=" + documentType +
                 ",\t\n authors=" + Arrays.toString(authors) +
                 ",\t\n assessors=" + Arrays.toString(assessors) +
+                ",\t\n documentBody=" + documentBody +
+                ",\t\n publicationDate=" + publicationDate +
                 '}';
     }
 
@@ -298,19 +321,12 @@ public class Processor {
 
         // Check if the user demands a custom spacing
         if (layout.getSpacing() != null) {
-            if (layout.getSpacing().endsWith("in")) inchesUsed = true;
-            else mmUsed = true;
-
-            switch (layout.getSpacing()) {
-                case "1" -> spacing = pointsPerMM;
-                case "1.5" -> spacing = 1.5f * pointsPerMM;
-                case "2" -> spacing = 2f * pointsPerMM;
-                case "1in" -> spacing = pointsPerInch;
-                case "1.5in" -> spacing = 1.5f * pointsPerInch;
-                case "2in" -> spacing = 2f * pointsPerInch;
-                default -> throw new IncorrectFormatException("10: Incorrect spacing constant.");
+            try {
+                Processor.spacing = Float.parseFloat(layout.getSpacing());
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("10: Incorrect spacing constant.");
             }
-        } else spacing = usedStyleGuide.spacing();
+        } else Processor.spacing = usedStyleGuide.spacing();
 
         var numeration = styleConfiguration.getNumeration();
 
@@ -378,12 +394,13 @@ public class Processor {
 
         // Check if the user demands a custom author name before the numeration
         if (numeration.getAuthorName() != null) {
-            if (!numeration.getAuthorName().equals("firstname") && !numeration.getAuthorName().equals("lastname") &&
-                !numeration.getAuthorName().equals("name") && !numeration.getAuthorName().equals("None")) {
-                throw new IncorrectFormatException("14: Author numeration name expected.");
+            switch (numeration.getAuthorName()) {
+                case "firstname" -> numerationAuthorName = NumerationAuthorName.FIRST_NAME;
+                case "lastname" -> numerationAuthorName = NumerationAuthorName.LAST_NAME;
+                case "name" -> numerationAuthorName = NumerationAuthorName.NAME;
+                case "None" -> numerationAuthorName = NumerationAuthorName.NONE;
+                default -> throw new IncorrectFormatException("14: Author numeration name expected.");
             }
-
-            numerationAuthorName = numeration.getAuthorName();
         }
 
         var margin = numeration.getMargin();
@@ -415,7 +432,7 @@ public class Processor {
 
         // Check if the user demands a custom font
         if (font.getName() != null) {
-            this.font = switch (font.getName()) {
+            Processor.font = switch (font.getName()) {
               case "Times Roman" -> PDType1Font.TIMES_ROMAN;
               case "Helvetica" -> PDType1Font.HELVETICA;
               case "Courier" -> PDType1Font.COURIER;
@@ -424,7 +441,7 @@ public class Processor {
               default -> throw new MissingMemberException("6: The specified font is missing or does" +
                       " not exist.");
             };
-        } else this.font = usedStyleGuide.font();
+        } else Processor.font = usedStyleGuide.font();
 
         // Check if the user demands a custom font size
         if (font.getSize() != null) {
@@ -432,11 +449,11 @@ public class Processor {
                 var asNumber = Integer.parseInt(font.getSize());
                 if (asNumber < 1) {
                     throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                } else fontSize = asNumber;
+                } else Processor.fontSize = asNumber;
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("13: Integer larger than zero expected.");
             }
-        } else fontSize = usedStyleGuide.fontSize();
+        } else Processor.fontSize = usedStyleGuide.fontSize();
 
         // Check if the user demands a custom font colour
         if (font.getColour() != null) {
@@ -606,13 +623,34 @@ public class Processor {
             j++;
         }
 
+        // Publication
+        var publication = ast.getConfiguration().getPublication();
+
+        // Check if the user demands to render the date
+        if (publication.getDate() != null) {
+            publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+
         if (inchesUsed && mmUsed) WarningQueue.getInstance().enqueue(new InconsistencyWarning(
-                "The style configuration uses both inches and millimeters."
+                "3: The style configuration uses both inches and millimeters."
         ));
+
+        // Create the body nodes
+        for (var node : ast.getDocumentBody()) {
+            if (node instanceof NoArgumentStructure) {
+                documentBody.add(((NoArgumentStructure) node).getType());
+            }
+        }
 
         // For debugging purposes
         System.out.println("Finished processing.");
         System.out.println(this);
+
+        try {
+            PDFCreator.create();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

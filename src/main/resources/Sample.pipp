@@ -2,14 +2,14 @@ config
 	style
 		of "MLA9"
 		layout
-			width "5"
-			height "5"
-			margin "5"
-			spacing "1"
+			width "8.5in"
+			height "11in"
+			margin "1in"
+			spacing "2"
 		font
 			name "Times Roman"
 			colour "#000000"
-			size "18"
+			size "12"
 		structure
 			paragraph
 				indentation "8"
@@ -24,9 +24,9 @@ config
 					before bibliography
 		numeration
 			in "Arabic"
-			display "Top"
-			margin "76"
-			skip "1"
+			display "Bottom"
+			margin "0.5"
+# 			skip "21"
 			author lastname
 	type "Paper"
 	title
@@ -53,3 +53,4 @@ config
 		of
 			name "Tim Dolton"
 			role "d"
+header

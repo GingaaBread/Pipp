@@ -79,6 +79,7 @@ public enum StructureType {
      */
     ACADEMICINTEGRITY,
 
+    HEADER,
     /**
      *  A bibliography or works cited section usually lists all cited material
      */

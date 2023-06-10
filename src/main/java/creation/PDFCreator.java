@@ -5,6 +5,8 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.printing.PDFPageable;
+import processing.Processor;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -13,39 +15,53 @@ public class PDFCreator {
 
     public static final String outputPath = "src/main/resources/out.pdf";
 
+    public static PDDocument document = new PDDocument();
+    public static float currentYPosition = 0;
+
     public static void create() throws IOException {
-        var doc = new PDDocument();
+        currentYPosition = Processor.dimensions.getHeight() - Processor.margin;
 
-                // MLA uses "standard, white 8.5 x 11-inch paper"
-                var blankPage = new PDPage(PDRectangle.LETTER);
+        final var pageFactory = new PageFactory();
+        final var lineFactory = new LineFactory();
 
-                var contentStream = new PDPageContentStream(doc, blankPage);
+        var page = pageFactory.createNewPage();
+        lineFactory.printText(page, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+        document.addPage(page);
 
-                contentStream.beginText();
-                contentStream.setLeading(14.5f);
-                contentStream.newLineAtOffset(20, 450);
-                contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+        // Set the meta data
+        var info = document.getDocumentInformation();
+        info.setCreator("Pipp v.1.0");
+        if (Processor.authors.length > 0) {
+            var nameBuilder = new StringBuilder();
+            for (var author : Processor.authors) {
+                nameBuilder.append(author.getFirstname());
+                nameBuilder.append(" ");
+                nameBuilder.append(author.getLastname());
+                nameBuilder.append(", ");
+            }
+            info.setAuthor(nameBuilder.substring(0, nameBuilder.toString().length() - 2));
+        }
 
-                contentStream.showText("Hi");
-                contentStream.newLine();
-                contentStream.showText("Hello World!");
+        if (Processor.publicationDate != null) {
+            var calendar = Calendar.getInstance();
+            calendar.set(
+                    Processor.publicationDate.getYear(),
+                    Processor.publicationDate.getMonthValue() - 1, // ZERO BASED, therefore - 1
+                    Processor.publicationDate.getDayOfMonth());
+            info.setCreationDate(calendar);
+        }
 
-                var info = doc.getDocumentInformation();
-                info.setCreator("Max Mustermann");
-                info.setAuthor("Max Mustermann");
-                info.setCreationDate(Calendar.getInstance());
-                info.setTitle("My first PDF!");
-                info.setKeywords("Keywords");
-                info.setProducer("Pipp");
+        // TODO: Title
+        info.setTitle("My first PDF!");
+        info.setKeywords("Keywords");
 
-                contentStream.endText();
+        // TODO: Document Type by Authors
+        //info.setSubject(processor.get);
 
-                contentStream.close();
+        // Producer should not be used as it is used for converted files
 
-                doc.addPage(blankPage);
-
-        doc.save(outputPath);
-        doc.close();
+        document.save(outputPath);
+        document.close();
     }
 
 }

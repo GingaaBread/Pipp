@@ -2,6 +2,7 @@ package frontend.parsing;
 
 import frontend.FrontEndBridge;
 import frontend.ast.AST;
+import frontend.ast.NoArgumentStructure;
 import frontend.ast.Node;
 import frontend.ast.config.Assessor;
 import frontend.ast.config.Author;
@@ -9,6 +10,7 @@ import frontend.ast.config.CitedText;
 import frontend.ast.config.style.Citation;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
+import processing.StructureType;
 
 /**
  *  The Parser class is responsible for creating a syntax tree for the Pipp document.
@@ -183,10 +185,32 @@ public class Parser {
     }
 
     /**
-     *  Document := ConfigContainer InstructionParagraphList | InstructionParagraphList
+     *  Document := ConfigContainer InstructionList | InstructionList
      */
     private void document() {
         if (current.type == TokenType.KEYWORD && current.value.equals("config")) configContainer();
+
+        instructionList();
+    }
+
+    // InstructionList := OptionalNewLine Header InstructionList | OptionalNewLine Header
+    private void instructionList() {
+        do {
+            if (current.type == TokenType.NEW_LINE) newline();
+
+            header();
+        } while (frontEndBridge.isNotEmpty() && (current.type == TokenType.NEW_LINE ||
+                current.type == TokenType.KEYWORD && current.value.equals("header")));
+    }
+
+    /**
+     *  Header := "header" Newline
+     */
+    private void header() {
+        remainIndentation();
+        consume(new Token(TokenType.KEYWORD, "header"));
+        newline();
+        ast.pushDocumentNode(new NoArgumentStructure(StructureType.HEADER));
     }
 
     /**
@@ -1040,7 +1064,7 @@ public class Parser {
     private void textualList() {
         textual();
 
-        if (currentlyParsedContainer.equals("numeration")) {
+        if (currentlyParsedContainer.equals("Numeration")) {
             ast.getConfiguration().getStyle().getNumeration().addSkippedPage(last.value);
         }
 

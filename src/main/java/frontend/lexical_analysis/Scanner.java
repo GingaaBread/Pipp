@@ -32,6 +32,7 @@ public class Scanner {
             "endnotes",
             "firstname",
             "font",
+            "header",
             "height",
             "italic",
             "id",
