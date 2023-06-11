@@ -1,27 +1,35 @@
 package creation;
 
-import lombok.NonNull;
-import org.apache.pdfbox.pdmodel.PDDocument;
+import lombok.Getter;
 import org.apache.pdfbox.pdmodel.PDPage;
 import processing.Processor;
 
 public class PageFactory {
 
-    private final PageNumberStamp stamp;
+    /**
+     *  The currently considered page in the document.
+     *  Note that finished pages cannot be written to anymore, only this instance can be written to.
+     */
+    @Getter
+    private static PDPage current;
 
-    public PageFactory() {
-        this.stamp = new PageNumberStamp();
-    }
+    public static float currentYPosition;
 
-    public PDPage createNewPage() {
+    /**
+     *  Assembles the last page (if new page is not the first) and creates a new page with a stamp
+     */
+    public static void createNewPage() {
+        // Assembles the last page if it exists
+        if (PageFactory.current != null) PageAssembler.finishCurrentPage();
+
         // Create a new page object using the processor's dimensions
-        var page = new PDPage(Processor.dimensions);
+        PageFactory.current = new PDPage(Processor.dimensions);
 
-        // Apply the page stamp
-        page = stamp.stampPage(page);
+        // Reset the y position
+        currentYPosition = Processor.dimensions.getHeight() - Processor.margin;
 
-        // Finally, return the new page
-        return page;
+        // Automatically apply the page stamp
+        PageNumberStamp.stampCurrentPage();
     }
 
 }

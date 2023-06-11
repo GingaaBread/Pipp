@@ -95,7 +95,8 @@ public class Processor {
     public static NumerationPosition numerationPosition;
 
     /**
-     *  Determines the page number margin to the respective sides of the document
+     *  Determines the page number margin to the top or bottom of the document.
+     *  Note that the default layout margin is used for the left or right side.
      */
     public static float numerationMargin;
 
@@ -403,16 +404,16 @@ public class Processor {
             }
         }
 
-        var margin = numeration.getMargin();
+        var pageNumerationMargin = numeration.getMargin();
 
         // Check if the user demands a custom numeration margin
-        if (margin != null) {
+        if (pageNumerationMargin != null) {
             try {
                 float unit;
                 if (numeration.getMargin().endsWith("in")) {
                     inchesUsed = true;
 
-                    margin = margin.substring(0, margin.length() - 2);
+                    pageNumerationMargin = pageNumerationMargin.substring(0, pageNumerationMargin.length() - 2);
                     unit = pointsPerInch;
                 } else {
                     unit = pointsPerMM;
@@ -420,7 +421,7 @@ public class Processor {
                     mmUsed = true;
                 }
 
-                float asNumber = Float.parseFloat(margin);
+                float asNumber = Float.parseFloat(pageNumerationMargin);
                 if (asNumber < 0) throw new IncorrectFormatException("2: Non-negative decimal expected.");
                 else numerationMargin = asNumber * unit;
             } catch (NumberFormatException e) {

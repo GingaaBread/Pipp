@@ -24,8 +24,8 @@ config
 					before bibliography
 		numeration
 			in "Arabic"
-			display "Bottom"
-			margin "0.5"
+			display "Top Right"
+			margin "0.5in"
 # 			skip "21"
 			author lastname
 	type "Paper"
