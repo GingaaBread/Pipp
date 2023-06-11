@@ -358,13 +358,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="creation/PDFCreator.html#create()" class="member-name-link">create()</a> - Static method in class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="creation/PageFactory.html#createNewPage()" class="member-name-link">createNewPage()</a> - Method in class creation.<a href="creation/PageFactory.html" title="class in creation">PageFactory</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="creation/PageFactory.html#createNewPage()" class="member-name-link">createNewPage()</a> - Static method in class creation.<a href="creation/PageFactory.html" title="class in creation">PageFactory</a></dt>
+<dd>
+<div class="block">Assembles the last page (if new page is not the first) and creates a new page with a stamp</div>
+</dd>
 <dt><a href="creation/package-summary.html">creation</a> - package creation</dt>
 <dd>&nbsp;</dd>
 <dt><a href="warning/WarningSeverity.html#CRITICAL" class="member-name-link">CRITICAL</a> - Enum constant in enum class warning.<a href="warning/WarningSeverity.html" title="enum class in warning">WarningSeverity</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="creation/PDFCreator.html#currentYPosition" class="member-name-link">currentYPosition</a> - Static variable in class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
+<dt><a href="creation/PageFactory.html#currentYPosition" class="member-name-link">currentYPosition</a> - Static variable in class creation.<a href="creation/PageFactory.html" title="class in creation">PageFactory</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:D">D</h2>
@@ -375,9 +377,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determines the dimensions of the document (the width and height)</div>
 </dd>
-<dt><a href="creation/PDFCreator.html#document" class="member-name-link">document</a> - Static variable in class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="processing/Processor.html#documentBody" class="member-name-link">documentBody</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="creation/DocumentMetaDataWriter.html" class="type-name-link" title="class in creation">DocumentMetaDataWriter</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="creation/DocumentMetaDataWriter.html#%3Cinit%3E()" class="member-name-link">DocumentMetaDataWriter()</a> - Constructor for class creation.<a href="creation/DocumentMetaDataWriter.html" title="class in creation">DocumentMetaDataWriter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="processing/Processor.html#documentType" class="member-name-link">documentType</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
@@ -426,6 +430,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="processing/StructureType.html#FIGURES" class="member-name-link">FIGURES</a> - Enum constant in enum class processing.<a href="processing/StructureType.html" title="enum class in processing">StructureType</a></dt>
 <dd>
 <div class="block">A figures section usually lists all figures used in a document</div>
+</dd>
+<dt><a href="creation/PageAssembler.html#finishCurrentPage()" class="member-name-link">finishCurrentPage()</a> - Static method in class creation.<a href="creation/PageAssembler.html" title="class in creation">PageAssembler</a></dt>
+<dd>
+<div class="block">Adds the current page to the document.</div>
 </dd>
 <dt><a href="processing/NumerationAuthorName.html#FIRST_NAME" class="member-name-link">FIRST_NAME</a> - Enum constant in enum class processing.<a href="processing/NumerationAuthorName.html" title="enum class in processing">NumerationAuthorName</a></dt>
 <dd>&nbsp;</dd>
@@ -672,7 +680,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="processing/Processor.html#numerationMargin" class="member-name-link">numerationMargin</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
-<div class="block">Determines the page number margin to the respective sides of the document</div>
+<div class="block">Determines the page number margin to the top or bottom of the document.</div>
 </dd>
 <dt><a href="processing/style/MLA9.html#numerationMargin()" class="member-name-link">numerationMargin()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
@@ -728,6 +736,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
+<dt><a href="creation/PageAssembler.html" class="type-name-link" title="class in creation">PageAssembler</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="creation/PageAssembler.html#%3Cinit%3E()" class="member-name-link">PageAssembler()</a> - Constructor for class creation.<a href="creation/PageAssembler.html" title="class in creation">PageAssembler</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="creation/PageFactory.html" class="type-name-link" title="class in creation">PageFactory</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="creation/PageFactory.html#%3Cinit%3E()" class="member-name-link">PageFactory()</a> - Constructor for class creation.<a href="creation/PageFactory.html" title="class in creation">PageFactory</a></dt>
@@ -801,8 +813,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="warning/WarningQueue.html#printAll()" class="member-name-link">printAll()</a> - Method in class warning.<a href="warning/WarningQueue.html" title="class in warning">WarningQueue</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="creation/LineFactory.html#printText(org.apache.pdfbox.pdmodel.PDPage,java.lang.String)" class="member-name-link">printText(PDPage, String)</a> - Method in class creation.<a href="creation/LineFactory.html" title="class in creation">LineFactory</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="processing/Processor.html#processAST(frontend.ast.AST)" class="member-name-link">processAST(AST)</a> - Method in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
 <div class="block">Starts the processing phase by trying to convert the specified AST into usable objects.</div>
@@ -852,6 +862,11 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:R">R</h2>
 <dl class="index">
+<dt><a href="creation/LineFactory.html#renderLeftAlignedText(java.lang.String)" class="member-name-link">renderLeftAlignedText(String)</a> - Static method in class creation.<a href="creation/LineFactory.html" title="class in creation">LineFactory</a></dt>
+<dd>
+<div class="block">Renders the specified text on the current page, using the page's current y position as the starting y
+  position, and the style's margin as the starting x position.</div>
+</dd>
 <dt><a href="processing/Processor.html#requiredStructureBeforeEndnotes" class="member-name-link">requiredStructureBeforeEndnotes</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
 <div class="block">Determines the type of structure that needs to appear before the user can declare an end notes section.</div>
@@ -932,8 +947,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Determines the spacing between sentences</div>
 </dd>
-<dt><a href="creation/PageNumberStamp.html#stampPage(org.apache.pdfbox.pdmodel.PDPage)" class="member-name-link">stampPage(PDPage)</a> - Method in class creation.<a href="creation/PageNumberStamp.html" title="class in creation">PageNumberStamp</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="creation/PageNumberStamp.html#stampCurrentPage()" class="member-name-link">stampCurrentPage()</a> - Static method in class creation.<a href="creation/PageNumberStamp.html" title="class in creation">PageNumberStamp</a></dt>
+<dd>
+<div class="block">Adds a page number stamp to the current page.</div>
+</dd>
 <dt><a href="frontend/FrontEndBridge.html#startProcessor(frontend.ast.AST)" class="member-name-link">startProcessor(AST)</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/ast/config/style/Structure.html" class="type-name-link" title="class in frontend.ast.config.style">Structure</a> - Class in <a href="frontend/ast/config/style/package-summary.html">frontend.ast.config.style</a></dt>
@@ -1246,6 +1263,8 @@ the order they are declared.</div>
 <div class="block">A work represents any kind of work done by someone other than the author, which needs to be referenced.</div>
 </dd>
 <dt><a href="processing/work/Work.html#%3Cinit%3E()" class="member-name-link">Work()</a> - Constructor for class processing.work.<a href="processing/work/Work.html" title="class in processing.work">Work</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="creation/DocumentMetaDataWriter.html#writeMetaData()" class="member-name-link">writeMetaData()</a> - Static method in class creation.<a href="creation/DocumentMetaDataWriter.html" title="class in creation">DocumentMetaDataWriter</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:Y">Y</h2>
