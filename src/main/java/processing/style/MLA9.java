@@ -1,5 +1,6 @@
 package processing.style;
 
+import lombok.NonNull;
 import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -7,6 +8,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import processing.*;
 
 import java.awt.*;
+import java.time.LocalDate;
 
 @Setter
 public class MLA9 extends StyleGuide {
@@ -168,6 +170,15 @@ public class MLA9 extends StyleGuide {
     @Override
     public String formatParagraph(String[] formattedTextBlocks) {
         return null;
+    }
+
+    @Override
+    @NonNull
+    public String dateToString(final @NonNull LocalDate date) {
+        final var monthAsLowerCase = date.getMonth().toString().toLowerCase();
+        final var firstUppercase = String.valueOf(monthAsLowerCase.charAt(0)).toUpperCase();
+        return firstUppercase + monthAsLowerCase.substring(1) + " " + date.getDayOfMonth()
+                + ", " + date.getYear();
     }
 
 }

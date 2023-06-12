@@ -1,10 +1,12 @@
 package processing.style;
 
+import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import processing.*;
 
 import java.awt.*;
+import java.time.LocalDate;
 
 public class Pipp extends StyleGuide {
     @Override
@@ -95,5 +97,11 @@ public class Pipp extends StyleGuide {
     @Override
     public String formatParagraph(String[] formattedTextBlocks) {
         return null;
+    }
+
+    @Override
+    @NonNull
+    public String dateToString(final @NonNull LocalDate date) {
+        return "";
     }
 }

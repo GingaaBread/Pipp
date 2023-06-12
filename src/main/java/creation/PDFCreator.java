@@ -14,6 +14,8 @@ public class PDFCreator {
         // The PDF at least has one empty page
         PageFactory.createNewPage();
 
+        HeaderStamp.renderHeader();
+
         // Render some dummy text for testing purposes
         var longString = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
         LineFactory.renderLeftAlignedText(longString.repeat(50));

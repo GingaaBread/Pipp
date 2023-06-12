@@ -86,12 +86,16 @@ public class LineFactory {
             }
 
             // There will be a "rest" line that needs to be rendered at the end
-            if (rest.length() == 0) contentStream.showText(lineBuilder.toString());
+            if (rest.length() == 0) {
+                contentStream.showText(lineBuilder.toString());
+                PageFactory.currentYPosition -= leading;
+            }
 
             // Wrap up the stream
             contentStream.endText();
             contentStream.close();
 
+            // If there is still remaining text that did not fit on the page, restart the method on a new page
             if (!rest.isEmpty()) {
                 PageFactory.createNewPage();
                 renderLeftAlignedText(rest.toString());

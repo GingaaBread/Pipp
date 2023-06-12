@@ -1,10 +1,12 @@
 package processing.style;
 
+import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import processing.*;
 
 import java.awt.*;
+import java.time.LocalDate;
 
 /**
  *  Defines traits and rules that a formal style guide uses.
@@ -188,6 +190,17 @@ public abstract class StyleGuide {
      * @return - the formatted paragraph content as it will be rendered in the document.
      */
     public abstract String formatParagraph(String[] formattedTextBlocks);
+
+    /**
+     *  Defines how the style sheet represents a date.
+     *  It may choose to use its default representation or create a custom string.
+     *  For example, MLA would use June 3, 1998.
+     *
+     * @param date - the date as a LocalDate, which needs to be turned into a string
+     * @return - the date in the text format specified by the style guide
+     */
+    @NonNull
+    public abstract String dateToString(final LocalDate date);
 
     // TODO: provide general whitespace check
 
