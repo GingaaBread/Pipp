@@ -7,6 +7,7 @@ import error.MissingConfigurationException;
 import error.MissingMemberException;
 import frontend.ast.AST;
 import frontend.ast.NoArgumentStructure;
+import frontend.ast.config.Title;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -29,8 +30,6 @@ import java.util.Stack;
 /**
  *  The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
  *  that can be used when creating the document
- * TODO: Publication
- * TODO: Title
  *
  * @author Gino Glink
  * @since 1.0
@@ -42,6 +41,7 @@ public class Processor {
      *  Determines the Pipp versions this compiler supports.
      *  If the user tries to scan a document with a Pipp version not included in this array, an error is thrown,
      *  and the user should be prompted to update this compiler or check if they misspelled the version.
+     *  TODO: Check if the specified version is supported
      */
     public static final String[] SUPPORTED_VERSIONS = new String[] {
             "1.0"
@@ -198,10 +198,16 @@ public class Processor {
 
 
     /**
-     *  Determines the date of document publication.
+     *  Determines the date of document publication, which is either given by the user or created by Pipp.
      *  Note that if the user has explicitly expressed not to display the date, this is null.
      */
     public static LocalDate publicationDate;
+
+    /**
+     *  Determines the title of the publication, which in most style guides is put in the header or title page.
+     *  Note that the Title class is taken from the AST package simply to not have to duplicate it.
+     */
+    public static Title publicationTitle;
 
 
     //// Document Body ////
@@ -240,6 +246,7 @@ public class Processor {
                 ",\t\n assessors=" + Arrays.toString(assessors) +
                 ",\t\n documentBody=" + documentBody +
                 ",\t\n publicationDate=" + publicationDate +
+                ",\t\n publicationTitle=" + publicationTitle +
                 '}';
     }
 
@@ -556,7 +563,7 @@ public class Processor {
 
         // Convert the given author nodes to actual author objects
         var authors = ast.getConfiguration().getAuthors().getAuthors();
-        this.authors = new Author[authors.size()];
+        Processor.authors = new Author[authors.size()];
         int i = 0;
         for (var author : authors) {
             if (author.getName() == null && author.getFirstname() == null && author.getLastname() == null)
@@ -578,12 +585,12 @@ public class Processor {
                         author.getId() != null && author.getId().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                this.authors[i] = new Author(author.getFirstname(), author.getLastname(), author.getId());
+                Processor.authors[i] = new Author(author.getFirstname(), author.getLastname(), author.getId());
             } else {
                 if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                this.authors[i] = new Author(author.getName(), author.getId());
+                Processor.authors[i] = new Author(author.getName(), author.getId());
             }
 
             i++;
@@ -591,7 +598,7 @@ public class Processor {
 
         // Convert the given author nodes to actual author objects
         var assessors = ast.getConfiguration().getAssessors().getAssessors();
-        this.assessors = new Assessor[assessors.size()];
+        Processor.assessors = new Assessor[assessors.size()];
         int j = 0;
         for (var assessor : assessors) {
             if (assessor.getName() == null && assessor.getFirstname() == null && assessor.getLastname() == null)
@@ -612,13 +619,13 @@ public class Processor {
                         assessor.getRole() != null && assessor.getRole().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                this.assessors[j] = new Assessor(assessor.getFirstname(), assessor.getLastname(),
+                Processor.assessors[j] = new Assessor(assessor.getFirstname(), assessor.getLastname(),
                         assessor.getRole());
             } else {
                 if (assessor.getName().isBlank() || assessor.getRole() != null && assessor.getRole().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                this.assessors[j] = new Assessor(assessor.getName(), assessor.getRole());
+                Processor.assessors[j] = new Assessor(assessor.getName(), assessor.getRole());
             }
 
             j++;
@@ -629,8 +636,31 @@ public class Processor {
 
         // Check if the user demands to render the date
         if (publication.getDate() != null) {
-            publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            if (!publication.getDate().equals("None")) {
+                if (publication.getDate().length() != 10)
+                    throw new IncorrectFormatException("1: The specified date is not 'None' and does not adhere to " +
+                            "the British date format: 'dd/MM/yyyy' For example, June 3, 2023, is 03/06/2023. Date: " +
+                            publication.getDate());
+
+                for (int k = 0; k < 10; k++) {
+                    if (k == 2 || k == 5) {
+                        if (publication.getDate().charAt(k) != '/') {
+                            throw new IncorrectFormatException("1: The specified date is not 'None' and does not" +
+                                    " adhere to the British date format: 'dd/MM/yyyy'" +
+                                    " For example, June 3, 2023, is 03/06/2023. Date: " + publication.getDate());
+                        }
+                    } else if (!Character.isDigit(publication.getDate().charAt(k))) {
+                        throw new IncorrectFormatException("1: The specified date is not 'None' and does" +
+                                " not adhere to the British date format: 'dd/MM/yyyy'" +
+                                " For example, June 3, 2023, is 03/06/2023. Date: " + publication.getDate());
+                    }
+                }
+
+                publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
         }
+
+        publicationTitle = ast.getConfiguration().getPublication().getTitle();
 
         if (inchesUsed && mmUsed) WarningQueue.getInstance().enqueue(new InconsistencyWarning(
                 "3: The style configuration uses both inches and millimeters."

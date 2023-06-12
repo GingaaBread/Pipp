@@ -1,7 +1,6 @@
 package creation;
 
 import processing.Processor;
-import processing.Publication;
 
 public class HeaderStamp {
 

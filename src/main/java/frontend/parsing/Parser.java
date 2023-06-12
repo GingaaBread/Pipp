@@ -560,8 +560,7 @@ public class Parser {
             if (currentlyParsedContainer.equals("Document Title")) {
                 ast.getConfiguration().getTitle().add(new CitedText(last.value));
                 lastNode = ast.getConfiguration().getTitle();
-            }
-            else if (currentlyParsedContainer.equals("publication")) {
+            } else if (currentlyParsedContainer.equals("publication")) {
                 ast.getConfiguration().getPublication().getTitle().add(new CitedText(last.value));
                 lastNode = ast.getConfiguration().getPublication().getTitle();
             }
@@ -980,10 +979,8 @@ public class Parser {
 
                     var citedText = new CitedText(last.value);
 
-                    if (currentlyParsedContainer.equals("Document Title")) {
+                    if (currentlyParsedContainer.equals("Document Title"))
                         ast.getConfiguration().getTitle().add(citedText);
-                        System.out.println("oK");
-                    }
                     else if (currentlyParsedContainer.equals("publication"))
                         ast.getConfiguration().getPublication().getTitle().add(citedText);
 
