@@ -78,9 +78,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Processor</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">The processor class translates the AST given by the <a href="../frontend/parsing/Parser.html" title="class in frontend.parsing"><code>Parser</code></a> to actual objects
-  that can be used when creating the document
- TODO: Publication
- TODO: Title</div>
+  that can be used when creating the document</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0</dd>
@@ -184,36 +182,41 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/LocalDate.html" title="class or interface in java.time" class="external-link">LocalDate</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#publicationDate" class="member-name-link">publicationDate</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">Determines the date of document publication.</div>
+<div class="block">Determines the date of document publication, which is either given by the user or created by Pipp.</div>
 </div>
-<div class="col-first even-row-color"><code>static <a href="StructureType.html" title="enum class in processing">StructureType</a></code></div>
-<div class="col-second even-row-color"><code><a href="#requiredStructureBeforeEndnotes" class="member-name-link">requiredStructureBeforeEndnotes</a></code></div>
+<div class="col-first even-row-color"><code>static <a href="../frontend/ast/config/Title.html" title="class in frontend.ast.config">Title</a></code></div>
+<div class="col-second even-row-color"><code><a href="#publicationTitle" class="member-name-link">publicationTitle</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">Determines the title of the publication, which in most style guides is put in the header or title page.</div>
+</div>
+<div class="col-first odd-row-color"><code>static <a href="StructureType.html" title="enum class in processing">StructureType</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#requiredStructureBeforeEndnotes" class="member-name-link">requiredStructureBeforeEndnotes</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Determines the type of structure that needs to appear before the user can declare an end notes section.</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#sentencePrefix" class="member-name-link">sentencePrefix</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#sentencePrefix" class="member-name-link">sentencePrefix</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Determines the string that will be appended before each sentence.</div>
 </div>
-<div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#skippedPages" class="member-name-link">skippedPages</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#skippedPages" class="member-name-link">skippedPages</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Contains all page numbers that the user does not want to have page numbers.</div>
 </div>
-<div class="col-first odd-row-color"><code>static float</code></div>
-<div class="col-second odd-row-color"><code><a href="#spacing" class="member-name-link">spacing</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static float</code></div>
+<div class="col-second even-row-color"><code><a href="#spacing" class="member-name-link">spacing</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Determines the paragraph spacing as a float, which is the space between each line in a paragraph.</div>
 </div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
-<div class="col-second even-row-color"><code><a href="#SUPPORTED_VERSIONS" class="member-name-link">SUPPORTED_VERSIONS</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#SUPPORTED_VERSIONS" class="member-name-link">SUPPORTED_VERSIONS</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Determines the Pipp versions this compiler supports.</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="style/StyleGuide.html" title="class in processing.style">StyleGuide</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#usedStyleGuide" class="member-name-link">usedStyleGuide</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static <a href="style/StyleGuide.html" title="class in processing.style">StyleGuide</a></code></div>
+<div class="col-second even-row-color"><code><a href="#usedStyleGuide" class="member-name-link">usedStyleGuide</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Determines the type of style guide which should be used during compilation</div>
 </div>
 </div>
@@ -276,7 +279,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]</span>&nbsp;<span class="element-name">SUPPORTED_VERSIONS</span></div>
 <div class="block">Determines the Pipp versions this compiler supports.
   If the user tries to scan a document with a Pipp version not included in this array, an error is thrown,
-  and the user should be prompted to update this compiler or check if they misspelled the version.</div>
+  and the user should be prompted to update this compiler or check if they misspelled the version.
+  TODO: Check if the specified version is supported</div>
 </section>
 </li>
 <li>
@@ -443,8 +447,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="publicationDate">
 <h3>publicationDate</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/LocalDate.html" title="class or interface in java.time" class="external-link">LocalDate</a></span>&nbsp;<span class="element-name">publicationDate</span></div>
-<div class="block">Determines the date of document publication.
+<div class="block">Determines the date of document publication, which is either given by the user or created by Pipp.
   Note that if the user has explicitly expressed not to display the date, this is null.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="publicationTitle">
+<h3>publicationTitle</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../frontend/ast/config/Title.html" title="class in frontend.ast.config">Title</a></span>&nbsp;<span class="element-name">publicationTitle</span></div>
+<div class="block">Determines the title of the publication, which in most style guides is put in the header or title page.
+  Note that the Title class is taken from the AST package simply to not have to duplicate it.</div>
 </section>
 </li>
 <li>
