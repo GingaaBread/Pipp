@@ -70,6 +70,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">An acknowledgements section usually allows the author to acknowledgements other people and sources</div>
 </dd>
+<dt><a href="frontend/ast/config/Title.html#add(frontend.ast.config.TitleText)" class="member-name-link">add(TitleText)</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Title.html" title="class in frontend.ast.config">Title</a></dt>
+<dd>
+<div class="block">Adds either a citation or a text to the title list</div>
+</dd>
 <dt><a href="frontend/ast/config/Assessors.html#add(frontend.ast.config.Assessor)" class="member-name-link">add(Assessor)</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Assessors.html" title="class in frontend.ast.config">Assessors</a></dt>
 <dd>
 <div class="block">Adds the specified assessor node to end of the assessors list</div>
@@ -77,10 +81,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="frontend/ast/config/Authors.html#add(frontend.ast.config.Author)" class="member-name-link">add(Author)</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Authors.html" title="class in frontend.ast.config">Authors</a></dt>
 <dd>
 <div class="block">Adds the specified author node to end of the author list</div>
-</dd>
-<dt><a href="frontend/ast/config/Title.html#add(frontend.ast.config.CitedText)" class="member-name-link">add(CitedText)</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Title.html" title="class in frontend.ast.config">Title</a></dt>
-<dd>
-<div class="block">Adds either a citation or a text to the title list</div>
 </dd>
 <dt><a href="frontend/ast/config/style/Numeration.html#addSkippedPage(java.lang.String)" class="member-name-link">addSkippedPage(String)</a> - Method in class frontend.ast.config.style.<a href="frontend/ast/config/style/Numeration.html" title="class in frontend.ast.config.style">Numeration</a></dt>
 <dd>
@@ -268,14 +268,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Produces a warning if there is at least one author with an ID, and one author without one
   Also produces a warning if there are two authors with the same ID, and a warning if there is no author</div>
 </dd>
-<dt><a href="frontend/ast/config/CitedText.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/CitedText.html" title="class in frontend.ast.config">CitedText</a></dt>
-<dd>
-<div class="block">The cited text node does not produce warnings</div>
-</dd>
 <dt><a href="frontend/ast/config/Configuration.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Configuration.html" title="class in frontend.ast.config">Configuration</a></dt>
 <dd>
 <div class="block">The configuration node does not produce warnings</div>
 </dd>
+<dt><a href="frontend/ast/config/Emphasis.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Emphasis.html" title="class in frontend.ast.config">Emphasis</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="frontend/ast/config/Publication.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Publication.html" title="class in frontend.ast.config">Publication</a></dt>
 <dd>
 <div class="block">The publication node does not produce warnings</div>
@@ -316,6 +314,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The title node does not produce warnings</div>
 </dd>
+<dt><a href="frontend/ast/config/TitleText.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/TitleText.html" title="class in frontend.ast.config">TitleText</a></dt>
+<dd>
+<div class="block">The cited text node does not produce warnings</div>
+</dd>
+<dt><a href="frontend/ast/config/Work.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Work.html" title="class in frontend.ast.config">Work</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="frontend/ast/NoArgumentStructure.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.<a href="frontend/ast/NoArgumentStructure.html" title="class in frontend.ast">NoArgumentStructure</a></dt>
 <dd>
 <div class="block">The No argument structure node does not produce errors</div>
@@ -332,18 +336,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="frontend/ast/config/style/Citation.html#%3Cinit%3E()" class="member-name-link">Citation()</a> - Constructor for class frontend.ast.config.style.<a href="frontend/ast/config/style/Citation.html" title="class in frontend.ast.config.style">Citation</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="frontend/ast/config/CitedText.html" class="type-name-link" title="class in frontend.ast.config">CitedText</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
-<dd>
-<div class="block">A cited text node either contains a citation or a text.</div>
-</dd>
-<dt><a href="frontend/ast/config/CitedText.html#%3Cinit%3E(frontend.ast.config.style.Citation)" class="member-name-link">CitedText(Citation)</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/CitedText.html" title="class in frontend.ast.config">CitedText</a></dt>
-<dd>
-<div class="block">Creates a new CitedText, which is used as a citation</div>
-</dd>
-<dt><a href="frontend/ast/config/CitedText.html#%3Cinit%3E(java.lang.String)" class="member-name-link">CitedText(String)</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/CitedText.html" title="class in frontend.ast.config">CitedText</a></dt>
-<dd>
-<div class="block">Creates a new CitedText, which is used as a text</div>
-</dd>
 <dt><a href="frontend/FrontEndBridge.html#compile()" class="member-name-link">compile()</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/ast/config/Configuration.html" class="type-name-link" title="class in frontend.ast.config">Configuration</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
@@ -355,6 +347,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="error/ConfigurationException.html" class="type-name-link" title="class in error">ConfigurationException</a> - Exception in <a href="error/package-summary.html">error</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="error/ConfigurationException.html#%3Cinit%3E(java.lang.String)" class="member-name-link">ConfigurationException(String)</a> - Constructor for exception error.<a href="error/ConfigurationException.html" title="class in error">ConfigurationException</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="frontend/FrontEndBridge.html#containsTokens()" class="member-name-link">containsTokens()</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="creation/PDFCreator.html#create()" class="member-name-link">create()</a> - Static method in class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
 <dd>&nbsp;</dd>
@@ -379,7 +373,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines how the style sheet represents a date.</div>
 </dd>
-<dt><a href="frontend/FrontEndBridge.html#dequeue()" class="member-name-link">dequeue()</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
+<dt><a href="frontend/FrontEndBridge.html#dequeueToken()" class="member-name-link">dequeueToken()</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="processing/Processor.html#dimensions" class="member-name-link">dimensions</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
@@ -412,6 +406,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
+<dt><a href="frontend/ast/config/Emphasis.html" class="type-name-link" title="class in frontend.ast.config">Emphasis</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="frontend/ast/config/Emphasis.html#%3Cinit%3E()" class="member-name-link">Emphasis()</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/Emphasis.html" title="class in frontend.ast.config">Emphasis</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="frontend/ast/config/style/Endnotes.html" class="type-name-link" title="class in frontend.ast.config.style">Endnotes</a> - Class in <a href="frontend/ast/config/style/package-summary.html">frontend.ast.config.style</a></dt>
 <dd>
 <div class="block">The endnotes node represents the endnotes style configuration</div>
@@ -422,9 +420,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">An endnotes section usually contains the author's last words</div>
 </dd>
-<dt><a href="frontend/FrontEndBridge.html#enqueue(frontend.lexical_analysis.Token)" class="member-name-link">enqueue(Token)</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="warning/WarningQueue.html#enqueue(warning.Warning)" class="member-name-link">enqueue(Warning)</a> - Method in class warning.<a href="warning/WarningQueue.html" title="class in warning">WarningQueue</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="frontend/FrontEndBridge.html#enqueueToken(frontend.lexical_analysis.Token)" class="member-name-link">enqueueToken(Token)</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="error/package-summary.html">error</a> - package error</dt>
 <dd>&nbsp;</dd>
@@ -451,7 +449,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#font()" class="member-name-link">font()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA uses the Times New Roman font</div>
+<div class="block">MLA defines any easily readable font, which has a strongly contrasting italic version.</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#font()" class="member-name-link">font()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -469,7 +467,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#fontColour()" class="member-name-link">fontColour()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA uses a black font</div>
+<div class="block">MLA does not define a font colour.</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#fontColour()" class="member-name-link">fontColour()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -483,7 +481,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#fontSize()" class="member-name-link">fontSize()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA uses a recommended default font size of 12</div>
+<div class="block">MLA defines a font size of anywhere between 11 and 13 points.</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#fontSize()" class="member-name-link">fontSize()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -526,7 +524,13 @@ loadScripts(document, 'script');</script>
 <dt><a href="frontend/FrontEndBridge.html" class="type-name-link" title="class in frontend">FrontEndBridge</a> - Class in <a href="frontend/package-summary.html">frontend</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/FrontEndBridge.html#%3Cinit%3E(java.io.File)" class="member-name-link">FrontEndBridge(File)</a> - Constructor for class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The standard method of compilation requires a file, which contains the Pipp code.</div>
+</dd>
+<dt><a href="frontend/FrontEndBridge.html#%3Cinit%3E(java.lang.String)" class="member-name-link">FrontEndBridge(String)</a> - Constructor for class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
+<dd>
+<div class="block">Provides a method to use predefined text, instead of a text file during compilation.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:G">G</h2>
 <dl class="index">
@@ -568,8 +572,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="error/IncorrectFormatException.html#%3Cinit%3E(java.lang.String)" class="member-name-link">IncorrectFormatException(String)</a> - Constructor for exception error.<a href="error/IncorrectFormatException.html" title="class in error">IncorrectFormatException</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/lexical_analysis/TokenType.html#INDENT" class="member-name-link">INDENT</a> - Enum constant in enum class frontend.lexical_analysis.<a href="frontend/lexical_analysis/TokenType.html" title="enum class in frontend.lexical_analysis">TokenType</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="frontend/FrontEndBridge.html#isNotEmpty()" class="member-name-link">isNotEmpty()</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="processing/style/StyleGuide.html#isPunctuation(char)" class="member-name-link">isPunctuation(char)</a> - Static method in class processing.style.<a href="processing/style/StyleGuide.html" title="class in processing.style">StyleGuide</a></dt>
 <dd>
@@ -616,7 +618,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#margin()" class="member-name-link">margin()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA uses a margin of 1 inch</div>
+<div class="block">MLA defines a margin of one inch to the top and bottom and both sides of the text</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#margin()" class="member-name-link">margin()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -696,7 +698,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#numerationMargin()" class="member-name-link">numerationMargin()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA displays the page number half an inch away from the top and right sides of the document</div>
+<div class="block">MLA displays the page number half an inch away from the top of the document</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#numerationMargin()" class="member-name-link">numerationMargin()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -786,7 +788,9 @@ loadScripts(document, 'script');</script>
   indented to</div>
 </dd>
 <dt><a href="processing/style/MLA9.html#paragraphIndentation()" class="member-name-link">paragraphIndentation()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">MLA defines that the first line of a paragraph should be indented half an inch from the left margin</div>
+</dd>
 <dt><a href="processing/style/Pipp.html#paragraphIndentation()" class="member-name-link">paragraphIndentation()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="processing/style/StyleGuide.html#paragraphIndentation()" class="member-name-link">paragraphIndentation()</a> - Method in class processing.style.<a href="processing/style/StyleGuide.html" title="class in processing.style">StyleGuide</a></dt>
@@ -889,7 +893,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#requiredStructureBeforeEndnotes()" class="member-name-link">requiredStructureBeforeEndnotes()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA demands that the bibliography section should appear before the endnotes section</div>
+<div class="block">MLA demands that the bibliography section should appear after the endnotes section!!!
+  TODO: Change</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#requiredStructureBeforeEndnotes()" class="member-name-link">requiredStructureBeforeEndnotes()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -955,7 +960,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="processing/style/MLA9.html#spacing()" class="member-name-link">spacing()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
 <dd>
-<div class="block">MLA uses double-spacing</div>
+<div class="block">MLA defines double-spacing for the entire document and all its elements</div>
 </dd>
 <dt><a href="processing/style/Pipp.html#spacing()" class="member-name-link">spacing()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
 <dd>&nbsp;</dd>
@@ -1031,6 +1036,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The title page usually provides the most general information about the document and author to the reader</div>
 </dd>
+<dt><a href="frontend/ast/config/TitleText.html" class="type-name-link" title="class in frontend.ast.config">TitleText</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
+<dd>
+<div class="block">A title text node either contains a type of emphasis or a text.</div>
+</dd>
+<dt><a href="frontend/ast/config/TitleText.html#%3Cinit%3E(frontend.ast.config.Emphasis)" class="member-name-link">TitleText(Emphasis)</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/TitleText.html" title="class in frontend.ast.config">TitleText</a></dt>
+<dd>
+<div class="block">Creates a new TitleText, which is used as emphasis</div>
+</dd>
+<dt><a href="frontend/ast/config/TitleText.html#%3Cinit%3E(frontend.ast.config.Work)" class="member-name-link">TitleText(Work)</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/TitleText.html" title="class in frontend.ast.config">TitleText</a></dt>
+<dd>
+<div class="block">Creates a new TitleText, which is used as a work emphasis</div>
+</dd>
+<dt><a href="frontend/ast/config/TitleText.html#%3Cinit%3E(java.lang.String)" class="member-name-link">TitleText(String)</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/TitleText.html" title="class in frontend.ast.config">TitleText</a></dt>
+<dd>
+<div class="block">Creates a new CitedText, which is used as a text</div>
+</dd>
 <dt><a href="processing/work/Book.html#toBibliography()" class="member-name-link">toBibliography()</a> - Method in class processing.work.<a href="processing/work/Book.html" title="class in processing.work">Book</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="processing/work/Music.html#toBibliography()" class="member-name-link">toBibliography()</a> - Method in class processing.work.<a href="processing/work/Music.html" title="class in processing.work">Music</a></dt>
@@ -1088,11 +1109,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A textual representation of the "authors" node, which contains the formatted list of authors</div>
 </dd>
-<dt><a href="frontend/ast/config/CitedText.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/CitedText.html" title="class in frontend.ast.config">CitedText</a></dt>
-<dd>
-<div class="block">A textual representation of the cited text node, which contains the citation if the node is used as
-  a citation, and the textual content if it is used as a text</div>
-</dd>
 <dt><a href="frontend/ast/config/Configuration.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Configuration.html" title="class in frontend.ast.config">Configuration</a></dt>
 <dd>
 <div class="block">A textual representation of the configuration node, which contains all formatted properties</div>
@@ -1136,6 +1152,11 @@ loadScripts(document, 'script');</script>
 <dt><a href="frontend/ast/config/Title.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Title.html" title="class in frontend.ast.config">Title</a></dt>
 <dd>
 <div class="block">A textual representation of the title node, which contains the formatted text list</div>
+</dd>
+<dt><a href="frontend/ast/config/TitleText.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/TitleText.html" title="class in frontend.ast.config">TitleText</a></dt>
+<dd>
+<div class="block">A textual representation of the cited text node, which contains the citation if the node is used as
+  a citation, and the textual content if it is used as a text</div>
 </dd>
 <dt><a href="frontend/ast/NoArgumentStructure.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.<a href="frontend/ast/NoArgumentStructure.html" title="class in frontend.ast">NoArgumentStructure</a></dt>
 <dd>
@@ -1274,10 +1295,14 @@ the order they are declared.</div>
 <div class="block">The Whitespace Allowance Type determines whether the user is allowed to use whitespace characters
   in sentences or if it should be automatically removed.</div>
 </dd>
+<dt><a href="frontend/ast/config/Work.html" class="type-name-link" title="class in frontend.ast.config">Work</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="processing/work/Work.html" class="type-name-link" title="class in processing.work">Work</a> - Class in <a href="processing/work/package-summary.html">processing.work</a></dt>
 <dd>
 <div class="block">A work represents any kind of work done by someone other than the author, which needs to be referenced.</div>
 </dd>
+<dt><a href="frontend/ast/config/Work.html#%3Cinit%3E()" class="member-name-link">Work()</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/Work.html" title="class in frontend.ast.config">Work</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="processing/work/Work.html#%3Cinit%3E()" class="member-name-link">Work()</a> - Constructor for class processing.work.<a href="processing/work/Work.html" title="class in processing.work">Work</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="creation/DocumentMetaDataWriter.html#writeMetaData()" class="member-name-link">writeMetaData()</a> - Static method in class creation.<a href="creation/DocumentMetaDataWriter.html" title="class in creation">DocumentMetaDataWriter</a></dt>
