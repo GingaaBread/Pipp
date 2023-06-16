@@ -273,7 +273,9 @@ loadScripts(document, 'script');</script>
 <div class="block">The configuration node does not produce warnings</div>
 </dd>
 <dt><a href="frontend/ast/config/Emphasis.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Emphasis.html" title="class in frontend.ast.config">Emphasis</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The emphasis node does not produce warnings</div>
+</dd>
 <dt><a href="frontend/ast/config/Publication.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Publication.html" title="class in frontend.ast.config">Publication</a></dt>
 <dd>
 <div class="block">The publication node does not produce warnings</div>
@@ -319,7 +321,9 @@ loadScripts(document, 'script');</script>
 <div class="block">The cited text node does not produce warnings</div>
 </dd>
 <dt><a href="frontend/ast/config/Work.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Work.html" title="class in frontend.ast.config">Work</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The Work node does not produce warnings</div>
+</dd>
 <dt><a href="frontend/ast/NoArgumentStructure.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.<a href="frontend/ast/NoArgumentStructure.html" title="class in frontend.ast">NoArgumentStructure</a></dt>
 <dd>
 <div class="block">The No argument structure node does not produce errors</div>
@@ -385,6 +389,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="creation/DocumentMetaDataWriter.html#%3Cinit%3E()" class="member-name-link">DocumentMetaDataWriter()</a> - Constructor for class creation.<a href="creation/DocumentMetaDataWriter.html" title="class in creation">DocumentMetaDataWriter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="processing/Processor.html#documentTitle" class="member-name-link">documentTitle</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
+<dd>
+<div class="block">Determines the title of the document, which can be displayed using the title instruction.</div>
+</dd>
 <dt><a href="processing/Processor.html#documentType" class="member-name-link">documentType</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
 <div class="block">Determines the type of the document, which currently only affects the document's metadata</div>
@@ -407,7 +415,9 @@ loadScripts(document, 'script');</script>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
 <dt><a href="frontend/ast/config/Emphasis.html" class="type-name-link" title="class in frontend.ast.config">Emphasis</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The emphasis node contains text that should be emphasised in the document.</div>
+</dd>
 <dt><a href="frontend/ast/config/Emphasis.html#%3Cinit%3E()" class="member-name-link">Emphasis()</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/Emphasis.html" title="class in frontend.ast.config">Emphasis</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/ast/config/style/Endnotes.html" class="type-name-link" title="class in frontend.ast.config.style">Endnotes</a> - Class in <a href="frontend/ast/config/style/package-summary.html">frontend.ast.config.style</a></dt>
@@ -1113,6 +1123,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A textual representation of the configuration node, which contains all formatted properties</div>
 </dd>
+<dt><a href="frontend/ast/config/Emphasis.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Emphasis.html" title="class in frontend.ast.config">Emphasis</a></dt>
+<dd>
+<div class="block">A textual representation of the "emphasis" node, which contains the text that should be emphasised</div>
+</dd>
 <dt><a href="frontend/ast/config/Publication.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Publication.html" title="class in frontend.ast.config">Publication</a></dt>
 <dd>
 <div class="block">A textual representation of the publication node, which contains all formatted properties</div>
@@ -1157,6 +1171,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A textual representation of the cited text node, which contains the citation if the node is used as
   a citation, and the textual content if it is used as a text</div>
+</dd>
+<dt><a href="frontend/ast/config/Work.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.config.<a href="frontend/ast/config/Work.html" title="class in frontend.ast.config">Work</a></dt>
+<dd>
+<div class="block">A textual representation of the "work" node, which contains the work that should be referenced</div>
 </dd>
 <dt><a href="frontend/ast/NoArgumentStructure.html#toString()" class="member-name-link">toString()</a> - Method in class frontend.ast.<a href="frontend/ast/NoArgumentStructure.html" title="class in frontend.ast">NoArgumentStructure</a></dt>
 <dd>
@@ -1296,7 +1314,9 @@ the order they are declared.</div>
   in sentences or if it should be automatically removed.</div>
 </dd>
 <dt><a href="frontend/ast/config/Work.html" class="type-name-link" title="class in frontend.ast.config">Work</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The work node contains text containing a work that should be emphasised in the document.</div>
+</dd>
 <dt><a href="processing/work/Work.html" class="type-name-link" title="class in processing.work">Work</a> - Class in <a href="processing/work/package-summary.html">processing.work</a></dt>
 <dd>
 <div class="block">A work represents any kind of work done by someone other than the author, which needs to be referenced.</div>
