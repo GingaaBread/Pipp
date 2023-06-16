@@ -30,10 +30,7 @@ config
 			author lastname
 	type "Paper"
 	title
-		citation
-			of "This house is bitchin'"
-			in "The Flash"
-			numeration "89"
+		"Test"
 	publication
 		title "English Class"
 		date "23/04/2022"

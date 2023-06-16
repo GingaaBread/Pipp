@@ -4,6 +4,7 @@ import frontend.ast.AST;
 import frontend.lexical_analysis.Scanner;
 import frontend.lexical_analysis.Token;
 import frontend.parsing.Parser;
+import lombok.NonNull;
 import processing.Processor;
 
 import java.io.*;
@@ -12,27 +13,57 @@ import java.util.List;
 
 public class FrontEndBridge {
 
-    private final File fileToRead;
     private final Scanner scanner;
     private final Parser parser;
 
+    private File fileToRead;
     private BufferedReader reader;
 
     private final List<Token> tokens;
 
-    public FrontEndBridge(File fileToRead) {
+    /**
+     *  The standard method of compilation requires a file, which contains the Pipp code.
+     *  This constructor should be the default approach when compiling.
+     *
+     * @param fileToRead - the non-null file that should be read.
+     */
+    public FrontEndBridge(@NonNull final File fileToRead) {
+        this();
         this.fileToRead = fileToRead;
-        tokens = new LinkedList<>();
+    }
 
+    /**
+     *  Provides a method to use predefined text, instead of a text file during compilation.
+     *  This can be useful for debugging and testing purposes.
+     *
+     * @param textToRead - the non-null text that should be read. It can be empty.
+     */
+    public FrontEndBridge(@NonNull final String textToRead) {
+        this();
+
+        for (int i = 0; i < textToRead.length(); i++) {
+            var character = textToRead.charAt(i);
+            scanner.scan(character);
+        }
+
+        scanner.submitToken();
+        if (tokens.size() > 0) parser.s();
+    }
+
+    /**
+     *  A private constructor to create the mandatory fields
+     */
+    private FrontEndBridge() {
+        this.tokens = new LinkedList<>();
         this.parser = new Parser(this);
         this.scanner = new Scanner(this);
     }
 
-    public void enqueue(Token token) {
+    public void enqueueToken(@NonNull final Token token) {
         tokens.add(token);
     }
 
-    public Token dequeue() {
+    public Token dequeueToken() {
         if (tokens.isEmpty()) throw new IllegalStateException("Token Queue is empty");
 
         return tokens.remove(0);
@@ -44,15 +75,19 @@ public class FrontEndBridge {
         return tokens.get(index);
     }
 
-    public void startProcessor(final AST ast) {
+    public void startProcessor(@NonNull final AST ast) {
         new Processor().processAST(ast);
     }
 
-    public boolean isNotEmpty() {
+    public boolean containsTokens() {
         return !tokens.isEmpty();
     }
 
     public void compile() {
+        if (fileToRead == null)
+            throw new IllegalStateException("Should not try to read the empty file. If you are trying to debug or " +
+                    "test, use the second constructor, instead.");
+
         try {
             reader = new BufferedReader(new FileReader(fileToRead));
 

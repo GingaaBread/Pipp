@@ -19,7 +19,7 @@ public class Title extends Node {
      *  The title can include a mix of texts and citations.
      *  To add an element to the list, use the add-method of this node.
      */
-    private final ArrayList<CitedText> texts = new ArrayList<>();
+    private final ArrayList<TitleText> texts = new ArrayList<>();
 
     /**
      *  Adds either a citation or a text to the title list
@@ -27,7 +27,7 @@ public class Title extends Node {
      * @param text - the text or citation as a cited text, which should be added to the text list
      */
     @NonNull
-    public void add(final CitedText text) {
+    public void add(@NonNull final TitleText text) {
         texts.add(text);
     }
 

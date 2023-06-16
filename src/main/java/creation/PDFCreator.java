@@ -6,7 +6,6 @@ public class PDFCreator {
 
     public static final String outputPath = "src/main/resources/out.pdf";
 
-
     public static void create() throws IOException {
         // Set the meta data
         DocumentMetaDataWriter.writeMetaData();

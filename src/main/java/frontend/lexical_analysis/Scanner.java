@@ -30,6 +30,7 @@ public class Scanner {
             "date",
             "display",
             "endnotes",
+            "emphasise",
             "firstname",
             "font",
             "header",
@@ -60,6 +61,7 @@ public class Scanner {
             "type",
             "width",
             "www",
+            "work",
             "whitespace"
     };
 
@@ -155,7 +157,7 @@ public class Scanner {
                 if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
             } else if (token.type == TokenType.INDENT) token.value = Integer.toString(indendationLevel);
 
-            frontEndBridge.enqueue(token);
+            frontEndBridge.enqueueToken(token);
 
             currentTokenType = null;
             currentlyRead = new StringBuilder();

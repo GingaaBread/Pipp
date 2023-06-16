@@ -22,15 +22,19 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA uses the Times New Roman font
+     *  MLA defines any easily readable font, which has a strongly contrasting italic version.
+     *  Pipp uses the Times Roman font for MLA9.
      */
     @Override
     public PDFont font() {
         return PDType1Font.TIMES_ROMAN;
     }
 
+    /// TODO: Hyphenation configuration: MLA does not allow hyphenation
+
     /**
-     *  MLA uses a recommended default font size of 12
+     *  MLA defines a font size of anywhere between 11 and 13 points.
+     *  Pipp uses a font size of 12.
      */
     @Override
     public int fontSize() {
@@ -38,7 +42,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA uses a black font
+     *  MLA does not define a font colour.
+     *  Pipp uses a black font colour.
      */
     @Override
     public Color fontColour() {
@@ -46,7 +51,7 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA uses a margin of 1 inch
+     *  MLA defines a margin of one inch to the top and bottom and both sides of the text
      */
     @Override
     public float margin() {
@@ -54,12 +59,16 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA uses double-spacing
+     *  MLA defines double-spacing for the entire document and all its elements
      */
     @Override
     public float spacing() {
         return 2f;
     }
+
+    // TODO: Header configurations: MLA flushes with the left margin
+
+    // TODO: Title configurations: MLA uses double spaced centered text with no italic or underlined text. It needs to be put in quotation marks, boldface, or typed out in capital letters. capitalisation rules.
 
     /**
      *  MLA uses arabic numeration
@@ -78,12 +87,16 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA displays the page number half an inch away from the top and right sides of the document
+     *  MLA displays the page number half an inch away from the top of the document
      */
     @Override
     public float numerationMargin() {
         return 0.5f;
     }
+
+    // TODO: Numeration author type: MLA when multiple authors: separate by comma until it does not fit in the line any more. Then only the page number.
+
+    // TODO: Chapter configuration. MLA allows chapter titles as long as they are equal. No internal heading should have only one instance. Heading flush left margin, not indented or centered. A line space above and below a heading. Avoid numbers and letters. same capitalisation as headings.
 
     /**
      *  MLA does not allow bold text
@@ -101,11 +114,15 @@ public class MLA9 extends StyleGuide {
         return AllowanceType.IF_NECESSARY;
     }
 
-    // todo: replace by "\t" as the prefix
+    /**
+     *  MLA defines that the first line of a paragraph should be indented half an inch from the left margin
+     */
     @Override
     public float paragraphIndentation() {
         return 0.5f;
     }
+
+    // TODO: Block indentation configuration: MLA also indents it half an inch from the left
 
     /**
      *  MLA inserts a space before every sentence
@@ -124,12 +141,19 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA demands that the bibliography section should appear before the endnotes section
+     *  MLA demands that the bibliography section should appear after the endnotes section!!!
+     *  TODO: Change
      */
     @Override
     public StructureType requiredStructureBeforeEndnotes() {
         return StructureType.BIBLIOGRAPHY;
     }
+
+    // TODO: Works cited config: 1 inch from the top. If the list has one entry: name "Work Cited". Double space between the heading and the first entry. Begin each line with left margin flush. If more than one line: indent half an inch from left margin (called hanging indent)
+
+    // TODO: Tables and illustrations config: Table name is Table [ARABIC NUMERAL].title and description flush left separate lines above the actual table. double-space.dividing lines. Other illustrations (graph, chart, image, ...) labeled Fig. [ARABIC] also receive a caption. Musical illustrations are labeled Ex. [ARABIC]
+
+    // TODO: Lists
 
     /**
      *  MLA uses a default document type of PAPER
