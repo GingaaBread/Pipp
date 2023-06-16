@@ -998,31 +998,34 @@ public class Parser {
      *  TitleTextual := Text TitleTextual | Emphasis TitleTextual | Work TitleTextual | Textual | Emphasis | Work
      */
     private void titleTextual() {
-        if (isKeyword("emphasise") || isKeyword("work") || current.type == TokenType.TEXT) {
-            do {
-                if (isKeyword("emphasise")) emphasis();
-                if (isKeyword("work")) work();
-                else if (current.type == TokenType.TEXT) {
-                    textual();
-                    var titleText = new TitleText(last.value);
+        var wasFirst = true;
+        do {
+            if (wasFirst) wasFirst = false;
+            else remainIndentation();
 
-                    if (currentlyParsedContainer.equals("Document Title"))
-                        ast.getConfiguration().getTitle().add(titleText);
-                    else if (currentlyParsedContainer.equals("publication"))
-                        ast.getConfiguration().getPublication().getTitle().add(titleText);
+            if (isKeyword("emphasise")) emphasis();
+            else if (isKeyword("work")) work();
+            else if (current.type == TokenType.TEXT) {
+                textual();
+                var titleText = new TitleText(last.value);
 
-                    lastNode = titleText;
-                } else error();
-            } while (frontEndBridge.containsTokens() && (isKeyword("emphasise") || isKeyword("work")
-                    || current.type == TokenType.TEXT));
-        } else error();
+                if (currentlyParsedContainer.equals("Document Title"))
+                    ast.getConfiguration().getTitle().add(titleText);
+                else if (currentlyParsedContainer.equals("publication"))
+                    ast.getConfiguration().getPublication().getTitle().add(titleText);
+
+                lastNode = titleText;
+            } else error();
+        } while (frontEndBridge.containsTokens() && (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
+            (frontEndBridge.lookahead(0).value.equals("emphasise") ||
+            frontEndBridge.lookahead(0).value.equals("work")) ||
+            frontEndBridge.lookahead(0).type == TokenType.TEXT));
     }
 
     /**
      *  Emphasis := "emphasise" Textual NewLine
      */
     private void emphasis() {
-        remainIndentation();
         consumeKeyword("emphasise");
 
         if (current.type == TokenType.TEXT) {
@@ -1037,15 +1040,12 @@ public class Parser {
 
             lastNode = titleText;
         } else error();
-
-        newline();
     }
 
     /**
      *  Work := "work" Textual NewLine
      */
     private void work() {
-        remainIndentation();
         consumeKeyword("work");
 
         if (current.type == TokenType.TEXT) {
@@ -1060,8 +1060,6 @@ public class Parser {
 
             lastNode = titleText;
         } else error();
-
-        newline();
     }
 
     /**

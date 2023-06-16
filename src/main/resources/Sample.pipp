@@ -31,6 +31,10 @@ config
 	type "Paper"
 	title
 		"Test"
+		work "Tess"
+		"swwer4"
+		emphasise "T"
+		"Hello World!"
 	publication
 		title "English Class"
 		date "23/04/2022"

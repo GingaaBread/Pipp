@@ -57,6 +57,12 @@ public class Processor {
     public static DocumentType documentType;
 
     /**
+     *  Determines the title of the document, which can be displayed using the title instruction.
+     *  Note that the Title class is taken from the AST package simply to not have to duplicate it.
+     */
+    public static Title documentTitle;
+
+    /**
      *  Determines the type of style guide which should be used during compilation
      */
     public static StyleGuide usedStyleGuide;
@@ -226,6 +232,7 @@ public class Processor {
                 "\t\nusedStyleGuide=" + usedStyleGuide +
                 ",\t\n dimensions=" + dimensions.getWidth() + "/" + dimensions.getHeight() +
                 ",\t\n margin=" + margin +
+                ",\t\n documentTitle=" + documentTitle +
                 ",\t\n spacing=" + spacing +
                 ",\t\n numerationType=" + numerationType +
                 ",\t\n numerationPosition=" + numerationPosition +
@@ -309,6 +316,8 @@ public class Processor {
                 width = pointsPerMM * Float.parseFloat(layout.getWidth());
             }
         } else width = usedStyleGuide.pageFormat().getWidth();
+
+        documentTitle = ast.getConfiguration().getTitle();
 
         // Set the document dimensions
         dimensions = new PDRectangle(width, height);
