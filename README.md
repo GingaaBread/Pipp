@@ -27,3 +27,11 @@ University students, professors and academic writers alike will profit from Pipp
 Pipp revolutionizes the way scholars and academic writers approach document formatting, making it more accessible, intuitive, and efficient. Whether you're a seasoned academic or a beginner, Pipp will guide you through the writing process, ensuring your work stands out for its content and adheres to the highest academic standards.
 
 Download Pipp now and embark on a journey where you can concentrate on your research, while Pipp takes care of the rest. Say goodbye to time-consuming formatting struggles and embrace a seamless, user-friendly writing experience that unleashes your true scholarly potential.
+
+## Pipp and LaTeX
+
+Pipp follows a different approach anda aim than LaTeX. It does not provide any typesetting functionalities, nor does it try to compete with LaTeX in any way.
+Pipp can be well-suited for fields such as literature, history, philosophy, sociology, and other disciplines that heavily rely on style guides and require proper citation formatting. Pipp's focus on automating formatting based on style guides and its checklist feature can be particularly helpful in these fields.
+Furthermore, Pipp's beginner-friendly nature, simplified formatting process, and intelligent document processing make it a good choice for individuals who are new to academic writing or who prefer a more accessible tool over the intricacies of LaTeX.
+
+Latex on the other hand has been widely adopted in science, technology, engineering, and mathematics (STEM) fields due to its exceptional typesetting capabilities, mathematical equation handling, and support for complex scientific notation and symbols.
