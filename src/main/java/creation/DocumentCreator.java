@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class DocumentCreator {
 
+    /**
+     *  Determines the path to the file, where the final document should be saved.
+     *  It will be saved under the specified name.
+     */
     public static final String outputPath = "src/main/resources/out.pdf";
 
     /**
@@ -36,6 +40,7 @@ public class DocumentCreator {
                         new Text(" " + longString, TextStyle.ITALIC)),
                 TextAlignment.LEFT
         );
+        LineFactory.renderLeftAlignedText(longString.repeat(10));
 
         // Always save the last page
         PageAssembler.finishCurrentPage();

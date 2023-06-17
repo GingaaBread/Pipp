@@ -4,6 +4,15 @@ import processing.Processor;
 
 import java.util.Calendar;
 
+/**
+ *  The DocumentMetaDataWriter class is responsible for reading the document's configurations in order to
+ *  set the document's metadata. Examples include the authors, publication date, and document title.
+ *  Note that the creator is always going to be Pipp.
+ *
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
+ */
 public class DocumentMetaDataWriter {
 
     public static void writeMetaData() {
@@ -11,8 +20,7 @@ public class DocumentMetaDataWriter {
         var info = PageAssembler.getDocument().getDocumentInformation();
 
         // Set the creator to Pipp's current version
-        // TODO: Provide the version somewhere
-        info.setCreator("Pipp v.1.0");
+        info.setCreator("Pipp v." + Processor.COMPILER_VERSION);
 
         // Set the author metadata to all authors using their first and last names separated by a comma
         if (Processor.authors.length > 0) {
@@ -37,9 +45,10 @@ public class DocumentMetaDataWriter {
             info.setCreationDate(calendar);
         }
 
-        // TODO: Title
-        info.setTitle("My first PDF!");
-        info.setKeywords("Keywords");
+        // Set the document's title
+        info.setTitle(Processor.documentTitle.getTextsUnformatted());
+
+        info.setKeywords("Pipp");
 
         // TODO: Document Type by Authors
         //info.setSubject(processor.get);

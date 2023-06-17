@@ -4,8 +4,6 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 
-/// TODO If date = null take current date. If date = None don't
-
 /**
  *  The publication node represents the publication configuration
  *

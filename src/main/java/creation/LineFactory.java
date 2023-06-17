@@ -85,7 +85,8 @@ public class LineFactory {
                     // Check if the next line does not fit into the current page anymore
                     if (PageFactory.currentYPosition < Processor.margin) {
                         if (!textBuilder.isEmpty()) {
-                            for (int i = 0; i < textBuilder.size(); i++) {
+                            final var textSize = textBuilder.size();
+                            for (int i = 0; i < textSize; i++) {
                                 rest.addLast(textBuilder.remove());
                                 rest.addLast(new Text(" ", textPart.getStyle()));
                             }
@@ -123,7 +124,6 @@ public class LineFactory {
                         // character if the word is not the first word in the line
                         if (isFirstWord) {
                             textBuilder.addLast(new Text(word, textPart.getStyle()));
-
                             isFirstWord = false;
                         } else textBuilder.addLast(new Text(" " + word, textPart.getStyle()));
 
@@ -157,7 +157,25 @@ public class LineFactory {
             // If there is still remaining text that did not fit on the page, restart the method on a new page
             if (!rest.isEmpty()) {
                 PageFactory.createNewPage();
-                renderText(textComponentsToRender, alignment); // todo: actually implement
+
+                // Bundles the words together depending on the style
+                var collectedRest = new LinkedList<Text>();
+                var itemBuilder = new StringBuilder();
+                TextStyle currentStyle = rest.get(0).getStyle();
+                for (Text text : rest) {
+                    if (text.getStyle() != currentStyle) {
+                        collectedRest.addLast(new Text(itemBuilder.toString(), currentStyle));
+                        itemBuilder.setLength(0);
+                        currentStyle = text.getStyle();
+                    } else itemBuilder.append(text.getContent());
+                }
+
+                if (!itemBuilder.isEmpty()) {
+                    collectedRest.addLast(new Text(itemBuilder.toString(), currentStyle));
+                    itemBuilder.setLength(0);
+                }
+
+                renderText(collectedRest, alignment);
             }
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");

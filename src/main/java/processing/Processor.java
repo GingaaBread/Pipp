@@ -19,7 +19,6 @@ import warning.InconsistencyWarning;
 import warning.WarningQueue;
 
 import java.awt.*;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -38,14 +37,10 @@ import java.util.Stack;
 public class Processor {
 
     /**
-     *  Determines the Pipp versions this compiler supports.
-     *  If the user tries to scan a document with a Pipp version not included in this array, an error is thrown,
-     *  and the user should be prompted to update this compiler or check if they misspelled the version.
-     *  TODO: Check if the specified version is supported
+     *  Determines the version of this compiler implementation.
+     *  Note that the user can choose to opt for a different version as long as it is supported by the compiler.
      */
-    public static final String[] SUPPORTED_VERSIONS = new String[] {
-            "1.0"
-    };
+    public static final String COMPILER_VERSION = "1.0";
 
 
     //// GENERAL ////
