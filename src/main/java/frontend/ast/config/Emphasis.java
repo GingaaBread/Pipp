@@ -2,6 +2,7 @@ package frontend.ast.config;
 
 import frontend.ast.Node;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  *  The emphasis node contains text that should be emphasised in the document.
@@ -17,6 +18,7 @@ public class Emphasis extends Node {
     /**
      *  The text that should be emphasised in the document
      */
+    @Getter
     private String emphasisedText;
 
     /**

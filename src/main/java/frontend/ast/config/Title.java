@@ -1,6 +1,7 @@
 package frontend.ast.config;
 
 import frontend.ast.Node;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Title extends Node {
      *  The title can include a mix of texts and citations.
      *  To add an element to the list, use the add-method of this node.
      */
+    @Getter
     private final ArrayList<TitleText> texts = new ArrayList<>();
 
     /**

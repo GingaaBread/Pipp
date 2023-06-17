@@ -6,6 +6,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import processing.Processor;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,8 +34,6 @@ public class LineFactory {
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
                                   @NonNull final TextAlignment alignment) {
         try {
-            final var rest = new StringBuilder();
-
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = 1.2f * Processor.fontSize * Processor.spacing;
 
@@ -61,12 +60,13 @@ public class LineFactory {
             contentStream.newLineAtOffset(startX, startY);
             contentStream.newLineAtOffset(0,0);
 
+            // Contains the currently created lines
+            final var textBuilder = new LinkedList<Text>();
+            final var rest = new LinkedList<Text>();
+
             for (var textPart : textComponentsToRender) {
                 // Divides the text into its words, using exactly one (!) space as the split char
                 final var words = textPart.getContent().split(" ");
-
-                // Contains the currently created lines
-                final var lineBuilder = new StringBuilder();
 
                 // Used to skip the first word when appending a space after all other words
                 var isFirstWord = true;
@@ -82,46 +82,72 @@ public class LineFactory {
                     // Calculate the width of the entire line with a space and the current word
                     final float wordWidth = Processor.font.getStringWidth(" " + word) / 1000 * Processor.fontSize;
 
-
                     // Check if the next line does not fit into the current page anymore
                     if (PageFactory.currentYPosition < Processor.margin) {
-                        if (!lineBuilder.isEmpty()) {
-                            rest.append(lineBuilder);
-                            rest.append(" ");
-                            lineBuilder.setLength(0);
+                        if (!textBuilder.isEmpty()) {
+                            for (int i = 0; i < textBuilder.size(); i++) {
+                                rest.addLast(textBuilder.remove());
+                                rest.addLast(new Text(" ", textPart.getStyle()));
+                            }
                         }
 
-                        rest.append(word);
-                        rest.append(" ");
+                        rest.addLast(new Text(word + " ", textPart.getStyle()));
                     }
                     // If the word does not fit in the current line, render the line and start a new line
                     // TODO: Handle words that are too long to fit in one line (cut them off?)
                     else if (wordWidth > maximumWidth) {
-                        contentStream.showText(lineBuilder.toString());
+                        final var textSize = textBuilder.size();
+                        for (int i = 0; i < textSize; i++) {
+                            var text = textBuilder.remove();
+
+                            // Apply the correct font style
+                            if (text.getStyle() == TextStyle.ITALIC)
+                                contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
+                            else if (text.getStyle() == TextStyle.NORMAL)
+                                contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
+
+                            contentStream.showText(text.getContent());
+                        }
+
                         maximumWidth = availableWidth;
                         PageFactory.currentYPosition -= leading;
 
                         contentStream.newLineAtOffset(0, -leading);
-                        lineBuilder.setLength(0);
-                        lineBuilder.append(word);
+
+                        textBuilder.clear();
+                        textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
+
                         maximumWidth -= wordWidth;
                     } else {
                         // If the word does fit in the current line, add it to the builder and add a space
                         // character if the word is not the first word in the line
                         if (isFirstWord) {
-                            lineBuilder.append(word);
+                            textBuilder.addLast(new Text(word, textPart.getStyle()));
+
                             isFirstWord = false;
-                        } else lineBuilder.append(" ").append(word);
+                        } else textBuilder.addLast(new Text(" " + word, textPart.getStyle()));
 
                         maximumWidth -= wordWidth;
                     }
                 }
+            }
 
-                // There will be a "rest" line that needs to be rendered at the end
-                if (rest.length() == 0) {
-                    contentStream.showText(lineBuilder.toString());
-                    PageFactory.currentYPosition -= leading;
+            // If there is still one last remaining line, it should be displayed
+            if (rest.isEmpty()) {
+                final var textSize = textBuilder.size();
+                for (int i = 0; i < textSize; i++) {
+                    var text = textBuilder.remove();
+
+                    // Apply the correct font style
+                    if (text.getStyle() == TextStyle.ITALIC)
+                        contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
+                    else if (text.getStyle() == TextStyle.NORMAL)
+                        contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
+
+                    contentStream.showText(text.getContent());
                 }
+
+                PageFactory.currentYPosition -= leading;
             }
 
             // Wrap up the stream
@@ -131,7 +157,7 @@ public class LineFactory {
             // If there is still remaining text that did not fit on the page, restart the method on a new page
             if (!rest.isEmpty()) {
                 PageFactory.createNewPage();
-                //renderLeftAlignedText(rest.toString());
+                renderText(textComponentsToRender, alignment); // todo: actually implement
             }
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");

@@ -32,8 +32,26 @@ public class HeaderStamp {
         headerBuilder.setLength(0);
 
         // List the title of the publication
-        //headerBuilder.append(Processor.);
-        //TODO: Publication
+        if (Processor.publicationTitle != null) {
+            LineFactory.renderText(
+                Processor
+                        .publicationTitle
+                        .getTexts()
+                        .stream()
+                        .map(titleText -> {
+                            if (titleText.getText() != null)
+                                return new Text(titleText.getText(), TextStyle.NORMAL);
+                            else if (titleText.getEmphasis() != null)
+                                return new Text(titleText.getEmphasis().getEmphasisedText(), TextStyle.ITALIC);
+                            else if (titleText.getWork() != null)
+                                return new Text(titleText.getWork().getEmphasisedWork(), TextStyle.ITALIC);
+                            else throw new UnsupportedOperationException("Title text type " + titleText +
+                                        " is not yet supported!");
+                        })
+                        .toList(),
+                    TextAlignment.LEFT
+            );
+        }
 
         // List the date of the publication
         if (Processor.publicationDate != null) {

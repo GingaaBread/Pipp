@@ -27,4 +27,17 @@ public class Text {
      */
     private TextStyle style;
 
+    /**
+     *  Textual representation of the text
+     *
+     * @return - the text object as a string
+     */
+    @Override
+    public String toString() {
+        return "Text{" +
+                "content='" + content + '\'' +
+                ", style=" + style +
+                '}';
+    }
+
 }

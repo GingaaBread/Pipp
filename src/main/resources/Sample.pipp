@@ -36,7 +36,11 @@ config
 		emphasise "T"
 		"Hello World!"
 	publication
-		title "English Class"
+		title
+			"Why"
+			work " Spider-Man "
+			" is the best superhero film"
+			emphasise " per se"
 		date "23/04/2022"
 	author
 		of

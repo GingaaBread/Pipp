@@ -2,6 +2,7 @@ package frontend.ast.config;
 
 import frontend.ast.Node;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  *  The work node contains text containing a work that should be emphasised in the document.
@@ -17,6 +18,7 @@ public class Work extends Node {
     /**
      *  The work that should be referenced
      */
+    @Getter
     private String emphasisedWork;
 
     /**
