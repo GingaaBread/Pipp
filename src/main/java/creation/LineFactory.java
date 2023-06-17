@@ -6,27 +6,49 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import processing.Processor;
 
 import java.io.IOException;
+import java.util.List;
 
+/**
+ *  The LineFactory class is an essential part of the document creation process, used to render formatted text
+ *  to the document. It offers an automatic format depending on the used style configuration, which
+ *  takes margin, leading, and other factors into consideration, and allows aligning the text to a specific
+ *  position within the document. Furthermore, multiple text styles can be used in the same line.
+ *
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
+ */
 public class LineFactory {
 
     /**
+     *  Base method to render text components in the specified alignment in the document.
      *  Renders the specified text on the current page, using the page's current y position as the starting y
      *  position, and the style's margin as the starting x position. Takes leading into consideration.
-     *  Cuts the individual words using the space as the splitting character
+     *  Cuts the individual words using the space as the splitting character.
+     *  Note that the method does not change the strings in any way.
      *
-     * @param text - the text that should be rendered on the page
+     * @param textComponentsToRender - the text components that should be rendered on the page
+     * @param alignment - the text alignment that should be used for the rendered text
      */
-    @NonNull
-    public static void renderLeftAlignedText(final String text) {
+    public static void renderText(@NonNull final List<Text> textComponentsToRender,
+                                  @NonNull final TextAlignment alignment) {
         try {
+            final var rest = new StringBuilder();
+
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = 1.2f * Processor.fontSize * Processor.spacing;
 
             // Determines how much space the text can take up, by subtracting the margin for both sides
             final float availableWidth = Processor.dimensions.getWidth() - 2 * Processor.margin;
+            float maximumWidth = availableWidth;
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
-            final float startX = Processor.margin, startY = PageFactory.currentYPosition;
+            final float startX, startY;
+
+            if (alignment == TextAlignment.LEFT) {
+                startX = Processor.margin;
+                startY = PageFactory.currentYPosition;
+            } else throw new UnsupportedOperationException("The alignment " + alignment + " is not yet supported!");
 
             // Creates the content stream with the append mode, which allows overriding existing streams
             final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageFactory.getCurrent(),
@@ -39,56 +61,67 @@ public class LineFactory {
             contentStream.newLineAtOffset(startX, startY);
             contentStream.newLineAtOffset(0,0);
 
-            // Divides the text into its words, using exactly one (!) space as the split char
-            final var words = text.split(" ");
+            for (var textPart : textComponentsToRender) {
+                // Divides the text into its words, using exactly one (!) space as the split char
+                final var words = textPart.getContent().split(" ");
 
-            // Contains the currently created lines
-            final var lineBuilder = new StringBuilder();
-            final var rest = new StringBuilder();
+                // Contains the currently created lines
+                final var lineBuilder = new StringBuilder();
 
-            // Used to skip the first word when appending a space after all other words
-            var isFirstWord = true;
+                // Used to skip the first word when appending a space after all other words
+                var isFirstWord = true;
 
-            // Tries to check if the next word can be rendered in the current line or if it does not fit
-            for (String word : words) {
-                // Calculate the width of the entire line with a space and the current word
-                final float width = Processor.font.getStringWidth(lineBuilder + " " + word) / 1000
-                        * Processor.fontSize;
+                // Apply the correct font style
+                if (textPart.getStyle() == TextStyle.ITALIC)
+                    contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
+                else if (textPart.getStyle() == TextStyle.NORMAL)
+                    contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
-                // Check if the next line does not fit into the current page anymore
-                if (PageFactory.currentYPosition < Processor.margin) {
-                    if (!lineBuilder.isEmpty()) {
-                        rest.append(lineBuilder);
+                // Tries to check if the next word can be rendered in the current line or if it does not fit
+                for (String word : words) {
+                    // Calculate the width of the entire line with a space and the current word
+                    final float wordWidth = Processor.font.getStringWidth(" " + word) / 1000 * Processor.fontSize;
+
+
+                    // Check if the next line does not fit into the current page anymore
+                    if (PageFactory.currentYPosition < Processor.margin) {
+                        if (!lineBuilder.isEmpty()) {
+                            rest.append(lineBuilder);
+                            rest.append(" ");
+                            lineBuilder.setLength(0);
+                        }
+
+                        rest.append(word);
                         rest.append(" ");
-                        lineBuilder.setLength(0);
                     }
+                    // If the word does not fit in the current line, render the line and start a new line
+                    // TODO: Handle words that are too long to fit in one line (cut them off?)
+                    else if (wordWidth > maximumWidth) {
+                        contentStream.showText(lineBuilder.toString());
+                        maximumWidth = availableWidth;
+                        PageFactory.currentYPosition -= leading;
 
-                    rest.append(word);
-                    rest.append(" ");
+                        contentStream.newLineAtOffset(0, -leading);
+                        lineBuilder.setLength(0);
+                        lineBuilder.append(word);
+                        maximumWidth -= wordWidth;
+                    } else {
+                        // If the word does fit in the current line, add it to the builder and add a space
+                        // character if the word is not the first word in the line
+                        if (isFirstWord) {
+                            lineBuilder.append(word);
+                            isFirstWord = false;
+                        } else lineBuilder.append(" ").append(word);
+
+                        maximumWidth -= wordWidth;
+                    }
                 }
-                // If the word does not fit in the current line, render the line and start a new line
-                // TODO: Handle words that are too long to fit in one line (cut them off?)
-                else if (width > availableWidth) {
+
+                // There will be a "rest" line that needs to be rendered at the end
+                if (rest.length() == 0) {
                     contentStream.showText(lineBuilder.toString());
                     PageFactory.currentYPosition -= leading;
-
-                    contentStream.newLineAtOffset(0, -leading);
-                    lineBuilder.setLength(0);
-                    lineBuilder.append(word);
-                } else {
-                    // If the word does fit in the current line, add it to the builder and add a space
-                    // character if the word is not the first word in the line
-                    if (isFirstWord) {
-                        lineBuilder.append(word);
-                        isFirstWord = false;
-                    } else lineBuilder.append(" ").append(word);
                 }
-            }
-
-            // There will be a "rest" line that needs to be rendered at the end
-            if (rest.length() == 0) {
-                contentStream.showText(lineBuilder.toString());
-                PageFactory.currentYPosition -= leading;
             }
 
             // Wrap up the stream
@@ -98,11 +131,23 @@ public class LineFactory {
             // If there is still remaining text that did not fit on the page, restart the method on a new page
             if (!rest.isEmpty()) {
                 PageFactory.createNewPage();
-                renderLeftAlignedText(rest.toString());
+                //renderLeftAlignedText(rest.toString());
             }
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");
         }
+    }
+
+    /**
+     *  Utility method to automatically render normal text aligned left.
+     *  Renders the specified text on the current page, using the page's current y position as the starting y
+     *  position, and the style's margin as the starting x position. Takes leading into consideration.
+     *  Cuts the individual words using the space as the splitting character
+     *
+     * @param text - the text that should be rendered on the page
+     */
+    public static void renderLeftAlignedText(@NonNull final String text) {
+        renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.LEFT);
     }
 
 }

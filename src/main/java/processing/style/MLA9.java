@@ -30,6 +30,15 @@ public class MLA9 extends StyleGuide {
         return PDType1Font.TIMES_ROMAN;
     }
 
+    /**
+     *  MLA defines any easily readable font, which has a strongly contrasting default version.
+     *  Pipp uses the italic Times font for MLA9.
+     */
+    @Override
+    public PDFont emphasisedFont() {
+        return PDType1Font.TIMES_ITALIC;
+    }
+
     /// TODO: Hyphenation configuration: MLA does not allow hyphenation
 
     /**

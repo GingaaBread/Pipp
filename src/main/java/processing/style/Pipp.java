@@ -20,6 +20,11 @@ public class Pipp extends StyleGuide {
     }
 
     @Override
+    public PDFont emphasisedFont() {
+        return null;
+    }
+
+    @Override
     public int fontSize() {
         return 0;
     }

@@ -108,6 +108,14 @@ public abstract class StyleGuide {
     public abstract PDFont font();
 
     /**
+     *  Determines the font used for emphasised text.
+     *  An example use is using a foreign language in the document.
+     *
+     * @return - the {@link PDFont} that should be used for emphasised text
+     */
+    public abstract PDFont emphasisedFont();
+
+    /**
      *  Determines the main font size of the style guide.
      *  For example, the recommended font size in MLA is 12 pt.
      *

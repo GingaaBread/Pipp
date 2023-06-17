@@ -1,6 +1,6 @@
 package processing;
 
-import creation.PDFCreator;
+import creation.DocumentCreator;
 import error.IllegalConfigurationException;
 import error.IncorrectFormatException;
 import error.MissingConfigurationException;
@@ -686,11 +686,8 @@ public class Processor {
         System.out.println("Finished processing.");
         System.out.println(this);
 
-        try {
-            PDFCreator.create();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        // Start the creation process
+        DocumentCreator.create();
     }
 
 }
