@@ -247,6 +247,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
+<dt><a href="creation/TextAlignment.html#CENTER" class="member-name-link">CENTER</a> - Enum constant in enum class creation.<a href="creation/TextAlignment.html" title="enum class in creation">TextAlignment</a></dt>
+<dd>
+<div class="block">The CENTER alignment aligns the rendered text in the center of the page.</div>
+</dd>
 <dt><a href="frontend/ast/AST.html#checkForWarnings()" class="member-name-link">checkForWarnings()</a> - Method in class frontend.ast.<a href="frontend/ast/AST.html" title="class in frontend.ast">AST</a></dt>
 <dd>
 <div class="block">Checks for warnings in all child nodes.</div>
@@ -354,8 +358,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/FrontEndBridge.html#containsTokens()" class="member-name-link">containsTokens()</a> - Method in class frontend.<a href="frontend/FrontEndBridge.html" title="class in frontend">FrontEndBridge</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="creation/PDFCreator.html#create()" class="member-name-link">create()</a> - Static method in class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="creation/DocumentCreator.html#create()" class="member-name-link">create()</a> - Static method in class creation.<a href="creation/DocumentCreator.html" title="class in creation">DocumentCreator</a></dt>
+<dd>
+<div class="block">Instantiates the creation process by setting the document's metadata, rendering the required components,
+  and then assembling the pages.</div>
+</dd>
 <dt><a href="creation/PageFactory.html#createNewPage()" class="member-name-link">createNewPage()</a> - Static method in class creation.<a href="creation/PageFactory.html" title="class in creation">PageFactory</a></dt>
 <dd>
 <div class="block">Assembles the last page (if new page is not the first) and creates a new page with a stamp</div>
@@ -384,6 +391,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Determines the dimensions of the document (the width and height)</div>
 </dd>
 <dt><a href="processing/Processor.html#documentBody" class="member-name-link">documentBody</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="creation/DocumentCreator.html" class="type-name-link" title="class in creation">DocumentCreator</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>
+<div class="block">The DocumentCreator class is responsible for starting the creation process, and saving the document
+  to the specified path.</div>
+</dd>
+<dt><a href="creation/DocumentCreator.html#%3Cinit%3E()" class="member-name-link">DocumentCreator()</a> - Constructor for class creation.<a href="creation/DocumentCreator.html" title="class in creation">DocumentCreator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="creation/DocumentMetaDataWriter.html" class="type-name-link" title="class in creation">DocumentMetaDataWriter</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
 <dd>&nbsp;</dd>
@@ -420,6 +434,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="frontend/ast/config/Emphasis.html#%3Cinit%3E()" class="member-name-link">Emphasis()</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/Emphasis.html" title="class in frontend.ast.config">Emphasis</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="processing/style/MLA9.html#emphasisedFont()" class="member-name-link">emphasisedFont()</a> - Method in class processing.style.<a href="processing/style/MLA9.html" title="class in processing.style">MLA9</a></dt>
+<dd>
+<div class="block">MLA defines any easily readable font, which has a strongly contrasting default version.</div>
+</dd>
+<dt><a href="processing/style/Pipp.html#emphasisedFont()" class="member-name-link">emphasisedFont()</a> - Method in class processing.style.<a href="processing/style/Pipp.html" title="class in processing.style">Pipp</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="processing/style/StyleGuide.html#emphasisedFont()" class="member-name-link">emphasisedFont()</a> - Method in class processing.style.<a href="processing/style/StyleGuide.html" title="class in processing.style">StyleGuide</a></dt>
+<dd>
+<div class="block">Determines the font used for emphasised text.</div>
+</dd>
 <dt><a href="frontend/ast/config/style/Endnotes.html" class="type-name-link" title="class in frontend.ast.config.style">Endnotes</a> - Class in <a href="frontend/ast/config/style/package-summary.html">frontend.ast.config.style</a></dt>
 <dd>
 <div class="block">The endnotes node represents the endnotes style configuration</div>
@@ -587,6 +611,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Helper method to determine if a character is a punctuation character.</div>
 </dd>
+<dt><a href="creation/TextStyle.html#ITALIC" class="member-name-link">ITALIC</a> - Enum constant in enum class creation.<a href="creation/TextStyle.html" title="enum class in creation">TextStyle</a></dt>
+<dd>
+<div class="block">The ITALIC text style refers to the italic version of the main font.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:K">K</h2>
 <dl class="index">
@@ -603,8 +631,15 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="frontend/ast/config/style/Layout.html#%3Cinit%3E()" class="member-name-link">Layout()</a> - Constructor for class frontend.ast.config.style.<a href="frontend/ast/config/style/Layout.html" title="class in frontend.ast.config.style">Layout</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="creation/TextAlignment.html#LEFT" class="member-name-link">LEFT</a> - Enum constant in enum class creation.<a href="creation/TextAlignment.html" title="enum class in creation">TextAlignment</a></dt>
+<dd>
+<div class="block">The LEFT alignment aligns the rendered text to the left side of the x-dimension.</div>
+</dd>
 <dt><a href="creation/LineFactory.html" class="type-name-link" title="class in creation">LineFactory</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">The LineFactory class is an essential part of the document creation process, used to render formatted text
+  to the document.</div>
+</dd>
 <dt><a href="creation/LineFactory.html#%3Cinit%3E()" class="member-name-link">LineFactory()</a> - Constructor for class creation.<a href="creation/LineFactory.html" title="class in creation">LineFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="frontend/lexical_analysis/TokenType.html#LIST_SEPARATOR" class="member-name-link">LIST_SEPARATOR</a> - Enum constant in enum class frontend.lexical_analysis.<a href="frontend/lexical_analysis/TokenType.html" title="enum class in frontend.lexical_analysis">TokenType</a></dt>
@@ -690,6 +725,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="processing/NumerationAuthorName.html#NONE" class="member-name-link">NONE</a> - Enum constant in enum class processing.<a href="processing/NumerationAuthorName.html" title="enum class in processing">NumerationAuthorName</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="creation/TextStyle.html#NORMAL" class="member-name-link">NORMAL</a> - Enum constant in enum class creation.<a href="creation/TextStyle.html" title="enum class in creation">TextStyle</a></dt>
+<dd>
+<div class="block">The NORMAL text style refers to the default font used within the document.</div>
+</dd>
 <dt><a href="frontend/ast/config/style/Numeration.html" class="type-name-link" title="class in frontend.ast.config.style">Numeration</a> - Class in <a href="frontend/ast/config/style/package-summary.html">frontend.ast.config.style</a></dt>
 <dd>
 <div class="block">The numeration node contains information about how the page numbers should be styled</div>
@@ -755,7 +794,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:O">O</h2>
 <dl class="index">
-<dt><a href="creation/PDFCreator.html#outputPath" class="member-name-link">outputPath</a> - Static variable in class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
+<dt><a href="creation/DocumentCreator.html#outputPath" class="member-name-link">outputPath</a> - Static variable in class creation.<a href="creation/DocumentCreator.html" title="class in creation">DocumentCreator</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
@@ -813,10 +852,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates the parser by supplying the bridge.</div>
 </dd>
-<dt><a href="creation/PDFCreator.html" class="type-name-link" title="class in creation">PDFCreator</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="creation/PDFCreator.html#%3Cinit%3E()" class="member-name-link">PDFCreator()</a> - Constructor for class creation.<a href="creation/PDFCreator.html" title="class in creation">PDFCreator</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="processing/work/Periodical.html" class="type-name-link" title="class in processing.work">Periodical</a> - Class in <a href="processing/work/package-summary.html">processing.work</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="processing/work/Periodical.html#%3Cinit%3E()" class="member-name-link">Periodical()</a> - Constructor for class processing.work.<a href="processing/work/Periodical.html" title="class in processing.work">Periodical</a></dt>
@@ -894,8 +929,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="creation/LineFactory.html#renderLeftAlignedText(java.lang.String)" class="member-name-link">renderLeftAlignedText(String)</a> - Static method in class creation.<a href="creation/LineFactory.html" title="class in creation">LineFactory</a></dt>
 <dd>
-<div class="block">Renders the specified text on the current page, using the page's current y position as the starting y
-  position, and the style's margin as the starting x position.</div>
+<div class="block">Utility method to automatically render normal text aligned left.</div>
+</dd>
+<dt><a href="creation/LineFactory.html#renderText(java.util.List,creation.TextAlignment)" class="member-name-link">renderText(List&lt;Text&gt;, TextAlignment)</a> - Static method in class creation.<a href="creation/LineFactory.html" title="class in creation">LineFactory</a></dt>
+<dd>
+<div class="block">Base method to render text components in the specified alignment in the document.</div>
 </dd>
 <dt><a href="processing/Processor.html#requiredStructureBeforeEndnotes" class="member-name-link">requiredStructureBeforeEndnotes</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
@@ -1030,8 +1068,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A tables section usually lists all tables used in a document</div>
 </dd>
+<dt><a href="creation/Text.html" class="type-name-link" title="class in creation">Text</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>
+<div class="block">The Text class resembles text that should be rendered on the document.</div>
+</dd>
+<dt><a href="creation/Text.html#%3Cinit%3E()" class="member-name-link">Text()</a> - Constructor for class creation.<a href="creation/Text.html" title="class in creation">Text</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="frontend/lexical_analysis/TokenType.html#TEXT" class="member-name-link">TEXT</a> - Enum constant in enum class frontend.lexical_analysis.<a href="frontend/lexical_analysis/TokenType.html" title="enum class in frontend.lexical_analysis">TokenType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="creation/TextAlignment.html" class="type-name-link" title="enum class in creation">TextAlignment</a> - Enum Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>
+<div class="block">The TextAlignment enumeration determines how text is rendered in a document.</div>
+</dd>
+<dt><a href="creation/TextStyle.html" class="type-name-link" title="enum class in creation">TextStyle</a> - Enum Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>
+<div class="block">The TextStyle enumeration determines what font is used for a rendered text.</div>
+</dd>
 <dt><a href="processing/work/Work.html#title" class="member-name-link">title</a> - Variable in class processing.work.<a href="processing/work/Work.html" title="class in processing.work">Work</a></dt>
 <dd>
 <div class="block">Determines the main title of the work.</div>
@@ -1204,6 +1256,14 @@ loadScripts(document, 'script');</script>
 <dl class="index">
 <dt><a href="frontend/lexical_analysis/Token.html#value" class="member-name-link">value</a> - Variable in class frontend.lexical_analysis.<a href="frontend/lexical_analysis/Token.html" title="class in frontend.lexical_analysis">Token</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="creation/TextAlignment.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class creation.<a href="creation/TextAlignment.html" title="enum class in creation">TextAlignment</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="creation/TextStyle.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class creation.<a href="creation/TextStyle.html" title="enum class in creation">TextStyle</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
 <dt><a href="frontend/lexical_analysis/TokenType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class frontend.lexical_analysis.<a href="frontend/lexical_analysis/TokenType.html" title="enum class in frontend.lexical_analysis">TokenType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -1239,6 +1299,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="warning/WarningSeverity.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class warning.<a href="warning/WarningSeverity.html" title="enum class in warning">WarningSeverity</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="creation/TextAlignment.html#values()" class="member-name-link">values()</a> - Static method in enum class creation.<a href="creation/TextAlignment.html" title="enum class in creation">TextAlignment</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="creation/TextStyle.html#values()" class="member-name-link">values()</a> - Static method in enum class creation.<a href="creation/TextStyle.html" title="enum class in creation">TextStyle</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
 </dd>
 <dt><a href="frontend/lexical_analysis/TokenType.html#values()" class="member-name-link">values()</a> - Static method in enum class frontend.lexical_analysis.<a href="frontend/lexical_analysis/TokenType.html" title="enum class in frontend.lexical_analysis">TokenType</a></dt>
 <dd>

@@ -15,7 +15,11 @@
 <script type="text/javascript" src="../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="package-declaration-page">
-<script type="text/javascript">var pathtoroot = "../";
+<script type="text/javascript">var evenRowColor = "even-row-color";
+var oddRowColor = "odd-row-color";
+var tableTab = "table-tab";
+var activeTableTab = "active-table-tab";
+var pathtoroot = "../";
 loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -63,24 +67,44 @@ loadScripts(document, 'script');</script>
 <ul class="summary-list">
 <li>
 <div id="class-summary">
-<div class="caption"><span>Classes</span></div>
-<div class="summary-table two-column-summary">
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button></div>
+<div id="class-summary.tabpanel" role="tabpanel">
+<div class="summary-table two-column-summary" aria-labelledby="class-summary-tab0">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="DocumentMetaDataWriter.html" title="class in creation">DocumentMetaDataWriter</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="HeaderStamp.html" title="class in creation">HeaderStamp</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="DocumentCreator.html" title="class in creation">DocumentCreator</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">The DocumentCreator class is responsible for starting the creation process, and saving the document
+  to the specified path.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="DocumentMetaDataWriter.html" title="class in creation">DocumentMetaDataWriter</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="LineFactory.html" title="class in creation">LineFactory</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="HeaderStamp.html" title="class in creation">HeaderStamp</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="PageAssembler.html" title="class in creation">PageAssembler</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="LineFactory.html" title="class in creation">LineFactory</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">The LineFactory class is an essential part of the document creation process, used to render formatted text
+  to the document.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="PageAssembler.html" title="class in creation">PageAssembler</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="PageFactory.html" title="class in creation">PageFactory</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="PageFactory.html" title="class in creation">PageFactory</a></div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="PageNumberStamp.html" title="class in creation">PageNumberStamp</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="PageNumberStamp.html" title="class in creation">PageNumberStamp</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">&nbsp;</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="PDFCreator.html" title="class in creation">PDFCreator</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">&nbsp;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Text.html" title="class in creation">Text</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">The Text class resembles text that should be rendered on the document.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab3"><a href="TextAlignment.html" title="enum class in creation">TextAlignment</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab3">
+<div class="block">The TextAlignment enumeration determines how text is rendered in a document.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="TextStyle.html" title="enum class in creation">TextStyle</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab3">
+<div class="block">The TextStyle enumeration determines what font is used for a rendered text.</div>
+</div>
+</div>
 </div>
 </div>
 </li>
