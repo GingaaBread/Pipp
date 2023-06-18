@@ -42,12 +42,12 @@ public class LineFactory {
             float maximumWidth = availableWidth;
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
-            final float startX, startY;
+            float startX = 0, startY = 0;
 
             if (alignment == TextAlignment.LEFT) {
                 startX = Processor.margin;
                 startY = PageFactory.currentYPosition;
-            } else throw new UnsupportedOperationException("The alignment " + alignment + " is not yet supported!");
+            }
 
             // Creates the content stream with the append mode, which allows overriding existing streams
             final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageFactory.getCurrent(),
@@ -58,7 +58,7 @@ public class LineFactory {
             contentStream.setStrokingColor(Processor.fontColour);
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
-            contentStream.newLineAtOffset(0,0);
+            //? contentStream.newLineAtOffset(0,0);
 
             // Contains the currently created lines
             final var textBuilder = new LinkedList<Text>();
@@ -95,7 +95,6 @@ public class LineFactory {
                         rest.addLast(new Text(word + " ", textPart.getStyle()));
                     }
                     // If the word does not fit in the current line, render the line and start a new line
-                    // TODO: Handle words that are too long to fit in one line (cut them off?)
                     else if (wordWidth > maximumWidth) {
                         final var textSize = textBuilder.size();
                         for (int i = 0; i < textSize; i++) {
@@ -107,7 +106,15 @@ public class LineFactory {
                             else if (text.getStyle() == TextStyle.NORMAL)
                                 contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
-                            contentStream.showText(text.getContent());
+                            var textToRender = text.getContent();
+
+                            if (alignment == TextAlignment.CENTER) {
+                                var contentWidth = Processor.font.getStringWidth(textToRender) / 1000 * Processor.fontSize;
+                                startX = (PageFactory.getCurrent().getMediaBox().getWidth() - contentWidth) / 2;
+                                contentStream.newLineAtOffset(startX, PageFactory.currentYPosition);
+                            }
+
+                            contentStream.showText(textToRender);
                         }
 
                         maximumWidth = availableWidth;
@@ -171,7 +178,15 @@ public class LineFactory {
                     else if (text.getStyle() == TextStyle.NORMAL)
                         contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
-                    contentStream.showText(text.getContent());
+                    var textToRender = text.getContent();
+
+                    if (alignment == TextAlignment.CENTER) {
+                        var contentWidth = Processor.font.getStringWidth(textToRender) / 1000 * Processor.fontSize;
+                        startX = (PageFactory.getCurrent().getMediaBox().getWidth() - contentWidth) / 2;
+                        contentStream.newLineAtOffset(startX, PageFactory.currentYPosition);
+                    }
+
+                    contentStream.showText(textToRender);
                 }
 
                 PageFactory.currentYPosition -= leading;
@@ -221,4 +236,7 @@ public class LineFactory {
         renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.LEFT);
     }
 
+    public static void renderCenterAlignedText(@NonNull final String text) {
+        renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.CENTER);
+    }
 }
