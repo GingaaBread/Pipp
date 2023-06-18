@@ -50,9 +50,6 @@ public class DocumentMetaDataWriter {
 
         info.setKeywords("Pipp");
 
-        // TODO: Document Type by Authors
-        //info.setSubject(processor.get);
-
         // Producer should not be used as it is used for converted files
     }
 

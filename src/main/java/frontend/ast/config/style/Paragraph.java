@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter
 public class Paragraph extends Node {
 
-    // Todo: Change
     private String indentation;
 
     @Override

@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-// todo: check prefix too long likeliness, allow legal
 public class Sentence extends Node {
     private String prefix;
     private String allowWhitespace;

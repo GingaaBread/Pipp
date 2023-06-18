@@ -111,14 +111,41 @@ public class LineFactory {
                         }
 
                         maximumWidth = availableWidth;
-                        PageFactory.currentYPosition -= leading;
-
-                        contentStream.newLineAtOffset(0, -leading);
-
                         textBuilder.clear();
-                        textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
 
-                        maximumWidth -= wordWidth;
+                        // Check if the word is too long to fit in one line
+                        if (wordWidth > maximumWidth) {
+                            var currentLine = word;
+                            var nextLineWidth = wordWidth;
+
+                            while (nextLineWidth > maximumWidth) {
+                                var stringForNextLine = new StringBuilder();
+
+                                while (nextLineWidth > maximumWidth) {
+                                    stringForNextLine.append(currentLine.charAt(currentLine.length() - 1));
+                                    currentLine = currentLine.substring(0, currentLine.length() - 1);
+                                    nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 * Processor.fontSize;
+                                }
+
+                                contentStream.showText(currentLine);
+                                contentStream.newLineAtOffset(0, -leading);
+                                PageFactory.currentYPosition -= leading;
+
+                                currentLine = stringForNextLine.reverse().toString();
+                                nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 * Processor.fontSize;
+                                stringForNextLine.setLength(0);
+                            }
+
+                            contentStream.showText(currentLine);
+                            contentStream.newLineAtOffset(0, -leading);
+                            PageFactory.currentYPosition -= leading;
+                        } else {
+                            PageFactory.currentYPosition -= leading;
+                            contentStream.newLineAtOffset(0, -leading);
+
+                            textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
+                            maximumWidth -= wordWidth;
+                        }
                     } else {
                         // If the word does fit in the current line, add it to the builder and add a space
                         // character if the word is not the first word in the line
