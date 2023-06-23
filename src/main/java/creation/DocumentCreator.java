@@ -41,7 +41,17 @@ public class DocumentCreator {
                 TextAlignment.LEFT
         );
 
-        LineFactory.renderCenterAlignedText("This is a test");
+        LineFactory.renderText(List.of(
+                new Text("Hello World, this is ", TextStyle.NORMAL),
+                new Text(" Me", TextStyle.ITALIC))
+        , TextAlignment.CENTER);
+
+        LineFactory.renderText(List.of(
+                        new Text(longString, TextStyle.NORMAL),
+                        new Text("  Me", TextStyle.ITALIC))
+                , TextAlignment.CENTER);
+
+        LineFactory.renderLeftAlignedText("Test at the end!");
 
         // Always save the last page
         PageAssembler.finishCurrentPage();

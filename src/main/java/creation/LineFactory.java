@@ -40,16 +40,12 @@ public class LineFactory {
             // Determines how much space the text can take up, by subtracting the margin for both sides
             final float availableWidth = Processor.dimensions.getWidth() - 2 * Processor.margin;
             float maximumWidth = availableWidth;
+            float currentLineWidth = 0, lastXOffset = 0;
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
-            float startX = 0, startY = 0;
+            float startX = Processor.margin, startY = PageFactory.currentYPosition;
 
-            if (alignment == TextAlignment.LEFT) {
-                startX = Processor.margin;
-                startY = PageFactory.currentYPosition;
-            }
-
-            // Creates the content stream with the append mode, which allows overriding existing streams
+            // Creates the content stream with the append mode, which prevents overriding existing streams
             final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageFactory.getCurrent(),
                     PDPageContentStream.AppendMode.APPEND, false);
 
@@ -58,7 +54,6 @@ public class LineFactory {
             contentStream.setStrokingColor(Processor.fontColour);
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
-            //? contentStream.newLineAtOffset(0,0);
 
             // Contains the currently created lines
             final var textBuilder = new LinkedList<Text>();
@@ -80,7 +75,8 @@ public class LineFactory {
                 // Tries to check if the next word can be rendered in the current line or if it does not fit
                 for (String word : words) {
                     // Calculate the width of the entire line with a space and the current word
-                    final float wordWidth = Processor.font.getStringWidth(" " + word) / 1000 * Processor.fontSize;
+                    final float wordWidth = Processor.font.getStringWidth((isFirstWord ? "" : " ") + word) /
+                            1000 * Processor.fontSize;
 
                     // Check if the next line does not fit into the current page anymore
                     if (PageFactory.currentYPosition < Processor.margin) {
@@ -96,6 +92,15 @@ public class LineFactory {
                     }
                     // If the word does not fit in the current line, render the line and start a new line
                     else if (wordWidth > maximumWidth) {
+                        // When trying to center the text, we first need to calculate the total width for our offset
+                        if (alignment == TextAlignment.CENTER) {
+                            final float xOffset = (PageFactory.getCurrent().getMediaBox().getWidth() -
+                                    currentLineWidth) / 2 - Processor.margin;
+                            contentStream.newLineAtOffset(-lastXOffset, 0);
+                            contentStream.newLineAtOffset(xOffset, 0);
+                            lastXOffset = xOffset;
+                        }
+
                         final var textSize = textBuilder.size();
                         for (int i = 0; i < textSize; i++) {
                             var text = textBuilder.remove();
@@ -108,16 +113,11 @@ public class LineFactory {
 
                             var textToRender = text.getContent();
 
-                            if (alignment == TextAlignment.CENTER) {
-                                var contentWidth = Processor.font.getStringWidth(textToRender) / 1000 * Processor.fontSize;
-                                startX = (PageFactory.getCurrent().getMediaBox().getWidth() - contentWidth) / 2;
-                                contentStream.newLineAtOffset(startX, PageFactory.currentYPosition);
-                            }
-
                             contentStream.showText(textToRender);
                         }
 
                         maximumWidth = availableWidth;
+                        currentLineWidth = wordWidth;
                         textBuilder.clear();
 
                         // Check if the word is too long to fit in one line
@@ -131,7 +131,8 @@ public class LineFactory {
                                 while (nextLineWidth > maximumWidth) {
                                     stringForNextLine.append(currentLine.charAt(currentLine.length() - 1));
                                     currentLine = currentLine.substring(0, currentLine.length() - 1);
-                                    nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 * Processor.fontSize;
+                                    nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 *
+                                            Processor.fontSize;
                                 }
 
                                 contentStream.showText(currentLine);
@@ -139,7 +140,8 @@ public class LineFactory {
                                 PageFactory.currentYPosition -= leading;
 
                                 currentLine = stringForNextLine.reverse().toString();
-                                nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 * Processor.fontSize;
+                                nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 *
+                                        Processor.fontSize;
                                 stringForNextLine.setLength(0);
                             }
 
@@ -153,14 +155,16 @@ public class LineFactory {
                             textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
                             maximumWidth -= wordWidth;
                         }
+                    // The word does still fit in the current line
                     } else {
-                        // If the word does fit in the current line, add it to the builder and add a space
+                        // Add the word to the builder and add a space
                         // character if the word is not the first word in the line
                         if (isFirstWord) {
                             textBuilder.addLast(new Text(word, textPart.getStyle()));
                             isFirstWord = false;
                         } else textBuilder.addLast(new Text(" " + word, textPart.getStyle()));
 
+                        currentLineWidth += wordWidth;
                         maximumWidth -= wordWidth;
                     }
                 }
@@ -168,6 +172,13 @@ public class LineFactory {
 
             // If there is still one last remaining line, it should be displayed
             if (rest.isEmpty()) {
+                // When trying to center the text, we first need to calculate the total width for our offset
+                if (alignment == TextAlignment.CENTER) {
+                    final float xOffset = (PageFactory.getCurrent().getMediaBox().getWidth() - currentLineWidth) / 2
+                            - Processor.margin;
+                    contentStream.newLineAtOffset(xOffset, 0);
+                }
+
                 final var textSize = textBuilder.size();
                 for (int i = 0; i < textSize; i++) {
                     var text = textBuilder.remove();
@@ -178,15 +189,8 @@ public class LineFactory {
                     else if (text.getStyle() == TextStyle.NORMAL)
                         contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
-                    var textToRender = text.getContent();
-
-                    if (alignment == TextAlignment.CENTER) {
-                        var contentWidth = Processor.font.getStringWidth(textToRender) / 1000 * Processor.fontSize;
-                        startX = (PageFactory.getCurrent().getMediaBox().getWidth() - contentWidth) / 2;
-                        contentStream.newLineAtOffset(startX, PageFactory.currentYPosition);
-                    }
-
-                    contentStream.showText(textToRender);
+                    // Display the text component
+                    contentStream.showText(text.getContent());
                 }
 
                 PageFactory.currentYPosition -= leading;
@@ -236,7 +240,4 @@ public class LineFactory {
         renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.LEFT);
     }
 
-    public static void renderCenterAlignedText(@NonNull final String text) {
-        renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.CENTER);
-    }
 }
