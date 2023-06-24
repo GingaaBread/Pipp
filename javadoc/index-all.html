@@ -221,6 +221,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A blank page adds an empty page without any content, but is usually included in the page numeration</div>
 </dd>
+<dt><a href="creation/BodyHandler.html" class="type-name-link" title="class in creation">BodyHandler</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>
+<div class="block">The BodyHandler class is used to handle all body elements of the document.</div>
+</dd>
+<dt><a href="creation/BodyHandler.html#%3Cinit%3E()" class="member-name-link">BodyHandler()</a> - Constructor for class creation.<a href="creation/BodyHandler.html" title="class in creation">BodyHandler</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="processing/work/Book.html" class="type-name-link" title="class in processing.work">Book</a> - Class in <a href="processing/work/package-summary.html">processing.work</a></dt>
 <dd>
 <div class="block">A Book is a traditional type of work, which is usually referenced using its title, author(s), and publication
@@ -588,6 +594,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:H">H</h2>
 <dl class="index">
+<dt><a href="creation/BodyHandler.html#handle()" class="member-name-link">handle()</a> - Static method in class creation.<a href="creation/BodyHandler.html" title="class in creation">BodyHandler</a></dt>
+<dd>
+<div class="block">Tries to handle all body elements and throws an exception if any has not yet been implemented</div>
+</dd>
 <dt><a href="processing/StructureType.html#HEADER" class="member-name-link">HEADER</a> - Enum constant in enum class processing.<a href="processing/StructureType.html" title="enum class in processing">StructureType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="creation/HeaderStamp.html" class="type-name-link" title="class in creation">HeaderStamp</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
@@ -948,6 +958,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Base method to render text components in the specified alignment in the document.</div>
 </dd>
+<dt><a href="creation/TitleStamp.html#renderTitle()" class="member-name-link">renderTitle()</a> - Static method in class creation.<a href="creation/TitleStamp.html" title="class in creation">TitleStamp</a></dt>
+<dd>
+<div class="block">Renders the document title on the current page at its current position by mapping the title text to its
+  Text object equivalent and then rendering it in the LineFactory.</div>
+</dd>
 <dt><a href="processing/Processor.html#requiredStructureBeforeEndnotes" class="member-name-link">requiredStructureBeforeEndnotes</a> - Static variable in class processing.<a href="processing/Processor.html" title="class in processing">Processor</a></dt>
 <dd>
 <div class="block">Determines the type of structure that needs to appear before the user can declare an end notes section.</div>
@@ -1103,10 +1118,20 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="frontend/ast/config/Title.html#%3Cinit%3E()" class="member-name-link">Title()</a> - Constructor for class frontend.ast.config.<a href="frontend/ast/config/Title.html" title="class in frontend.ast.config">Title</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="processing/StructureType.html#TITLE" class="member-name-link">TITLE</a> - Enum constant in enum class processing.<a href="processing/StructureType.html" title="enum class in processing">StructureType</a></dt>
+<dd>
+<div class="block">The title generates the title of the document.</div>
+</dd>
 <dt><a href="processing/StructureType.html#TITLEPAGE" class="member-name-link">TITLEPAGE</a> - Enum constant in enum class processing.<a href="processing/StructureType.html" title="enum class in processing">StructureType</a></dt>
 <dd>
 <div class="block">The title page usually provides the most general information about the document and author to the reader</div>
 </dd>
+<dt><a href="creation/TitleStamp.html" class="type-name-link" title="class in creation">TitleStamp</a> - Class in <a href="creation/package-summary.html">creation</a></dt>
+<dd>
+<div class="block">The TitleStamp class is used to print the document title to the current document position</div>
+</dd>
+<dt><a href="creation/TitleStamp.html#%3Cinit%3E()" class="member-name-link">TitleStamp()</a> - Constructor for class creation.<a href="creation/TitleStamp.html" title="class in creation">TitleStamp</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="frontend/ast/config/TitleText.html" class="type-name-link" title="class in frontend.ast.config">TitleText</a> - Class in <a href="frontend/ast/config/package-summary.html">frontend.ast.config</a></dt>
 <dd>
 <div class="block">A title text node either contains a type of emphasis or a text.</div>
