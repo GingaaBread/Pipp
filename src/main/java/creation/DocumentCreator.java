@@ -25,13 +25,14 @@ public class DocumentCreator {
      *  variable.
      */
     public static void create() {
-        // Set the meta data
+        // Set the metadata
         DocumentMetaDataWriter.writeMetaData();
 
         // The PDF at least has one empty page
         PageFactory.createNewPage();
 
-        HeaderStamp.renderHeader();
+        // Create the document's body elements
+        BodyHandler.handle();
 
         // Render some dummy text for testing purposes
         var longString = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
@@ -40,18 +41,6 @@ public class DocumentCreator {
                         new Text(" " + longString, TextStyle.ITALIC)),
                 TextAlignment.LEFT
         );
-
-        LineFactory.renderText(List.of(
-                new Text("Hello World, this is ", TextStyle.NORMAL),
-                new Text(" Me", TextStyle.ITALIC))
-        , TextAlignment.CENTER);
-
-        LineFactory.renderText(List.of(
-                        new Text(longString, TextStyle.NORMAL),
-                        new Text("  Me", TextStyle.ITALIC))
-                , TextAlignment.CENTER);
-
-        LineFactory.renderLeftAlignedText("Test at the end!");
 
         // Always save the last page
         PageAssembler.finishCurrentPage();

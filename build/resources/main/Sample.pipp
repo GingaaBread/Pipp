@@ -30,32 +30,28 @@ config
 			author lastname
 	type "Paper"
 	title
-		"Test"
-		work "Tess"
-		"swwer4"
-		emphasise "T"
-		"Hello World!"
+		"Inconsistent Character Relationships in Shakespeare's"
+		work " Much Ado About Nothing"
 	publication
 		title
-			"Why"
-			work " Spider-Man "
-			" is the best superhero film"
-			emphasise " per se"
+			work "Romeo and Juliet"
+			" and the Art of Stealing Literature"
 		date "23/04/2022"
 	author
 		of
-			name "Theodore Rose"
+			name "John Doe"
 			id "229198"
 		of
-			firstname "Tom"
-			lastname "Tomsen"
-			id "4"
+			firstname "Sew"
+			lastname "Merryweather"
+			id "412554"
 	assessor
 		of
 			firstname "Dr. Mathias"
 			lastname "Green"
-			role "Assassin"
+			role "Instructor "
 		of
-			name "Tim Dolton"
-			role "d"
+			name "Mary Petersen"
+			role "Assistant"
 header
+title

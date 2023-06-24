@@ -1,10 +1,7 @@
 package processing;
 
 import creation.DocumentCreator;
-import error.IllegalConfigurationException;
-import error.IncorrectFormatException;
-import error.MissingConfigurationException;
-import error.MissingMemberException;
+import error.*;
 import frontend.ast.AST;
 import frontend.ast.NoArgumentStructure;
 import frontend.ast.config.Title;
@@ -674,7 +671,7 @@ public class Processor {
         for (var node : ast.getDocumentBody()) {
             if (node instanceof NoArgumentStructure) {
                 documentBody.add(((NoArgumentStructure) node).getType());
-            }
+            } else throw new PippException("Node " + node + " is not yet implemented!");
         }
 
         // For debugging purposes

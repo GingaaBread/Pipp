@@ -4,7 +4,7 @@ import frontend.ast.config.Configuration;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.util.Stack;
+import java.util.LinkedList;
 
 /**
  *  The AST represents Pipp's Abstract Syntax Tree (AST).
@@ -28,7 +28,7 @@ public class AST {
      *  the nodes specified one after the other.
      *  To push a new node to the stack, use the push-method of this class.
      */
-    private final Stack<Node> documentBody = new Stack<>();
+    private final LinkedList<Node> documentBody = new LinkedList<>();
 
     /**
      *  Adds the specified document node to the top of the stack.
@@ -36,9 +36,8 @@ public class AST {
      *
      * @param node - the node that should be added to the top of the stack
      */
-    @NonNull
-    public void pushDocumentNode(final Node node) {
-        documentBody.add(node);
+    public void pushDocumentNode(@NonNull final Node node) {
+        documentBody.addFirst(node);
     }
 
     /**

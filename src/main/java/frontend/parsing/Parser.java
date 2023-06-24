@@ -194,22 +194,34 @@ public class Parser {
         instructionList();
     }
 
-    // InstructionList := OptionalNewLine Header InstructionList | OptionalNewLine Header
+    // InstructionList := OptionalNewLine Instruction InstructionList | OptionalNewLine Instruction
     private void instructionList() {
         do {
             if (current.type == TokenType.NEW_LINE) newline();
-
-            header();
+            else if (current.type == TokenType.KEYWORD) {
+                System.out.println("FDFE");
+                if (current.value.equals("header")) header();
+                else if (current.value.equals("title")) title();
+                else error();
+            } else error();
         } while (frontEndBridge.containsTokens() && (current.type == TokenType.NEW_LINE ||
-                isKeyword() && current.value.equals("header")));
+                isKeyword() && (current.value.equals("header") || current.value.equals("title")) ));
+    }
+
+    /**
+     *  Title := "title" Newline
+     */
+    private void title() {
+        consumeKeyword("title");
+        newline();
+        ast.pushDocumentNode(new NoArgumentStructure(StructureType.TITLE));
     }
 
     /**
      *  Header := "header" Newline
      */
     private void header() {
-        remainIndentation();
-        consume(new Token(TokenType.KEYWORD, "header"));
+        consumeKeyword("header");
         newline();
         ast.pushDocumentNode(new NoArgumentStructure(StructureType.HEADER));
     }
@@ -374,7 +386,11 @@ public class Parser {
                 expectIndentation();
                 nameSpecificationWithOptRole();
                 forgoIndentation();
-                remainIndentation();
+
+                if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD
+                        && frontEndBridge.lookahead(0).value.equals("of")) {
+                    remainIndentation();
+                }
             } else if (current.type == TokenType.TEXT) {
                 textual();
 

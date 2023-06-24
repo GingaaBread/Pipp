@@ -23,6 +23,11 @@ public enum StructureType {
     TITLEPAGE,
 
     /**
+     *  The title generates the title of the document. This is used to separate the header from the title.
+     */
+    TITLE,
+
+    /**
      *  The appendix usually lists material that hase been used in the document
      */
     APPENDIX,
