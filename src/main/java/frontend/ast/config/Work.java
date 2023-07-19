@@ -3,6 +3,7 @@ package frontend.ast.config;
 import frontend.ast.Node;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 /**
  *  The work node contains text containing a work that should be emphasised in the document.
@@ -12,14 +13,17 @@ import lombok.Getter;
  * @since 1.0
  * @version 1.0
  */
-@AllArgsConstructor
 public class Work extends Node {
 
     /**
      *  The work that should be referenced
      */
     @Getter
-    private String emphasisedWork;
+    private final String emphasisedWork;
+
+    public Work(@NonNull final String emphasisedWork) {
+        this.emphasisedWork = emphasisedWork + " ";
+    }
 
     /**
      *  A textual representation of the "work" node, which contains the work that should be referenced

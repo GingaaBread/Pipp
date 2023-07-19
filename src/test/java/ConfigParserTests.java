@@ -1,6 +1,6 @@
 import frontend.FrontEndBridge;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public class ConfigParserTests {
 
@@ -13,7 +13,7 @@ public class ConfigParserTests {
         Assertions.assertDoesNotThrow(() -> new FrontEndBridge("""
                 config
                 \ttitle "Hello World!"
-                """));
+        """));
     }
 
     /**

@@ -1,33 +1,5 @@
 config
-	style
-		of "MLA9"
-		layout
-			width "8.5in"
-			height "11in"
-			margin "1in"
-			spacing "2"
-		font
-			name "Times Roman"
-			colour "#000000"
-			size "12"
-		structure
-			paragraph
-				indentation "8"
-			sentence
-				before " "
-				allow
-					whitespace "Escaped"
-					bold "No"
-					italic "If Necessary"
-			endnotes
-				allow
-					before bibliography
-		numeration
-			in "Arabic"
-			display "Top Right"
-			margin "0.5in"
-# 			skip "21"
-			author lastname
+	style "MLA9"
 	type "Paper"
 	title
 		"Inconsistent Character Relationships in Shakespeare's"
@@ -36,22 +8,7 @@ config
 		title
 			work "Romeo and Juliet"
 			" and the Art of Stealing Literature"
-		date "23/04/2022"
-	author
-		of
-			name "John Doe"
-			id "229198"
-		of
-			firstname "Sew"
-			lastname "Merryweather"
-			id "412554"
-	assessor
-		of
-			firstname "Dr. Mathias"
-			lastname "Green"
-			role "Instructor "
-		of
-			name "Mary Petersen"
-			role "Assistant"
+	author "Sew Merryweather"
+	assessor "Mary Petersen"
 header
 title

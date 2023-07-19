@@ -36,7 +36,7 @@ public class Pipp extends StyleGuide {
 
     @Override
     public float margin() {
-        return 0f;
+        return 1f;
     }
 
     @Override

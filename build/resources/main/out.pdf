@@ -10,9 +10,8 @@ endobj
 3 0 obj
 <<
 /Creator (Pipp v.1.0)
-/Author (John Doe, Sew Merryweather)
-/CreationDate (D:20220423021135+02'00')
-/Title (Inconsistent Character Relationships in Shakespeare's  Much Ado About Nothing)
+/CreationDate (D:20230719200619+02'00')
+/Title (Inconsistent Character Relationships in Shakespeare's   Much Ado About Nothing )
 /Keywords (Pipp)
 >>
 endobj
@@ -27,29 +26,29 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R]
-/Resources 13 0 R
+/Contents [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R]
+/Resources 11 0 R
 /Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/Length 74
+/Length 59
 >>
 stream
 /F1 12 Tf
 /DeviceRGB CS
 0 0 0 SC
 BT
-484.67999 756 Td
-(Doe et al. 1) Tj
+534 791.5 Td
+(1) Tj
 ET
 
 endstream
 endobj
 6 0 obj
 <<
-/Length 99
+/Length 104
 >>
 stream
 /F1 12 Tf
@@ -59,58 +58,14 @@ BT
 72 720 Td
 /F1 12 Tf
 /F1 12 Tf
-(John) Tj
-/F1 12 Tf
-( Doe) Tj
-ET
-
-endstream
-endobj
-7 0 obj
-<<
-/Length 113
->>
-stream
-/F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
-BT
-72 691.20001 Td
-/F1 12 Tf
-/F1 12 Tf
-(Sew) Tj
-/F1 12 Tf
-( Merryweather) Tj
-ET
-
-endstream
-endobj
-8 0 obj
-<<
-/Length 177
->>
-stream
-/F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
-BT
-72 662.40002 Td
-/F1 12 Tf
-/F1 12 Tf
-(Dr.) Tj
-/F1 12 Tf
-( Mathias) Tj
-/F1 12 Tf
-( Green,) Tj
-/F1 12 Tf
-( Mary) Tj
+(Mary) Tj
 /F1 12 Tf
 ( Petersen) Tj
 ET
 
 endstream
 endobj
-9 0 obj
+7 0 obj
 <<
 /Length 286
 >>
@@ -119,7 +74,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 633.60004 Td
+72 691.20001 Td
 /F2 12 Tf
 /F1 12 Tf
 /F2 12 Tf
@@ -146,28 +101,26 @@ ET
 
 endstream
 endobj
-10 0 obj
+8 0 obj
 <<
-/Length 127
+/Length 108
 >>
 stream
 /F1 12 Tf
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 604.80005 Td
+72 662.40002 Td
 /F1 12 Tf
 /F1 12 Tf
-(April) Tj
+(July) Tj
 /F1 12 Tf
-( 23,) Tj
-/F1 12 Tf
-( 2022) Tj
+( 192023) Tj
 ET
 
 endstream
 endobj
-11 0 obj
+9 0 obj
 <<
 /Length 323
 >>
@@ -176,7 +129,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 576.00006 Td
+72 633.60004 Td
 /F1 12 Tf
 /F2 12 Tf
 39.942 0 Td
@@ -204,7 +157,7 @@ ET
 
 endstream
 endobj
-12 0 obj
+10 0 obj
 <<
 /Length 4606
 >>
@@ -213,7 +166,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 547.20007 Td
+72 604.80005 Td
 /F1 12 Tf
 /F1 12 Tf
 (Lorem) Tj
@@ -634,18 +587,18 @@ ET
 
 endstream
 endobj
+11 0 obj
+<<
+/Font 12 0 R
+>>
+endobj
+12 0 obj
+<<
+/F1 13 0 R
+/F2 14 0 R
+>>
+endobj
 13 0 obj
-<<
-/Font 14 0 R
->>
-endobj
-14 0 obj
-<<
-/F1 15 0 R
-/F2 16 0 R
->>
-endobj
-15 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -653,7 +606,7 @@ endobj
 /Encoding /WinAnsiEncoding
 >>
 endobj
-16 0 obj
+14 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -662,31 +615,29 @@ endobj
 >>
 endobj
 xref
-0 17
+0 15
 0000000000 65535 f
 0000000015 00000 n
-0000000302 00000 n
+0000000267 00000 n
 0000000078 00000 n
-0000000359 00000 n
-0000000519 00000 n
-0000000645 00000 n
-0000000796 00000 n
-0000000962 00000 n
-0000001192 00000 n
-0000001531 00000 n
-0000001712 00000 n
-0000002089 00000 n
-0000006750 00000 n
-0000006785 00000 n
-0000006829 00000 n
-0000006929 00000 n
+0000000324 00000 n
+0000000470 00000 n
+0000000581 00000 n
+0000000738 00000 n
+0000001077 00000 n
+0000001238 00000 n
+0000001614 00000 n
+0000006275 00000 n
+0000006310 00000 n
+0000006354 00000 n
+0000006454 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<C6A94B18E09A118B7905BF0DE65396E1> <C6A94B18E09A118B7905BF0DE65396E1>]
-/Size 17
+/ID [<F1C37F091CEE1C536B69E2D79EDF7909> <F1C37F091CEE1C536B69E2D79EDF7909>]
+/Size 15
 >>
 startxref
-7030
+6555
 %%EOF

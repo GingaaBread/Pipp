@@ -320,13 +320,14 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getMargin().substring(0, layout.getMargin().length() - 2);
+                System.out.println(asNumber);
                 margin = pointsPerInch *  Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
                 margin = pointsPerMM * Float.parseFloat(layout.getMargin());
             }
-        } else margin = usedStyleGuide.margin();
+        } else margin = pointsPerInch * usedStyleGuide.margin();
 
         // Check if the user demands a custom spacing
         if (layout.getSpacing() != null) {
@@ -659,7 +660,7 @@ public class Processor {
 
                 publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
-        }
+        } else publicationDate = LocalDate.now();
 
         publicationTitle = ast.getConfiguration().getPublication().getTitle();
 

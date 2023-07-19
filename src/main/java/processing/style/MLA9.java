@@ -211,7 +211,7 @@ public class MLA9 extends StyleGuide {
         final var monthAsLowerCase = date.getMonth().toString().toLowerCase();
         final var firstUppercase = String.valueOf(monthAsLowerCase.charAt(0)).toUpperCase();
         return firstUppercase + monthAsLowerCase.substring(1) + " " + date.getDayOfMonth()
-                + ", " + date.getYear();
+                + " " + date.getYear();
     }
 
 }

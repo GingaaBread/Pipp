@@ -49,7 +49,7 @@ public class TitleText extends Node {
      * @param text - the textual content specified by the user
      */
     public TitleText(@NonNull final String text) {
-        this.text = text;
+        this.text = text + " ";
     }
 
     /**
