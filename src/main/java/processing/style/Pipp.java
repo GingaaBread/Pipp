@@ -109,4 +109,9 @@ public class Pipp extends StyleGuide {
     public String dateToString(final @NonNull LocalDate date) {
         return "";
     }
+
+    @Override
+    public @NonNull NumerationAuthorName numerationAuthorName() {
+        return NumerationAuthorName.LAST_NAME;
+    }
 }

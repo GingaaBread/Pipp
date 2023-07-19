@@ -404,14 +404,14 @@ public class Processor {
 
         // Check if the user demands a custom author name before the numeration
         if (numeration.getAuthorName() != null) {
-            switch (numeration.getAuthorName()) {
-                case "firstname" -> numerationAuthorName = NumerationAuthorName.FIRST_NAME;
-                case "lastname" -> numerationAuthorName = NumerationAuthorName.LAST_NAME;
-                case "name" -> numerationAuthorName = NumerationAuthorName.NAME;
-                case "None" -> numerationAuthorName = NumerationAuthorName.NONE;
+            numerationAuthorName = switch (numeration.getAuthorName()) {
+                case "firstname" -> NumerationAuthorName.FIRST_NAME;
+                case "lastname" -> NumerationAuthorName.LAST_NAME;
+                case "name" -> NumerationAuthorName.NAME;
+                case "None" -> NumerationAuthorName.NONE;
                 default -> throw new IncorrectFormatException("14: Author numeration name expected.");
-            }
-        }
+            };
+        } else numerationAuthorName = usedStyleGuide.numerationAuthorName();
 
         var pageNumerationMargin = numeration.getMargin();
 

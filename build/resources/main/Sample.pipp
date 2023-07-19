@@ -1,6 +1,5 @@
 config
 	style "MLA9"
-	type "Paper"
 	title
 		"Inconsistent Character Relationships in Shakespeare's"
 		work " Much Ado About Nothing"
@@ -8,7 +7,7 @@ config
 		title
 			work "Romeo and Juliet"
 			" and the Art of Stealing Literature"
-	author "Sew Merryweather"
+	author "John Doe"
 	assessor "Mary Petersen"
 header
 title

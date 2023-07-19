@@ -210,6 +210,14 @@ public abstract class StyleGuide {
     @NonNull
     public abstract String dateToString(final LocalDate date);
 
+    /**
+     *  Defines how the style sheet renders the author names in the page numeration.
+     *
+     * @return - the non-null numeration value
+     */
+    @NonNull
+    public abstract NumerationAuthorName numerationAuthorName();
+
     // TODO: provide general whitespace check
 
 }

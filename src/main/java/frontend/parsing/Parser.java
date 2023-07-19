@@ -433,6 +433,11 @@ public class Parser {
             forgoIndentation();
         } else if (current.type == TokenType.TEXT) {
             textual();
+
+            var author = new Author();
+            author.setName(last.value);
+
+            ast.getConfiguration().getAuthors().add(author);
         } else error();
     }
 

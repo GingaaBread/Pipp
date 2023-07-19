@@ -214,4 +214,9 @@ public class MLA9 extends StyleGuide {
                 + " " + date.getYear();
     }
 
+    @Override
+    public @NonNull NumerationAuthorName numerationAuthorName() {
+        return NumerationAuthorName.LAST_NAME;
+    }
+
 }
