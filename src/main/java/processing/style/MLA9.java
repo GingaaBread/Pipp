@@ -95,6 +95,11 @@ public class MLA9 extends StyleGuide {
         return NumerationPosition.TOP_RIGHT;
     }
 
+    @Override
+    public @NonNull NumerationAuthorName numerationAuthorName() {
+        return NumerationAuthorName.LAST_NAME;
+    }
+
     /**
      *  MLA displays the page number half an inch away from the top of the document
      */
@@ -212,11 +217,6 @@ public class MLA9 extends StyleGuide {
         final var firstUppercase = String.valueOf(monthAsLowerCase.charAt(0)).toUpperCase();
         return firstUppercase + monthAsLowerCase.substring(1) + " " + date.getDayOfMonth()
                 + " " + date.getYear();
-    }
-
-    @Override
-    public @NonNull NumerationAuthorName numerationAuthorName() {
-        return NumerationAuthorName.LAST_NAME;
     }
 
 }

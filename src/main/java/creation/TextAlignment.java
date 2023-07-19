@@ -20,6 +20,12 @@ public enum TextAlignment {
      *  The CENTER alignment aligns the rendered text in the center of the page.
      *  This can particularly useful when rendering titles or other texts that should stand out.
      */
-    CENTER
+    CENTER,
+
+    /**
+     *  The RIGHT alignment aligns the rendered text to the right side of the x-dimension.
+     *  This can be very useful for rendering the page numbers.
+     */
+    RIGHT
 
 }

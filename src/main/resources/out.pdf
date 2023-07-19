@@ -11,7 +11,7 @@ endobj
 <<
 /Creator (Pipp v.1.0)
 /Author (John Doe)
-/CreationDate (D:20230719202305+02'00')
+/CreationDate (D:20230719204451+02'00')
 /Title (Inconsistent Character Relationships in Shakespeare's   Much Ado About Nothing )
 /Keywords (Pipp)
 >>
@@ -34,29 +34,33 @@ endobj
 endobj
 5 0 obj
 <<
-/Length 66
+/Length 98
 >>
 stream
 /F1 12 Tf
 /DeviceRGB CS
 0 0 0 SC
 BT
-514.008 791.5 Td
-(Doe1) Tj
+72 791.5 Td
+/F1 12 Tf
+/F1 12 Tf
+(Doe) Tj
+/F1 12 Tf
+( 1) Tj
 ET
 
 endstream
 endobj
 6 0 obj
 <<
-/Length 99
+/Length 105
 >>
 stream
 /F1 12 Tf
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 720 Td
+72 691.20001 Td
 /F1 12 Tf
 /F1 12 Tf
 (John) Tj
@@ -75,7 +79,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 691.20001 Td
+72 662.40002 Td
 /F1 12 Tf
 /F1 12 Tf
 (Mary) Tj
@@ -94,7 +98,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 662.40002 Td
+72 633.60004 Td
 /F2 12 Tf
 /F1 12 Tf
 /F2 12 Tf
@@ -130,7 +134,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 633.60004 Td
+72 604.80005 Td
 /F1 12 Tf
 /F1 12 Tf
 (July) Tj
@@ -151,7 +155,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 604.80005 Td
+72 576.00006 Td
 /F1 12 Tf
 /F2 12 Tf
 39.942 0 Td
@@ -188,7 +192,7 @@ stream
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 576.00006 Td
+72 547.20007 Td
 /F1 12 Tf
 /F1 12 Tf
 (Lorem) Tj
@@ -644,23 +648,23 @@ xref
 0000000078 00000 n
 0000000343 00000 n
 0000000496 00000 n
-0000000614 00000 n
-0000000765 00000 n
-0000000928 00000 n
-0000001267 00000 n
-0000001445 00000 n
-0000001822 00000 n
-0000006483 00000 n
-0000006518 00000 n
-0000006562 00000 n
-0000006662 00000 n
+0000000646 00000 n
+0000000804 00000 n
+0000000967 00000 n
+0000001306 00000 n
+0000001484 00000 n
+0000001861 00000 n
+0000006522 00000 n
+0000006557 00000 n
+0000006601 00000 n
+0000006701 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<DA158F6845920D98BF65BCCF2222E9A6> <DA158F6845920D98BF65BCCF2222E9A6>]
+/ID [<475EEA1CBD8EDCC4545E1E9A2ABCA0B7> <475EEA1CBD8EDCC4545E1E9A2ABCA0B7>]
 /Size 16
 >>
 startxref
-6763
+6802
 %%EOF

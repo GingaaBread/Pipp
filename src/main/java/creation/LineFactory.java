@@ -21,6 +21,11 @@ import java.util.List;
  */
 public class LineFactory {
 
+    public static void renderText(@NonNull final List<Text> textComponentsToRender,
+                                  @NonNull final TextAlignment alignment) {
+        renderText(textComponentsToRender, alignment, PageFactory.currentYPosition);
+    }
+
     /**
      *  Base method to render text components in the specified alignment in the document.
      *  Renders the specified text on the current page, using the page's current y position as the starting y
@@ -32,7 +37,8 @@ public class LineFactory {
      * @param alignment - the text alignment that should be used for the rendered text
      */
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
-                                  @NonNull final TextAlignment alignment) {
+                                  @NonNull final TextAlignment alignment,
+                                  final float startY) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = 1.2f * Processor.fontSize * Processor.spacing;
@@ -43,7 +49,7 @@ public class LineFactory {
             float currentLineWidth = 0, lastXOffset = 0;
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
-            float startX = Processor.margin, startY = PageFactory.currentYPosition;
+            float startX = Processor.margin;
 
             // Creates the content stream with the append mode, which prevents overriding existing streams
             final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageFactory.getCurrent(),
@@ -58,6 +64,10 @@ public class LineFactory {
             // Contains the currently created lines
             final var textBuilder = new LinkedList<Text>();
             final var rest = new LinkedList<Text>();
+
+            // TODO: IMPLEMENT RIGHT
+            // // page.getMediaBox().getWidth() -
+            //                            //Processor.numerationMargin - contentWidth;
 
             for (var textPart : textComponentsToRender) {
                 // Divides the text into its words, using exactly one (!) space as the split char

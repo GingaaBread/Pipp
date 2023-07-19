@@ -6,6 +6,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import processing.*;
 
+import java.util.List;
 import java.util.TreeMap;
 
 import java.io.IOException;
@@ -51,39 +52,30 @@ public class PageNumberStamp {
 
         // Do not stamp the page if the "actual" page is included in the skipped pages list
         if (!Processor.skippedPages.contains(numberIndex)) {
-            try {
-                // Create the content stream using append mode, which allows overriding existing streams
-                final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), page,
-                        PDPageContentStream.AppendMode.APPEND, false);
-
-                // Set the font configurations for the page number text
-                contentStream.setFont(Processor.font, Processor.fontSize);
-                contentStream.setStrokingColor(Processor.fontColour);
-
-                // Prepare to render the text
-                contentStream.beginText();
-
                 // Contains the displayed name of the author(s), which is added before the page number
                 final var authorNamePrefixBuilder = new StringBuilder();
 
                 // The names should only be displayed if there are authors configured in the first place
-                if (Processor.authors.length > 0) {
+                if (Processor.authors.length > 0 && Processor.numerationAuthorName != NumerationAuthorName.NONE) {
                     // Sets the prefix to the name of the FIRST author, unless the user does not want to
                     // TODO: Consider at least up to four authors?
                     final String authorPrefix = switch (Processor.numerationAuthorName) {
                         case FIRST_NAME -> Processor.authors[0].getFirstname();
                         case LAST_NAME -> Processor.authors[0].getLastname();
                         case NAME -> Processor.authors[0].getFirstname() + " " + Processor.authors[0].getLastname();
-                        case NONE -> "";
+                        default -> throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
                     };
 
                     // The name is now part of the builder
                     authorNamePrefixBuilder.append(authorPrefix);
 
                     // If there are multiple authors, also append "et al." if the names should be displayed
-                    // TODO: Consider changing this to up to four?
                     if (Processor.authors.length > 1 && Processor.numerationAuthorName != NumerationAuthorName.NONE)
                         authorNamePrefixBuilder.append(" et al. ");
+
+                    // TODO
+                    // if does not fit in one line
+                    // use first and append et. al.
                 }
 
                 // Contains the page number as a string in the desired numeral system
@@ -93,17 +85,13 @@ public class PageNumberStamp {
                 };
 
                 // Contains the entire text as one string (the author texts and page number)
-                final String content = authorNamePrefixBuilder + pageString;
-
-                // Calculates the width of the text content
-                final float contentWidth = Processor.font.getStringWidth(content) / 1000 * Processor.fontSize;
+                final String content = authorNamePrefixBuilder + " " + pageString;
 
                 // Calculates the starting x position of the text
-                final float x = switch (Processor.numerationPosition) {
-                    case TOP_LEFT, BOTTOM_LEFT -> Processor.margin;
-                    case TOP_RIGHT, BOTTOM_RIGHT -> page.getMediaBox().getWidth() -
-                            Processor.margin - contentWidth;
-                    case TOP, BOTTOM -> (page.getMediaBox().getWidth() - contentWidth) / 2;
+                final TextAlignment alignment = switch (Processor.numerationPosition) {
+                    case TOP_LEFT, BOTTOM_LEFT -> TextAlignment.LEFT;
+                    case TOP_RIGHT, BOTTOM_RIGHT -> TextAlignment.RIGHT;
+                    case TOP, BOTTOM -> TextAlignment.CENTER;
                 };
 
                 // Calculates the starting y position of the text
@@ -115,20 +103,11 @@ public class PageNumberStamp {
                     case BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT -> Processor.numerationMargin;
                 };
 
-                // Write the text
-                contentStream.newLineAtOffset(x, y);
-                contentStream.showText(content);
-
-                // Wrap up the stream
-                contentStream.endText();
-                contentStream.close();
+                // Renders the page numeration with a normal text style
+                LineFactory.renderText(List.of(new Text(content, TextStyle.NORMAL)), alignment, y);
 
                 // Increment the page number (only if this page was not skipped)
                 nextNumber++;
-
-            } catch (IOException e) {
-                throw new PippException("Could not add the page stamp to the page.");
-            }
         }
 
         // Even if the page was skipped, increment the number index, which is needed for addressing the pages
