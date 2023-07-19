@@ -120,7 +120,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderText(java.util.List,creation.TextAlignment)" class="member-name-link">renderText</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Text.html" title="class in creation">Text</a>&gt;&nbsp;textComponentsToRender,
  @NonNull <a href="TextAlignment.html" title="enum class in creation">TextAlignment</a>&nbsp;alignment)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderText(java.util.List,creation.TextAlignment,float)" class="member-name-link">renderText</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Text.html" title="class in creation">Text</a>&gt;&nbsp;textComponentsToRender,
+ @NonNull <a href="TextAlignment.html" title="enum class in creation">TextAlignment</a>&nbsp;alignment,
+ float&nbsp;startY)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Base method to render text components in the specified alignment in the document.</div>
 </div>
 </div>
@@ -161,6 +166,16 @@ loadScripts(document, 'script');</script>
  @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Text.html" title="class in creation">Text</a>&gt;&nbsp;textComponentsToRender,
  @NonNull
  @NonNull <a href="TextAlignment.html" title="enum class in creation">TextAlignment</a>&nbsp;alignment)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="renderText(java.util.List,creation.TextAlignment,float)">
+<h3>renderText</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">renderText</span><wbr><span class="parameters">(@NonNull
+ @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Text.html" title="class in creation">Text</a>&gt;&nbsp;textComponentsToRender,
+ @NonNull
+ @NonNull <a href="TextAlignment.html" title="enum class in creation">TextAlignment</a>&nbsp;alignment,
+ float&nbsp;startY)</span></div>
 <div class="block">Base method to render text components in the specified alignment in the document.
   Renders the specified text on the current page, using the page's current y position as the starting y
   position, and the style's margin as the starting x position. Takes leading into consideration.
