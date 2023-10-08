@@ -1,13 +1,38 @@
 config
-	style "MLA9"
-	title
-		"Inconsistent Character Relationships in Shakespeare's"
-		work " Much Ado About Nothing"
+	style
+		of "MLA9"
+		layout
+			width "8.5in"
+			height "11in"
+			margin "1in"
+			spacing "2"
+		font
+			name "Times Roman"
+			colour "#000000"
+			size "12"
+		structure
+			paragraph
+				indentation "8"
+			sentence
+				before " "
+				allow
+					whitespace "Escaped"
+					bold "No"
+					italic "If Necessary"
+			endnotes
+				allow
+					before bibliography
+		numeration
+			in "Arabic"
+			display "Bottom"
+			margin "0.5in"
+			skip "21"
+			author lastname
+	title "This is the title of my document"
 	publication
-		title
-			work "Romeo and Juliet"
-			" and the Art of Stealing Literature"
-	author "John Doe"
-	assessor "Mary Petersen"
+		title "Compilerbau"
+#		date "None"
+	author "Gino Glink"
+	assessor "Dr. Oliver Ruething"
 header
 title

@@ -37,7 +37,7 @@ public class DocumentCreator {
         // Render some dummy text for testing purposes
         var longString = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
         LineFactory.renderText(
-                List.of(new Text(longString, TextStyle.NORMAL),
+                 List.of(new Text(longString, TextStyle.NORMAL),
                         new Text(" " + longString, TextStyle.ITALIC)),
                 TextAlignment.LEFT
         );

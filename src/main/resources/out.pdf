@@ -10,9 +10,9 @@ endobj
 3 0 obj
 <<
 /Creator (Pipp v.1.0)
-/Author (John Doe)
-/CreationDate (D:20230719204451+02'00')
-/Title (Inconsistent Character Relationships in Shakespeare's   Much Ado About Nothing )
+/Author (Gino Glink)
+/CreationDate (D:20231008232005+02'00')
+/Title (This is the title of my document )
 /Keywords (Pipp)
 >>
 endobj
@@ -34,17 +34,18 @@ endobj
 endobj
 5 0 obj
 <<
-/Length 98
+/Length 110
 >>
 stream
 /F1 12 Tf
 /DeviceRGB CS
 0 0 0 SC
 BT
-72 791.5 Td
+72 36 Td
 /F1 12 Tf
+215.832 0 Td
 /F1 12 Tf
-(Doe) Tj
+(Glink) Tj
 /F1 12 Tf
 ( 1) Tj
 ET
@@ -53,7 +54,7 @@ endstream
 endobj
 6 0 obj
 <<
-/Length 105
+/Length 107
 >>
 stream
 /F1 12 Tf
@@ -63,16 +64,16 @@ BT
 72 691.20001 Td
 /F1 12 Tf
 /F1 12 Tf
-(John) Tj
+(Gino) Tj
 /F1 12 Tf
-( Doe) Tj
+( Glink) Tj
 ET
 
 endstream
 endobj
 7 0 obj
 <<
-/Length 110
+/Length 132
 >>
 stream
 /F1 12 Tf
@@ -82,16 +83,18 @@ BT
 72 662.40002 Td
 /F1 12 Tf
 /F1 12 Tf
-(Mary) Tj
+(Dr.) Tj
 /F1 12 Tf
-( Petersen) Tj
+( Oliver) Tj
+/F1 12 Tf
+( Ruething) Tj
 ET
 
 endstream
 endobj
 8 0 obj
 <<
-/Length 286
+/Length 92
 >>
 stream
 /F1 12 Tf
@@ -99,35 +102,16 @@ stream
 0 0 0 SC
 BT
 72 633.60004 Td
-/F2 12 Tf
 /F1 12 Tf
-/F2 12 Tf
-(Romeo) Tj
-/F2 12 Tf
-( and) Tj
-/F2 12 Tf
-( Juliet) Tj
 /F1 12 Tf
-() Tj
-/F1 12 Tf
-( and) Tj
-/F1 12 Tf
-( the) Tj
-/F1 12 Tf
-( Art) Tj
-/F1 12 Tf
-( of) Tj
-/F1 12 Tf
-( Stealing) Tj
-/F1 12 Tf
-( Literature) Tj
+(Compilerbau) Tj
 ET
 
 endstream
 endobj
 9 0 obj
 <<
-/Length 125
+/Length 127
 >>
 stream
 /F1 12 Tf
@@ -137,9 +121,9 @@ BT
 72 604.80005 Td
 /F1 12 Tf
 /F1 12 Tf
-(July) Tj
+(October) Tj
 /F1 12 Tf
-( 19) Tj
+( 8) Tj
 /F1 12 Tf
 ( 2023) Tj
 ET
@@ -148,7 +132,7 @@ endstream
 endobj
 10 0 obj
 <<
-/Length 323
+/Length 222
 >>
 stream
 /F1 12 Tf
@@ -157,28 +141,21 @@ stream
 BT
 72 576.00006 Td
 /F1 12 Tf
-/F2 12 Tf
-39.942 0 Td
+157.332 0 Td
 /F1 12 Tf
-(Inconsistent) Tj
+(This) Tj
 /F1 12 Tf
-( Character) Tj
+( is) Tj
 /F1 12 Tf
-( Relationships) Tj
+( the) Tj
 /F1 12 Tf
-( in) Tj
+( title) Tj
 /F1 12 Tf
-( Shakespeare's) Tj
-/F2 12 Tf
-() Tj
-/F2 12 Tf
-( Much) Tj
-/F2 12 Tf
-( Ado) Tj
-/F2 12 Tf
-( About) Tj
-/F2 12 Tf
-( Nothing) Tj
+( of) Tj
+/F1 12 Tf
+( my) Tj
+/F1 12 Tf
+( document) Tj
 ET
 
 endstream
@@ -644,27 +621,27 @@ xref
 0 16
 0000000000 65535 f
 0000000015 00000 n
-0000000286 00000 n
+0000000242 00000 n
 0000000078 00000 n
-0000000343 00000 n
-0000000496 00000 n
-0000000646 00000 n
-0000000804 00000 n
-0000000967 00000 n
-0000001306 00000 n
-0000001484 00000 n
-0000001861 00000 n
-0000006522 00000 n
-0000006557 00000 n
-0000006601 00000 n
-0000006701 00000 n
+0000000299 00000 n
+0000000452 00000 n
+0000000615 00000 n
+0000000775 00000 n
+0000000960 00000 n
+0000001104 00000 n
+0000001284 00000 n
+0000001560 00000 n
+0000006221 00000 n
+0000006256 00000 n
+0000006300 00000 n
+0000006400 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<475EEA1CBD8EDCC4545E1E9A2ABCA0B7> <475EEA1CBD8EDCC4545E1E9A2ABCA0B7>]
+/ID [<AEE253D7A5BC6587B6FDBB44FF280974> <AEE253D7A5BC6587B6FDBB44FF280974>]
 /Size 16
 >>
 startxref
-6802
+6501
 %%EOF

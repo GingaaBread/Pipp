@@ -92,7 +92,7 @@ public class MLA9 extends StyleGuide {
      */
     @Override
     public NumerationPosition numerationPosition() {
-        return NumerationPosition.TOP_RIGHT;
+        return NumerationPosition.BOTTOM;
     }
 
     @Override

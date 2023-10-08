@@ -10,9 +10,9 @@ endobj
 3 0 obj
 <<
 /Creator (Pipp v.1.0)
-/Author (John Doe)
-/CreationDate (D:20230719203919+02'00')
-/Title (Inconsistent Character Relationships in Shakespeare's   Much Ado About Nothing )
+/Author (Gino Glink)
+/CreationDate (D:20231008231947+02'00')
+/Title (This is the title of my document )
 /Keywords (Pipp)
 >>
 endobj
@@ -27,48 +27,34 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R]
-/Resources 12 0 R
+/Contents [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R]
+/Resources 11 0 R
 /Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/Length 67
+/Length 110
 >>
 stream
 /F1 12 Tf
 /DeviceRGB CS
 0 0 0 SC
 BT
-582.508 791.5 Td
-(Doe 1) Tj
+72 36 Td
+/F1 12 Tf
+215.832 0 Td
+/F1 12 Tf
+(Glink) Tj
+/F1 12 Tf
+( 1) Tj
 ET
 
 endstream
 endobj
 6 0 obj
 <<
-/Length 99
->>
-stream
-/F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
-BT
-72 720 Td
-/F1 12 Tf
-/F1 12 Tf
-(John) Tj
-/F1 12 Tf
-( Doe) Tj
-ET
-
-endstream
-endobj
-7 0 obj
-<<
-/Length 110
+/Length 107
 >>
 stream
 /F1 12 Tf
@@ -78,16 +64,16 @@ BT
 72 691.20001 Td
 /F1 12 Tf
 /F1 12 Tf
-(Mary) Tj
+(Gino) Tj
 /F1 12 Tf
-( Petersen) Tj
+( Glink) Tj
 ET
 
 endstream
 endobj
-8 0 obj
+7 0 obj
 <<
-/Length 286
+/Length 132
 >>
 stream
 /F1 12 Tf
@@ -95,35 +81,20 @@ stream
 0 0 0 SC
 BT
 72 662.40002 Td
-/F2 12 Tf
 /F1 12 Tf
-/F2 12 Tf
-(Romeo) Tj
-/F2 12 Tf
-( and) Tj
-/F2 12 Tf
-( Juliet) Tj
 /F1 12 Tf
-() Tj
+(Dr.) Tj
 /F1 12 Tf
-( and) Tj
+( Oliver) Tj
 /F1 12 Tf
-( the) Tj
-/F1 12 Tf
-( Art) Tj
-/F1 12 Tf
-( of) Tj
-/F1 12 Tf
-( Stealing) Tj
-/F1 12 Tf
-( Literature) Tj
+( Ruething) Tj
 ET
 
 endstream
 endobj
-9 0 obj
+8 0 obj
 <<
-/Length 125
+/Length 92
 >>
 stream
 /F1 12 Tf
@@ -133,18 +104,14 @@ BT
 72 633.60004 Td
 /F1 12 Tf
 /F1 12 Tf
-(July) Tj
-/F1 12 Tf
-( 19) Tj
-/F1 12 Tf
-( 2023) Tj
+(Compilerbau) Tj
 ET
 
 endstream
 endobj
-10 0 obj
+9 0 obj
 <<
-/Length 323
+/Length 127
 >>
 stream
 /F1 12 Tf
@@ -153,35 +120,19 @@ stream
 BT
 72 604.80005 Td
 /F1 12 Tf
-/F2 12 Tf
-39.942 0 Td
 /F1 12 Tf
-(Inconsistent) Tj
+(October) Tj
 /F1 12 Tf
-( Character) Tj
+( 8) Tj
 /F1 12 Tf
-( Relationships) Tj
-/F1 12 Tf
-( in) Tj
-/F1 12 Tf
-( Shakespeare's) Tj
-/F2 12 Tf
-() Tj
-/F2 12 Tf
-( Much) Tj
-/F2 12 Tf
-( Ado) Tj
-/F2 12 Tf
-( About) Tj
-/F2 12 Tf
-( Nothing) Tj
+( 2023) Tj
 ET
 
 endstream
 endobj
-11 0 obj
+10 0 obj
 <<
-/Length 4606
+/Length 222
 >>
 stream
 /F1 12 Tf
@@ -190,437 +141,36 @@ stream
 BT
 72 576.00006 Td
 /F1 12 Tf
+157.332 0 Td
 /F1 12 Tf
-(Lorem) Tj
+(This) Tj
 /F1 12 Tf
-( ipsum) Tj
+( is) Tj
 /F1 12 Tf
-( dolor) Tj
+( the) Tj
 /F1 12 Tf
-( sit) Tj
+( title) Tj
 /F1 12 Tf
-( amet,) Tj
+( of) Tj
 /F1 12 Tf
-( consetetur) Tj
+( my) Tj
 /F1 12 Tf
-( sadipscing) Tj
-/F1 12 Tf
-( elitr,) Tj
-/F1 12 Tf
-( sed) Tj
-/F1 12 Tf
-( diam) Tj
-/F1 12 Tf
-( nonumy) Tj
-/F1 12 Tf
-( eirmod) Tj
-/F1 12 Tf
-( tempor) Tj
-0 -28.8 Td
-/F1 12 Tf
-(invidunt ) Tj
-/F1 12 Tf
-( ut) Tj
-/F1 12 Tf
-( labore) Tj
-/F1 12 Tf
-( et) Tj
-/F1 12 Tf
-( dolore) Tj
-/F1 12 Tf
-( magna) Tj
-/F1 12 Tf
-( aliquyam) Tj
-/F1 12 Tf
-( erat,) Tj
-/F1 12 Tf
-( sed) Tj
-/F1 12 Tf
-( diam) Tj
-/F1 12 Tf
-( voluptua.) Tj
-/F1 12 Tf
-( At) Tj
-/F1 12 Tf
-( vero) Tj
-/F1 12 Tf
-( eos) Tj
-/F1 12 Tf
-( et) Tj
-/F1 12 Tf
-( accusam) Tj
-/F1 12 Tf
-( et) Tj
-0 -28.8 Td
-/F1 12 Tf
-(justo ) Tj
-/F1 12 Tf
-( duo) Tj
-/F1 12 Tf
-( dolores) Tj
-/F1 12 Tf
-( et) Tj
-/F1 12 Tf
-( ea) Tj
-/F1 12 Tf
-( rebum.) Tj
-/F1 12 Tf
-( Stet) Tj
-/F1 12 Tf
-( clita) Tj
-/F1 12 Tf
-( kasd) Tj
-/F1 12 Tf
-( gubergren,) Tj
-/F1 12 Tf
-( no) Tj
-/F1 12 Tf
-( sea) Tj
-/F1 12 Tf
-( takimata) Tj
-/F1 12 Tf
-( sanctus) Tj
-/F1 12 Tf
-( est) Tj
-/F1 12 Tf
-( Lorem) Tj
-0 -28.8 Td
-/F1 12 Tf
-(ipsum ) Tj
-/F1 12 Tf
-( dolor) Tj
-/F1 12 Tf
-( sit) Tj
-/F1 12 Tf
-( amet.) Tj
-/F1 12 Tf
-( Lorem) Tj
-/F1 12 Tf
-( ipsum) Tj
-/F1 12 Tf
-( dolor) Tj
-/F1 12 Tf
-( sit) Tj
-/F1 12 Tf
-( amet,) Tj
-/F1 12 Tf
-( consetetur) Tj
-/F1 12 Tf
-( sadipscing) Tj
-/F1 12 Tf
-( elitr,) Tj
-/F1 12 Tf
-( sed) Tj
-/F1 12 Tf
-( diam) Tj
-/F1 12 Tf
-( nonumy) Tj
-0 -28.8 Td
-/F1 12 Tf
-(eirmod ) Tj
-/F1 12 Tf
-( tempor) Tj
-/F1 12 Tf
-( invidunt) Tj
-/F1 12 Tf
-( ut) Tj
-/F1 12 Tf
-( labore) Tj
-/F1 12 Tf
-( et) Tj
-/F1 12 Tf
-( dolore) Tj
-/F1 12 Tf
-( magna) Tj
-/F1 12 Tf
-( aliquyam) Tj
-/F1 12 Tf
-( erat,) Tj
-/F1 12 Tf
-( sed) Tj
-/F1 12 Tf
-( diam) Tj
-/F1 12 Tf
-( voluptua.) Tj
-/F1 12 Tf
-( At) Tj
-/F1 12 Tf
-( vero) Tj
-/F1 12 Tf
-( eos) Tj
-0 -28.8 Td
-/F1 12 Tf
-(et ) Tj
-/F1 12 Tf
-( accusam) Tj
-/F1 12 Tf
-( et) Tj
-/F1 12 Tf
-( justo) Tj
-/F1 12 Tf
-( duo) Tj
-/F1 12 Tf
-( dolores) Tj
-/F1 12 Tf
-( et) Tj
-/F1 12 Tf
-( ea) Tj
-/F1 12 Tf
-( rebum.) Tj
-/F1 12 Tf
-( Stet) Tj
-/F1 12 Tf
-( clita) Tj
-/F1 12 Tf
-( kasd) Tj
-/F1 12 Tf
-( gubergren,) Tj
-/F1 12 Tf
-( no) Tj
-/F1 12 Tf
-( sea) Tj
-/F1 12 Tf
-( takimata) Tj
-/F1 12 Tf
-( sanctus) Tj
-0 -28.8 Td
-/F2 12 Tf
-/F1 12 Tf
-(est ) Tj
-/F1 12 Tf
-( Lorem) Tj
-/F1 12 Tf
-( ipsum) Tj
-/F1 12 Tf
-( dolor) Tj
-/F1 12 Tf
-( sit) Tj
-/F1 12 Tf
-( amet.) Tj
-/F2 12 Tf
-() Tj
-/F2 12 Tf
-( Lorem) Tj
-/F2 12 Tf
-( ipsum) Tj
-/F2 12 Tf
-( dolor) Tj
-/F2 12 Tf
-( sit) Tj
-/F2 12 Tf
-( amet,) Tj
-/F2 12 Tf
-( consetetur) Tj
-/F2 12 Tf
-( sadipscing) Tj
-/F2 12 Tf
-( elitr,) Tj
-/F2 12 Tf
-( sed) Tj
-0 -28.8 Td
-/F2 12 Tf
-(diam ) Tj
-/F2 12 Tf
-( nonumy) Tj
-/F2 12 Tf
-( eirmod) Tj
-/F2 12 Tf
-( tempor) Tj
-/F2 12 Tf
-( invidunt) Tj
-/F2 12 Tf
-( ut) Tj
-/F2 12 Tf
-( labore) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( dolore) Tj
-/F2 12 Tf
-( magna) Tj
-/F2 12 Tf
-( aliquyam) Tj
-/F2 12 Tf
-( erat,) Tj
-/F2 12 Tf
-( sed) Tj
-/F2 12 Tf
-( diam) Tj
-0 -28.8 Td
-/F2 12 Tf
-(voluptua. ) Tj
-/F2 12 Tf
-( At) Tj
-/F2 12 Tf
-( vero) Tj
-/F2 12 Tf
-( eos) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( accusam) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( justo) Tj
-/F2 12 Tf
-( duo) Tj
-/F2 12 Tf
-( dolores) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( ea) Tj
-/F2 12 Tf
-( rebum.) Tj
-/F2 12 Tf
-( Stet) Tj
-/F2 12 Tf
-( clita) Tj
-/F2 12 Tf
-( kasd) Tj
-/F2 12 Tf
-( gubergren,) Tj
-/F2 12 Tf
-( no) Tj
-0 -28.8 Td
-/F2 12 Tf
-(sea ) Tj
-/F2 12 Tf
-( takimata) Tj
-/F2 12 Tf
-( sanctus) Tj
-/F2 12 Tf
-( est) Tj
-/F2 12 Tf
-( Lorem) Tj
-/F2 12 Tf
-( ipsum) Tj
-/F2 12 Tf
-( dolor) Tj
-/F2 12 Tf
-( sit) Tj
-/F2 12 Tf
-( amet.) Tj
-/F2 12 Tf
-( Lorem) Tj
-/F2 12 Tf
-( ipsum) Tj
-/F2 12 Tf
-( dolor) Tj
-/F2 12 Tf
-( sit) Tj
-/F2 12 Tf
-( amet,) Tj
-/F2 12 Tf
-( consetetur) Tj
-0 -28.8 Td
-/F2 12 Tf
-(sadipscing ) Tj
-/F2 12 Tf
-( elitr,) Tj
-/F2 12 Tf
-( sed) Tj
-/F2 12 Tf
-( diam) Tj
-/F2 12 Tf
-( nonumy) Tj
-/F2 12 Tf
-( eirmod) Tj
-/F2 12 Tf
-( tempor) Tj
-/F2 12 Tf
-( invidunt) Tj
-/F2 12 Tf
-( ut) Tj
-/F2 12 Tf
-( labore) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( dolore) Tj
-/F2 12 Tf
-( magna) Tj
-/F2 12 Tf
-( aliquyam) Tj
-0 -28.8 Td
-/F2 12 Tf
-(erat, ) Tj
-/F2 12 Tf
-( sed) Tj
-/F2 12 Tf
-( diam) Tj
-/F2 12 Tf
-( voluptua.) Tj
-/F2 12 Tf
-( At) Tj
-/F2 12 Tf
-( vero) Tj
-/F2 12 Tf
-( eos) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( accusam) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( justo) Tj
-/F2 12 Tf
-( duo) Tj
-/F2 12 Tf
-( dolores) Tj
-/F2 12 Tf
-( et) Tj
-/F2 12 Tf
-( ea) Tj
-/F2 12 Tf
-( rebum.) Tj
-/F2 12 Tf
-( Stet) Tj
-/F2 12 Tf
-( clita) Tj
-/F2 12 Tf
-( kasd) Tj
-0 -28.8 Td
-/F2 12 Tf
-(gubergren, ) Tj
-/F2 12 Tf
-( no) Tj
-/F2 12 Tf
-( sea) Tj
-/F2 12 Tf
-( takimata) Tj
-/F2 12 Tf
-( sanctus) Tj
-/F2 12 Tf
-( est) Tj
-/F2 12 Tf
-( Lorem) Tj
-/F2 12 Tf
-( ipsum) Tj
-/F2 12 Tf
-( dolor) Tj
-/F2 12 Tf
-( sit) Tj
-/F2 12 Tf
-( amet.) Tj
+( document) Tj
 ET
 
 endstream
 endobj
+11 0 obj
+<<
+/Font 12 0 R
+>>
+endobj
 12 0 obj
 <<
-/Font 13 0 R
+/F1 13 0 R
 >>
 endobj
 13 0 obj
-<<
-/F1 14 0 R
-/F2 15 0 R
->>
-endobj
-14 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -628,39 +178,29 @@ endobj
 /Encoding /WinAnsiEncoding
 >>
 endobj
-15 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/BaseFont /Times-Italic
-/Encoding /WinAnsiEncoding
->>
-endobj
 xref
-0 16
+0 14
 0000000000 65535 f
 0000000015 00000 n
-0000000286 00000 n
+0000000242 00000 n
 0000000078 00000 n
-0000000343 00000 n
-0000000496 00000 n
-0000000615 00000 n
-0000000766 00000 n
-0000000929 00000 n
-0000001268 00000 n
-0000001446 00000 n
-0000001823 00000 n
-0000006484 00000 n
-0000006519 00000 n
-0000006563 00000 n
-0000006663 00000 n
+0000000299 00000 n
+0000000445 00000 n
+0000000608 00000 n
+0000000768 00000 n
+0000000953 00000 n
+0000001097 00000 n
+0000001277 00000 n
+0000001553 00000 n
+0000001588 00000 n
+0000001621 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<3D0EED1B3FF50B7A211F64587FC95E63> <3D0EED1B3FF50B7A211F64587FC95E63>]
-/Size 16
+/ID [<9697B9F4A1978476D54ECAA2A08D3CBA> <9697B9F4A1978476D54ECAA2A08D3CBA>]
+/Size 14
 >>
 startxref
-6764
+1721
 %%EOF

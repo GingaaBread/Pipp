@@ -112,8 +112,8 @@ public class Parser {
             if (currentIndentationLevel <= 0) throw new IllegalStateException("(" + currentLine + ") Should not try" +
                     " to forgo indentation as there is no more indentation");
 
-            currentIndentationLevel--;
         }
+            currentIndentationLevel--;
     }
 
     /**

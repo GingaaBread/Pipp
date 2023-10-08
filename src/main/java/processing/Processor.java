@@ -9,6 +9,7 @@ import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import processing.style.MLA9;
 import processing.style.Pipp;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
@@ -270,7 +271,7 @@ public class Processor {
             usedStyleGuide = StyleTable.nameToStyleGuide(ast.getConfiguration().getStyle().getBaseStyle());
         } else {
             // Use the default style, instead
-            usedStyleGuide = new Pipp();
+            usedStyleGuide = new MLA9();
         }
 
         var layout = styleConfiguration.getLayout();

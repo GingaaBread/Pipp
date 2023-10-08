@@ -40,6 +40,7 @@ public class LineFactory {
                                   @NonNull final TextAlignment alignment,
                                   final float startY) {
         try {
+            System.out.println("Rendering: " + textComponentsToRender);
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = 1.2f * Processor.fontSize * Processor.spacing;
 
