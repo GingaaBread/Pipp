@@ -3,18 +3,20 @@ package frontend.lexical_analysis;
 import frontend.FrontEndBridge;
 
 /**
- * Responsible for the lexical analysis of .pipp files
- * Uses DFAs to convert the input into a set of tokens
+ * Responsible for the lexical analysis of .pipp files.
+ * This class should only be instantiated by the FrontEndBridge class, which is used as an
+ * interface between the Scanner and the Parser.
+ * Note that the scanner ignores comments when a new line starts with the hash character #.
  */
 public class Scanner {
 
     /**
-     *  Defines the keywords that come with Pipp
-     *  They are usable without having to be imported
+     *  Defines the keywords that come with Pipp.
+     *  Lowercase words without any special characters in them must match one of these keywords,
+     *  otherwise an exception is thrown.
      */
-    private final String[] builtinKeywords = new String[] {
+    public static final String[] builtinKeywords = new String[] {
             "appendix",
-            "article",
             "allow",
             "assessor",
             "author",
@@ -22,7 +24,6 @@ public class Scanner {
             "bibliography",
             "blank",
             "bold",
-            "chair",
             "chapter",
             "citation",
             "config",
@@ -50,7 +51,6 @@ public class Scanner {
             "role",
             "sentence",
             "size",
-            "strikethrough",
             "structure",
             "style",
             "spacing",
@@ -65,86 +65,170 @@ public class Scanner {
             "whitespace"
     };
 
-    private final FrontEndBridge frontEndBridge;
-
+    /**
+     *  Creates a new instance of the scanner and passes the front end bridge as the
+     *  parent as an interface between the scanner and parser
+     * @param frontEndBridge - the instance of the FrontEndBridge used for communication
+     */
     public Scanner(final FrontEndBridge frontEndBridge) {
         this.frontEndBridge = frontEndBridge;
     }
 
-    private int indendationLevel = 0;
+    /**
+     *  The reference to the front end bridge, which is used for communication purposes between
+     *  the scanner and the parser.
+     */
+    private final FrontEndBridge frontEndBridge;
 
-    // Token analysis
-    private StringBuilder currentlyRead = new StringBuilder();
+    /**
+     *  Saves the type of the currently scanned token during the scanning process,
+     *  and resets it each time a token is submitted.
+     */
     private TokenType currentTokenType;
 
-    // Keeps track of the current character
-    // Determines if the scanner is currently in a comment and should ignore the characters
+    /**
+     *  Saves the value of the currently scanned token during the scanning process,
+     *  and resets it each time a token is submitted.
+     */
+    private StringBuilder currentlyReadValue = new StringBuilder();
+
+    /**
+     *  Yields true if the scanner is currently in a comment and should therefore ignore all characters
+     *  until after the first NEW_LINE token.
+     */
     private boolean inComment = false;
 
+    /**
+     *  Marks the current indentation level.
+     *  Each time the tab character \t is scanned this is incremented, and reset once
+     *  a different character is read.
+     */
+    private int currentAmountOfTabs = 0;
+
+    /**
+     *  Tracks the current character of the current line.
+     *  Characters are not zero-indexed, but start at one.
+     */
+    private int charInLine;
+
+    /**
+     *  Scans the next character of the user input, and submits the token once found.
+     * @param current the next character that should be scanned
+     */
     public void scan(final char current) {
-            // Starts ignoring the line if the character is a comment (#)
-            if (currentTokenType != TokenType.TEXT && current == '#') inComment = true;
+            // We are scanning the next character, so the counter is incremented
+            charInLine++;
 
-            // Marks the end of a comment
-            else if (inComment && current == '\n') inComment = false;
+            // Starts ignoring the line if the first character of a line is a comment (#)
+            if (charInLine == 1 && current == '#') inComment = true;
 
-            // Ignores spaces (but NOT new line or tabulator characters!)
+            // Marks the end of a comment if the new line character is scanned
+            else if (inComment && current == '\n') {
+                inComment = false;
+                charInLine = 1;
+            }
+
+            // Ignores all input if in a comment or if scanning a carriage return character
             else if (!inComment && current != '\r') {
+
+                // Checks for indentation
                 if (current == '\t') {
+                    // First submits the current token
                     if (currentTokenType != TokenType.INDENT) submitToken();
+
+                    // Sets the INDENT type and increases the amount of tabs
                     currentTokenType = TokenType.INDENT;
-                    indendationLevel++;
-                } else if (current == ' ' && currentTokenType != TokenType.TEXT) {
-                    submitToken();
-                    indendationLevel = 0;
+                    currentAmountOfTabs++;
                 }
+
+                // Spaces submit the token and reset the amount of tabs for indent tokens
+                else if (current == ' ' && currentTokenType != TokenType.TEXT) {
+                    submitToken();
+                    currentAmountOfTabs = 0;
+                }
+
+                // A comma submits the token and submits a new LIST_SEPARATOR token
                 else if (current == ',') {
                     submitToken();
-                    indendationLevel = 0;
-                    currentlyRead.append(current);
+                    currentAmountOfTabs = 0;
+                    currentlyReadValue.append(current);
                     currentTokenType = TokenType.LIST_SEPARATOR;
                     submitToken();
-                } else if (current == '\n') {
+                }
+
+                // A new line character submits the current token and submits a NEW_LINE token
+                else if (current == '\n') {
                     submitToken();
-                    currentlyRead.append(current);
+                    currentlyReadValue.append(current);
                     currentTokenType = TokenType.NEW_LINE;
-                    indendationLevel = 0;
+                    currentAmountOfTabs = 0;
+                    charInLine = 0;
                     submitToken();
-                } else if (current == '"') {
-                    if (currentlyRead.isEmpty()) {
+                }
+
+                // A quotation mark begins or ends a text token
+                else if (current == '"') {
+
+                    // In this case, the current character is the beginning of a text
+                    if (currentlyReadValue.isEmpty()) {
                         submitToken();
-                        indendationLevel = 0;
-                        currentlyRead.append(current);
+
+                        // We still want to include the quotation mark in the text
+                        currentlyReadValue.append(current);
+
+                        currentAmountOfTabs = 0;
                         currentTokenType = TokenType.TEXT;
-                    } else if (currentlyRead.length() > 1 && currentlyRead.charAt(0) == '"') {
-                        currentlyRead.append(current);
-                        submitToken();
-                        indendationLevel = 0;
-                    } else {
-                        indendationLevel = 0;
-                        currentlyRead.append(current);
                     }
-                } else if (currentTokenType == TokenType.TEXT) {
-                    indendationLevel = 0;
-                    currentlyRead.append(current);
-                } else {
+
+                    // In this case, the current character is the end of a text
+                    else if (currentlyReadValue.length() > 1 && currentlyReadValue.charAt(0) == '"') {
+
+                        // We still want to include the quotation mark in the text
+                        currentlyReadValue.append(current);
+
+                        submitToken();
+                        currentAmountOfTabs = 0;
+                    }
+
+                    // In all other cases, append the quotation mark
+                    else {
+                        currentAmountOfTabs = 0;
+                        currentlyReadValue.append(current);
+                    }
+                }
+
+                // If the current token is a text, add the character to the text
+                else if (currentTokenType == TokenType.TEXT) {
+                    currentAmountOfTabs = 0;
+                    currentlyReadValue.append(current);
+                }
+
+                // Keywords are the default tokens if no other tokens are matched
+                else {
                     if (currentTokenType != null && currentTokenType != TokenType.KEYWORD) submitToken();
 
-                    indendationLevel = 0;
+                    currentAmountOfTabs = 0;
                     currentTokenType = TokenType.KEYWORD;
-                    currentlyRead.append(current);
+                    currentlyReadValue.append(current);
                 }
         }
     }
 
+    /**
+     *  If there is a current token, this creates the type / value pair, notifies the FrontEndBridge
+     *  of the existence of the token, and then resets the token variables.
+     */
     public void submitToken() {
+        // Should only submit a token if it exists
         if (currentTokenType != null)
         {
-            var token = new Token(currentTokenType, currentlyRead.toString());
+            // Create the token object with the token type and value pair
+            var token = new Token(currentTokenType, currentlyReadValue.toString());
 
-            System.out.println(token);
+            // In text tokens, the quotation marks do not have to be included ("Test" -> Test)
             if (token.type == TokenType.TEXT) token.value = token.value.substring(1, token.value.length() - 1);
 
+            // Verify the integrity of KEYWORD tokens
             if (token.type == TokenType.KEYWORD) {
                 var isLegalKeyword = false;
                 for (var keyword : builtinKeywords) {
@@ -155,12 +239,17 @@ public class Scanner {
                 }
 
                 if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
-            } else if (token.type == TokenType.INDENT) token.value = Integer.toString(indendationLevel);
+            }
 
+            // INDENT tokens use the amount of tabs as their token values
+            else if (token.type == TokenType.INDENT) token.value = Integer.toString(currentAmountOfTabs);
+
+            // Tell the front end bridge that this token exists
             frontEndBridge.enqueueToken(token);
 
+            // Reset token variables
             currentTokenType = null;
-            currentlyRead = new StringBuilder();
+            currentlyReadValue = new StringBuilder();
         }
     }
 

@@ -1,37 +1,76 @@
+# Wir konfigurieren das Projekt mit dem "config" Schlüsselwort
 config
+#	Wir wählen den Zitirstil MLA in der neunten Version
 	style "MLA9"
 	title "Heterotopias in King Rat"
 	publication
+#		Seminar / Kurs / Publikation / etc.
 		title "British Urban Fantasy"
-		date "None"
+#		Wir können "date" auslassen, um das aktuelle Datum zu wählen
+		date "10/03/2021"
 	author "Gino Glink"
 	assessor "Neef"
+# Der header fügt Informationen über die Arbeit ein
 header
+# Der title fügt den Arbeitstitel ein
 title
-"
-In this paper, I intend to outline heterotopian qualities in the urban fantasy novel
+# Ab hier beginnt Inhaltsteil der Arbeit
+chapter "Introduction"
+# 	Wir können Enschübe benutzen, um Unterkapitel zu erstellen
+	chapter "About"
+#		Der Paragraph endet erst bei der ersten Leerzeile
+		"In this paper, I intend to outline heterotopian qualities in the urban fantasy novel"
+#		Das Schlüsselwort "work" erlaubt es den Namen eines Werkes aus der Bibliography
+#		formatiert einzufügen
+		work "King Rat"
+#		Ein Text kann sich über mehrere Zeilen strecken
+#		(wird nicht von IntelliJ erkannt)
+		"by China Miéville. Due to the inherently tiny scope of this paper, I focus on one
+		particular scene, which I intend to analyse in more detail, instead of analysing the
+		novel in a broader context.
+		I have chosen the topic of Foucault’s heterotopias with the intention of
+		connecting the theoretical knowledge learnt in the British Cultural Studies lecture
+		to a novel read in the pro-seminar.
+		Assessing heterotopian features in the novel read in our British Urban Fantasy class
+		is relevant because of its link to urbanity and spaces.
+		Moreover, Foucault and heterotopias specifically have been mentioned in the seminar
+		as well. In regard to my thesis statement, I hypothesize that the scene at hand
+		reveals instances of Foucault’s concept of heterotopias, which help propel the story
+		and illustrate new information about characters to the reader. I would like to
+		structure my paper by briefly outlining both the scene of focus as well as
+		heterotopias generally, then critically assessing my findings in the scene, and
+		finally offering a concluding overview of my findings as well as limitations.
+		My analysis consists of illustrating Foucault’s heterotopias, and analysing traits
+		of the scene matching those heterotopian qualities. In addition, I attempt to evaluate
+		their effects on the reader and the story progression."
 
-work "King Rat"
-
-by China Miéville. Due to the inherently tiny scope of this paper, I focus on one particular scene, which I intend to analyse in more detail, instead of analysing the novel in a broader context. I have chosen the topic of Foucault’s heterotopias with the intention of connecting the theoretical knowledge learnt in the British Cultural Studies lecture to a novel read in the pro-seminar. Assessing heterotopian features in the novel read in our British Urban Fantasy class is relevant because of its link to urbanity and spaces. Moreover, Foucault and heterotopias specifically have been mentioned in the seminar as well. In regard to my thesis statement, I hypothesize that the scene at hand reveals instances of Foucault’s concept of heterotopias, which help propel the story and illustrate new information about characters to the reader. I would like to structure my paper by briefly outlining both the scene of focus as well as heterotopias generally, then critically assessing my findings in the scene, and finally offering a concluding overview of my findings as well as limitations. My analysis consists of illustrating Foucault’s heterotopias, and analysing traits of the scene matching those heterotopian qualities. In addition, I attempt to evaluate their effects on the reader and the story progression.
-"
-
-"
-The scene that I have chosen for this paper marks the end of the second part of China Miéville’s novel. Before the selected scene, King Rat helps Saul accustom himself to his new identity as a rat and teaches him how to be a rat. He learns to eat food like a rat and manoeuvre around the city in a rat-like, vertical movement
-
-citation "77"
-
-. King Rat leads Saul to his palace in the sewers, transitioning into the scene relevant for my analysis. Saul and King Rat cross paths with two other rats that both contempt King Rat and are clearly angry about meeting him in the sewers. When Saul then
-arrives at the empty throne room, he realises that the rats have lost all respect and submissiveness for their king, and that his title is essentially meaningless. With the scene context illuminated, I will briefly elucidate the term heterotopia. Heterotopia is a concept coined by French Philosopher Michel Foucault in his text Of Other Spaces, “published by the French journal Architecture-Mouvement-Continuité in October, 1984 [and] was the basis of a lecture given by Michel Foucault in March 1967” (remarked by Diacritics). Foucault introduces heterotopias as
-
-cut
-
-real places, actual places, places that are designed into the very institutions of society, which are sorts of actually realized utopias in which the real emplacements, all the other real emplacements that can be found within the culture are, at the same time, represented, contested, and reversed, sorts of places that are outside all places, although they are actually localizable.
-
-cut
-
-I shall call these places ‘heterotopias’. (Foucault 178)
-Addressing the fact that the space at hand is a throne room located in the sewers, built for housing a rat king, it is important to add that Foucault located heterotopias to be found
-
-citation "OfOtherPlaces", "178", "probably in every culture, in every civilization".
-"
+#		^ Diese Leerzeile markiert das Ende des ersten Paragraphen#
+#		Nun folgt also ein neuer Paragraph
+		"The scene that I have chosen for this paper marks the end of the second part of
+		China Miéville’s novel. Before the selected scene, King Rat helps Saul accustom himself
+		to his new identity as a rat and teaches him how to be a rat. He learns to eat food
+		like a rat and manoeuvre around the city in a rat-like, vertical movement"
+		citation "77"
+# 		Citation mit nur einem Argument kennzeichnet ein indirektes Zitat
+# 		Zum Beispiel in MLA: rat like. vertical movement (77)."
+		"King Rat leads Saul to his palace in the sewers, transitioning into the scene
+		relevant for my analysis. Saul and King Rat cross paths with two other rats
+		that both contempt King Rat and are clearly angry about meeting him in the
+		sewers. When Saul then arrives at the empty throne room, he realises that
+		the rats have lost all respect and submissiveness for their king, and that
+		his title is essentially meaningless. With the scene context illuminated,
+		I will briefly elucidate the term heterotopia. Heterotopia is a concept
+		coined by French Philosopher Michel Foucault in his text"
+		work "OfOtherSpaces"
+		", published by the French journal Architecture-Mouvement-Continuité in
+		October, 1984 and was the basis of a lecture given by Michel Foucault in
+		March 1967. Foucault introduces heterotopias as"
+		citation "OfOtherPlaces", "178", "[...] real places, actual places, places
+		that are designed into the very institutions of society, which are sorts
+		of actually realized utopias in which the real emplacements, all the
+		other real emplacements that can be found within the culture are, at the
+		same time, represented, contested, and reversed, sorts of places that
+		are outside all places, although they are actually localizable. [...]
+		I shall call these places ‘heterotopias’"
+# Am Ende wollen wir das Quellenverzeichnis aufführen
+bibliography

@@ -47,7 +47,6 @@ public class FrontEndBridge {
         }
 
         scanner.submitToken();
-        if (tokens.size() > 0) parser.s();
     }
 
     /**

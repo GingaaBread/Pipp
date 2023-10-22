@@ -3,7 +3,7 @@ config
 		of "MLA9"
 		layout
 			width "8.5in"
-			height "11in"
+			height "15in"
 			margin "1in"
 			spacing "2"
 		font
@@ -29,6 +29,7 @@ config
 			skip "21"
 			author lastname
 	title "This is the title of my document"
+	type "Paper"
 	publication
 		title "Compilerbau"
 #		date "None"

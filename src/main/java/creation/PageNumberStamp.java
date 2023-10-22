@@ -1,15 +1,12 @@
 package creation;
 
-import error.PippException;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import processing.*;
 
 import java.util.List;
 import java.util.TreeMap;
 
-import java.io.IOException;
 import java.util.Stack;
 
 public class PageNumberStamp {
