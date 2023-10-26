@@ -1,5 +1,5 @@
-bibliography "1.0"
-    name "HP"
+bibliography
+    id "HP1"
         type "Book"
         author "J.K. Rowling"
         title "Harry Potter and the Philosopher's Stone"
@@ -7,16 +7,14 @@ bibliography "1.0"
             name "Bloomsbury (UK)"
             date "06/26/1997"
             in "United Kingdom"
-
-    name "Chilli"
+    id "Chilli"
         type "Webpage"
         author "Susan Lundman"
         title "How to Make Vegetarian Chilli"
         publication
             name "eHow"
             www "www.ehow.com/how_10727_make-vegetarian-chili.html.*"
-        
-    name "Voices"
+    id "Voices"
         type "Periodical"
         author "Alaknanda Bagchi"
         title "Conflicting Nationalisms: The Voice of the Subaltern in Mahasweta Devi's Bashai
@@ -27,8 +25,7 @@ bibliography "1.0"
             id "1"
             date "1996"
             page "41-50"
-
-    name "Mockingbird"
+    id "Mockingbird"
         type "Music"
         author "Eminem"
         title "Mockingbird"
@@ -36,8 +33,7 @@ bibliography "1.0"
         publication
             name "Shady Records"
             date "2004"
-
-    name "Girl"
+    id "Girl"
         type "Poem"
         author "Jamaica Kincaid"
         title "Girl"
@@ -47,4 +43,3 @@ bibliography "1.0"
             role "Editor", "Tobias Wolf"
             date "1994"
             page "306-307"
-

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *  The LineFactory class is an essential part of the document creation process, used to render formatted text
+ *  The TextRenderer class is an essential part of the document creation process, used to render formatted text
  *  to the document. It offers an automatic format depending on the used style configuration, which
  *  takes margin, leading, and other factors into consideration, and allows aligning the text to a specific
  *  position within the document. Furthermore, multiple text styles can be used in the same line.
@@ -19,11 +19,29 @@ import java.util.List;
  * @since 1.0
  * @version 1.0
  */
-public class LineFactory {
+public class TextRenderer {
 
+    /**
+     *  Shorthand method to render text to the current y position of the page.
+     *
+     * @param textComponentsToRender - the text components that should be rendered on the page
+     * @param alignment - the text alignment that should be used for the rendered text
+     */
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
                                   @NonNull final TextAlignment alignment) {
-        renderText(textComponentsToRender, alignment, PageFactory.currentYPosition);
+        renderText(textComponentsToRender, alignment, PageCreator.currentYPosition);
+    }
+
+    /**
+     *  Utility method to automatically render normal text aligned left.
+     *  Renders the specified text on the current page, using the page's current y position as the starting y
+     *  position, and the style's margin as the starting x position. Takes leading into consideration.
+     *  Cuts the individual words using the space as the splitting character
+     *
+     * @param text - the text that should be rendered on the page
+     */
+    public static void renderLeftAlignedText(@NonNull final String text) {
+        renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.LEFT);
     }
 
     /**
@@ -40,7 +58,6 @@ public class LineFactory {
                                   @NonNull final TextAlignment alignment,
                                   final float startY) {
         try {
-            System.out.println("Rendering: " + textComponentsToRender);
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = 1.2f * Processor.fontSize * Processor.spacing;
 
@@ -53,7 +70,7 @@ public class LineFactory {
             float startX = Processor.margin;
 
             // Creates the content stream with the append mode, which prevents overriding existing streams
-            final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageFactory.getCurrent(),
+            final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
                     PDPageContentStream.AppendMode.APPEND, false);
 
             // Sets up the content stream
@@ -90,7 +107,7 @@ public class LineFactory {
                             1000 * Processor.fontSize;
 
                     // Check if the next line does not fit into the current page anymore
-                    if (PageFactory.currentYPosition < Processor.margin) {
+                    if (PageCreator.currentYPosition < Processor.margin) {
                         if (!textBuilder.isEmpty()) {
                             final var textSize = textBuilder.size();
                             for (int i = 0; i < textSize; i++) {
@@ -105,7 +122,7 @@ public class LineFactory {
                     else if (wordWidth > maximumWidth) {
                         // When trying to center the text, we first need to calculate the total width for our offset
                         if (alignment == TextAlignment.CENTER) {
-                            final float xOffset = (PageFactory.getCurrent().getMediaBox().getWidth() -
+                            final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() -
                                     currentLineWidth) / 2 - Processor.margin;
                             contentStream.newLineAtOffset(-lastXOffset, 0);
                             contentStream.newLineAtOffset(xOffset, 0);
@@ -148,7 +165,7 @@ public class LineFactory {
 
                                 contentStream.showText(currentLine);
                                 contentStream.newLineAtOffset(0, -leading);
-                                PageFactory.currentYPosition -= leading;
+                                PageCreator.currentYPosition -= leading;
 
                                 currentLine = stringForNextLine.reverse().toString();
                                 nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 *
@@ -158,9 +175,9 @@ public class LineFactory {
 
                             contentStream.showText(currentLine);
                             contentStream.newLineAtOffset(0, -leading);
-                            PageFactory.currentYPosition -= leading;
+                            PageCreator.currentYPosition -= leading;
                         } else {
-                            PageFactory.currentYPosition -= leading;
+                            PageCreator.currentYPosition -= leading;
                             contentStream.newLineAtOffset(0, -leading);
 
                             textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
@@ -185,7 +202,7 @@ public class LineFactory {
             if (rest.isEmpty()) {
                 // When trying to center the text, we first need to calculate the total width for our offset
                 if (alignment == TextAlignment.CENTER) {
-                    final float xOffset = (PageFactory.getCurrent().getMediaBox().getWidth() - currentLineWidth) / 2
+                    final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() - currentLineWidth) / 2
                             - Processor.margin;
                     contentStream.newLineAtOffset(xOffset, 0);
                 }
@@ -204,7 +221,7 @@ public class LineFactory {
                     contentStream.showText(text.getContent());
                 }
 
-                PageFactory.currentYPosition -= leading;
+                PageCreator.currentYPosition -= leading;
             }
 
             // Wrap up the stream
@@ -213,7 +230,7 @@ public class LineFactory {
 
             // If there is still remaining text that did not fit on the page, restart the method on a new page
             if (!rest.isEmpty()) {
-                PageFactory.createNewPage();
+                PageCreator.createNewPage();
 
                 // Bundles the words together depending on the style
                 var collectedRest = new LinkedList<Text>();
@@ -237,18 +254,6 @@ public class LineFactory {
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");
         }
-    }
-
-    /**
-     *  Utility method to automatically render normal text aligned left.
-     *  Renders the specified text on the current page, using the page's current y position as the starting y
-     *  position, and the style's margin as the starting x position. Takes leading into consideration.
-     *  Cuts the individual words using the space as the splitting character
-     *
-     * @param text - the text that should be rendered on the page
-     */
-    public static void renderLeftAlignedText(@NonNull final String text) {
-        renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.LEFT);
     }
 
 }

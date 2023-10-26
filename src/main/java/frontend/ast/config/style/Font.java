@@ -51,7 +51,7 @@ public class Font extends Node {
         if (size != null) {
             try {
                 if (Integer.parseInt(size) > 96)
-                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("You are using a font size" +
+                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("2: You are using a font size" +
                         " bigger than 96. Do you really want to use such a large font?"));
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("13: Integer larger than zero expected.");

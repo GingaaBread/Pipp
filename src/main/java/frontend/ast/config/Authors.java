@@ -63,8 +63,8 @@ public class Authors extends Node {
                 if (author != otherAuthor && author.getId() != null && otherAuthor.getId() != null &&
                         author.getId().equals(otherAuthor.getId())) {
                     WarningQueue.getInstance().enqueue(new UnlikelinessWarning("1: Two authors have the same " +
-                            "id, which seems unlikely. Check if that is correct. Author 1: " + author +
-                            ". Author 2: " + otherAuthor));
+                            "id, which seems unlikely. Check if that is correct. \n\tAuthor 1: " + author +
+                            ". \n\tAuthor 2: " + otherAuthor));
                 }
             }
 

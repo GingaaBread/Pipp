@@ -10,7 +10,6 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import processing.style.MLA9;
-import processing.style.Pipp;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
 import warning.InconsistencyWarning;
@@ -256,10 +255,13 @@ public class Processor {
      * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
      */
     public void processAST(@NonNull final AST ast) {
-        ast.checkForWarnings();
-
+        System.out.println("AST generated:");
         System.out.println(ast);
 
+        System.out.println("Now checking AST for possible warnings");
+        ast.checkForWarnings();
+
+        // Used to track a warning if both inches and mm are used, which may be considered inconsistent
         boolean inchesUsed = false;
         boolean mmUsed = false;
 

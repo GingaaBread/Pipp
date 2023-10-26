@@ -29,21 +29,21 @@ public class DocumentCreator {
         DocumentMetaDataWriter.writeMetaData();
 
         // The PDF at least has one empty page
-        PageFactory.createNewPage();
+        PageCreator.createNewPage();
 
         // Create the document's body elements
         BodyHandler.handle();
 
         // Render some dummy text for testing purposes
         var longString = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
-        LineFactory.renderText(
+        TextRenderer.renderText(
                  List.of(new Text(longString, TextStyle.NORMAL),
                         new Text(" " + longString, TextStyle.ITALIC)),
                 TextAlignment.LEFT
         );
 
         // Always save the last page
-        PageAssembler.finishCurrentPage();
+        PageAssembler.commitCurrentPage();
 
         // Finally, save the file
         try {

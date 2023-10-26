@@ -16,7 +16,7 @@ public class TitleStamp {
      *  Text object equivalent and then rendering it in the LineFactory.
      */
     public static void renderTitle() {
-        LineFactory.renderText(
+        TextRenderer.renderText(
                 Processor
                         .documentTitle
                         .getTexts()

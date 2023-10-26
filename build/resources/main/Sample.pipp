@@ -33,7 +33,17 @@ config
 	publication
 		title "Compilerbau"
 #		date "None"
-	author "Gino Glink"
-	assessor "Dr. Oliver Ruething"
+	author
+		of "Gino Glink"
+		of "Max Mustermann"
+		of
+			name "Hans Wurst"
+		of
+			firstname "Joseph"
+			lastname "Neuhausen"
+			id "29024"
+	assessor
+		of "John Doe"
+		of "Another One"
 header
 title

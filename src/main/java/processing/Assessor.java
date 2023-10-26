@@ -76,7 +76,8 @@ public class Assessor {
         lastname = bobTheBuilder.toString().trim();
 
         if (firstname == null || firstname.isBlank() || lastname.isBlank())
-            throw new IncorrectFormatException("9: Could not parse name property.");
+            throw new IncorrectFormatException("9: Could not parse name property. Have you supplied a first and " +
+                    "last name?");
     }
 
 }

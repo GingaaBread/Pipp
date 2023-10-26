@@ -13,7 +13,7 @@ public class HeaderStamp {
             headerBuilder.append(" ");
             headerBuilder.append(author.getLastname());
 
-            LineFactory.renderLeftAlignedText(headerBuilder.toString());
+            TextRenderer.renderLeftAlignedText(headerBuilder.toString());
             headerBuilder.setLength(0);
         }
 
@@ -28,12 +28,12 @@ public class HeaderStamp {
             if (i < Processor.assessors.length - 1) headerBuilder.append(", ");
         }
 
-        LineFactory.renderLeftAlignedText(headerBuilder.toString());
+        TextRenderer.renderLeftAlignedText(headerBuilder.toString());
         headerBuilder.setLength(0);
 
         // List the title of the publication
         if (Processor.publicationTitle != null) {
-            LineFactory.renderText(
+            TextRenderer.renderText(
                 Processor
                         .publicationTitle
                         .getTexts()
@@ -57,7 +57,7 @@ public class HeaderStamp {
         if (Processor.publicationDate != null) {
             final var formattedDate = Processor.usedStyleGuide.dateToString(Processor.publicationDate);
             headerBuilder.append(formattedDate);
-            LineFactory.renderLeftAlignedText(headerBuilder.toString());
+            TextRenderer.renderLeftAlignedText(headerBuilder.toString());
             headerBuilder.setLength(0);
         }
     }

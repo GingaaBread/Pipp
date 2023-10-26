@@ -4,7 +4,15 @@ import lombok.Getter;
 import org.apache.pdfbox.pdmodel.PDPage;
 import processing.Processor;
 
-public class PageFactory {
+/**
+ *  Used to create new pages and track them as the current page.
+ *  Also stores the y position of the current page.
+ *
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
+ */
+public class PageCreator {
 
     /**
      *  The currently considered page in the document.
@@ -13,6 +21,11 @@ public class PageFactory {
     @Getter
     private static PDPage current;
 
+    /**
+     *  Marks the y position of the current page.
+     *  This is used to know where to render a new line, and is reset whenever
+     *  a new page is created.
+     */
     public static float currentYPosition;
 
     /**
@@ -20,10 +33,10 @@ public class PageFactory {
      */
     public static void createNewPage() {
         // Assembles the last page if it exists
-        if (PageFactory.current != null) PageAssembler.finishCurrentPage();
+        if (PageCreator.current != null) PageAssembler.commitCurrentPage();
 
         // Create a new page object using the processor's dimensions
-        PageFactory.current = new PDPage(Processor.dimensions);
+        PageCreator.current = new PDPage(Processor.dimensions);
 
         // Reset the y position
         currentYPosition = Processor.dimensions.getHeight() - Processor.margin;

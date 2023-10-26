@@ -5,7 +5,6 @@ import frontend.ast.AST;
 import frontend.ast.NoArgumentStructure;
 import frontend.ast.Node;
 import frontend.ast.config.*;
-import frontend.ast.config.style.Citation;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
 import lombok.NonNull;
@@ -199,7 +198,6 @@ public class Parser {
         do {
             if (current.type == TokenType.NEW_LINE) newline();
             else if (current.type == TokenType.KEYWORD) {
-                System.out.println("FDFE");
                 if (current.value.equals("header")) header();
                 else if (current.value.equals("title")) title();
                 else error();
@@ -387,8 +385,8 @@ public class Parser {
                 nameSpecificationWithOptRole();
                 forgoIndentation();
 
-                if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD
-                        && frontEndBridge.lookahead(0).value.equals("of")) {
+                if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
+                        frontEndBridge.lookahead(0).value.equals("of")) {
                     remainIndentation();
                 }
             } else if (current.type == TokenType.TEXT) {
@@ -398,6 +396,11 @@ public class Parser {
                     var assessor = new Assessor();
                     assessor.setName(last.value);
                     ast.getConfiguration().getAssessors().add(assessor);
+                }
+
+                if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
+                        frontEndBridge.lookahead(0).value.equals("of")) {
+                    remainIndentation();
                 }
             }
         } while (frontEndBridge.containsTokens() && isKeyword() && current.value.equals("of"));
@@ -469,7 +472,20 @@ public class Parser {
                 forgoIndentation();
 
                 if (frontEndBridge.lookahead(0).value.equals("of")) remainIndentation();
-            } else if (current.type == TokenType.TEXT) textual();
+            } else if (current.type == TokenType.TEXT) {
+                textual();
+
+                if (currentlyParsedContainer.equals("Author")) {
+                    var author = new Author();
+                    author.setName(last.value);
+                    ast.getConfiguration().getAuthors().add(author);
+                }
+
+                if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
+                        frontEndBridge.lookahead(0).value.equals("of")) {
+                    remainIndentation();
+                }
+            }
             else error();
         } while (frontEndBridge.containsTokens() && isKeyword() && current.value.equals("of"));
     }
@@ -988,34 +1004,6 @@ public class Parser {
     }
 
     /**
-     *  CitedTextual := Text CitedTextual | Citation CitedTextual | Textual | Citation
-     */
-    @Deprecated
-    private void citedTextual() {
-        if (isKeyword() && current.value.equals("citation") ||
-                current.type == TokenType.TEXT) {
-            do {
-                if (isKeyword()) citation();
-                else {
-                    consume(new Token(TokenType.TEXT, null));
-
-                    var citedText = new TitleText(last.value);
-
-                    if (currentlyParsedContainer.equals("Document Title"))
-                        ast.getConfiguration().getTitle().add(citedText);
-                    else if (currentlyParsedContainer.equals("publication"))
-                        ast.getConfiguration().getPublication().getTitle().add(citedText);
-
-                    lastNode = citedText;
-
-                    newline();
-                }
-            } while (frontEndBridge.containsTokens() && (isKeyword() &&
-                    current.value.equals("citation") || current.type == TokenType.TEXT));
-        } else error();
-    }
-
-    /**
      *  TitleTextual := Text TitleTextual | Emphasis TitleTextual | Work TitleTextual | Textual | Emphasis | Work
      */
     private void titleTextual() {
@@ -1096,40 +1084,6 @@ public class Parser {
             }
             newline();
         } else error();
-    }
-
-    /**
-     *  Citation := "citation" NewLine INDENT "of" Textual "in" Textual "numeration" Textual DEDENT
-     */
-    private void citation() {
-        var citation = new Citation();
-
-        consumeKeyword("citation");
-        newline();
-        expectIndentation();
-
-        consumeKeyword("of");
-        textual();
-
-        citation.setCitedContent(last.value);
-
-        remainIndentation();
-
-        consumeKeyword("in");
-        textual();
-
-        citation.setSource(last.value);
-
-        remainIndentation();
-
-        consumeKeyword("numeration");
-        textual();
-
-        citation.setNumeration(last.value);
-
-        lastNode = citation;
-
-        forgoIndentation();
     }
 
     /**
