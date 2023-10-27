@@ -15,6 +15,10 @@ import java.util.Calendar;
  */
 public class DocumentMetaDataWriter {
 
+    /**
+     *  Uses the data specified in the {@link Processor} to write metadata to the document.
+     *  This includes the current compiler version, the names of the authors, the creation date, etc.
+     */
     public static void writeMetaData() {
         // Get the document metadata from the assembler
         var info = PageAssembler.getDocument().getDocumentInformation();
@@ -26,11 +30,11 @@ public class DocumentMetaDataWriter {
         if (Processor.authors.length > 0) {
             var nameBuilder = new StringBuilder();
             for (var author : Processor.authors) {
-                nameBuilder.append(author.getFirstname());
-                nameBuilder.append(" ");
-                nameBuilder.append(author.getLastname());
+                nameBuilder.append(author.nameToString());
                 nameBuilder.append(", ");
             }
+
+            // Also remove the last comma
             info.setAuthor(nameBuilder.substring(0, nameBuilder.toString().length() - 2));
         }
 
@@ -50,7 +54,7 @@ public class DocumentMetaDataWriter {
 
         info.setKeywords("Pipp");
 
-        // Producer should not be used as it is used for converted files
+        // Producer metadata should not be used as it is used for converted files
     }
 
 }

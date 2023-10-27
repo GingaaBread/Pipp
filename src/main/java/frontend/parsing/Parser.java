@@ -378,7 +378,7 @@ public class Parser {
     private void assessorSpecification() {
         if (isKeyword()) {
             switch (current.value) {
-                case "name", "firstname" -> nameSpecificationWithOptRole();
+                case "name", "firstname", "title" -> nameSpecificationWithOptRole();
                 case "of" -> assessorList();
                 default -> error();
             }
@@ -464,7 +464,7 @@ public class Parser {
         if (isKeyword()) {
             currentlyParsedContainer = "Author";
             switch (current.value) {
-                case "name", "firstname" -> nameSpecificationWithOptId();
+                case "name", "firstname", "title" -> nameSpecificationWithOptId();
                 case "of" -> authorList();
                 default -> error();
             }
@@ -521,27 +521,38 @@ public class Parser {
     }
 
     /**
-     *  NameSpecification := Name | FirstName LastName
+     *  NameSpecification := Name | FirstName LastName | Title Name | Title FirstName LastName
      */
     private void nameSpecification() {
+        String title = null;
+        if (isKeyword() && current.value.equals("title")) {
+            consumeKeyword("title");
+            textual();
+            remainIndentation();
+
+            title = last.value;
+        }
+
         if (isKeyword()) {
             if (current.value.equals("name")) {
                 name();
 
                 if (currentlyParsedContainer.equals("Author")) {
                     var author = new Author();
+                    author.setTitle(title);
                     author.setName(last.value);
 
                     ast.getConfiguration().getAuthors().add(author);
                     lastNode = author;
                 } else if (currentlyParsedContainer.equals("Assessor")) {
                     var assessor = new Assessor();
+                    assessor.setTitle(title);
                     assessor.setName(last.value);
+
                     ast.getConfiguration().getAssessors().add(assessor);
                     lastNode = assessor;
                 }
-            }
-            else if (current.value.equals("firstname")) {
+            } else if (current.value.equals("firstname")) {
                 firstname();
 
                 var firstname = last.value;
@@ -553,6 +564,7 @@ public class Parser {
 
                 if (currentlyParsedContainer.equals("Author")) {
                     var author = new Author();
+                    author.setTitle(title);
                     author.setFirstname(firstname);
                     author.setLastname(lastname);
 
@@ -560,6 +572,7 @@ public class Parser {
                     lastNode = author;
                 } else if (currentlyParsedContainer.equals("Assessor")) {
                     var assessor = new Assessor();
+                    assessor.setTitle(title);
                     assessor.setFirstname(firstname);
                     assessor.setLastname(lastname);
 

@@ -97,7 +97,7 @@ public class MLA9 extends StyleGuide {
 
     @Override
     public @NonNull NumerationAuthorName numerationAuthorName() {
-        return NumerationAuthorName.LAST_NAME;
+        return NumerationAuthorName.FULL_NAME;
     }
 
     /**

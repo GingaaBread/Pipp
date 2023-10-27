@@ -409,9 +409,10 @@ public class Processor {
         // Check if the user demands a custom author name before the numeration
         if (numeration.getAuthorName() != null) {
             numerationAuthorName = switch (numeration.getAuthorName()) {
+                case "name" -> NumerationAuthorName.NAME;
                 case "firstname" -> NumerationAuthorName.FIRST_NAME;
                 case "lastname" -> NumerationAuthorName.LAST_NAME;
-                case "name" -> NumerationAuthorName.NAME;
+                case "Full Name" -> NumerationAuthorName.FULL_NAME;
                 case "None" -> NumerationAuthorName.NONE;
                 default -> throw new IncorrectFormatException("14: Author numeration name expected.");
             };
@@ -588,15 +589,23 @@ public class Processor {
 
             if (author.getName() == null) {
                 if (author.getFirstname().isBlank() || author.getLastname().isBlank() ||
-                        author.getId() != null && author.getId().isBlank())
+                        author.getId() != null && author.getId().isBlank() ||
+                        author.getTitle() != null && author.getTitle().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                Processor.authors[i] = new Author(author.getFirstname(), author.getLastname(), author.getId());
+                var newAuthor = new Author(author.getFirstname(), author.getLastname());
+                newAuthor.setTitle(author.getTitle());
+                newAuthor.setId(author.getId());
+                Processor.authors[i] = newAuthor;
             } else {
-                if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank())
+                if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank() ||
+                        author.getTitle() != null && author.getTitle().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                Processor.authors[i] = new Author(author.getName(), author.getId());
+                var newAuthor = new Author(author.getName());
+                newAuthor.setTitle(author.getTitle());
+                newAuthor.setId(author.getId());
+                Processor.authors[i] = newAuthor;
             }
 
             for (int j = 0; j < i; j++)
@@ -631,16 +640,23 @@ public class Processor {
 
             if (assessor.getName() == null) {
                 if (assessor.getFirstname().isBlank() || assessor.getLastname().isBlank() ||
-                        assessor.getRole() != null && assessor.getRole().isBlank())
+                        assessor.getRole() != null && assessor.getRole().isBlank() ||
+                        assessor.getTitle() != null && assessor.getTitle().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                Processor.assessors[j] = new Assessor(assessor.getFirstname(), assessor.getLastname(),
-                        assessor.getRole());
+                var newAssessor = new Assessor(assessor.getFirstname(), assessor.getLastname());
+                newAssessor.setTitle(assessor.getTitle());
+                newAssessor.setRole(assessor.getRole());
+                Processor.assessors[j] = newAssessor;
             } else {
-                if (assessor.getName().isBlank() || assessor.getRole() != null && assessor.getRole().isBlank())
+                if (assessor.getName().isBlank() || assessor.getRole() != null && assessor.getRole().isBlank() ||
+                        assessor.getTitle() != null && assessor.getTitle().isBlank())
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
-                Processor.assessors[j] = new Assessor(assessor.getName(), assessor.getRole());
+                var newAssessor = new Assessor(assessor.getName());
+                newAssessor.setTitle(assessor.getTitle());
+                newAssessor.setRole(assessor.getRole());
+                Processor.assessors[j] = newAssessor;
             }
 
             for (int k = 0; k < j; k++)

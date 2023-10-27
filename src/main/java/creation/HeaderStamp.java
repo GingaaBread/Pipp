@@ -9,9 +9,7 @@ public class HeaderStamp {
 
         // Start by listing the authors' names one after the other separated by a new line
         for (var author : Processor.authors) {
-            headerBuilder.append(author.getFirstname());
-            headerBuilder.append(" ");
-            headerBuilder.append(author.getLastname());
+            headerBuilder.append(author.nameToString());
 
             TextRenderer.renderLeftAlignedText(headerBuilder.toString());
             headerBuilder.setLength(0);
@@ -20,10 +18,7 @@ public class HeaderStamp {
         // List the assessors' names separated by a comma and one space
         for (int i = 0; i < Processor.assessors.length; i++) {
             var assessor = Processor.assessors[i];
-
-            headerBuilder.append(assessor.getFirstname());
-            headerBuilder.append(" ");
-            headerBuilder.append(assessor.getLastname());
+            headerBuilder.append(assessor.nameToString());
 
             if (i < Processor.assessors.length - 1) headerBuilder.append(", ");
         }

@@ -67,6 +67,7 @@ public class PageNumberStamp {
                         case FIRST_NAME -> Processor.authors[0].getFirstname();
                         case LAST_NAME -> Processor.authors[0].getLastname();
                         case NAME -> Processor.authors[0].getFirstname() + " " + Processor.authors[0].getLastname();
+                        case FULL_NAME -> Processor.authors[0].nameToString();
                         default -> throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
                     };
 

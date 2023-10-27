@@ -18,6 +18,11 @@ import lombok.Setter;
 public class Assessor extends Node {
 
     /**
+     *  The non-blank title of the assessor provided by the user (Dr., Prof., etc.)
+     */
+    private String title;
+
+    /**
      *  The non-blank name of the assessor provided by the user.
      *  If the name is used, the first and last name configurations should not be used as the
      *  name is used to create these automatically.
