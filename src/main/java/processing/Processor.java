@@ -13,6 +13,7 @@ import processing.style.MLA9;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
 import warning.InconsistencyWarning;
+import warning.UnlikelinessWarning;
 import warning.WarningQueue;
 
 import java.awt.*;
@@ -598,6 +599,15 @@ public class Processor {
                 Processor.authors[i] = new Author(author.getName(), author.getId());
             }
 
+            for (int j = 0; j < i; j++)
+            {
+                if (Processor.authors[j].nameToString().equals(Processor.authors[i].nameToString())) {
+                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("3: Two authors have the same " +
+                            "name, which seems unlikely. Check if that is correct. \n\t 1: " +
+                            Processor.authors[j] + ". \n\tAuthor 2: " + Processor.authors[i]));
+                }
+            }
+
             i++;
         }
 
@@ -631,6 +641,15 @@ public class Processor {
                     throw new MissingMemberException("1: A text component cannot be blank.");
 
                 Processor.assessors[j] = new Assessor(assessor.getName(), assessor.getRole());
+            }
+
+            for (int k = 0; k < j; k++)
+            {
+                if (Processor.assessors[k].nameToString().equals(Processor.assessors[k].nameToString())) {
+                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("4: Two assessors have the same " +
+                            "name, which seems unlikely. Check if that is correct. \n\tAssessor 1: " +
+                            Processor.assessors[k] + ". \n\tAssessor 2: " + Processor.assessors[k]));
+                }
             }
 
             j++;

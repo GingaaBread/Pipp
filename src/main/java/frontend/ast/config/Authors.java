@@ -60,7 +60,9 @@ public class Authors extends Node {
             else if (!authorWithIDExists && author.getId() != null) authorWithIDExists = true;
 
             for (var otherAuthor : authors) {
-                if (author != otherAuthor && author.getId() != null && otherAuthor.getId() != null &&
+                if (author == otherAuthor) continue;
+
+                if (author.getId() != null && otherAuthor.getId() != null &&
                         author.getId().equals(otherAuthor.getId())) {
                     WarningQueue.getInstance().enqueue(new UnlikelinessWarning("1: Two authors have the same " +
                             "id, which seems unlikely. Check if that is correct. \n\tAuthor 1: " + author +

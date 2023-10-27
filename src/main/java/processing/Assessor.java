@@ -80,4 +80,13 @@ public class Assessor {
                     "last name?");
     }
 
+    /**
+     *  Used to get the first and last name of the assessor separated by a single space.
+     * @return the name of the author as a String
+     */
+    public String nameToString()
+    {
+        return firstname + " " + lastname;
+    }
+
 }

@@ -78,4 +78,13 @@ public class Author
             throw new IncorrectFormatException("9: Could not parse name property.");
     }
 
+    /**
+     *  Used to get the first and last name of the author separated by a single space.
+     * @return the name of the author as a String
+     */
+    public String nameToString()
+    {
+        return firstname + " " + lastname;
+    }
+
 }

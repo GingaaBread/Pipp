@@ -177,3 +177,67 @@ config
     font
         size "222992"
 ```
+
+## 33
+
+*Description:*
+Two authors have the same name, which seems unlikely.
+Check if that is correct. Author 1: (author).
+Author 2: (author)
+
+*Cause:*
+This warning occurs when creating at least two authors
+in the `author` configuration, which have the same name.
+Hereby it does not matter how the name is specified,
+whether both authors are configured using the `name` configuration,
+or only one and another uses the `firstname` and `lastname` configurations, etc.
+As long as the names are the same, this warning is shown.
+It seems highly unlikely that multiple authors share the same name,
+and can be a common issue when copy and pasting an author and forgetting to change
+the name. However, since multiple authors can share names in rare cases, this
+is not an enforced error.
+
+*To do:*
+Decide whether you really want to have authors
+with the same name.
+
+*Example:*
+```pipp
+config
+    author
+        of
+            name "John Doe"
+        of "John Doe"
+```
+
+## 34
+
+*Description:*
+Two assessors have the same name, which seems unlikely.
+Check if that is correct. Assessor 1: (assessor).
+Assessor 2: (assessor)
+
+*Cause:*
+This warning occurs when creating at least two assessors
+in the `assessor` configuration, which have the same name.
+Hereby it does not matter how the name is specified,
+whether both assessor are configured using the `name` configuration,
+or only one and another uses the `firstname` and `lastname` configurations, etc.
+As long as the names are the same, this warning is shown.
+It seems highly unlikely that multiple assessors share the same name,
+and can be a common issue when copy and pasting an assessor and forgetting to change
+the name. However, since multiple assessors can share names in rare cases, this
+is not an enforced error.
+
+*To do:*
+Decide whether you really want to have assessor
+with the same name.
+
+*Example:*
+```pipp
+config
+    assessor
+        of
+            name "John Doe"
+        of "John Doe"
+```

@@ -32,11 +32,12 @@ config
 		title "Compilerbau"
 #		date "None"
 	author
+		of "dddo Glink"
 		of "Gino Glink"
-		of "Max Mustermann"
+		of "dddo Glink"
 	assessor
 		of "John Doe"
-		of "Another One"
+		of "John Doe"
 header
 title
 blank
