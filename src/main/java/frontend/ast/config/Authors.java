@@ -2,10 +2,7 @@ package frontend.ast.config;
 
 import frontend.ast.Node;
 import lombok.Getter;
-import warning.InconsistencyWarning;
-import warning.MissingMemberWarning;
-import warning.UnlikelinessWarning;
-import warning.WarningQueue;
+import warning.*;
 
 import java.util.ArrayList;
 
@@ -64,9 +61,10 @@ public class Authors extends Node {
 
                 if (author.getId() != null && otherAuthor.getId() != null &&
                         author.getId().equals(otherAuthor.getId())) {
-                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("1: Two authors have the same " +
+                    WarningQueue.enqueue(new UnlikelinessWarning("1: Two authors have the same " +
                             "id, which seems unlikely. Check if that is correct. \n\tAuthor 1: " + author +
-                            ". \n\tAuthor 2: " + otherAuthor));
+                            ". \n\tAuthor 2: " + otherAuthor,
+                            WarningSeverity.CRITICAL));
                 }
             }
 
@@ -74,13 +72,14 @@ public class Authors extends Node {
         }
 
         if (authors.isEmpty())
-            WarningQueue.getInstance().enqueue(new MissingMemberWarning("1: There is no specified author. " +
-                    "Check if you really want to omit an author specification."));
+            WarningQueue.enqueue(new MissingMemberWarning("1: There is no specified author. " +
+                    "Check if you really want to omit an author specification.",
+                    WarningSeverity.CRITICAL));
 
         if (authorWithoutIDExists && authorWithIDExists)
-            WarningQueue.getInstance().enqueue(new InconsistencyWarning("2: At least one author has an ID, but " +
-                    "at least one author does not have an ID. Make sure you really do not want all authors" +
-                    " to have an ID."));
+            WarningQueue.enqueue(new InconsistencyWarning("2: At least one author has an ID, " +
+                    "but at least one author does not have an ID. Make sure you really do not want all authors" +
+                    " to have an ID.", WarningSeverity.HIGH));
     }
 
 }

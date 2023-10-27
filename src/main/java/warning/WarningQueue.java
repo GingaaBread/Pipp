@@ -1,29 +1,37 @@
 package warning;
 
-import lombok.Getter;
-
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+/**
+ *  This class is used to collect all warnings that occur during compilation and print them afterwards.
+ *  To enqueue a warning, the static enqueue method is used.
+ *  To print all warnings, the static printAll method is used.
+ * @author Gino Glink
+ * @version 1.0
+ * @since 1.0
+ */
 public class WarningQueue {
 
-    @Getter
-    private static WarningQueue instance;
+    /**
+     *  Collects all warnings in order of occurrence
+     */
+    private static final Queue<Warning> warnings = new ArrayDeque<>();
 
-    private final Queue<Warning> warnings;
-
-    public WarningQueue() {
-        if (instance == null) instance = this;
-        else throw new IllegalStateException("There is already a WarningQueue instance");
-
-        warnings = new ArrayDeque<>();
-    }
-
-    public void enqueue(Warning warning) {
+    /**
+     *  Adds a warning to the back of the queue
+     * @param warning the warning object that should be enqueued
+     */
+    public static void enqueue(Warning warning) {
         warnings.add(warning);
     }
 
-    public void printAll() {
+    /**
+     *  Prints the toString method of all warnings in the queue.
+     *  Used at the end of compilation to render all warnings.
+     */
+    public static void printAll() {
         warnings.forEach(System.out::println);
     }
+
 }

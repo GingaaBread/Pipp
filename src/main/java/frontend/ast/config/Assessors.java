@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import warning.InconsistencyWarning;
 import warning.WarningQueue;
+import warning.WarningSeverity;
 
 import java.util.ArrayList;
 
@@ -62,9 +63,9 @@ public class Assessors extends Node {
         }
 
         if (assessorWithoutRoleExists && assessorWithRoleExists)
-            WarningQueue.getInstance().enqueue(new InconsistencyWarning("1: At least one assessor has a role, but " +
+            WarningQueue.enqueue(new InconsistencyWarning("1: At least one assessor has a role, but " +
                     "at least one assessor does not have a role. Make sure you really do not want all assessors" +
-                    " to have a role."));
+                    " to have a role.", WarningSeverity.HIGH));
     }
 
 }

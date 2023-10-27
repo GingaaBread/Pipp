@@ -15,6 +15,7 @@ import processing.style.StyleTable;
 import warning.InconsistencyWarning;
 import warning.UnlikelinessWarning;
 import warning.WarningQueue;
+import warning.WarningSeverity;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -611,9 +612,11 @@ public class Processor {
             for (int j = 0; j < i; j++)
             {
                 if (Processor.authors[j].nameToString().equals(Processor.authors[i].nameToString())) {
-                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("3: Two authors have the same " +
-                            "name, which seems unlikely. Check if that is correct. \n\t 1: " +
-                            Processor.authors[j] + ". \n\tAuthor 2: " + Processor.authors[i]));
+                    WarningQueue.enqueue(new UnlikelinessWarning(
+                            "3: Two authors have the same name, which seems unlikely. " +
+                                    "Check if that is correct. \n\t 1: " +
+                                    Processor.authors[j] + ". \n\tAuthor 2: " + Processor.authors[i],
+                            WarningSeverity.CRITICAL));
                 }
             }
 
@@ -662,9 +665,11 @@ public class Processor {
             for (int k = 0; k < j; k++)
             {
                 if (Processor.assessors[k].nameToString().equals(Processor.assessors[k].nameToString())) {
-                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("4: Two assessors have the same " +
-                            "name, which seems unlikely. Check if that is correct. \n\tAssessor 1: " +
-                            Processor.assessors[k] + ". \n\tAssessor 2: " + Processor.assessors[k]));
+                    WarningQueue.enqueue(new UnlikelinessWarning(
+                            "4: Two assessors have the same name, which seems unlikely. " +
+                                    "Check if that is correct. \n\tAssessor 1: " + Processor.assessors[k] +
+                                    ". \n\tAssessor 2: " + Processor.assessors[k],
+                            WarningSeverity.CRITICAL));
                 }
             }
 
@@ -702,9 +707,9 @@ public class Processor {
 
         publicationTitle = ast.getConfiguration().getPublication().getTitle();
 
-        if (inchesUsed && mmUsed) WarningQueue.getInstance().enqueue(new InconsistencyWarning(
-                "3: The style configuration uses both inches and millimeters."
-        ));
+        if (inchesUsed && mmUsed) WarningQueue.enqueue(new InconsistencyWarning(
+                "3: The style configuration uses both inches and millimeters.",
+                WarningSeverity.LOW));
 
         // Create the body nodes
         for (var node : ast.getDocumentBody()) {

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import warning.UnlikelinessWarning;
 import warning.WarningQueue;
+import warning.WarningSeverity;
 
 @Getter
 @Setter
@@ -51,8 +52,8 @@ public class Font extends Node {
         if (size != null) {
             try {
                 if (Integer.parseInt(size) > 96)
-                    WarningQueue.getInstance().enqueue(new UnlikelinessWarning("2: You are using a font size" +
-                        " bigger than 96. Do you really want to use such a large font?"));
+                    WarningQueue.enqueue(new UnlikelinessWarning("2: You are using a font size" +
+                        " bigger than 96. Do you really want to use such a large font?", WarningSeverity.HIGH));
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("13: Integer larger than zero expected.");
             }

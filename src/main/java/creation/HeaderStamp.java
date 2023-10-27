@@ -2,8 +2,18 @@ package creation;
 
 import processing.Processor;
 
+/**
+ *  Used to add a header to the document, which includes the names of all authors and assessors, the title of the
+ *  document, and the publication date.
+ * @author Gino Glink
+ * @since 1.0
+ * @version 1.0
+ */
 public class HeaderStamp {
 
+    /**
+     *  Renders the header stamp to the current position in the document
+     */
     public static void renderHeader() {
         final var headerBuilder = new StringBuilder();
 

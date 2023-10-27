@@ -3,9 +3,10 @@ Warnings
 
 # 1. Inconsistencies
 
-High Severity
-
 ## 11
+
+*Severity:*
+High
 
 *Description:*
 At least one assessor has a role, but at least one
@@ -38,6 +39,9 @@ config
 
 ## 12
 
+*Severity:*
+High
+
 *Description:*
 At least one author has an id, but at least one
 author does not have an id. Make sure you really do
@@ -69,6 +73,9 @@ config
 
 ## 13
 
+*Severity:*
+Low
+
 *Description:*
 The style configuration uses both inches and millimeters.
 
@@ -93,9 +100,10 @@ config
 
 # 2. Missing Members
 
-Critical Severity
-
 ## 21
+
+*Severity:*
+Critical
 
 *Description:*
 There is no specified author. Check if you really
@@ -116,15 +124,14 @@ the names of all authors in academic writing.
 ```pipp
 config
     of "MLA9"
-    
-"This is the only sentence"
 ```
 
 # 3. Unlikeliness
 
-Low Severity
-
 ## 31
+
+*Severity:*
+Critical
 
 *Description:*
 Two authors have the same id, which seems unlikely.
@@ -158,6 +165,9 @@ config
 
 ## 32
 
+*Severity:*
+High
+
 *Description:*
 You are using a font size bigger than 96.
 Do you really want to use such a large font?
@@ -179,6 +189,9 @@ config
 ```
 
 ## 33
+
+*Severity:*
+Critical
 
 *Description:*
 Two authors have the same name, which seems unlikely.
@@ -211,6 +224,9 @@ config
 ```
 
 ## 34
+
+*Severity:*
+Critical
 
 *Description:*
 Two assessors have the same name, which seems unlikely.
