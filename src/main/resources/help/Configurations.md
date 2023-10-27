@@ -20,11 +20,11 @@ automatically included in the metadata of the created document.
 It uses the `author` keyword, which **MUST** be a direct child of the `config` keyword. 
 It accepts the following options:
 
-- Text Block: used for a single author. Gino will use spaces to parse the name. The section before the last space will be the first name of the author, and the rest will be the last name. This configuration can be useful if the name of the author just consists of a single last name and if there is no title (Prof., Dr., etc.). An example would be `author "John Doe"`
+- Text Block: used for a single author. Pipp will use spaces to parse the name. The section before the last space will be the first name of the author, and the rest will be the last name. This configuration can be useful if the name of the author just consists of a single last name and if there is no title (Prof., Dr., etc.). An example would be `author "John Doe"`
 - `name`: this has the same use as a text block, but it allows the additional use of the `title` configuration listed below
-- `firstname`: used to specify the first name of a single author. If used the `name` configuration cannot be used
+- `firstname`: used to specify the first name of a single author. If used the `name` configuration cannot be used. Must appear before the `lastname` configuration.
 - `lastname`: used to specify the last name of a single author. If used the `name` configuration cannot be used.
-- `title`: used to specify the title of a single author. This can be anything like Prof., Dr., etc.
+- `title`: used to specify the title of a single author. This can be anything like Prof., Dr., etc. Must appear before name configurations.
 - `id`: used to identify an author. This could be a matriculation number, student ID, company ID, etc.
 - `of`: used when there are multiple authors. Lists one author by increasing tabulation
 
@@ -42,8 +42,8 @@ config
 ```
 config
 	author
- 		name "John Doe"
  		title "Dr."
+ 		name "John Doe"
  		id "22914"
 ```
 ```
@@ -70,8 +70,60 @@ config
 
 ### Document Assessor(s)
 
-Analogously, you can define the assessors of the document. They accept the exact same options as authors.
-Assessors are individuals that assess the document in order to rate it, edit it, proofread it, etc.
+Analogously, you can define the assessors of the document. They can receive a `role` configuration, which describes
+the role of the assessor. Assessors are individuals that assess the document in order to rate it, edit it, 
+proofread it, etc.
+
+It uses the `assessor` keyword, which **MUST** be a direct child of the `config` keyword.
+It accepts the following options:
+
+- Text Block: used for a single assessor. Pipp will use spaces to parse the name. The section before the last space will be the first name of the assessor, and the rest will be the last name. This configuration can be useful if the name of the assessor just consists of a single last name and if there is no title (Prof., Dr., etc.). An example would be `assessor "John Doe"`
+- `name`: this has the same use as a text block, but it allows the additional use of the `title` configuration listed below
+- `firstname`: used to specify the first name of a single assessor. If used the `name` configuration cannot be used. Must appear before the `lastname` configuration.
+- `lastname`: used to specify the last name of a single assessor. If used the `name` configuration cannot be used.
+- `title`: used to specify the title of a single assessor. This can be anything like Prof., Dr., etc. Must appear before name configurations.
+- `role`: used to specify the role of an assessor. This could be "Instructor", "Editor", etc.
+- `of`: used when there are multiple assessors. Lists one assessor by increasing tabulation
+
+_Examples:_
+
+```
+config
+	assessor "John Doe"
+```
+```
+config
+	assessor
+ 		name "John Doe"
+```
+```
+config
+	assessor
+ 		title "Dr."
+ 		name "John Doe"
+ 		role "Instructor"
+```
+```
+config
+	assessor
+ 		title "Dr."
+ 		firstname "John"
+		lastname "Doe"
+```
+```
+config
+	assessor
+		of
+ 			title "Dr."
+ 			firstname "John"
+			lastname "Doe"
+```
+```
+config
+	assessor
+		of "John Doe"
+		of "Evil Eve"
+```
 
 ## Document Title
 
