@@ -22,6 +22,12 @@ public class PageCreator {
     private static PDPage current;
 
     /**
+     *  Yields true if there is no content rendered on the current page except for the page number stamp.
+     *  Note that classes that add content to the current page should set this flag to false.
+     */
+    public static boolean currentPageIsEmpty = true;
+
+    /**
      *  Marks the y position of the current page.
      *  This is used to know where to render a new line, and is reset whenever
      *  a new page is created.
@@ -29,20 +35,34 @@ public class PageCreator {
     public static float currentYPosition;
 
     /**
-     *  Assembles the last page (if new page is not the first) and creates a new page with a stamp
+     *  Assembles prior last page (if the new page is not the first) and creates a new page with a stamp
      */
     public static void createNewPage() {
         // Assembles the last page if it exists
-        if (PageCreator.current != null) PageAssembler.commitCurrentPage();
+        if (current != null) PageAssembler.commitCurrentPage();
 
         // Create a new page object using the processor's dimensions
-        PageCreator.current = new PDPage(Processor.dimensions);
+        current = new PDPage(Processor.dimensions);
+
+        // The new page is empty
+        currentPageIsEmpty = true;
 
         // Reset the y position
         currentYPosition = Processor.dimensions.getHeight() - Processor.margin;
 
         // Automatically apply the page stamp
         PageNumberStamp.stampCurrentPage();
+    }
+
+    /**
+     *  Commits the current page, adds a blank page, and then adds a page.
+     *  Used for the blank instruction.
+     */
+    public static void createBlankPage()
+    {
+        if (!currentPageIsEmpty) createNewPage();
+
+        createNewPage();
     }
 
 }

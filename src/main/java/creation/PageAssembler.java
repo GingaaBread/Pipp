@@ -22,7 +22,7 @@ public class PageAssembler {
 
     /**
      *  Adds the current page to the document.
-     *  If you want to create a new page afterwards, DO NOT USE THIS METHOD! Use the PageFactory, instead, which
+     *  If you want to create a new page afterwards, DO NOT USE THIS METHOD! Use the PageCreator, instead, which
      *  calls this method.
      */
     public static void commitCurrentPage() {

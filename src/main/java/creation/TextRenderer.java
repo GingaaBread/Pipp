@@ -45,8 +45,10 @@ public class TextRenderer {
     }
 
     /**
-     *  Base method to render text components in the specified alignment in the document.
-     *  Renders the specified text on the current page, using the page's current y position as the starting y
+     * Used to render text components using the specified alignment in the document without registering them as content
+     * of the current page. This can be useful to ignore certain texts, such as the page number, from affecting whether
+     * there is content on the current page.
+     Renders the specified text on the current page, using the page's current y position as the starting y
      *  position, and the style's margin as the starting x position. Takes leading into consideration.
      *  Cuts the individual words using the space as the splitting character.
      *  Note that the method does not change the strings in any way.
@@ -54,9 +56,9 @@ public class TextRenderer {
      * @param textComponentsToRender - the text components that should be rendered on the page
      * @param alignment - the text alignment that should be used for the rendered text
      */
-    public static void renderText(@NonNull final List<Text> textComponentsToRender,
-                                  @NonNull final TextAlignment alignment,
-                                  final float startY) {
+    public static void renderNoContentText(@NonNull final List<Text> textComponentsToRender,
+                                           @NonNull final TextAlignment alignment,
+                                           final float startY) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = 1.2f * Processor.fontSize * Processor.spacing;
@@ -183,7 +185,7 @@ public class TextRenderer {
                             textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
                             maximumWidth -= wordWidth;
                         }
-                    // The word does still fit in the current line
+                        // The word does still fit in the current line
                     } else {
                         // Add the word to the builder and add a space
                         // character if the word is not the first word in the line
@@ -254,6 +256,25 @@ public class TextRenderer {
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");
         }
+    }
+
+    /**
+     *  Base method to render text components in the specified alignment in the document.
+     *  Renders the specified text on the current page, using the page's current y position as the starting y
+     *  position, and the style's margin as the starting x position. Takes leading into consideration.
+     *  Cuts the individual words using the space as the splitting character.
+     *  Note that the method does not change the strings in any way.
+     *
+     * @param textComponentsToRender - the text components that should be rendered on the page
+     * @param alignment - the text alignment that should be used for the rendered text
+     */
+    public static void renderText(@NonNull final List<Text> textComponentsToRender,
+                                  @NonNull final TextAlignment alignment,
+                                  final float startY) {
+        renderNoContentText(textComponentsToRender, alignment, startY);
+
+        // Now that there has been at least one line rendered on the current page, update the flag
+        PageCreator.currentPageIsEmpty = false;
     }
 
 }

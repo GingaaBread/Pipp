@@ -28,6 +28,7 @@ public class BodyHandler {
                 switch (structure) {
                     case HEADER -> HeaderStamp.renderHeader();
                     case TITLE -> TitleStamp.renderTitle();
+                    case BLANKPAGE ->  PageCreator.createBlankPage();
                     default -> throw new PippException("Structure is not yet implemented!");
                 }
             } else throw new PippException("Document type " + element + " is not yet implemented!");

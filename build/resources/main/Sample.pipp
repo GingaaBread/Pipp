@@ -2,8 +2,6 @@ config
 	style
 		of "MLA9"
 		layout
-			width "8.5in"
-			height "15in"
 			margin "1in"
 			spacing "2"
 		font
@@ -36,14 +34,9 @@ config
 	author
 		of "Gino Glink"
 		of "Max Mustermann"
-		of
-			name "Hans Wurst"
-		of
-			firstname "Joseph"
-			lastname "Neuhausen"
-			id "29024"
 	assessor
 		of "John Doe"
 		of "Another One"
 header
 title
+blank

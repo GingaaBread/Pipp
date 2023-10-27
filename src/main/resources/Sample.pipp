@@ -2,8 +2,6 @@ config
 	style
 		of "MLA9"
 		layout
-			width "8.5in"
-			height "15in"
 			margin "1in"
 			spacing "2"
 		font
@@ -41,3 +39,4 @@ config
 		of "Another One"
 header
 title
+blank

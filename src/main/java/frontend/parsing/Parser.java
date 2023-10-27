@@ -198,12 +198,16 @@ public class Parser {
         do {
             if (current.type == TokenType.NEW_LINE) newline();
             else if (current.type == TokenType.KEYWORD) {
-                if (current.value.equals("header")) header();
-                else if (current.value.equals("title")) title();
-                else error();
+                switch (current.value) {
+                    case "header" -> header();
+                    case "title" -> title();
+                    case "blank" -> blank();
+                    default -> error();
+                }
             } else error();
         } while (frontEndBridge.containsTokens() && (current.type == TokenType.NEW_LINE ||
-                isKeyword() && (current.value.equals("header") || current.value.equals("title")) ));
+                isKeyword() && (current.value.equals("header") || current.value.equals("title") ||
+                        current.value.equals("blank")) ));
     }
 
     /**
@@ -222,6 +226,15 @@ public class Parser {
         consumeKeyword("header");
         newline();
         ast.pushDocumentNode(new NoArgumentStructure(StructureType.HEADER));
+    }
+
+    /**
+     *  Blank := "blank" Newline
+     */
+    private void blank() {
+        consumeKeyword("blank");
+        newline();
+        ast.pushDocumentNode(new NoArgumentStructure(StructureType.BLANKPAGE));
     }
 
     /**
@@ -1072,7 +1085,8 @@ public class Parser {
     }
 
     /**
-     *  StructuralInstruction := "bibliography" NewLine | "appendix" NewLine | "tableofcontents" NewLine
+     *  StructuralInstruction := "bibliography" NewLine | "appendix" NewLine | "tableofcontents" NewLine |
+     *                           "blank" NewLine
      */
     private void structuralInstruction() {
         if (isKeyword()) {
@@ -1080,6 +1094,7 @@ public class Parser {
                 case "bibliography" -> consumeKeyword("bibliography");
                 case "appendix" -> consumeKeyword("appendix");
                 case "tableofcontents" -> consumeKeyword("tableofcontents");
+                case "blank" -> consumeKeyword("blank");
                 default -> error();
             }
             newline();
