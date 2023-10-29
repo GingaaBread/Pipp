@@ -26,7 +26,7 @@ public class TitleStamp {
                                 return new Text(titleText.getWork().getEmphasisedWork(), TextStyle.ITALIC);
                             else if (titleText.getEmphasis() != null)
                                 return new Text(titleText.getEmphasis().getEmphasisedText(), TextStyle.ITALIC);
-                            else return new Text(titleText.getText(), TextStyle.NORMAL);
+                            else return new Text(titleText.getText(), TextStyle.REGULAR);
                         }).toList(),
                 TextAlignment.CENTER);
     }

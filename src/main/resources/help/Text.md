@@ -1,6 +1,6 @@
 # Text Blocks
 
-When working with Pipp, text blocks are the fundamental building blocks of your Pipp documents.
+When working with Pipp, text blocks are the fundamental building blocks of Pipp documents.
 They are enclosed by quotation marks `"` and are used for two distinct purposes:
 1. they configure an element or a project configuration
 2. they represent textual content rendered in your document.

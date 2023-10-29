@@ -3,6 +3,7 @@ package frontend.ast.config;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  * @since 1.0
  * @version 1.0
  */
+@ToString
 public class Title extends Node {
 
     /**
@@ -52,18 +54,6 @@ public class Title extends Node {
         }
 
         return textBuilder.toString();
-    }
-
-    /**
-     *  A textual representation of the title node, which contains the formatted text list
-     *
-     * @return - the title node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tTitle{" +
-                "texts=" + texts +
-                '}';
     }
 
     /**

@@ -109,7 +109,7 @@ public class PageNumberStamp {
                 };
 
                 // Renders the page numeration with a normal text style
-                TextRenderer.renderNoContentText(List.of(new Text(content, TextStyle.NORMAL)), alignment, y);
+                TextRenderer.renderNoContentText(List.of(new Text(content, TextStyle.REGULAR)), alignment, y);
 
                 // Increment the page number (only if this page was not skipped)
                 nextNumber++;

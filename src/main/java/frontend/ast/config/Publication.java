@@ -3,6 +3,7 @@ package frontend.ast.config;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The publication node represents the publication configuration
@@ -12,6 +13,7 @@ import lombok.Setter;
  * @version 1.0
  */
 @Getter
+@ToString
 public class Publication extends Node {
 
     /**
@@ -28,19 +30,6 @@ public class Publication extends Node {
      */
     @Setter
     private String date;
-
-    /**
-     *  A textual representation of the publication node, which contains all formatted properties
-     *
-     * @return - the publication node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tPublication{" +
-                "title=" + title +
-                ", date='" + date + '\'' +
-                '}';
-    }
 
     /**
      *  The publication node does not produce warnings

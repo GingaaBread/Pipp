@@ -4,6 +4,7 @@ import frontend.ast.Node;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  *  The work node contains text containing a work that should be emphasised in the document.
@@ -13,6 +14,7 @@ import lombok.NonNull;
  * @since 1.0
  * @version 1.0
  */
+@ToString
 public class Work extends Node {
 
     /**
@@ -23,18 +25,6 @@ public class Work extends Node {
 
     public Work(@NonNull final String emphasisedWork) {
         this.emphasisedWork = emphasisedWork + " ";
-    }
-
-    /**
-     *  A textual representation of the "work" node, which contains the work that should be referenced
-     *
-     * @return - the "work" node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\t\tWork{" +
-                "emphasisedWork=" + emphasisedWork +
-                '}';
     }
 
     /**

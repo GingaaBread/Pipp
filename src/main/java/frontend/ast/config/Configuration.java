@@ -4,6 +4,7 @@ import frontend.ast.Node;
 import frontend.ast.config.style.Style;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The configuration node groups together all configurations
@@ -14,6 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Configuration extends Node {
 
     /**
@@ -48,23 +50,6 @@ public class Configuration extends Node {
      *  For example, "Paper" determines that the document is a scientific paper.
      */
     private String documentType;
-
-    /**
-     *  A textual representation of the configuration node, which contains all formatted properties
-     *
-     * @return - the properties of the configuration node as a string
-     */
-    @Override
-    public String toString() {
-        return "Configuration{" +
-                "assessors=" + assessors +
-                ", authors=" + authors +
-                ", publication=" + publication +
-                ", style=" + style +
-                ", title=" + title +
-                ", documentType='" + documentType + '\'' +
-                '}';
-    }
 
     /**
      *  The configuration node does not produce warnings

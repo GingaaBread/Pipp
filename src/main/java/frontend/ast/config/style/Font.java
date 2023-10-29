@@ -4,12 +4,14 @@ import error.IncorrectFormatException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import warning.UnlikelinessWarning;
 import warning.WarningQueue;
 import warning.WarningSeverity;
 
 @Getter
 @Setter
+@ToString
 public class Font extends Node {
 
     /**
@@ -29,20 +31,6 @@ public class Font extends Node {
      *  The unit of the font size are points (pt).
      */
     private String size;
-
-    /**
-     *  A textual representation of the font node, which contains all formatted properties
-     *
-     * @return - the properties of the font node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tFont{" +
-                "name='" + name + '\'' +
-                ", colour='" + colour + '\'' +
-                ", size='" + size + '\'' +
-                '}';
-    }
 
     /**
      *  Produces a warning if a font size of more than 96 is used

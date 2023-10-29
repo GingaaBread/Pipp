@@ -3,6 +3,7 @@ package frontend.ast.config.style;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The style node contains information about how the document should be styled.
@@ -15,6 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Style extends Node {
 
     /**
@@ -43,22 +45,6 @@ public class Style extends Node {
      *  The user can override any of the preconfigured values.
      */
     private String baseStyle;
-
-    /**
-     *  A textual representation of the style node, which contains all formatted properties
-     *
-     * @return - the properties of the style node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tStyle{" +
-                "baseStyle='" + baseStyle + '\'' +
-                ", layout=" + layout +
-                ", font=" + font +
-                ", structure=" + structure +
-                ", numeration=" + numeration +
-                '}';
-    }
 
     /**
      *  The style node does not produce warnings

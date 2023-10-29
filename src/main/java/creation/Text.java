@@ -2,6 +2,7 @@ package creation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  *  The Text class resembles text that should be rendered on the document.
@@ -13,6 +14,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
+@ToString
 public class Text {
 
     /**
@@ -26,18 +28,5 @@ public class Text {
      *  The style of the content, which determines what kind of font is used during the render
      */
     private TextStyle style;
-
-    /**
-     *  Textual representation of the text
-     *
-     * @return - the text object as a string
-     */
-    @Override
-    public String toString() {
-        return "Text{" +
-                "content='" + content + '\'' +
-                ", style=" + style +
-                '}';
-    }
 
 }

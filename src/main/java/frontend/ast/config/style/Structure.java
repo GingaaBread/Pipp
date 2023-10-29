@@ -3,6 +3,7 @@ package frontend.ast.config.style;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The structure node groups together the structure configuration
@@ -13,6 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Structure extends Node {
 
     /**
@@ -32,20 +34,6 @@ public class Structure extends Node {
      *  This includes making sure that endnotes only appear after bibliographies, for example.
      */
     private final Endnotes endnotes = new Endnotes();
-
-    /**
-     *  A textual representation of the structure node, which contains all formatted properties.
-     *
-     * @return - the properties of the structure node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tStructure{" +
-                "paragraph=" + paragraph +
-                ", sentence=" + sentence +
-                ", endnotes=" + endnotes +
-                '}';
-    }
 
     /**
      *  The structure node does not produce warnings

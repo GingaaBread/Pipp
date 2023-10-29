@@ -3,6 +3,7 @@ package frontend.ast.config.style;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The endnotes node represents the endnotes style configuration
@@ -13,6 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Endnotes extends Node {
 
     /**
@@ -21,18 +23,6 @@ public class Endnotes extends Node {
      *  If no structure needs to appear first, this is null.
      */
     private String allowBeforeStructure;
-
-    /**
-     *  A textual representation of the "endnotes" node, which contains the formatted properties
-     *
-     * @return - the properties of the "endnotes" node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tEndnotes{" +
-                "allowBeforeStructure='" + allowBeforeStructure + '\'' +
-                '}';
-    }
 
     /**
      *  The endnotes node does not produce warnings

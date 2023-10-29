@@ -1,10 +1,15 @@
 package processing;
 
 import creation.DocumentCreator;
+import creation.Text;
+import creation.TextStyle;
 import error.*;
 import frontend.ast.AST;
-import frontend.ast.NoArgumentStructure;
+import frontend.ast.BodyNode;
 import frontend.ast.config.Title;
+import frontend.ast.paragraph.Emphasise;
+import frontend.ast.paragraph.ParagraphInstruction;
+import frontend.ast.paragraph.Work;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -23,7 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
+import java.util.MissingFormatArgumentException;
 
 /**
  *  The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
@@ -213,7 +218,7 @@ public class Processor {
     //// Document Body ////
 
 
-    public static Stack<Object> documentBody = new Stack<>();
+    public static LinkedList<BodyNode> documentBody = new LinkedList<>();
 
 
     /**
@@ -262,6 +267,8 @@ public class Processor {
 
         System.out.println("Now checking AST for possible warnings");
         ast.checkForWarnings();
+
+        documentBody = ast.getDocumentBody();
 
         // Used to track a warning if both inches and mm are used, which may be considered inconsistent
         boolean inchesUsed = false;
@@ -711,19 +718,23 @@ public class Processor {
                 "3: The style configuration uses both inches and millimeters.",
                 WarningSeverity.LOW));
 
-        // Create the body nodes
-        for (var node : ast.getDocumentBody()) {
-            if (node instanceof NoArgumentStructure) {
-                documentBody.add(((NoArgumentStructure) node).getType());
-            } else throw new PippException("Node " + node + " is not yet implemented!");
-        }
-
         // For debugging purposes
         System.out.println("Finished processing.");
         System.out.println(this);
 
         // Start the creation process
         DocumentCreator.create();
+    }
+
+    // TODO: Change to adapt configurations
+    public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
+        if (paragraphInstruction instanceof frontend.ast.paragraph.Text text) {
+            return new Text(text.getContent(), TextStyle.REGULAR);
+        } else if (paragraphInstruction instanceof Emphasise emphasis) {
+            return new Text(emphasis.getContent(), TextStyle.ITALIC);
+        } else if (paragraphInstruction instanceof Work work) {
+            return new Text(work.getWorkContent(), TextStyle.ITALIC);
+        } else throw new MissingFormatArgumentException("Not implemented");
     }
 
 }

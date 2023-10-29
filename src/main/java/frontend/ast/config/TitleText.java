@@ -1,9 +1,9 @@
 package frontend.ast.config;
 
 import frontend.ast.Node;
-import frontend.ast.config.style.Citation;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  *  A title text node either contains a type of emphasis or a text. Therefore, it serves as a triple that only allows
@@ -14,6 +14,7 @@ import lombok.NonNull;
  * @version 1.0
  */
 @Getter
+@ToString
 public class TitleText extends Node {
 
     /**
@@ -59,21 +60,6 @@ public class TitleText extends Node {
      */
     public TitleText(@NonNull final Work work) {
         this.work = work;
-    }
-
-
-    /**
-     *  A textual representation of the cited text node, which contains the citation if the node is used as
-     *  a citation, and the textual content if it is used as a text
-     *
-     * @return - the cited text node as a string
-     */
-    @Override
-    @NonNull
-    public String toString() {
-        return "\n\tTitleText{" +
-                (emphasis != null ? "emphasis=" + emphasis
-                : (text != null ? "text='" + text : "work=" + work) + '\'') + '}';
     }
 
     /**

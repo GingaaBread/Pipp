@@ -3,6 +3,7 @@ package frontend.ast.config;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 import warning.InconsistencyWarning;
 import warning.WarningQueue;
 import warning.WarningSeverity;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 @Getter
+@ToString
 public class Assessors extends Node {
 
     /**
@@ -33,18 +35,6 @@ public class Assessors extends Node {
     @NonNull
     public void add(final Assessor assessor) {
         this.assessors.add(assessor);
-    }
-
-    /**
-     *  A textual representation of the Assessors node, which contains the assessors list as a string
-     *
-     * @return - the Assessors node as a String
-     */
-    @Override
-    public String toString() {
-        return "\n\tAssessors{" +
-                "assessors=" + assessors +
-                '}';
     }
 
     /**

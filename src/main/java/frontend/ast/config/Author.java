@@ -3,6 +3,7 @@ package frontend.ast.config;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The author node represents an author of the document
@@ -13,6 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Author extends Node {
 
     /**
@@ -44,23 +46,6 @@ public class Author extends Node {
      *  This can be used to identify the author via the use of an ID field
      */
     private String id;
-
-    /**
-     *  The textual representation of the author node, which contains the properties of the node
-     *  separated visually
-     *
-     * @return - the properties of the author node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tAuthor{" +
-                "title='" + title + '\'' +
-                ", name='" + name + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
 
     /**
      *  The author node does not produce warnings

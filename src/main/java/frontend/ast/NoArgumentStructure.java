@@ -1,8 +1,13 @@
 package frontend.ast;
 
+import creation.HeaderStamp;
+import creation.PageCreator;
+import creation.TitleStamp;
+import error.PippException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import processing.StructureType;
 
 /**
@@ -16,7 +21,8 @@ import processing.StructureType;
 @Setter
 @Getter
 @AllArgsConstructor
-public class NoArgumentStructure extends Node {
+@ToString
+public class NoArgumentStructure extends BodyNode {
 
     /**
      *  The type of the structure.
@@ -25,20 +31,22 @@ public class NoArgumentStructure extends Node {
     private StructureType type;
 
     /**
-     *  A textual representation of the no argument structure node, which contains all formatted properties
-     *
-     * @return - the properties of the no argument structure node as a string
-     */
-    @Override
-    public String toString() {
-        return "NoArgumentStructure{" +
-                "type=" + type +
-                '}';
-    }
-
-    /**
      *  The No argument structure node does not produce errors
      */
     @Override
     protected void checkForWarnings() { }
+
+    /**
+     *  Determines what stamps or renders should be applied when this element is rendered on the document
+     */
+    @Override
+    public void handleBodyElement() {
+        switch (type) {
+            case TITLE -> TitleStamp.renderTitle();
+            case HEADER -> HeaderStamp.renderHeader();
+            case BLANKPAGE ->  PageCreator.createBlankPage();
+            default -> throw new PippException("Document type " + type + " is not yet implemented!");
+        }
+    }
+
 }

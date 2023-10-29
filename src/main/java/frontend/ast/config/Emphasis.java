@@ -4,6 +4,7 @@ import frontend.ast.Node;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  *  The emphasis node contains text that should be emphasised in the document.
@@ -13,6 +14,7 @@ import lombok.NonNull;
  * @since 1.0
  * @version 1.0
  */
+@ToString
 public class Emphasis extends Node {
 
     /**
@@ -23,18 +25,6 @@ public class Emphasis extends Node {
 
     public Emphasis(@NonNull final String emphasisedText) {
         this.emphasisedText = emphasisedText + " ";
-    }
-
-    /**
-     *  A textual representation of the "emphasis" node, which contains the text that should be emphasised
-     *
-     * @return - the "emphasis" node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\t\tEmphasis{" +
-                "emphasisedText=" + emphasisedText +
-                '}';
     }
 
 

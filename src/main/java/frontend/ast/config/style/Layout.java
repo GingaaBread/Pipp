@@ -3,6 +3,7 @@ package frontend.ast.config.style;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The layout node determines the general layout properties of the document
@@ -13,6 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Layout extends Node {
 
     /**
@@ -38,21 +40,6 @@ public class Layout extends Node {
      *  Must be "1", "1.5" or "2".
      */
     private String spacing;
-
-    /**
-     *  A textual representation of the layout node, which contains all formatted properties
-     *
-     * @return - the properties of the layout node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tLayout{" +
-                "width='" + width + '\'' +
-                ", height='" + height + '\'' +
-                ", margin='" + margin + '\'' +
-                ", spacing='" + spacing + '\'' +
-                '}';
-    }
 
     /**
      *  The layout node does not produce warnings

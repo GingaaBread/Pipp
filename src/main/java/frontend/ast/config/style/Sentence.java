@@ -3,9 +3,11 @@ package frontend.ast.config.style;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Sentence extends Node {
     private String prefix;
     private String allowWhitespace;
@@ -13,18 +15,6 @@ public class Sentence extends Node {
     private String allowItalicText;
 
     @Override
-    public String toString() {
-        return "\n\tSentence{" +
-                "prefix='" + prefix + '\'' +
-                ", allowWhitespace='" + allowWhitespace + '\'' +
-                ", allowBoldText='" + allowBoldText + '\'' +
-                ", allowItalicText='" + allowItalicText + '\'' +
-                '}';
-    }
-
-    @Override
-    protected void checkForWarnings() {
-
-    }
+    protected void checkForWarnings() { }
 
 }

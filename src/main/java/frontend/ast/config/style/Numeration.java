@@ -4,6 +4,7 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @version 1.0
  */
 @Getter
+@ToString
 public class Numeration extends Node {
 
     /**
@@ -50,21 +52,6 @@ public class Numeration extends Node {
      *  To add a page or page span that should be skipped, use the addSkippedPage-method of this node.
      */
     private final List<String> skippedPages = new LinkedList<>();
-
-    /**
-     *  A textual representation of the numeration node, which contains all formatted properties
-     *
-     * @return - the properties of the numeration node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tNumeration{" +
-                "numerationType='" + numerationType + '\'' +
-                ", position='" + position + '\'' +
-                ", margin='" + margin + '\'' +
-                ", skippedPages='" + skippedPages + '\'' +
-                '}';
-    }
 
     /**
      *  Adds a page number to the pages that should be skipped during numeration

@@ -1,8 +1,10 @@
 package frontend.ast.config;
 
 import frontend.ast.Node;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The assessor node contains properties for setting the name and role of the assessor
@@ -15,6 +17,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Assessor extends Node {
 
     /**
@@ -46,22 +49,6 @@ public class Assessor extends Node {
      *  The role could be "Instructor", "Professor", "Examiner", etc.
      */
     private String role;
-
-    /**
-     *  A textual representation of the Assessor node, which contains the properties of the node
-     *  separated in a visual manner
-     *
-     * @return - the properties of the Assessor node as a String
-     */
-    @Override
-    public String toString() {
-        return "\n\tAssessor{" +
-                "name='" + name + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
 
     /**
      *  The Assessor node does not produce warnings

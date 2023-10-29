@@ -14,7 +14,7 @@ public enum TextStyle {
      *  The NORMAL text style refers to the default font used within the document.
      *  This is useful for sentences and paragraphs that should not stand out.
      */
-    NORMAL,
+    REGULAR,
 
     /**
      *  The ITALIC text style refers to the italic version of the main font.

@@ -2,6 +2,7 @@ package frontend.ast.config;
 
 import frontend.ast.Node;
 import lombok.Getter;
+import lombok.ToString;
 import warning.*;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 @Getter
+@ToString
 public class Authors extends Node {
 
     /**
@@ -29,18 +31,6 @@ public class Authors extends Node {
      */
     public void add(Author author) {
         authors.add(author);
-    }
-
-    /**
-     *  A textual representation of the "authors" node, which contains the formatted list of authors
-     *
-     * @return - the "authors" node as a string
-     */
-    @Override
-    public String toString() {
-        return "\n\tAuthors{" +
-                "authors=" + authors +
-                '}';
     }
 
     /**

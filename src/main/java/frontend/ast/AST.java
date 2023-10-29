@@ -3,6 +3,7 @@ package frontend.ast;
 import frontend.ast.config.Configuration;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import java.util.LinkedList;
 
@@ -15,6 +16,7 @@ import java.util.LinkedList;
  * @version 1.0
  */
 @Getter
+@ToString
 public class AST {
 
     /**
@@ -26,9 +28,8 @@ public class AST {
      *  The document body consists of nodes given by the user.
      *  It is the job of the {@link processing.Processor} to find whether the input is legal, the AST only collects
      *  the nodes specified one after the other.
-     *  To push a new node to the stack, use the push-method of this class.
      */
-    private final LinkedList<Node> documentBody = new LinkedList<>();
+    private final LinkedList<BodyNode> documentBody = new LinkedList<>();
 
     /**
      *  Adds the specified document node to the top of the stack.
@@ -36,21 +37,8 @@ public class AST {
      *
      * @param node - the node that should be added to the top of the stack
      */
-    public void pushDocumentNode(@NonNull final Node node) {
-        documentBody.addFirst(node);
-    }
-
-    /**
-     * Provides a textual representation of the AST
-     *
-     * @return - the properties of the AST class as a string
-     */
-    @Override
-    public String toString() {
-        return "AST{" +
-                "\nconfiguration=" + configuration +
-                ",\ndocumentBody=" + documentBody +
-                '}';
+    public void pushDocumentNode(@NonNull final BodyNode node) {
+        documentBody.addLast(node);
     }
 
     /**

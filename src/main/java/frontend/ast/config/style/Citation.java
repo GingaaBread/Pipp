@@ -3,6 +3,7 @@ package frontend.ast.config.style;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *  The citation node represents a citation, which needs to have a source, the cited content, and
@@ -14,6 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Citation extends Node {
 
     /**
@@ -33,21 +35,6 @@ public class Citation extends Node {
      *  A TV-show would use a season an episode as a citation numeration (season 1, episode 5).
      */
     private String numeration;
-
-    /**
-     *  The textual representation of the Citation node.
-     *  It contains the source, cited content, and numeration as strings, separated by ASCII characters.
-     *
-     * @return - the values of the node as Strings
-     */
-    @Override
-    public String toString() {
-        return "\n\tCitation{" +
-                "source='" + source + '\'' +
-                ", citedContent='" + citedContent + '\'' +
-                ", numeration='" + numeration + '\'' +
-                '}';
-    }
 
     /**
      *  A citation node does not produce warnings

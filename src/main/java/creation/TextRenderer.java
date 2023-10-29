@@ -41,7 +41,7 @@ public class TextRenderer {
      * @param text - the text that should be rendered on the page
      */
     public static void renderLeftAlignedText(@NonNull final String text) {
-        renderText(List.of(new Text(text, TextStyle.NORMAL)), TextAlignment.LEFT);
+        renderText(List.of(new Text(text, TextStyle.REGULAR)), TextAlignment.LEFT);
     }
 
     /**
@@ -99,7 +99,7 @@ public class TextRenderer {
                 // Apply the correct font style
                 if (textPart.getStyle() == TextStyle.ITALIC)
                     contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
-                else if (textPart.getStyle() == TextStyle.NORMAL)
+                else if (textPart.getStyle() == TextStyle.REGULAR)
                     contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
                 // Tries to check if the next word can be rendered in the current line or if it does not fit
@@ -138,7 +138,7 @@ public class TextRenderer {
                             // Apply the correct font style
                             if (text.getStyle() == TextStyle.ITALIC)
                                 contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
-                            else if (text.getStyle() == TextStyle.NORMAL)
+                            else if (text.getStyle() == TextStyle.REGULAR)
                                 contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
                             var textToRender = text.getContent();
@@ -216,7 +216,7 @@ public class TextRenderer {
                     // Apply the correct font style
                     if (text.getStyle() == TextStyle.ITALIC)
                         contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
-                    else if (text.getStyle() == TextStyle.NORMAL)
+                    else if (text.getStyle() == TextStyle.REGULAR)
                         contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
 
                     // Display the text component

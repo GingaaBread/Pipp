@@ -5,6 +5,9 @@ import frontend.ast.AST;
 import frontend.ast.NoArgumentStructure;
 import frontend.ast.Node;
 import frontend.ast.config.*;
+import frontend.ast.paragraph.Emphasise;
+import frontend.ast.paragraph.Paragraph;
+import frontend.ast.paragraph.Text;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
 import lombok.NonNull;
@@ -31,6 +34,13 @@ public class Parser {
      *  Tracks the current token, which needs to be parsed
      */
     private Token current;
+
+    /**
+     *  Tracks the current paragraph in order to be able to add paragraph instructions to it when parsing
+     *  its children, and then add the paragraph with the child nodes to the document body.
+     *  Note that this should be null when there is no paragraph being parsed.
+     */
+    private Paragraph currentParagraph;
 
     /**
      *  Tracks the last token, which has already been parsed.
@@ -79,7 +89,7 @@ public class Parser {
      *  Once done parsing, it throws an error if there are still tokens.
      *  If there are no more tokens, it starts the processing phase, instead.
      */
-    private void afterParsing() {
+    private void finishParsing() {
         if (frontEndBridge.containsTokens()) error();
 
         frontEndBridge.startProcessor(ast);
@@ -119,7 +129,7 @@ public class Parser {
      *  Tries to consume the current INDENT token which has the same indentation level as the currently required
      */
     private void remainIndentation() {
-        if (frontEndBridge.containsTokens()) {
+        if (frontEndBridge.containsTokens() && currentIndentationLevel > 0) {
             if (current.type != TokenType.INDENT) throw new IllegalStateException("(" + currentLine + ") Should" +
                     " remain at the current indentation level (" + currentIndentationLevel + "). Instead" +
                     " found unexpected token: " + current);
@@ -180,7 +190,7 @@ public class Parser {
             current = frontEndBridge.dequeueToken();
             document();
 
-            afterParsing();
+            finishParsing();
         }
     }
 
@@ -204,10 +214,11 @@ public class Parser {
                     case "blank" -> blank();
                     default -> error();
                 }
-            } else error();
-        } while (frontEndBridge.containsTokens() && (current.type == TokenType.NEW_LINE ||
-                isKeyword() && (current.value.equals("header") || current.value.equals("title") ||
-                        current.value.equals("blank")) ));
+            } else paragraph();
+        } while (frontEndBridge.containsTokens() && (current.type == TokenType.TEXT ||
+                current.type == TokenType.NEW_LINE || isKeyword()
+                && (isKeyword("header") || isKeyword("title") || isKeyword("citation") || isKeyword("emphasise")
+                    || isKeyword("work") || isKeyword("blank"))));
     }
 
     /**
@@ -1058,7 +1069,7 @@ public class Parser {
     }
 
     /**
-     *  Emphasis := "emphasise" Textual NewLine
+     *  Emphasis := "emphasise" Textual
      */
     private void emphasis() {
         consumeKeyword("emphasise");
@@ -1068,17 +1079,18 @@ public class Parser {
 
             var titleText = new TitleText(new Emphasis(last.value));
 
-            if (currentlyParsedContainer.equals("Document Title"))
-                ast.getConfiguration().getTitle().add(titleText);
-            else if (currentlyParsedContainer.equals("publication"))
-                ast.getConfiguration().getPublication().getTitle().add(titleText);
+            switch (currentlyParsedContainer) {
+                case "Document Title" -> ast.getConfiguration().getTitle().add(titleText);
+                case "publication" -> ast.getConfiguration().getPublication().getTitle().add(titleText);
+                case "paragraph" -> currentParagraph.enqueueParagraphInstruction(new Emphasise(last.value));
+            }
 
             lastNode = titleText;
         } else error();
     }
 
     /**
-     *  Work := "work" Textual NewLine
+     *  Work := "work" Textual
      */
     private void work() {
         consumeKeyword("work");
@@ -1088,10 +1100,11 @@ public class Parser {
 
             var titleText = new TitleText(new Work(last.value));
 
-            if (currentlyParsedContainer.equals("Document Title"))
-                ast.getConfiguration().getTitle().add(titleText);
-            else if (currentlyParsedContainer.equals("publication"))
-                ast.getConfiguration().getPublication().getTitle().add(titleText);
+            switch (currentlyParsedContainer) {
+                case "Document Title" -> ast.getConfiguration().getTitle().add(titleText);
+                case "publication" -> ast.getConfiguration().getPublication().getTitle().add(titleText);
+                case "paragraph" -> currentParagraph.enqueueParagraphInstruction(new frontend.ast.paragraph.Work(last.value));
+            }
 
             lastNode = titleText;
         } else error();
@@ -1112,6 +1125,50 @@ public class Parser {
             }
             newline();
         } else error();
+    }
+
+    /**
+     *  Paragraph := ParagraphInstruction+ NewLine
+     */
+    private void paragraph() {
+        currentParagraph = new Paragraph();
+        currentlyParsedContainer = "paragraph";
+
+        do paragraphInstruction();
+        while (frontEndBridge.containsTokens() && current.type == TokenType.TEXT ||
+                isKeyword("citation") || isKeyword("work") || isKeyword("emphasise"));
+
+        newline();
+
+        ast.pushDocumentNode(currentParagraph);
+        currentParagraph = null;
+    }
+
+    /**
+     *  ParagraphInstruction := Textual | Emphasis | Work | Citation
+     */
+    private void paragraphInstruction() {
+        if (current.type == TokenType.TEXT) {
+            remainIndentation();
+            textual();
+
+            currentParagraph.enqueueParagraphInstruction(new Text(last.value));
+        } else if (isKeyword()) {
+            remainIndentation();
+            switch (current.value) {
+                case "emphasise" -> emphasis();
+                case "work" -> work();
+                case "citation" -> citation();
+                default -> error();
+            }
+        } else error();
+    }
+
+    /**
+     *  Citation := KeywordCitation | ShorthandCitation
+     */
+    private void citation() {
+
     }
 
     /**
