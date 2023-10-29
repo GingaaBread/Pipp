@@ -31,6 +31,16 @@ public class Style extends Node {
     private final Font font = new Font();
 
     /**
+     *  The font node contains information about the font used for emphasis.
+     */
+    private final Font emphasisFont = new Font();
+
+    /**
+     *  The font node contains information about the font used for work references.
+     */
+    private final Font workFont = new Font();
+
+    /**
      *  The structures node contains information about how structures should be styled.
      */
     private final Structure structure = new Structure();
@@ -53,6 +63,8 @@ public class Style extends Node {
     public void checkForWarnings() {
         layout.checkForWarnings();
         font.checkForWarnings();
+        emphasisFont.checkForWarnings();
+        workFont.checkForWarnings();
         structure.checkForWarnings();
         numeration.checkForWarnings();
     }

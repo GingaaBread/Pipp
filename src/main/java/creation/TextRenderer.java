@@ -41,7 +41,8 @@ public class TextRenderer {
      * @param text - the text that should be rendered on the page
      */
     public static void renderLeftAlignedText(@NonNull final String text) {
-        renderText(List.of(new Text(text, TextStyle.REGULAR)), TextAlignment.LEFT);
+        renderText(List.of(new Text(text, Processor.font, Processor.fontSize, Processor.fontColour)),
+                TextAlignment.LEFT);
     }
 
     /**
@@ -77,7 +78,7 @@ public class TextRenderer {
 
             // Sets up the content stream
             contentStream.setFont(Processor.font, Processor.fontSize);
-            contentStream.setStrokingColor(Processor.fontColour);
+            contentStream.setNonStrokingColor(Processor.fontColour);
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
 
@@ -85,7 +86,7 @@ public class TextRenderer {
             final var textBuilder = new LinkedList<Text>();
             final var rest = new LinkedList<Text>();
 
-            // TODO: IMPLEMENT RIGHT
+            // TODO: IMPLEMENT RIGHT LAYOUT
             // // page.getMediaBox().getWidth() -
             //                            //Processor.numerationMargin - contentWidth;
 
@@ -97,10 +98,8 @@ public class TextRenderer {
                 var isFirstWord = true;
 
                 // Apply the correct font style
-                if (textPart.getStyle() == TextStyle.ITALIC)
-                    contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
-                else if (textPart.getStyle() == TextStyle.REGULAR)
-                    contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
+                contentStream.setFont(textPart.getFont(), textPart.getFontSize());
+                contentStream.setNonStrokingColor(textPart.getFontColour());
 
                 // Tries to check if the next word can be rendered in the current line or if it does not fit
                 for (String word : words) {
@@ -114,11 +113,13 @@ public class TextRenderer {
                             final var textSize = textBuilder.size();
                             for (int i = 0; i < textSize; i++) {
                                 rest.addLast(textBuilder.remove());
-                                rest.addLast(new Text(" ", textPart.getStyle()));
+                                rest.addLast(new Text(" ", textPart.getFont(), textPart.getFontSize(),
+                                        textPart.getFontColour()));
                             }
                         }
 
-                        rest.addLast(new Text(word + " ", textPart.getStyle()));
+                        rest.addLast(new Text(word + " ", textPart.getFont(), textPart.getFontSize(),
+                                textPart.getFontColour()));
                     }
                     // If the word does not fit in the current line, render the line and start a new line
                     else if (wordWidth > maximumWidth) {
@@ -136,10 +137,8 @@ public class TextRenderer {
                             var text = textBuilder.remove();
 
                             // Apply the correct font style
-                            if (text.getStyle() == TextStyle.ITALIC)
-                                contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
-                            else if (text.getStyle() == TextStyle.REGULAR)
-                                contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
+                            contentStream.setFont(text.getFont(), text.getFontSize());
+                            contentStream.setNonStrokingColor(text.getFontColour());
 
                             var textToRender = text.getContent();
 
@@ -182,7 +181,8 @@ public class TextRenderer {
                             PageCreator.currentYPosition -= leading;
                             contentStream.newLineAtOffset(0, -leading);
 
-                            textBuilder.addLast(new Text(word + " ", textPart.getStyle()));
+                            textBuilder.addLast(new Text(word + " ", textPart.getFont(), textPart.getFontSize(),
+                                    textPart.getFontColour()));
                             maximumWidth -= wordWidth;
                         }
                         // The word does still fit in the current line
@@ -190,9 +190,11 @@ public class TextRenderer {
                         // Add the word to the builder and add a space
                         // character if the word is not the first word in the line
                         if (isFirstWord) {
-                            textBuilder.addLast(new Text(word, textPart.getStyle()));
+                            textBuilder.addLast(new Text(word, textPart.getFont(), textPart.getFontSize(),
+                                    textPart.getFontColour()));
                             isFirstWord = false;
-                        } else textBuilder.addLast(new Text(" " + word, textPart.getStyle()));
+                        } else textBuilder.addLast(new Text(" " + word, textPart.getFont(),
+                                textPart.getFontSize(), textPart.getFontColour()));
 
                         currentLineWidth += wordWidth;
                         maximumWidth -= wordWidth;
@@ -214,10 +216,8 @@ public class TextRenderer {
                     var text = textBuilder.remove();
 
                     // Apply the correct font style
-                    if (text.getStyle() == TextStyle.ITALIC)
-                        contentStream.setFont(Processor.usedStyleGuide.emphasisedFont(), Processor.fontSize);
-                    else if (text.getStyle() == TextStyle.REGULAR)
-                        contentStream.setFont(Processor.usedStyleGuide.font(), Processor.fontSize);
+                    contentStream.setFont(text.getFont(), text.getFontSize());
+                    contentStream.setNonStrokingColor(text.getFontColour());
 
                     // Display the text component
                     contentStream.showText(text.getContent());
@@ -237,17 +237,21 @@ public class TextRenderer {
                 // Bundles the words together depending on the style
                 var collectedRest = new LinkedList<Text>();
                 var itemBuilder = new StringBuilder();
-                TextStyle currentStyle = rest.get(0).getStyle();
+                var currentFont = rest.get(0).getFont();
+                var currentFontSize = rest.get(0).getFontSize();
+                var currentFontColour = rest.get(0).getFontColour();
                 for (Text text : rest) {
-                    if (text.getStyle() != currentStyle) {
-                        collectedRest.addLast(new Text(itemBuilder.toString(), currentStyle));
+                    if (text.getFont() != currentFont) {
+                        collectedRest.addLast(new Text(itemBuilder.toString(), currentFont, currentFontSize,
+                                currentFontColour));
                         itemBuilder.setLength(0);
-                        currentStyle = text.getStyle();
+                        currentFont = text.getFont();
                     } else itemBuilder.append(text.getContent());
                 }
 
                 if (!itemBuilder.isEmpty()) {
-                    collectedRest.addLast(new Text(itemBuilder.toString(), currentStyle));
+                    collectedRest.addLast(new Text(itemBuilder.toString(), currentFont, currentFontSize,
+                            currentFontColour));
                     itemBuilder.setLength(0);
                 }
 

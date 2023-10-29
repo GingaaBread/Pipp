@@ -137,6 +137,36 @@ public class Processor {
      */
     public static Color fontColour;
 
+    /**
+     *  Determines the font family used for emphasis
+     */
+    public static PDFont emphasisFont;
+
+    /**
+     *  Determines the font size in points (pt.) used throughout for emphasis
+     */
+    public static float emphasisFontSize;
+
+    /**
+     *  Determines the main font size used for emphasis
+     */
+    public static Color emphasisFontColour;
+
+    /**
+     *  Determines the font family used for work references
+     */
+    public static PDFont workFont;
+
+    /**
+     *  Determines the font size in points (pt.) used throughout for work references
+     */
+    public static float workFontSize;
+
+    /**
+     *  Determines the main font size used for work references
+     */
+    public static Color workFontColour;
+
 
     //// PARAGRAPH ////
 
@@ -487,6 +517,76 @@ public class Processor {
             }
         } else fontColour = usedStyleGuide.fontColour();
 
+        var emphasisFont = styleConfiguration.getEmphasisFont();
+
+        if (emphasisFont.getName() != null) {
+            Processor.emphasisFont = switch (emphasisFont.getName()) {
+                case "Times Roman" -> PDType1Font.TIMES_ROMAN;
+                case "Helvetica" -> PDType1Font.HELVETICA;
+                case "Courier" -> PDType1Font.COURIER;
+                case "Symbol" -> PDType1Font.SYMBOL;
+                case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
+                default -> throw new MissingMemberException("6: The specified font is missing or does" +
+                        " not exist.");
+            };
+        } else Processor.emphasisFont = usedStyleGuide.emphasisFont();
+
+        // Check if the user demands a custom font size
+        if (emphasisFont.getSize() != null) {
+            try {
+                var asNumber = Integer.parseInt(emphasisFont.getSize());
+                if (asNumber < 1) {
+                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
+                } else Processor.emphasisFontSize = asNumber;
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("13: Integer larger than zero expected.");
+            }
+        } else Processor.emphasisFontSize = usedStyleGuide.emphasisFontSize();
+
+        // Check if the user demands a custom font colour
+        if (emphasisFont.getColour() != null) {
+            try {
+                emphasisFontColour = Color.decode(emphasisFont.getColour());
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("4: Colour expected.");
+            }
+        } else emphasisFontColour = usedStyleGuide.emphasisFontColour();
+
+        var workFont = styleConfiguration.getWorkFont();
+
+        if (workFont.getName() != null) {
+            Processor.workFont = switch (workFont.getName()) {
+                case "Times Roman" -> PDType1Font.TIMES_ROMAN;
+                case "Helvetica" -> PDType1Font.HELVETICA;
+                case "Courier" -> PDType1Font.COURIER;
+                case "Symbol" -> PDType1Font.SYMBOL;
+                case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
+                default -> throw new MissingMemberException("6: The specified font is missing or does" +
+                        " not exist.");
+            };
+        } else Processor.workFont = usedStyleGuide.workFont();
+
+        // Check if the user demands a custom font size
+        if (workFont.getSize() != null) {
+            try {
+                var asNumber = Integer.parseInt(workFont.getSize());
+                if (asNumber < 1) {
+                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
+                } else Processor.workFontSize = asNumber;
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("13: Integer larger than zero expected.");
+            }
+        } else Processor.workFontSize = usedStyleGuide.workFontSize();
+
+        // Check if the user demands a custom font colour
+        if (workFont.getColour() != null) {
+            try {
+                workFontColour = Color.decode(workFont.getColour());
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("4: Colour expected.");
+            }
+        } else workFontColour = usedStyleGuide.workFontColour();
+
         var structure = styleConfiguration.getStructure();
 
         var paragraph = structure.getParagraph();
@@ -729,11 +829,11 @@ public class Processor {
     // TODO: Change to adapt configurations
     public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
         if (paragraphInstruction instanceof frontend.ast.paragraph.Text text) {
-            return new Text(text.getContent(), TextStyle.REGULAR);
+            return new Text(text.getContent(), font, fontSize, fontColour);
         } else if (paragraphInstruction instanceof Emphasise emphasis) {
-            return new Text(emphasis.getContent(), TextStyle.ITALIC);
+            return new Text(emphasis.getContent(), emphasisFont, emphasisFontSize, emphasisFontColour);
         } else if (paragraphInstruction instanceof Work work) {
-            return new Text(work.getWorkContent(), TextStyle.ITALIC);
+            return new Text(work.getWorkContent(), workFont, workFontSize, workFontColour);
         } else throw new MissingFormatArgumentException("Not implemented");
     }
 

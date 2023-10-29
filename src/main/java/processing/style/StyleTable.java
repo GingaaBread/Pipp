@@ -24,7 +24,6 @@ public class StyleTable {
     public static StyleGuide nameToStyleGuide(final String name) {
         return switch (name) {
             case "MLA9" -> new MLA9();
-            case "Pipp" -> new Pipp();
             default -> throw new MissingMemberException("3: The specified style guide (" + name + ")" +
                     " is either missing or does not exist. Check if it has been imported correctly, " +
                     "or if you misspelled the style guide name in the configuration");

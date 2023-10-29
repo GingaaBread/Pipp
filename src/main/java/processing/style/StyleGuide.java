@@ -36,8 +36,7 @@ public abstract class StyleGuide {
     //// General Layout ////
 
 
-    // Todo: page numeration
-    // todo: endnotes
+    // TODO: page numeration
 
     /**
      *  Determines the default document type specified by the style guide.
@@ -113,7 +112,15 @@ public abstract class StyleGuide {
      *
      * @return - the {@link PDFont} that should be used for emphasised text
      */
-    public abstract PDFont emphasisedFont();
+    public abstract PDFont emphasisFont();
+
+    /**
+     *  Determines the font used for work references.
+     *  This is usually the same as the emphasised font, but Pipp offers the ability to change them individually.
+     *
+     * @return - the {@link PDFont} that should be used for work references
+     */
+    public abstract PDFont workFont();
 
     /**
      *  Determines the main font size of the style guide.
@@ -124,6 +131,22 @@ public abstract class StyleGuide {
     public abstract int fontSize();
 
     /**
+     *  Determines the font size of the style guide used for emphasis.
+     *  For example, the recommended font size in MLA is 12 pt.
+     *
+     * @return - the emphasis font size as an integer
+     */
+    public abstract int emphasisFontSize();
+
+    /**
+     *  Determines the font size of the style guide used for work references.
+     *  For example, the recommended font size in MLA is 12 pt.
+     *
+     * @return - the work font size as an integer
+     */
+    public abstract int workFontSize();
+
+    /**
      *  Determines the main font colour of the style guide.
      *  In most style guides this would simply be black
      *
@@ -131,6 +154,21 @@ public abstract class StyleGuide {
      */
     public abstract Color fontColour();
 
+    /**
+     *  Determines the font colour of the style guide used for emphasis.
+     *  In most style guides this would simply be black
+     *
+     * @return - the colour representation as a PDColour
+     */
+    public abstract Color emphasisFontColour();
+
+    /**
+     *  Determines the font colour of the style guide used for work references.
+     *  In most style guides this would simply be black
+     *
+     * @return - the colour representation as a PDColour
+     */
+    public abstract Color workFontColour();
 
     //// PARAGRAPH ////
 
@@ -192,14 +230,6 @@ public abstract class StyleGuide {
     public abstract String formatText(String textBlock);
 
     /**
-     *  Defines how the style sheet formats a paragraph block.
-     *  Examples could include indenting the first sentence.
-     * @param formattedTextBlocks - All text blocks of the paragraph already formatted.
-     * @return - the formatted paragraph content as it will be rendered in the document.
-     */
-    public abstract String formatParagraph(String[] formattedTextBlocks);
-
-    /**
      *  Defines how the style sheet represents a date.
      *  It may choose to use its default representation or create a custom string.
      *  For example, MLA would use June 3, 1998.
@@ -217,7 +247,5 @@ public abstract class StyleGuide {
      */
     @NonNull
     public abstract NumerationAuthorName numerationAuthorName();
-
-    // TODO: provide general whitespace check
 
 }

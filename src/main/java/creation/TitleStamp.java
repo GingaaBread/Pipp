@@ -23,10 +23,13 @@ public class TitleStamp {
                         .stream()
                         .map(titleText -> {
                             if (titleText.getWork() != null)
-                                return new Text(titleText.getWork().getEmphasisedWork(), TextStyle.ITALIC);
+                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.workFont,
+                                        Processor.workFontSize, Processor.workFontColour);
                             else if (titleText.getEmphasis() != null)
-                                return new Text(titleText.getEmphasis().getEmphasisedText(), TextStyle.ITALIC);
-                            else return new Text(titleText.getText(), TextStyle.REGULAR);
+                                return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.emphasisFont,
+                                        Processor.emphasisFontSize, Processor.emphasisFontColour);
+                            else return new Text(titleText.getText(), Processor.font, Processor.fontSize,
+                                        Processor.fontColour);
                         }).toList(),
                 TextAlignment.CENTER);
     }

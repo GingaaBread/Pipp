@@ -1,25 +1,10 @@
 config
 	style
 		of "MLA9"
-		layout
-			margin "1in"
-			spacing "2"
 		font
 			name "Times Roman"
 			colour "#000000"
 			size "12"
-		structure
-			paragraph
-				indentation "8"
-			sentence
-				before " "
-				allow
-					whitespace "Escaped"
-					bold "No"
-					italic "If Necessary"
-			endnotes
-				allow
-					before bibliography
 		numeration
 			in "Arabic"
 			display "Bottom"
@@ -40,17 +25,17 @@ header
 title
 
 
-"In this paper I intend to outline heterotopian qualities in the urban fantasy novel"
-work "King Rat"
+"In this paper I intend to outline heterotopian qualities in the urban fantasy novel "
+work " King Rat"
 
 "George Orwell’s 1946 essay "
-work "Politics and the English Language"
+work "Politics and the English Language "
 " has had an enduring impact on thought about "
 "the relationship between politics and language. This impact is particularly obvious in light of the various "
 "critical "
 "review articles that have recently referenced the essay. For example consider Mark Falcoff's 2009 article in The "
 "National Review Online "
-work "The Perversion of Language; or Orwell Revisited"
+work "The Perversion of Language; or Orwell Revisited "
 " in which he analyzes several common "
 "words. Falcoff's close analysis of the ambiguity built "
 "into political language intentionally mirrors Orwell's own point-by-point analysis of the political language of "

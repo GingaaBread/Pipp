@@ -11,7 +11,7 @@ endobj
 <<
 /Creator (Pipp v.1.0)
 /Author (Gino Glink)
-/CreationDate (D:20231029020350+01'00')
+/CreationDate (D:20231029190815+01'00')
 /Title (This is the title of my document )
 /Keywords (Pipp)
 >>
@@ -52,19 +52,22 @@ endobj
 endobj
 7 0 obj
 <<
-/Length 110
+/Length 137
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 36 Td
 /F1 12 Tf
+0 0 0 sc
 215.832 0 Td
 /F1 12 Tf
+0 0 0 sc
 (Glink) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 1) Tj
 ET
 
@@ -72,18 +75,21 @@ endstream
 endobj
 8 0 obj
 <<
-/Length 107
+/Length 134
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 691.20001 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (Gino) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Glink) Tj
 ET
 
@@ -91,20 +97,24 @@ endstream
 endobj
 9 0 obj
 <<
-/Length 127
+/Length 163
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 662.40002 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (Prof.) Tj
 /F1 12 Tf
+0 0 0 sc
 ( John) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Doe) Tj
 ET
 
@@ -112,16 +122,18 @@ endstream
 endobj
 10 0 obj
 <<
-/Length 92
+/Length 110
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 633.60004 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (Compilerbau) Tj
 ET
 
@@ -129,20 +141,24 @@ endstream
 endobj
 11 0 obj
 <<
-/Length 128
+/Length 164
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 604.80005 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (October) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 29) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 2023) Tj
 ET
 
@@ -150,29 +166,37 @@ endstream
 endobj
 12 0 obj
 <<
-/Length 222
+/Length 294
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 576.00006 Td
 /F1 12 Tf
+0 0 0 sc
 157.332 0 Td
 /F1 12 Tf
+0 0 0 sc
 (This) Tj
 /F1 12 Tf
+0 0 0 sc
 ( is) Tj
 /F1 12 Tf
+0 0 0 sc
 ( the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( title) Tj
 /F1 12 Tf
+0 0 0 sc
 ( of) Tj
 /F1 12 Tf
+0 0 0 sc
 ( my) Tj
 /F1 12 Tf
+0 0 0 sc
 ( document) Tj
 ET
 
@@ -180,47 +204,68 @@ endstream
 endobj
 13 0 obj
 <<
-/Length 422
+/Length 610
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 547.20007 Td
 /F1 12 Tf
+0 0 0 sc
 /F2 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (In) Tj
 /F1 12 Tf
+0 0 0 sc
 ( this) Tj
 /F1 12 Tf
+0 0 0 sc
 ( paper) Tj
 /F1 12 Tf
+0 0 0 sc
 ( I) Tj
 /F1 12 Tf
+0 0 0 sc
 ( intend) Tj
 /F1 12 Tf
+0 0 0 sc
 ( to) Tj
 /F1 12 Tf
+0 0 0 sc
 ( outline) Tj
 /F1 12 Tf
+0 0 0 sc
 ( heterotopian) Tj
 /F1 12 Tf
+0 0 0 sc
 ( qualities) Tj
 /F1 12 Tf
+0 0 0 sc
 ( in) Tj
 /F1 12 Tf
+0 0 0 sc
 ( the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( urban) Tj
 /F1 12 Tf
+0 0 0 sc
 ( fantasy) Tj
 /F1 12 Tf
+0 0 0 sc
 ( novel) Tj
 /F2 12 Tf
-(King) Tj
+0 0 0 sc
+() Tj
 /F2 12 Tf
+0 0 0 sc
+( King) Tj
+/F2 12 Tf
+0 0 0 sc
 ( Rat) Tj
 ET
 
@@ -228,244 +273,362 @@ endstream
 endobj
 14 0 obj
 <<
-/Length 2658
+/Length 3720
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 518.40009 Td
 /F1 12 Tf
+0 0 0 sc
 /F2 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (George) Tj
 /F1 12 Tf
+0 0 0 sc
 <204F7277656C6CE2809973> Tj
 /F1 12 Tf
+0 0 0 sc
 ( 1946) Tj
 /F1 12 Tf
+0 0 0 sc
 ( essay) Tj
 /F2 12 Tf
+0 0 0 sc
 (Politics) Tj
 /F2 12 Tf
+0 0 0 sc
 ( and) Tj
 /F2 12 Tf
+0 0 0 sc
 ( the) Tj
 /F2 12 Tf
+0 0 0 sc
 ( English) Tj
 /F2 12 Tf
+0 0 0 sc
 ( Language) Tj
 /F1 12 Tf
+0 0 0 sc
 () Tj
 /F1 12 Tf
+0 0 0 sc
 ( has) Tj
 /F1 12 Tf
+0 0 0 sc
 ( had) Tj
 /F1 12 Tf
+0 0 0 sc
 ( an) Tj
 /F1 12 Tf
+0 0 0 sc
 ( enduring) Tj
 /F1 12 Tf
+0 0 0 sc
 ( impact) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (on ) Tj
 /F1 12 Tf
+0 0 0 sc
 ( thought) Tj
 /F1 12 Tf
+0 0 0 sc
 ( about) Tj
 /F1 12 Tf
+0 0 0 sc
 (the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( relationship) Tj
 /F1 12 Tf
+0 0 0 sc
 ( between) Tj
 /F1 12 Tf
+0 0 0 sc
 ( politics) Tj
 /F1 12 Tf
+0 0 0 sc
 ( and) Tj
 /F1 12 Tf
+0 0 0 sc
 ( language.) Tj
 /F1 12 Tf
+0 0 0 sc
 ( This) Tj
 /F1 12 Tf
+0 0 0 sc
 ( impact) Tj
 /F1 12 Tf
+0 0 0 sc
 ( is) Tj
 /F1 12 Tf
+0 0 0 sc
 ( particularly) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (obvious ) Tj
 /F1 12 Tf
+0 0 0 sc
 ( in) Tj
 /F1 12 Tf
+0 0 0 sc
 ( light) Tj
 /F1 12 Tf
+0 0 0 sc
 ( of) Tj
 /F1 12 Tf
+0 0 0 sc
 ( the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( various) Tj
 /F1 12 Tf
+0 0 0 sc
 (critical) Tj
 /F1 12 Tf
+0 0 0 sc
 (review) Tj
 /F1 12 Tf
+0 0 0 sc
 ( articles) Tj
 /F1 12 Tf
+0 0 0 sc
 ( that) Tj
 /F1 12 Tf
+0 0 0 sc
 ( have) Tj
 /F1 12 Tf
+0 0 0 sc
 ( recently) Tj
 /F1 12 Tf
+0 0 0 sc
 ( referenced) Tj
 /F1 12 Tf
+0 0 0 sc
 ( the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( essay.) Tj
 /F1 12 Tf
+0 0 0 sc
 ( For) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 /F2 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (example ) Tj
 /F1 12 Tf
+0 0 0 sc
 ( consider) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Mark) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Falcoff's) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 2009) Tj
 /F1 12 Tf
+0 0 0 sc
 ( article) Tj
 /F1 12 Tf
+0 0 0 sc
 ( in) Tj
 /F1 12 Tf
+0 0 0 sc
 ( The) Tj
 /F1 12 Tf
+0 0 0 sc
 (National) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Review) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Online) Tj
 /F2 12 Tf
+0 0 0 sc
 (The) Tj
 /F2 12 Tf
+0 0 0 sc
 ( Perversion) Tj
 /F2 12 Tf
+0 0 0 sc
 ( of) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 /F2 12 Tf
+0 0 0 sc
 (Language; ) Tj
 /F2 12 Tf
+0 0 0 sc
 ( or) Tj
 /F2 12 Tf
+0 0 0 sc
 ( Orwell) Tj
 /F2 12 Tf
+0 0 0 sc
 ( Revisited) Tj
 /F1 12 Tf
+0 0 0 sc
 () Tj
 /F1 12 Tf
+0 0 0 sc
 ( in) Tj
 /F1 12 Tf
+0 0 0 sc
 ( which) Tj
 /F1 12 Tf
+0 0 0 sc
 ( he) Tj
 /F1 12 Tf
+0 0 0 sc
 ( analyzes) Tj
 /F1 12 Tf
+0 0 0 sc
 ( several) Tj
 /F1 12 Tf
+0 0 0 sc
 ( common) Tj
 /F1 12 Tf
+0 0 0 sc
 (words.) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Falcoff's) Tj
 /F1 12 Tf
+0 0 0 sc
 ( close) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (analysis ) Tj
 /F1 12 Tf
+0 0 0 sc
 ( of) Tj
 /F1 12 Tf
+0 0 0 sc
 ( the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( ambiguity) Tj
 /F1 12 Tf
+0 0 0 sc
 ( built) Tj
 /F1 12 Tf
+0 0 0 sc
 (into) Tj
 /F1 12 Tf
+0 0 0 sc
 ( political) Tj
 /F1 12 Tf
+0 0 0 sc
 ( language) Tj
 /F1 12 Tf
+0 0 0 sc
 ( intentionally) Tj
 /F1 12 Tf
+0 0 0 sc
 ( mirrors) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Orwell's) Tj
 /F1 12 Tf
+0 0 0 sc
 ( own) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
+0 0 0 sc
 (point-by-point ) Tj
 /F1 12 Tf
+0 0 0 sc
 ( analysis) Tj
 /F1 12 Tf
+0 0 0 sc
 ( of) Tj
 /F1 12 Tf
+0 0 0 sc
 ( the) Tj
 /F1 12 Tf
+0 0 0 sc
 ( political) Tj
 /F1 12 Tf
+0 0 0 sc
 ( language) Tj
 /F1 12 Tf
+0 0 0 sc
 ( of) Tj
 /F1 12 Tf
+0 0 0 sc
 (his) Tj
 /F1 12 Tf
+0 0 0 sc
 ( day.) Tj
 /F1 12 Tf
+0 0 0 sc
 ( Even) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 63) Tj
 /F1 12 Tf
+0 0 0 sc
 ( years) Tj
 /F1 12 Tf
+0 0 0 sc
 ( after) Tj
 /F1 12 Tf
+0 0 0 sc
 ( its) Tj
 /F1 12 Tf
+0 0 0 sc
 ( publication) Tj
 0 -28.8 Td
 /F1 12 Tf
+0 0 0 sc
 (Orwell's ) Tj
 /F1 12 Tf
+0 0 0 sc
 ( essay) Tj
 /F1 12 Tf
+0 0 0 sc
 ( is) Tj
 /F1 12 Tf
+0 0 0 sc
 ( emulated) Tj
 /F1 12 Tf
+0 0 0 sc
 ( by) Tj
 /F1 12 Tf
+0 0 0 sc
 ( contemporary) Tj
 /F1 12 Tf
+0 0 0 sc
 ( thinkers.) Tj
 ET
 
@@ -478,19 +641,22 @@ endobj
 endobj
 16 0 obj
 <<
-/Length 110
+/Length 137
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 36 Td
 /F1 12 Tf
+0 0 0 sc
 215.832 0 Td
 /F1 12 Tf
+0 0 0 sc
 (Glink) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 2) Tj
 ET
 
@@ -503,19 +669,22 @@ endobj
 endobj
 18 0 obj
 <<
-/Length 110
+/Length 137
 >>
 stream
 /F1 12 Tf
-/DeviceRGB CS
-0 0 0 SC
+/DeviceRGB cs
+0 0 0 sc
 BT
 72 36 Td
 /F1 12 Tf
+0 0 0 sc
 215.832 0 Td
 /F1 12 Tf
+0 0 0 sc
 (Glink) Tj
 /F1 12 Tf
+0 0 0 sc
 ( 3) Tj
 ET
 
@@ -568,30 +737,30 @@ xref
 0000000473 00000 n
 0000000587 00000 n
 0000000701 00000 n
-0000000864 00000 n
-0000001024 00000 n
-0000001204 00000 n
-0000001349 00000 n
-0000001531 00000 n
-0000001807 00000 n
-0000002283 00000 n
-0000004996 00000 n
-0000005031 00000 n
-0000005195 00000 n
-0000005230 00000 n
-0000005394 00000 n
-0000005429 00000 n
-0000005473 00000 n
-0000005506 00000 n
-0000005539 00000 n
-0000005639 00000 n
+0000000891 00000 n
+0000001078 00000 n
+0000001294 00000 n
+0000001458 00000 n
+0000001676 00000 n
+0000002024 00000 n
+0000002688 00000 n
+0000006463 00000 n
+0000006498 00000 n
+0000006689 00000 n
+0000006724 00000 n
+0000006915 00000 n
+0000006950 00000 n
+0000006994 00000 n
+0000007027 00000 n
+0000007060 00000 n
+0000007160 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<78B592009C9A0D1B07ACF9F6C591F9D2> <78B592009C9A0D1B07ACF9F6C591F9D2>]
+/ID [<4E437703A5B2542AB971F91E6AAC4B34> <4E437703A5B2542AB971F91E6AAC4B34>]
 /Size 25
 >>
 startxref
-5740
+7261
 %%EOF

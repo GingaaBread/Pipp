@@ -35,7 +35,16 @@ public class MLA9 extends StyleGuide {
      *  Pipp uses the italic Times font for MLA9.
      */
     @Override
-    public PDFont emphasisedFont() {
+    public PDFont emphasisFont() {
+        return PDType1Font.TIMES_ITALIC;
+    }
+
+    /**
+     *  MLA defines any easily readable font, which has a strongly contrasting default version.
+     *  Pipp uses the italic Times font for MLA9.
+     */
+    @Override
+    public PDFont workFont() {
         return PDType1Font.TIMES_ITALIC;
     }
 
@@ -51,11 +60,47 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
+     *  MLA defines a font size of anywhere between 11 and 13 points.
+     *  Pipp uses a font size of 12.
+     */
+    @Override
+    public int emphasisFontSize() {
+        return 12;
+    }
+
+    /**
+     *  MLA defines a font size of anywhere between 11 and 13 points.
+     *  Pipp uses a font size of 12.
+     */
+    @Override
+    public int workFontSize() {
+        return 12;
+    }
+
+    /**
      *  MLA does not define a font colour.
      *  Pipp uses a black font colour.
      */
     @Override
     public Color fontColour() {
+        return Color.black;
+    }
+
+    /**
+     *  MLA does not define a font colour.
+     *  Pipp uses a black font colour.
+     */
+    @Override
+    public Color emphasisFontColour() {
+        return Color.black;
+    }
+
+    /**
+     *  MLA does not define a font colour.
+     *  Pipp uses a black font colour.
+     */
+    @Override
+    public Color workFontColour() {
         return Color.black;
     }
 
@@ -165,10 +210,6 @@ public class MLA9 extends StyleGuide {
 
     // TODO: Works cited config: 1 inch from the top. If the list has one entry: name "Work Cited". Double space between the heading and the first entry. Begin each line with left margin flush. If more than one line: indent half an inch from left margin (called hanging indent)
 
-    // TODO: Tables and illustrations config: Table name is Table [ARABIC NUMERAL].title and description flush left separate lines above the actual table. double-space.dividing lines. Other illustrations (graph, chart, image, ...) labeled Fig. [ARABIC] also receive a caption. Musical illustrations are labeled Ex. [ARABIC]
-
-    // TODO: Lists
-
     /**
      *  MLA uses a default document type of PAPER
      */
@@ -204,12 +245,11 @@ public class MLA9 extends StyleGuide {
         return textBlock;
     }
 
-    // 1. The first sentences of paragraphs are indented (using tabulation).
-    @Override
-    public String formatParagraph(String[] formattedTextBlocks) {
-        return null;
-    }
-
+    /**
+     *  Dates are represented in the British date format
+     * @param date - the date as a LocalDate, which needs to be turned into a string
+     * @return the date as required in MLA9
+     */
     @Override
     @NonNull
     public String dateToString(final @NonNull LocalDate date) {
