@@ -99,6 +99,13 @@ public class Scanner {
     private boolean inComment = false;
 
     /**
+     *  Yields true if the user uses the backslash in a text block and therefore wants to escape a character.
+     *  If the next character then is a quotation mark, the quotation mark is escaped.
+     *  If a character follows that cannot be escaped, an exception is thrown.
+     */
+    private boolean isEscapingACharacter = false;
+
+    /**
      *  Marks the current indentation level.
      *  Each time the tab character \t is scanned this is incremented, and reset once
      *  a different character is read.
@@ -116,101 +123,132 @@ public class Scanner {
      * @param current the next character that should be scanned
      */
     public void scan(final char current) {
-            // We are scanning the next character, so the counter is incremented
-            charInLine++;
+        // We are scanning the next character, so the counter is incremented
+        charInLine++;
 
-            // Starts ignoring the line if the first character of a line is a comment (#)
-            if (charInLine == 1 && current == '#') inComment = true;
+        // Starts ignoring the line if the first character of a line is a comment (#)
+        if (charInLine == 1 && current == '#') inComment = true;
 
-            // Marks the end of a comment if the new line character is scanned
-            else if (inComment && current == '\n') {
-                inComment = false;
-                charInLine = 1;
+        // Marks the end of a comment if the new line character is scanned
+        else if (inComment && current == '\n') {
+            inComment = false;
+            charInLine = 1;
+        }
+
+        // Ignores all input if in a comment or if scanning a carriage return character
+        else if (!inComment && current != '\r') {
+
+            // Checks for indentation
+            if (current == '\t') {
+                // First submits the current token
+                if (currentTokenType != TokenType.INDENT) submitToken();
+
+                // Sets the INDENT type and increases the amount of tabs
+                currentTokenType = TokenType.INDENT;
+                currentAmountOfTabs++;
             }
 
-            // Ignores all input if in a comment or if scanning a carriage return character
-            else if (!inComment && current != '\r') {
+            // Spaces submit the token and reset the amount of tabs for indent tokens
+            else if (current == ' ' && currentTokenType != TokenType.TEXT) {
+                submitToken();
+                currentAmountOfTabs = 0;
+            }
 
-                // Checks for indentation
-                if (current == '\t') {
-                    // First submits the current token
-                    if (currentTokenType != TokenType.INDENT) submitToken();
+            // A comma submits the token and submits a new LIST_SEPARATOR token
+            else if (current == ',' && currentTokenType != TokenType.TEXT) {
+                submitToken();
+                currentAmountOfTabs = 0;
+                currentlyReadValue.append(current);
+                currentTokenType = TokenType.LIST_SEPARATOR;
+                submitToken();
+            }
 
-                    // Sets the INDENT type and increases the amount of tabs
-                    currentTokenType = TokenType.INDENT;
-                    currentAmountOfTabs++;
-                }
+            // A new line character submits the current token and submits a NEW_LINE token
+            else if (current == '\n' && currentTokenType != TokenType.TEXT) {
+                submitToken();
+                currentlyReadValue.append(current);
+                currentTokenType = TokenType.NEW_LINE;
+                currentAmountOfTabs = 0;
+                charInLine = 0;
+                submitToken();
+            }
 
-                // Spaces submit the token and reset the amount of tabs for indent tokens
-                else if (current == ' ' && currentTokenType != TokenType.TEXT) {
+            // A quotation mark begins or ends a text token
+            else if (current == '"') {
+
+                // In this case, the current character is the beginning of a text
+                if (currentlyReadValue.isEmpty()) {
                     submitToken();
-                    currentAmountOfTabs = 0;
-                }
 
-                // A comma submits the token and submits a new LIST_SEPARATOR token
-                else if (current == ',') {
-                    submitToken();
-                    currentAmountOfTabs = 0;
+                    // We still want to include the quotation mark in the text
                     currentlyReadValue.append(current);
-                    currentTokenType = TokenType.LIST_SEPARATOR;
-                    submitToken();
-                }
 
-                // A new line character submits the current token and submits a NEW_LINE token
-                else if (current == '\n') {
-                    submitToken();
-                    currentlyReadValue.append(current);
-                    currentTokenType = TokenType.NEW_LINE;
                     currentAmountOfTabs = 0;
-                    charInLine = 0;
-                    submitToken();
+                    currentTokenType = TokenType.TEXT;
                 }
 
-                // A quotation mark begins or ends a text token
-                else if (current == '"') {
+                // In this case, the current character is the end of a text or an escaped quotation mark
+                else if (currentlyReadValue.length() > 1 && currentlyReadValue.charAt(0) == '"') {
 
-                    // In this case, the current character is the beginning of a text
-                    if (currentlyReadValue.isEmpty()) {
-                        submitToken();
-
-                        // We still want to include the quotation mark in the text
-                        currentlyReadValue.append(current);
-
-                        currentAmountOfTabs = 0;
-                        currentTokenType = TokenType.TEXT;
+                    // In this case, the current character is an escaped quotation mark
+                    if (isEscapingACharacter) {
+                        isEscapingACharacter = false;
+                        currentlyReadValue.append("\"");
                     }
 
                     // In this case, the current character is the end of a text
-                    else if (currentlyReadValue.length() > 1 && currentlyReadValue.charAt(0) == '"') {
-
+                    else {
                         // We still want to include the quotation mark in the text
                         currentlyReadValue.append(current);
 
                         submitToken();
                         currentAmountOfTabs = 0;
                     }
-
-                    // In all other cases, append the quotation mark
-                    else {
-                        currentAmountOfTabs = 0;
-                        currentlyReadValue.append(current);
-                    }
                 }
 
-                // If the current token is a text, add the character to the text
-                else if (currentTokenType == TokenType.TEXT) {
-                    currentAmountOfTabs = 0;
+                // A quotation mark ends a keyword
+                else if (currentTokenType == TokenType.KEYWORD) {
+                    submitToken();
+
+                    // We still want to include the quotation mark in the text
                     currentlyReadValue.append(current);
+
+                    currentAmountOfTabs = 0;
+                    currentTokenType = TokenType.TEXT;
                 }
 
-                // Keywords are the default tokens if no other tokens are matched
+                // In all other cases, append the quotation mark
                 else {
-                    if (currentTokenType != null && currentTokenType != TokenType.KEYWORD) submitToken();
-
                     currentAmountOfTabs = 0;
-                    currentTokenType = TokenType.KEYWORD;
                     currentlyReadValue.append(current);
                 }
+            }
+
+            // If the current token is a text, add the character to the text
+            else if (currentTokenType == TokenType.TEXT) {
+                currentAmountOfTabs = 0;
+
+                // If the user wants to escape a character do not include the \
+                if (current == '\\') {
+                    // If the user is already escaping a character and the backslash is escaped, append it (\\)
+                    if (isEscapingACharacter) {
+                        isEscapingACharacter = false;
+                        currentlyReadValue.append("\\");
+                    } else isEscapingACharacter = true;
+                }
+
+                // New line characters inside texts should not be included
+                else if (current != '\n') currentlyReadValue.append(current);
+            }
+
+            // Keywords are the default tokens if no other tokens are matched
+            else {
+                if (currentTokenType != null && currentTokenType != TokenType.KEYWORD) submitToken();
+
+                currentAmountOfTabs = 0;
+                currentTokenType = TokenType.KEYWORD;
+                currentlyReadValue.append(current);
+            }
         }
     }
 

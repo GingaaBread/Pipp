@@ -2,7 +2,6 @@ package processing;
 
 import creation.DocumentCreator;
 import creation.Text;
-import creation.TextStyle;
 import error.*;
 import frontend.ast.AST;
 import frontend.ast.BodyNode;

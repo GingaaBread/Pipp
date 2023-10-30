@@ -1,6 +1,7 @@
 package frontend.lexical_analysis;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -12,6 +13,7 @@ import lombok.ToString;
  */
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Token {
 
     /**

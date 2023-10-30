@@ -11,7 +11,7 @@ endobj
 <<
 /Creator (Pipp v.1.0)
 /Author (Gino Glink)
-/CreationDate (D:20231029190815+01'00')
+/CreationDate (D:20231029212431+01'00')
 /Title (This is the title of my document )
 /Keywords (Pipp)
 >>
@@ -27,8 +27,8 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents [7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R]
-/Resources 15 0 R
+/Contents [7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R]
+/Resources 14 0 R
 /Parent 2 0 R
 >>
 endobj
@@ -36,8 +36,8 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents 16 0 R
-/Resources 17 0 R
+/Contents 15 0 R
+/Resources 16 0 R
 /Parent 2 0 R
 >>
 endobj
@@ -45,8 +45,8 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents 18 0 R
-/Resources 19 0 R
+/Contents 17 0 R
+/Resources 18 0 R
 /Parent 2 0 R
 >>
 endobj
@@ -204,7 +204,7 @@ endstream
 endobj
 13 0 obj
 <<
-/Length 610
+/Length 3941
 >>
 stream
 /F1 12 Tf
@@ -218,81 +218,12 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(In) Tj
-/F1 12 Tf
-0 0 0 sc
-( this) Tj
-/F1 12 Tf
-0 0 0 sc
-( paper) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( intend) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( outline) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopian) Tj
-/F1 12 Tf
-0 0 0 sc
-( qualities) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( urban) Tj
-/F1 12 Tf
-0 0 0 sc
-( fantasy) Tj
-/F1 12 Tf
-0 0 0 sc
-( novel) Tj
-/F2 12 Tf
-0 0 0 sc
-() Tj
-/F2 12 Tf
-0 0 0 sc
-( King) Tj
-/F2 12 Tf
-0 0 0 sc
-( Rat) Tj
-ET
-
-endstream
-endobj
-14 0 obj
-<<
-/Length 3720
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 518.40009 Td
-/F1 12 Tf
-0 0 0 sc
-/F2 12 Tf
-0 0 0 sc
-/F1 12 Tf
-0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
 (George) Tj
 /F1 12 Tf
 0 0 0 sc
-<204F7277656C6CE2809973> Tj
+( Orwell's) Tj
 /F1 12 Tf
 0 0 0 sc
 ( 1946) Tj
@@ -301,7 +232,10 @@ BT
 ( essay) Tj
 /F2 12 Tf
 0 0 0 sc
-(Politics) Tj
+() Tj
+/F2 12 Tf
+0 0 0 sc
+( Politics) Tj
 /F2 12 Tf
 0 0 0 sc
 ( and) Tj
@@ -332,21 +266,24 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( impact) Tj
+/F1 12 Tf
+0 0 0 sc
+( on) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(on ) Tj
-/F1 12 Tf
-0 0 0 sc
-( thought) Tj
+(thought ) Tj
 /F1 12 Tf
 0 0 0 sc
 ( about) Tj
 /F1 12 Tf
 0 0 0 sc
-(the) Tj
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( the) Tj
 /F1 12 Tf
 0 0 0 sc
 ( relationship) Tj
@@ -374,6 +311,9 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( particularly) Tj
+/F1 12 Tf
+0 0 0 sc
+( obvious) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
@@ -381,10 +321,7 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(obvious ) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
+(in ) Tj
 /F1 12 Tf
 0 0 0 sc
 ( light) Tj
@@ -399,10 +336,16 @@ BT
 ( various) Tj
 /F1 12 Tf
 0 0 0 sc
-(critical) Tj
+() Tj
 /F1 12 Tf
 0 0 0 sc
-(review) Tj
+( critical) Tj
+/F1 12 Tf
+0 0 0 sc
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( review) Tj
 /F1 12 Tf
 0 0 0 sc
 ( articles) Tj
@@ -458,7 +401,10 @@ BT
 ( The) Tj
 /F1 12 Tf
 0 0 0 sc
-(National) Tj
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( National) Tj
 /F1 12 Tf
 0 0 0 sc
 ( Review) Tj
@@ -467,7 +413,10 @@ BT
 ( Online) Tj
 /F2 12 Tf
 0 0 0 sc
-(The) Tj
+() Tj
+/F2 12 Tf
+0 0 0 sc
+( The) Tj
 /F2 12 Tf
 0 0 0 sc
 ( Perversion) Tj
@@ -514,7 +463,10 @@ BT
 ( common) Tj
 /F1 12 Tf
 0 0 0 sc
-(words.) Tj
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( words.) Tj
 /F1 12 Tf
 0 0 0 sc
 ( Falcoff's) Tj
@@ -541,7 +493,10 @@ BT
 ( built) Tj
 /F1 12 Tf
 0 0 0 sc
-(into) Tj
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( into) Tj
 /F1 12 Tf
 0 0 0 sc
 ( political) Tj
@@ -586,7 +541,10 @@ BT
 ( of) Tj
 /F1 12 Tf
 0 0 0 sc
-(his) Tj
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( his) Tj
 /F1 12 Tf
 0 0 0 sc
 ( day.) Tj
@@ -634,12 +592,12 @@ ET
 
 endstream
 endobj
-15 0 obj
+14 0 obj
 <<
-/Font 20 0 R
+/Font 19 0 R
 >>
 endobj
-16 0 obj
+15 0 obj
 <<
 /Length 137
 >>
@@ -662,12 +620,12 @@ ET
 
 endstream
 endobj
-17 0 obj
+16 0 obj
 <<
-/Font 21 0 R
+/Font 20 0 R
 >>
 endobj
-18 0 obj
+17 0 obj
 <<
 /Length 137
 >>
@@ -690,28 +648,28 @@ ET
 
 endstream
 endobj
+18 0 obj
+<<
+/Font 21 0 R
+>>
+endobj
 19 0 obj
 <<
-/Font 22 0 R
+/F1 22 0 R
+/F2 23 0 R
 >>
 endobj
 20 0 obj
 <<
-/F1 23 0 R
-/F2 24 0 R
+/F1 22 0 R
 >>
 endobj
 21 0 obj
 <<
-/F1 23 0 R
+/F1 22 0 R
 >>
 endobj
 22 0 obj
-<<
-/F1 23 0 R
->>
-endobj
-23 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -719,7 +677,7 @@ endobj
 /Encoding /WinAnsiEncoding
 >>
 endobj
-24 0 obj
+23 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -728,39 +686,38 @@ endobj
 >>
 endobj
 xref
-0 25
+0 24
 0000000000 65535 f
 0000000015 00000 n
 0000000242 00000 n
 0000000078 00000 n
 0000000311 00000 n
-0000000473 00000 n
-0000000587 00000 n
-0000000701 00000 n
-0000000891 00000 n
-0000001078 00000 n
-0000001294 00000 n
-0000001458 00000 n
-0000001676 00000 n
-0000002024 00000 n
-0000002688 00000 n
-0000006463 00000 n
-0000006498 00000 n
-0000006689 00000 n
-0000006724 00000 n
-0000006915 00000 n
-0000006950 00000 n
-0000006994 00000 n
-0000007027 00000 n
-0000007060 00000 n
-0000007160 00000 n
+0000000466 00000 n
+0000000580 00000 n
+0000000694 00000 n
+0000000884 00000 n
+0000001071 00000 n
+0000001287 00000 n
+0000001451 00000 n
+0000001669 00000 n
+0000002017 00000 n
+0000006013 00000 n
+0000006048 00000 n
+0000006239 00000 n
+0000006274 00000 n
+0000006465 00000 n
+0000006500 00000 n
+0000006544 00000 n
+0000006577 00000 n
+0000006610 00000 n
+0000006710 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<4E437703A5B2542AB971F91E6AAC4B34> <4E437703A5B2542AB971F91E6AAC4B34>]
-/Size 25
+/ID [<D8D543BAB55F112BD624FCC850137B1D> <D8D543BAB55F112BD624FCC850137B1D>]
+/Size 24
 >>
 startxref
-7261
+6811
 %%EOF

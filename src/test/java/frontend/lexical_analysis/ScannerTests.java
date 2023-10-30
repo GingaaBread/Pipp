@@ -1,7 +1,6 @@
+package frontend.lexical_analysis;
+
 import frontend.FrontEndBridge;
-import frontend.lexical_analysis.Scanner;
-import frontend.lexical_analysis.Token;
-import frontend.lexical_analysis.TokenType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -75,6 +74,7 @@ public class ScannerTests {
     public void new_Line_Character_Is_New_Line_Token() {
         var bridge = new FrontEndBridge("\n");
         Assertions.assertEquals(new Token(TokenType.NEW_LINE, "\n"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
@@ -94,6 +94,7 @@ public class ScannerTests {
     public void comma_Character_Is_List_Separator_Token() {
         var bridge = new FrontEndBridge(",");
         Assertions.assertEquals(new Token(TokenType.LIST_SEPARATOR, ","), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
@@ -105,6 +106,7 @@ public class ScannerTests {
         var bridge = new FrontEndBridge("\"Hello World!\"\"\"");
         Assertions.assertEquals(new Token(TokenType.TEXT, "Hello World!"), bridge.dequeueToken());
         Assertions.assertEquals(new Token(TokenType.TEXT, ""), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
@@ -113,8 +115,9 @@ public class ScannerTests {
      */
     @Test
     public void text_Can_Span_Multiple_Lines() {
-        var bridge = new FrontEndBridge("\"Hello\nWorld\n!\"");
+        var bridge = new FrontEndBridge("\"Hello \nWorld!\"");
         Assertions.assertEquals(new Token(TokenType.TEXT, "Hello World!"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
@@ -145,43 +148,87 @@ public class ScannerTests {
     }
 
     /**
-     *  Tests if the space " " ends the prior token if it was not a text token.
+     *  Tests if the space " " ends the prior keyword token.
+     *  Keywords are the only tokens that are ended by special characters or tokens.
      *  Example: "type " <- the type keyword is ended.
      */
-    public void spaces_Submit_Non_Text_Tokens() {
+    @Test
+    public void spaces_Submit_Keyword_Tokens() {
+        var bridge = new FrontEndBridge("spacing spacing");
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+    }
 
+    /**
+     *  Tests if the space " " does not end the prior token if it is declared in a text token.
+     *  Example: ""type "<- the text should not be ended."
+     */
+    @Test
+    public void spaces_Do_Not_Submit_In_Text_Tokens() {
+        var bridge = new FrontEndBridge("\"Hello World!\"");
+        Assertions.assertEquals(new Token(TokenType.TEXT, "Hello World!"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
      *  Tests if the comma character "," ends the prior token and adds a new list separator token.
      *  Example: "type," <- the type keyword is ended and the list separator token is added.
      */
+    @Test
     public void commas_Submit_Token_And_Submit_List_Separator() {
+        var bridge = new FrontEndBridge("spacing, spacing");
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+        Assertions.assertEquals(new Token(TokenType.LIST_SEPARATOR, ","), bridge.dequeueToken());
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
+    }
 
+    /**
+     *  Tests if the comma character "," does not end the prior token if it is declared in a text token.
+     *  Example: ""type,"<- the text should not be ended."
+     */
+    @Test
+    public void commas_Do_Not_Submit_In_Text_Tokens() {
+        var bridge = new FrontEndBridge("\"Hello, World!\"");
+        Assertions.assertEquals(new Token(TokenType.TEXT, "Hello, World!"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
      *  Tests if the new line character "\n" ends the prior token and adds a new line token.
      *  Example: "type\n" <- the type keyword is ended and the new line token is added.
      */
+    @Test
     public void new_Line_Characters_Submit_Token_And_Submit_New_Line() {
+        var bridge = new FrontEndBridge("spacing\n spacing");
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+        Assertions.assertEquals(new Token(TokenType.NEW_LINE, "\n"), bridge.dequeueToken());
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
+    }
 
+    /**
+     *  Tests if the escaped quotation mark characters does not end the prior token if it is declared in a
+     *  text token.
+     *  Example: "This \" should not end the text"
+     */
+    @Test
+    public void escaped_Quotation_Does_Not_Submit_In_Text_Tokens() {
+        var bridge = new FrontEndBridge("\"Hello \\\" World!\"");
+        Assertions.assertEquals(new Token(TokenType.TEXT, "Hello \" World!"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
     /**
      *  Tests if the new quotation mark ends the prior token.
      *  Example: "type"" <- the type keyword is ended.
      */
+    @Test
     public void quotation_Marks_Submit_Tokens() {
-
-    }
-
-    /**
-     *  Tests if keywords are the default token types used for input whenever no other token
-     *  can be matched.
-     */
-    public void keywords_Are_Default_Tokens() {
-
+        var bridge = new FrontEndBridge("spacing\"Hello World!\"");
+        Assertions.assertEquals(new Token(TokenType.KEYWORD, "spacing"), bridge.dequeueToken());
+        Assertions.assertEquals(new Token(TokenType.TEXT, "Hello World!"), bridge.dequeueToken());
+        Assertions.assertFalse(bridge.containsTokens());
     }
 
 }
