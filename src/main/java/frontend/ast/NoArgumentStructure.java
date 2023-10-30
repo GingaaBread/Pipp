@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import processing.Processor;
 import processing.StructureType;
 
 /**
@@ -44,7 +45,7 @@ public class NoArgumentStructure extends BodyNode {
         switch (type) {
             case TITLE -> TitleStamp.renderTitle();
             case HEADER -> HeaderStamp.renderHeader();
-            case BLANKPAGE ->  PageCreator.createBlankPage();
+            case BLANKPAGE -> PageCreator.createBlankPage(Processor.documentBody.getLast() == this);
             default -> throw new PippException("Document type " + type + " is not yet implemented!");
         }
     }

@@ -57,10 +57,13 @@ public class PageCreator {
     /**
      *  Commits the current page, adds a blank page, and then adds a page.
      *  Used for the blank instruction.
+     *  If the blank instruction is the last instruction in the document body or if the current page is empty,
+     *  it will prevent a second new page call.
+     * @param blankInstructionIsLastInstruction true if the calling blank instruction is the last instruction
      */
-    public static void createBlankPage()
+    public static void createBlankPage(boolean blankInstructionIsLastInstruction)
     {
-        if (!currentPageIsEmpty) createNewPage();
+        if (!currentPageIsEmpty && !blankInstructionIsLastInstruction) createNewPage();
 
         createNewPage();
     }

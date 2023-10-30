@@ -1,7 +1,5 @@
 package frontend.ast.paragraph;
 
-import creation.Text;
-import creation.TextStyle;
 import error.MissingMemberException;
 import lombok.Getter;
 import lombok.NonNull;
