@@ -27,6 +27,7 @@ public class Main {
         // Compile the pipp file
         new FrontEndBridge(file).compile();
 
+        System.out.println("Compilation complete. Now printing possible warnings:");
         // After compilation print all warnings
         WarningQueue.printAll();
     }

@@ -45,8 +45,8 @@ public class HeaderStamp {
                         .stream()
                         .map(titleText -> {
                             if (titleText.getText() != null)
-                                return new Text(titleText.getText(), Processor.font, Processor.fontSize,
-                                        Processor.fontColour);
+                                return new Text(titleText.getText(), Processor.sentenceFont, Processor.sentenceFontSize,
+                                        Processor.sentenceFontColour);
                             else if (titleText.getEmphasis() != null)
                                 return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.emphasisFont,
                                         Processor.emphasisFontSize, Processor.emphasisFontColour);

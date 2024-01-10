@@ -257,3 +257,27 @@ config
             name "John Doe"
         of "John Doe"
 ```
+
+# 4. Self-Checks
+
+## 41
+
+*Severity:*
+Low
+
+*Description:*
+You are using a style guide that recommends only using emphasis if absolutely necessary. Make sure that is the case.
+
+*Cause:*
+This warning occurs when using a style guide like MLA that allows using emphasis, but only if absolutely necessary.
+It is your job to assess if the content you wish to emphasise MUST be emphasised or not.
+
+*To do:*
+Decide whether you really need to emphasise the content or not.
+
+*Example:*
+```pipp
+config
+    style "MLA9"
+emphasise "Example"
+```

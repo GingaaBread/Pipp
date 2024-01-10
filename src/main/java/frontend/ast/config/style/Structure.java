@@ -1,6 +1,7 @@
 package frontend.ast.config.style;
 
 import frontend.ast.Node;
+import frontend.ast.config.Work;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,10 +31,14 @@ public class Structure extends Node {
     private final Sentence sentence = new Sentence();
 
     /**
-     *  The endnotes node contains information about how endnotes structures should be styled.
-     *  This includes making sure that endnotes only appear after bibliographies, for example.
+     *  This work structure node contains information about how work structures should be styled.
      */
-    private final Endnotes endnotes = new Endnotes();
+    private final WorkStructure work = new WorkStructure();
+
+    /**
+     *  This emphasis structure node contains information about how emphasise structures should be styled.
+     */
+    private final EmphasisStructure emphasis = new EmphasisStructure();
 
     /**
      *  The structure node does not produce warnings
@@ -42,7 +47,8 @@ public class Structure extends Node {
     protected void checkForWarnings() {
         paragraph.checkForWarnings();
         sentence.checkForWarnings();
-        endnotes.checkForWarnings();
+        work.checkForWarnings();
+        emphasis.checkForWarnings();
     }
 
 }

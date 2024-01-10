@@ -27,45 +27,6 @@ chapter "Introduction"
 
 Pipp will first render the document header, then the title and at the end the chapter _Introduction_.
 
-## Whitespace Sensitive
-
-Note that Pipp is mostly whitespace sensitive. This means that you cannot use new-line (ENTER) or tabulation (TAB) 
-characters whenever you may want to.
-Consider the following **WRONG** example, which will **NOT COMPILE**!
-
-_document.pipp:_
-```
-header
-
-title
-chapter "Introduction"
-```
-
-The reason this does not compile is the empty line after the header instruction.
-
-The same is true for text blocks used in configurations like here:
-
-_document.pipp:_
-```
-config
-	style
-	"MLA9"
-```
-
-The same is also true for tabulation like here:
-
-_document.pipp:_
-```
-config
-	style 	"MLA9"
-```
-
-The reason is the tabulation after the `style` instruction.
-
-Note that you _can_ include additional spaces separating configurations from their values or before the end of a line.
-However, I do not recommend you do this and instead follow the convention of only using one space for configurations 
-and no spaces before the end of a line.
-
 # Tabulation / Indentation
 
 Pipp is an indented language, which means that it heavily makes use of the tabulation character `\t` to organise your 

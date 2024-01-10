@@ -158,18 +158,10 @@ public class MLA9 extends StyleGuide {
     // TODO: Chapter configuration. MLA allows chapter titles as long as they are equal. No internal heading should have only one instance. Heading flush left margin, not indented or centered. A line space above and below a heading. Avoid numbers and letters. same capitalisation as headings.
 
     /**
-     *  MLA does not allow bold text
-     */
-    @Override
-    public AllowanceType allowsBold() {
-        return AllowanceType.NO;
-    }
-
-    /**
      *  MLA does only allow italic text if absolutely necessary
      */
     @Override
-    public AllowanceType allowsItalic() {
+    public AllowanceType allowsEmphasis() {
         return AllowanceType.IF_NECESSARY;
     }
 
@@ -197,15 +189,6 @@ public class MLA9 extends StyleGuide {
     @Override
     public WhitespaceAllowanceType allowsWhitespace() {
         return WhitespaceAllowanceType.ESCAPED;
-    }
-
-    /**
-     *  MLA demands that the bibliography section should appear after the endnotes section!!!
-     *  TODO: Change
-     */
-    @Override
-    public StructureType requiredStructureBeforeEndnotes() {
-        return StructureType.BIBLIOGRAPHY;
     }
 
     // TODO: Works cited config: 1 inch from the top. If the list has one entry: name "Work Cited". Double space between the heading and the first entry. Begin each line with left margin flush. If more than one line: indent half an inch from left margin (called hanging indent)

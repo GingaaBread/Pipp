@@ -1,56 +1,26 @@
 config
 	style
 		of "MLA9"
-		layout
-			width "8.5in"
-			height "11in"
-			margin "1in"
-			spacing "2"
-		font
-			name "Times Roman"
-			colour "#000000"
-			size "12"
 		structure
-			paragraph
-				indentation "8"
 			sentence
-				before " "
-				allow
-					whitespace "Escaped"
-					bold "No"
-					italic "If Necessary"
-			endnotes
-				allow
-					before bibliography
-		numeration
-			in "Arabic"
-			display "Bottom"
-			margin "0.5in"
-			skip "21"
-			author lastname
-	title "This is the title of my document"
+				font
+					name "Times Roman"
+					size "15"
+					colour "#000000"
+	title "Politics And Language"
 	type "Paper"
 	publication
-		title "Compilerbau"
-#		date "None"
+		title "British Poems & Literature"
 	author "Gino Glink"
 	assessor
-		title "Prof."
-		firstname "John"
-		lastname "Doe"
+		of
+			title "Prof."
+			firstname "John"
+			lastname "Doe"
 header
 title
 
-
-"George Orwell's 1946 essay "
-work " Politics and the English Language "
-" has had an enduring impact on thought about
-the relationship between politics and language. This impact is particularly obvious in light of the various
-critical review articles that have recently referenced the essay. For example consider Mark Falcoff's 2009
-article in The National Review Online"
-work " The Perversion of Language; or Orwell Revisited "
-" in which he analyzes several common words. Falcoff's close analysis of the ambiguity built
-into political language intentionally mirrors Orwell's own point-by-point analysis of the political language of
-his day. Even 63 years after its publication Orwell's essay is emulated by contemporary thinkers."
+"ss"
+emphasise "Example"
 
 blank

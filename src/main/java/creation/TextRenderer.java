@@ -41,7 +41,7 @@ public class TextRenderer {
      * @param text - the text that should be rendered on the page
      */
     public static void renderLeftAlignedText(@NonNull final String text) {
-        renderText(List.of(new Text(text, Processor.font, Processor.fontSize, Processor.fontColour)),
+        renderText(List.of(new Text(text, Processor.sentenceFont, Processor.sentenceFontSize, Processor.sentenceFontColour)),
                 TextAlignment.LEFT);
     }
 
@@ -62,7 +62,7 @@ public class TextRenderer {
                                            final float startY) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
-            final float leading = 1.2f * Processor.fontSize * Processor.spacing;
+            final float leading = 1.2f * Processor.sentenceFontSize * Processor.spacing;
 
             // Determines how much space the text can take up, by subtracting the margin for both sides
             final float availableWidth = Processor.dimensions.getWidth() - 2 * Processor.margin;
@@ -77,8 +77,8 @@ public class TextRenderer {
                     PDPageContentStream.AppendMode.APPEND, false);
 
             // Sets up the content stream
-            contentStream.setFont(Processor.font, Processor.fontSize);
-            contentStream.setNonStrokingColor(Processor.fontColour);
+            contentStream.setFont(Processor.sentenceFont, Processor.sentenceFontSize);
+            contentStream.setNonStrokingColor(Processor.sentenceFontColour);
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
 
@@ -104,8 +104,8 @@ public class TextRenderer {
                 // Tries to check if the next word can be rendered in the current line or if it does not fit
                 for (String word : words) {
                     // Calculate the width of the entire line with a space and the current word
-                    final float wordWidth = Processor.font.getStringWidth((isFirstWord ? "" : " ") + word) /
-                            1000 * Processor.fontSize;
+                    final float wordWidth = Processor.sentenceFont.getStringWidth((isFirstWord ? "" : " ") + word) /
+                            1000 * Processor.sentenceFontSize;
 
                     // Check if the next line does not fit into the current page anymore
                     if (PageCreator.currentYPosition < Processor.margin) {
@@ -160,8 +160,8 @@ public class TextRenderer {
                                 while (nextLineWidth > maximumWidth) {
                                     stringForNextLine.append(currentLine.charAt(currentLine.length() - 1));
                                     currentLine = currentLine.substring(0, currentLine.length() - 1);
-                                    nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 *
-                                            Processor.fontSize;
+                                    nextLineWidth = Processor.sentenceFont.getStringWidth(currentLine) / 1000 *
+                                            Processor.sentenceFontSize;
                                 }
 
                                 contentStream.showText(currentLine);
@@ -169,8 +169,8 @@ public class TextRenderer {
                                 PageCreator.currentYPosition -= leading;
 
                                 currentLine = stringForNextLine.reverse().toString();
-                                nextLineWidth = Processor.font.getStringWidth(currentLine) / 1000 *
-                                        Processor.fontSize;
+                                nextLineWidth = Processor.sentenceFont.getStringWidth(currentLine) / 1000 *
+                                        Processor.sentenceFontSize;
                                 stringForNextLine.setLength(0);
                             }
 

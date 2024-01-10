@@ -28,8 +28,8 @@ public class TitleStamp {
                             else if (titleText.getEmphasis() != null)
                                 return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.emphasisFont,
                                         Processor.emphasisFontSize, Processor.emphasisFontColour);
-                            else return new Text(titleText.getText(), Processor.font, Processor.fontSize,
-                                        Processor.fontColour);
+                            else return new Text(titleText.getText(), Processor.sentenceFont, Processor.sentenceFontSize,
+                                        Processor.sentenceFontColour);
                         }).toList(),
                 TextAlignment.CENTER);
     }

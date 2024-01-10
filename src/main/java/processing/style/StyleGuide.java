@@ -182,18 +182,11 @@ public abstract class StyleGuide {
     public abstract String sentencePrefix();
 
     /**
-     *  Determines if the style guide allows bold text in sentences
+     *  Determines if the style guide allows emphasised text in sentences
      *
      * @return - a specification as an {@link AllowanceType}
      */
-    public abstract AllowanceType allowsBold();
-
-    /**
-     *  Determines if the style guide allows italic text in sentences
-     *
-     * @return - a specification as an {@link AllowanceType}
-     */
-    public abstract AllowanceType allowsItalic();
+    public abstract AllowanceType allowsEmphasis();
 
     /**
      *  Determines if the style guide allows whitespace in sentences
@@ -202,19 +195,6 @@ public abstract class StyleGuide {
      */
     public abstract WhitespaceAllowanceType allowsWhitespace();
 
-
-    //// ENDNOTES ////
-
-
-    /**
-     *  Determines the type of structure that needs to appear in the document, before the user can use
-     *  the endnotes structure. If no structure needs to appear first, this can be null.
-     *
-     * @return - the structure that should appear first as a {@link StructureType} constant
-     */
-    public abstract StructureType requiredStructureBeforeEndnotes();
-
-    // TODO: Turn into prefix, instead
     public abstract float paragraphIndentation();
 
 

@@ -5,7 +5,6 @@ import lombok.NonNull;
 /**
  *  This type of warning warns the user about some form of inconsistency.
  *  An example could be using both inches and millimeters in the user's configuration.
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */

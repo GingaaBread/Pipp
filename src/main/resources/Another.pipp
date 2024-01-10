@@ -10,6 +10,10 @@ config
 		date "10/03/2021"
 	author "Gino Glink"
 	assessor "Neef"
+	style
+		structure
+			sentence
+			 	font "Arial"
 # Der header fügt Informationen über die Arbeit ein
 header
 # Der title fügt den Arbeitstitel ein
@@ -52,7 +56,7 @@ chapter "Introduction"
 		like a rat and manoeuvre around the city in a rat-like, vertical movement"
 		citation "77"
 # 		Citation mit nur einem Argument kennzeichnet ein indirektes Zitat
-# 		Zum Beispiel in MLA: rat like. vertical movement (77)."
+# 		Zum Beispiel in MLA: vertical movement (77)."
 		"King Rat leads Saul to his palace in the sewers, transitioning into the scene
 		relevant for my analysis. Saul and King Rat cross paths with two other rats
 		that both contempt King Rat and are clearly angry about meeting him in the

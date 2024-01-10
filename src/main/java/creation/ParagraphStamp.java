@@ -9,8 +9,7 @@ import java.util.LinkedList;
 public class ParagraphStamp {
 
     public static void renderParagraph(@NonNull final LinkedList<ParagraphInstruction> contentToRender) {
-        System.out.println("Should use indentation for index 0");
-        // TODO Should also combine them somehow
+        // TODO: Paragraph indent
 
         final LinkedList<Text> texts = new LinkedList<>();
         for (ParagraphInstruction instruction : contentToRender) {

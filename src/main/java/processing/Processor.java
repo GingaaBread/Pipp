@@ -10,21 +10,18 @@ import frontend.ast.paragraph.Emphasise;
 import frontend.ast.paragraph.ParagraphInstruction;
 import frontend.ast.paragraph.Work;
 import lombok.NonNull;
+import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import processing.style.MLA9;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
-import warning.InconsistencyWarning;
-import warning.UnlikelinessWarning;
-import warning.WarningQueue;
-import warning.WarningSeverity;
+import warning.*;
 
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingFormatArgumentException;
@@ -37,6 +34,7 @@ import java.util.MissingFormatArgumentException;
  * @since 1.0
  * @version 1.0
  */
+@ToString
 public class Processor {
 
     /**
@@ -124,17 +122,17 @@ public class Processor {
     /**
      *  Determines the main font family used throughout the document
      */
-    public static PDFont font;
+    public static PDFont sentenceFont;
 
     /**
      *  Determines the main font size in points (pt.) used throughout the document
      */
-    public static float fontSize;
+    public static float sentenceFontSize;
 
     /**
      *  Determines the main font size used throughout the document
      */
-    public static Color fontColour;
+    public static Color sentenceFontColour;
 
     /**
      *  Determines the font family used for emphasis
@@ -187,19 +185,9 @@ public class Processor {
     public static String sentencePrefix;
 
     /**
-     *  Determines if the user is allowed to use bold text in a sentence
-     */
-    public static AllowanceType allowBoldText;
-
-    /**
      *  Determines if the user is allowed to use italic text in a sentence
      */
-    public static AllowanceType allowItalicText;
-
-    /**
-     *  Determines if the user is allowed to use white space in a sentence
-     */
-    public static WhitespaceAllowanceType allowWhitespace;
+    public static AllowanceType allowEmphasis;
 
 
     //// END NOTES ////
@@ -248,42 +236,6 @@ public class Processor {
 
 
     public static LinkedList<BodyNode> documentBody = new LinkedList<>();
-
-
-    /**
-     *  A simple automatically-generated method to represent the values of all properties of the processor
-     * @return - the values of the processor
-     */
-    @Override
-    public String toString() {
-        return "Processor{" +
-                "\t\nusedStyleGuide=" + usedStyleGuide +
-                ",\t\n dimensions=" + dimensions.getWidth() + "/" + dimensions.getHeight() +
-                ",\t\n margin=" + margin +
-                ",\t\n documentTitle=" + documentTitle +
-                ",\t\n spacing=" + spacing +
-                ",\t\n numerationType=" + numerationType +
-                ",\t\n numerationPosition=" + numerationPosition +
-                ",\t\n numerationMargin=" + numerationMargin +
-                ",\t\n numerationAuthorName=" + numerationAuthorName +
-                ",\t\n skippedPages=" + skippedPages +
-                ",\t\n font=" + font +
-                ",\t\n fontSize=" + fontSize +
-                ",\t\n fontColour=" + fontColour +
-                ",\t\n paragraphIndentation=" + paragraphIndentation +
-                ",\t\n sentencePrefix='" + sentencePrefix + '\'' +
-                ",\t\n allowBoldText=" + allowBoldText +
-                ",\t\n allowItalicText=" + allowItalicText +
-                ",\t\n allowWhitespace=" + allowWhitespace +
-                ",\t\n requiredStructureBeforeEndnotes=" + requiredStructureBeforeEndnotes +
-                ",\t\n documentType=" + documentType +
-                ",\t\n authors=" + Arrays.toString(authors) +
-                ",\t\n assessors=" + Arrays.toString(assessors) +
-                ",\t\n documentBody=" + documentBody +
-                ",\t\n publicationDate=" + publicationDate +
-                ",\t\n publicationTitle=" + publicationTitle +
-                '}';
-    }
 
     /**
      *  Starts the processing phase by trying to convert the specified AST into usable objects.
@@ -478,57 +430,51 @@ public class Processor {
             } catch (NumberFormatException e) {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
-        } else numerationMargin = usedStyleGuide.numerationMargin();
+        } else numerationMargin = pointsPerInch * usedStyleGuide.numerationMargin();
 
-        var font = styleConfiguration.getFont();
+        var structure = styleConfiguration.getStructure();
 
         // Check if the user demands a custom font
-        if (font.getName() != null) {
-            Processor.font = switch (font.getName()) {
-              case "Times Roman" -> PDType1Font.TIMES_ROMAN;
-              case "Helvetica" -> PDType1Font.HELVETICA;
-              case "Courier" -> PDType1Font.COURIER;
-              case "Symbol" -> PDType1Font.SYMBOL;
-              case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
-              default -> throw new MissingMemberException("6: The specified font is missing or does" +
-                      " not exist.");
-            };
-        } else Processor.font = usedStyleGuide.font();
+        if (structure.getSentence().getFont().getName() != null) {
+            Processor.sentenceFont = fontLookUp(structure.getSentence().getFont().getName());
+        } else Processor.sentenceFont = usedStyleGuide.font();
 
         // Check if the user demands a custom font size
-        if (font.getSize() != null) {
+        if (structure.getSentence().getFont() != null) {
             try {
-                var asNumber = Integer.parseInt(font.getSize());
+                var asNumber = Integer.parseInt(structure.getSentence().getFont().getSize());
                 if (asNumber < 1) {
                     throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                } else Processor.fontSize = asNumber;
+                } else Processor.sentenceFontSize = asNumber;
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("13: Integer larger than zero expected.");
             }
-        } else Processor.fontSize = usedStyleGuide.fontSize();
+        } else Processor.sentenceFontSize = usedStyleGuide.fontSize();
 
         // Check if the user demands a custom font colour
-        if (font.getColour() != null) {
+        if (structure.getSentence().getFont().getColour() != null) {
             try {
-                fontColour = Color.decode(font.getColour());
+                sentenceFontColour = Color.decode(structure.getSentence().getFont().getColour());
             } catch (NumberFormatException e) {
                 throw new IncorrectFormatException("4: Colour expected.");
             }
-        } else fontColour = usedStyleGuide.fontColour();
+        } else sentenceFontColour = usedStyleGuide.fontColour();
 
-        var emphasisFont = styleConfiguration.getEmphasisFont();
+        var emphasis = structure.getEmphasis();
 
-        if (emphasisFont.getName() != null) {
-            Processor.emphasisFont = switch (emphasisFont.getName()) {
-                case "Times Roman" -> PDType1Font.TIMES_ROMAN;
-                case "Helvetica" -> PDType1Font.HELVETICA;
-                case "Courier" -> PDType1Font.COURIER;
-                case "Symbol" -> PDType1Font.SYMBOL;
-                case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
-                default -> throw new MissingMemberException("6: The specified font is missing or does" +
-                        " not exist.");
+        if (emphasis.getAllowEmphasis() != null) {
+            allowEmphasis = switch (emphasis.getAllowEmphasis()) {
+                case "Yes" -> AllowanceType.YES;
+                case "No" -> AllowanceType.NO;
+                case "If Necessary" -> AllowanceType.IF_NECESSARY;
+                default -> throw new IncorrectFormatException("5: Allowance type expected.");
             };
-        } else Processor.emphasisFont = usedStyleGuide.emphasisFont();
+        } else allowEmphasis = usedStyleGuide.allowsEmphasis();
+
+        var emphasisFont = structure.getEmphasis().getFont();
+
+        if (emphasisFont.getName() != null) Processor.emphasisFont = fontLookUp(emphasisFont.getName());
+        else Processor.emphasisFont = usedStyleGuide.emphasisFont();
 
         // Check if the user demands a custom font size
         if (emphasisFont.getSize() != null) {
@@ -551,19 +497,10 @@ public class Processor {
             }
         } else emphasisFontColour = usedStyleGuide.emphasisFontColour();
 
-        var workFont = styleConfiguration.getWorkFont();
+        var workFont = structure.getWork().getFont();
 
-        if (workFont.getName() != null) {
-            Processor.workFont = switch (workFont.getName()) {
-                case "Times Roman" -> PDType1Font.TIMES_ROMAN;
-                case "Helvetica" -> PDType1Font.HELVETICA;
-                case "Courier" -> PDType1Font.COURIER;
-                case "Symbol" -> PDType1Font.SYMBOL;
-                case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
-                default -> throw new MissingMemberException("6: The specified font is missing or does" +
-                        " not exist.");
-            };
-        } else Processor.workFont = usedStyleGuide.workFont();
+        if (workFont.getName() != null) Processor.workFont = fontLookUp(workFont.getName());
+        else Processor.workFont = usedStyleGuide.workFont();
 
         // Check if the user demands a custom font size
         if (workFont.getSize() != null) {
@@ -585,8 +522,6 @@ public class Processor {
                 throw new IncorrectFormatException("4: Colour expected.");
             }
         } else workFontColour = usedStyleGuide.workFontColour();
-
-        var structure = styleConfiguration.getStructure();
 
         var paragraph = structure.getParagraph();
         var indentation = paragraph.getIndentation();
@@ -621,50 +556,6 @@ public class Processor {
         if (sentence.getPrefix() != null) {
             sentencePrefix = sentence.getPrefix();
         } else sentencePrefix = usedStyleGuide.sentencePrefix();
-
-        // Check if the user demands custom restrictions
-
-        // Bold text
-        if (sentence.getAllowBoldText() != null) {
-            allowBoldText = switch (sentence.getAllowBoldText()) {
-                case "Yes" -> AllowanceType.YES;
-                case "No" -> AllowanceType.NO;
-                case "If Necessary" -> AllowanceType.IF_NECESSARY;
-                default -> throw new IncorrectFormatException("5: Allowance type expected.");
-            };
-        } else allowBoldText = usedStyleGuide.allowsBold();
-
-        // Italic text
-        if (sentence.getAllowItalicText() != null) {
-            allowItalicText = switch (sentence.getAllowItalicText()) {
-                case "Yes" -> AllowanceType.YES;
-                case "No" -> AllowanceType.NO;
-                case "If Necessary" -> AllowanceType.IF_NECESSARY;
-                default -> throw new IncorrectFormatException("5: Allowance type expected.");
-            };
-        } else allowItalicText = usedStyleGuide.allowsItalic();
-
-        // Whitespace
-        if (sentence.getAllowWhitespace() != null) {
-            allowWhitespace = switch (sentence.getAllowWhitespace()) {
-              case "Yes" -> WhitespaceAllowanceType.YES;
-              case "No" -> WhitespaceAllowanceType.NO;
-              case "Escaped" -> WhitespaceAllowanceType.ESCAPED;
-              default -> throw new IncorrectFormatException("6: Allowance type expected.");
-            };
-        } else allowWhitespace = usedStyleGuide.allowsWhitespace();
-
-        var endnotes = structure.getEndnotes();
-
-        // Check if the user demands a custom endnotes configuration
-        if (endnotes.getAllowBeforeStructure() != null) {
-            try {
-                requiredStructureBeforeEndnotes =
-                        StructureType.valueOf(endnotes.getAllowBeforeStructure().toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("7: Structure type expected.");
-            }
-        } else requiredStructureBeforeEndnotes = usedStyleGuide.requiredStructureBeforeEndnotes();
 
         // Check if the user demands a custom document type
         if (ast.getConfiguration().getDocumentType() != null) {
@@ -828,12 +719,32 @@ public class Processor {
     // TODO: Change to adapt configurations
     public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
         if (paragraphInstruction instanceof frontend.ast.paragraph.Text text) {
-            return new Text(text.getContent(), font, fontSize, fontColour);
+            return new Text(text.getContent(), sentenceFont, sentenceFontSize, sentenceFontColour);
         } else if (paragraphInstruction instanceof Emphasise emphasis) {
+            if (Processor.allowEmphasis == AllowanceType.NO)
+                throw new ConfigurationException("9: The style guide does not allow the use of emphasis, but you are " +
+                        "trying to emphasise text nonetheless.");
+            else if (Processor.allowEmphasis == AllowanceType.IF_NECESSARY)
+                WarningQueue.enqueue(new SelfCheckWarning("1: You are using a style guide that recommends" +
+                        " only using emphasis if absolutely necessary. Make sure that is the case.", WarningSeverity.LOW));
+
             return new Text(emphasis.getContent(), emphasisFont, emphasisFontSize, emphasisFontColour);
         } else if (paragraphInstruction instanceof Work work) {
             return new Text(work.getWorkContent(), workFont, workFontSize, workFontColour);
         } else throw new MissingFormatArgumentException("Not implemented");
+    }
+
+    private PDFont fontLookUp(String name)
+    {
+        return switch (name) {
+            case "Times Roman" -> PDType1Font.TIMES_ROMAN;
+            case "Helvetica" -> PDType1Font.HELVETICA;
+            case "Courier" -> PDType1Font.COURIER;
+            case "Symbol" -> PDType1Font.SYMBOL;
+            case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
+            default -> throw new MissingMemberException("6: The specified font is missing or does" +
+                    " not exist.");
+        };
     }
 
 }

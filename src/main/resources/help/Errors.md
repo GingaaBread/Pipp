@@ -1,15 +1,6 @@
 Error Codes:
 =============
 
-*_Note that some errors can already be "intercepted" by the parser 
-depending on the used compiler_
-
-# 1. Lexing Errors
-
-# 2. Parsing Errors
-
-# 3. AST Node Errors
-
 ## 3.1 Configuration Errors
 
 ### 311
@@ -193,6 +184,25 @@ config
 
 *Fix:*
 Remove either `firstname` and add `name`, or add `lastname`.
+
+## 319
+
+*Description:*
+The style guide does not allow the use of emphasis, but you are trying to emphasise text nonetheless.
+
+*Cause*:
+This error occurs when trying to use the `emphasis` keyword to emphasise a text passage in your document, but
+the style guide you are using, or its overridden configuration, does not allow the use of emphasis.
+
+*Example:*
+```pipp
+config
+    style "Some Style Example That Does Not Allow Emphasis"
+emphasise "Example"            
+```
+
+*Fix:*
+You should follow the style guide and remove the emphasis and use a normal text block, instead.
 
 ## 3.2 Missing Member Errors
 

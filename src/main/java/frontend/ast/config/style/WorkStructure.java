@@ -5,12 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @ToString
-public class Sentence extends Node {
-
-    private String prefix;
+public class WorkStructure extends Node {
 
     /**
      *  The font node contains information about a structure font used for that structure throughout the document.
@@ -21,5 +19,4 @@ public class Sentence extends Node {
     protected void checkForWarnings() {
         font.checkForWarnings();
     }
-
 }
