@@ -1,5 +1,7 @@
 package creation;
 
+import org.apache.pdfbox.pdmodel.encryption.PDEncryption;
+
 import java.io.IOException;
 import java.util.List;
 

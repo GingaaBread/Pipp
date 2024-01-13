@@ -86,25 +86,27 @@ public class TextRenderer {
             final var textBuilder = new LinkedList<Text>();
             final var rest = new LinkedList<Text>();
 
-            // TODO: IMPLEMENT RIGHT LAYOUT
-            // // page.getMediaBox().getWidth() -
-            //                            //Processor.numerationMargin - contentWidth;
-
-            for (var textPart : textComponentsToRender) {
+            for (int k = 0; k < textComponentsToRender.size(); k++) {
+                var textPart = textComponentsToRender.get(k);
                 // Divides the text into its words, using exactly one (!) space as the split char
                 final var words = textPart.getContent().split(" ");
 
                 // Used to skip the first word when appending a space after all other words
                 var isFirstWord = true;
+                var isLastWordOfNoneLastTextPart = false;
 
                 // Apply the correct font style
                 contentStream.setFont(textPart.getFont(), textPart.getFontSize());
                 contentStream.setNonStrokingColor(textPart.getFontColour());
 
                 // Tries to check if the next word can be rendered in the current line or if it does not fit
-                for (String word : words) {
+                for (int j = 0; j < words.length; j++) {
+                    String word = words[j];
+                    isLastWordOfNoneLastTextPart = j == words.length - 1 && k != textComponentsToRender.size() - 1;
+
                     // Calculate the width of the entire line with a space and the current word
-                    final float wordWidth = Processor.sentenceFont.getStringWidth((isFirstWord ? "" : " ") + word) /
+                    final float wordWidth = Processor.sentenceFont.getStringWidth(
+                            (isFirstWord ? "" : " ") + word + (isLastWordOfNoneLastTextPart ? " " : "")) /
                             1000 * Processor.sentenceFontSize;
 
                     // Check if the next line does not fit into the current page anymore
@@ -118,8 +120,8 @@ public class TextRenderer {
                             }
                         }
 
-                        rest.addLast(new Text(word + " ", textPart.getFont(), textPart.getFontSize(),
-                                textPart.getFontColour()));
+                        rest.addLast(new Text(word + (isFirstWord ? "" : " "), textPart.getFont(),
+                                textPart.getFontSize(), textPart.getFontColour()));
                     }
                     // If the word does not fit in the current line, render the line and start a new line
                     else if (wordWidth > maximumWidth) {
@@ -135,7 +137,6 @@ public class TextRenderer {
                         final var textSize = textBuilder.size();
                         for (int i = 0; i < textSize; i++) {
                             var text = textBuilder.remove();
-
                             // Apply the correct font style
                             contentStream.setFont(text.getFont(), text.getFontSize());
                             contentStream.setNonStrokingColor(text.getFontColour());
@@ -176,7 +177,6 @@ public class TextRenderer {
 
                             contentStream.showText(currentLine);
                             contentStream.newLineAtOffset(0, -leading);
-                            PageCreator.currentYPosition -= leading;
                         } else {
                             PageCreator.currentYPosition -= leading;
                             contentStream.newLineAtOffset(0, -leading);
@@ -190,10 +190,11 @@ public class TextRenderer {
                         // Add the word to the builder and add a space
                         // character if the word is not the first word in the line
                         if (isFirstWord) {
-                            textBuilder.addLast(new Text(word, textPart.getFont(), textPart.getFontSize(),
-                                    textPart.getFontColour()));
+                            textBuilder.addLast(new Text(word + (isLastWordOfNoneLastTextPart ? " " : ""),
+                                    textPart.getFont(), textPart.getFontSize(), textPart.getFontColour()));
                             isFirstWord = false;
-                        } else textBuilder.addLast(new Text(" " + word, textPart.getFont(),
+                        } else textBuilder.addLast(new Text(" " + word +
+                                (isLastWordOfNoneLastTextPart ? " " : ""), textPart.getFont(),
                                 textPart.getFontSize(), textPart.getFontColour()));
 
                         currentLineWidth += wordWidth;
@@ -279,6 +280,24 @@ public class TextRenderer {
 
         // Now that there has been at least one line rendered on the current page, update the flag
         PageCreator.currentPageIsEmpty = false;
+    }
+
+    /**
+     *  Returns true if the specified text (a string in a certain font and font size) can be rendered in a single line
+     *  or not. Note that this does not render the text, but simply checks if it could be rendered in one line.
+     * @param asText the non-null text component that should be checked
+     * @return true - if the text would fit in one line; false - if it would not
+     */
+    public static boolean textFitsInOneLine(@NonNull Text asText) {
+        final float availableWidth = Processor.dimensions.getWidth() - 2 * Processor.margin;
+        final float textWidth;
+        try {
+            textWidth = asText.getFont().getStringWidth(asText.getContent()) / 1000 * asText.getFontSize();
+        } catch (IOException e) {
+            throw new PippException("Could not assess if the specified text fits in one line");
+        }
+
+        return textWidth <= availableWidth;
     }
 
 }

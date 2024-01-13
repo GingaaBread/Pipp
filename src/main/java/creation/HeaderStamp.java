@@ -5,7 +5,6 @@ import processing.Processor;
 /**
  *  Used to add a header to the document, which includes the names of all authors and assessors, the title of the
  *  document, and the publication date.
- * @author Gino Glink
  * @since 1.0
  * @version 1.0
  */
@@ -18,12 +17,7 @@ public class HeaderStamp {
         final var headerBuilder = new StringBuilder();
 
         // Start by listing the authors' names one after the other separated by a new line
-        for (var author : Processor.authors) {
-            headerBuilder.append(author.nameToString());
-
-            TextRenderer.renderLeftAlignedText(headerBuilder.toString());
-            headerBuilder.setLength(0);
-        }
+        for (var author : Processor.authors) TextRenderer.renderLeftAlignedText(author.nameToString());
 
         // List the assessors' names separated by a comma and one space
         for (int i = 0; i < Processor.assessors.length; i++) {
@@ -33,11 +27,13 @@ public class HeaderStamp {
             if (i < Processor.assessors.length - 1) headerBuilder.append(", ");
         }
 
-        TextRenderer.renderLeftAlignedText(headerBuilder.toString());
-        headerBuilder.setLength(0);
+        if (Processor.assessors.length > 0) {
+            TextRenderer.renderLeftAlignedText(headerBuilder.toString());
+            headerBuilder.setLength(0);
+        }
 
         // List the title of the publication
-        if (Processor.publicationTitle != null) {
+        if (Processor.publicationTitle.getTexts().size() > 0) {
             TextRenderer.renderText(
                 Processor
                         .publicationTitle
@@ -63,6 +59,7 @@ public class HeaderStamp {
 
         // List the date of the publication
         if (Processor.publicationDate != null) {
+            System.out.println("Public date is not null");
             final var formattedDate = Processor.usedStyleGuide.dateToString(Processor.publicationDate);
             headerBuilder.append(formattedDate);
             TextRenderer.renderLeftAlignedText(headerBuilder.toString());

@@ -59,28 +59,28 @@ public class PageNumberStamp {
                 // Contains the displayed name of the author(s), which is added before the page number
                 final var authorNamePrefixBuilder = new StringBuilder();
 
+                String firstAuthorName = null;
+
                 // The names should only be displayed if there are authors configured in the first place
-                if (Processor.authors.length > 0 && Processor.numerationAuthorName != NumerationAuthorName.NONE) {
-                    // Sets the prefix to the name of the FIRST author, unless the user does not want to
-                    // TODO: Consider at least up to four authors?
-                    final String authorPrefix = switch (Processor.numerationAuthorName) {
-                        case FIRST_NAME -> Processor.authors[0].getFirstname();
-                        case LAST_NAME -> Processor.authors[0].getLastname();
-                        case NAME -> Processor.authors[0].getFirstname() + " " + Processor.authors[0].getLastname();
-                        case FULL_NAME -> Processor.authors[0].nameToString();
-                        default -> throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
-                    };
+                if (Processor.numerationAuthorName != NumerationAuthorName.NONE) {
+                    Author[] authors = Processor.authors;
+                    for (int i = 0; i < authors.length; i++) {
+                        var author = authors[i];
+                        final String authorPrefix = switch (Processor.numerationAuthorName) {
+                            case FIRST_NAME -> author.getFirstname();
+                            case LAST_NAME -> author.getLastname();
+                            case NAME -> author.getFirstname() + " " + author.getLastname();
+                            case FULL_NAME -> author.nameToString();
+                            default ->
+                                    throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
+                        };
 
-                    // The name is now part of the builder
-                    authorNamePrefixBuilder.append(authorPrefix);
+                        authorNamePrefixBuilder.append(authorPrefix);
 
-                    // If there are multiple authors, also append "et al." if the names should be displayed
-                    if (Processor.authors.length > 1 && Processor.numerationAuthorName != NumerationAuthorName.NONE)
-                        authorNamePrefixBuilder.append(" et al. ");
+                        if (i != authors.length - 1) authorNamePrefixBuilder.append(", ");
 
-                    // TODO
-                    // if does not fit in one line
-                    // use first and append et. al.
+                        if (i == 0) firstAuthorName = authorPrefix;
+                    }
                 }
 
                 // Contains the page number as a string in the desired numeral system
@@ -91,6 +91,9 @@ public class PageNumberStamp {
 
                 // Contains the entire text as one string (the author texts and page number)
                 final String content = authorNamePrefixBuilder + " " + pageString;
+
+                var asText = new Text(content, Processor.sentenceFont,
+                        Processor.sentenceFontSize, Processor.sentenceFontColour);
 
                 // Calculates the starting x position of the text
                 final TextAlignment alignment = switch (Processor.numerationPosition) {
@@ -108,9 +111,23 @@ public class PageNumberStamp {
                     case BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT -> Processor.numerationMargin;
                 };
 
-                // Renders the page numeration with a normal text style
-                TextRenderer.renderNoContentText(List.of(new Text(content, Processor.sentenceFont,
-                        Processor.sentenceFontSize, Processor.sentenceFontColour)), alignment, y);
+                if (TextRenderer.textFitsInOneLine(asText)) {
+                    TextRenderer.renderNoContentText(List.of(asText), alignment, y);
+                } else if (Processor.authors.length > 1 && Processor.numerationAuthorName != NumerationAuthorName.NONE) {
+                    var firstAuthorOnlyText = new Text(firstAuthorName + " et al. " + pageString,
+                            asText.getFont(), asText.getFontSize(), asText.getFontColour());
+
+                    // Check if the first name and et al. would fit in one line
+                    if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
+                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y);
+                    // If not, only the page number is rendered
+                    else
+                    {
+                        var pageText = new Text(pageString, asText.getFont(), asText.getFontSize(),
+                                asText.getFontColour());
+                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
+                    }
+                }
 
                 // Increment the page number (only if this page was not skipped)
                 nextNumber++;

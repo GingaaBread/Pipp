@@ -212,6 +212,7 @@ public class Parser {
                     case "header" -> header();
                     case "title" -> title();
                     case "blank" -> blank();
+                    case "emphasise", "work" -> paragraph();
                     default -> error();
                 }
             } else paragraph();
@@ -267,7 +268,11 @@ public class Parser {
             if (isKeyword()) {
                 switch (current.value) {
                     case "style" -> styleConfiguration();
-                    case "title" -> titleConfiguration();
+                    case "title" -> {
+                        // Required in order to prevent the publication title from being classified as a container
+                        currentlyParsedContainer = "Document Title";
+                        titleConfiguration();
+                    }
                     case "author" -> authorConfiguration();
                     case "assessor" -> assessorConfiguration();
                     case "publication" -> publicationConfiguration();
@@ -609,7 +614,6 @@ public class Parser {
      *  TitleConfiguration := "title" Textual | "title" NewLine INDENT CitedTextual DEDENT
      */
     private void titleConfiguration() {
-        currentlyParsedContainer = "Document Title";
         consumeKeyword("title");
 
         if (current.type == TokenType.NEW_LINE) {

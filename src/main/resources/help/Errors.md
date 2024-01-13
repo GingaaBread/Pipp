@@ -332,12 +332,42 @@ font supported by Pipp, check that it is spelled correctly.
 *Example:*
 ```pipp
 config
-    font
-        name "An unknown font here"
+    style
+        of "MLA9"
+        structure
+            sentence
+                font
+                    name "Does Not Exist"
 ```
 
 *Fix:*
 Use a proper font name
+
+### 327
+
+*Description:*
+The specified windows font cannot be located.
+
+*Cause*:
+This error occurs when trying to use a custom font imported from a windows operating system, but the desired font
+cannot be located in the font folder.
+
+*Example:*
+```pipp
+config
+    style
+        of "MLA9"
+        structure
+            sentence
+                font
+                    name "@Does Not Exist"
+```
+
+*Fix:*
+The compiler uses the following path to windows fonts: C:\Windows\Fonts. Check if the specified font name exists at 
+that path, and install it if it does not exist. Also make sure that it is a .ttf file and that the compiler has
+read access to the font folder. Make sure the font name is spelt exactly like in the font folder and only uses a single
+@ prefix to indicate that it is a windows font.
 
 ## 3.3 Incorrect Format Errors
 

@@ -1,26 +1,31 @@
 config
-	style
-		of "MLA9"
-		structure
-			sentence
-				font
-					name "Times Roman"
-					size "15"
-					colour "#000000"
-	title "Politics And Language"
-	type "Paper"
-	publication
-		title "British Poems & Literature"
-	author "Gino Glink"
-	assessor
-		of
-			title "Prof."
-			firstname "John"
-			lastname "Doe"
+	author
+		of "Max Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1"
+		of "Max Mustermann2"
+		of "Max Mustermann3"
+		of "Max Mustermann4"
+		of "Max Mustermann5"
 header
-title
 
-"ss"
-emphasise "Example"
 
-blank
+"
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget magna fermentum iaculis eu non diam phasellus. Ornare arcu odio ut sem nulla pharetra diam. Tristique risus nec feugiat in fermentum posuere urna nec. Ac turpis egestas integer eget aliquet nibh. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Commodo quis imperdiet massa tincidunt. Ornare lectus sit amet est. Sit amet porttitor eget dolor. Aliquam etiam erat velit scelerisque. Platea dictumst vestibulum rhoncus est pellentesque elit.
+"
+
+
+#"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget magna fermentum iaculis eu non diam phasellus. Ornare arcu odio ut sem nulla pharetra diam. Tristique risus nec feugiat in fermentum posuere urna nec. Ac turpis egestas integer eget aliquet nibh. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Commodo quis imperdiet massa tincidunt. Ornare lectus sit amet est. Sit amet porttitor eget dolor. Aliquam etiam erat velit scelerisque. Platea dictumst vestibulum rhoncus est pellentesque elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget magna fermentum iaculis eu non diam phasellus. Ornare arcu odio ut sem nulla pharetra diam. Tristique risus nec feugiat in fermentum posuere urna nec. Ac turpis egestas integer eget aliquet nibh. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Commodo quis imperdiet massa tincidunt. Ornare lectus sit amet est. Sit amet porttitor eget dolor. Aliquam etiam erat velit scelerisque. Platea dictumst vestibulum rhoncus est pellentesque elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget magna fermentum iaculis eu non diam phasellus. Ornare arcu odio ut sem nulla pharetra diam. Tristique risus nec feugiat in fermentum posuere urna nec. Ac turpis egestas integer eget aliquet nibh. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Commodo quis imperdiet massa tincidunt. Ornare lectus sit amet est. Sit amet porttitor eget dolor. Aliquam etiam erat velit scelerisque. Platea dictumst vestibulum rhoncus est pellentesque elit."
+
+"Im Abenteuerbuch"
+work "Buchname"
+"geht es um die ..."
+
+
+"
+If this line
+enters a new line here, right now
+it instantly concatenates it.
+Even after a punctuation mark, I should continue.
+
+
+But an empty line?
+"

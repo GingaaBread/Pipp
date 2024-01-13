@@ -1,6 +1,7 @@
 package processing;
 
 import creation.DocumentCreator;
+import creation.PageAssembler;
 import creation.Text;
 import error.*;
 import frontend.ast.AST;
@@ -13,13 +14,19 @@ import lombok.NonNull;
 import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDSimpleFont;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
 import processing.style.MLA9;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
 import warning.*;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -243,8 +250,7 @@ public class Processor {
      * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
      */
     public void processAST(@NonNull final AST ast) {
-        System.out.println("AST generated:");
-        System.out.println(ast);
+        System.out.println("AST has been generated generated.");
 
         System.out.println("Now checking AST for possible warnings");
         ast.checkForWarnings();
@@ -440,7 +446,7 @@ public class Processor {
         } else Processor.sentenceFont = usedStyleGuide.font();
 
         // Check if the user demands a custom font size
-        if (structure.getSentence().getFont() != null) {
+        if (structure.getSentence().getFont().getSize() != null) {
             try {
                 var asNumber = Integer.parseInt(structure.getSentence().getFont().getSize());
                 if (asNumber < 1) {
@@ -700,6 +706,7 @@ public class Processor {
 
                 publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
+            else publicationDate = null;
         } else publicationDate = LocalDate.now();
 
         publicationTitle = ast.getConfiguration().getPublication().getTitle();
@@ -736,6 +743,17 @@ public class Processor {
 
     private PDFont fontLookUp(String name)
     {
+        // Check if the user is trying to import a font from their operating system
+        if (name.startsWith("@"))
+        {
+            final String path = "C:\\Windows\\Fonts\\" + name.substring(1) + ".ttf";
+            try {
+                return PDType0Font.load(PageAssembler.getDocument(), new File(path));
+            } catch (IOException e) {
+                throw new MissingMemberException("7: The specified windows font cannot be located.");
+            }
+        }
+
         return switch (name) {
             case "Times Roman" -> PDType1Font.TIMES_ROMAN;
             case "Helvetica" -> PDType1Font.HELVETICA;
