@@ -11,7 +11,7 @@ endobj
 <<
 /Creator (Pipp v.1.0)
 /Author (Max Mustermann)
-/CreationDate (D:20240114021901+01'00')
+/CreationDate (D:20240114022835+01'00')
 /Title ()
 /Keywords (Pipp)
 >>
@@ -173,7 +173,7 @@ endstream
 endobj
 11 0 obj
 <<
-/Length 2922
+/Length 2948
 >>
 stream
 /F1 12 Tf
@@ -185,7 +185,10 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(Lorem) Tj
+() Tj
+/F1 12 Tf
+0 0 0 sc
+( Lorem) Tj
 /F1 12 Tf
 0 0 0 sc
 ( ipsum) Tj
@@ -503,7 +506,7 @@ endstream
 endobj
 13 0 obj
 <<
-/Length 776
+/Length 505
 >>
 stream
 /F1 12 Tf
@@ -515,71 +518,44 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(If) Tj
+() Tj
 /F1 12 Tf
 0 0 0 sc
-( this) Tj
+( Leerzeilen) Tj
 /F1 12 Tf
 0 0 0 sc
-( lineenters) Tj
+( und) Tj
 /F1 12 Tf
 0 0 0 sc
-( a) Tj
+( Zeilenenden) Tj
 /F1 12 Tf
 0 0 0 sc
-( new) Tj
+( werden) Tj
 /F1 12 Tf
 0 0 0 sc
-( line) Tj
+( in) Tj
 /F1 12 Tf
 0 0 0 sc
-( here,) Tj
+( Leerzeichen) Tj
 /F1 12 Tf
 0 0 0 sc
-( right) Tj
+( umgewandelt.) Tj
 /F1 12 Tf
 0 0 0 sc
-( nowit) Tj
+( Auch) Tj
 /F1 12 Tf
 0 0 0 sc
-( instantly) Tj
+( bei) Tj
 /F1 12 Tf
 0 0 0 sc
-( concatenates) Tj
+( mehreren) Tj
 /F1 12 Tf
 0 0 0 sc
-( it.Even) Tj
-/F1 12 Tf
-0 0 0 sc
-( after) Tj
-/F1 12 Tf
-0 0 0 sc
-( a) Tj
-/F1 12 Tf
-0 0 0 sc
-( punctuation) Tj
+( leeren) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(mark, ) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( should) Tj
-/F1 12 Tf
-0 0 0 sc
-( continue.But) Tj
-/F1 12 Tf
-0 0 0 sc
-( an) Tj
-/F1 12 Tf
-0 0 0 sc
-( empty) Tj
-/F1 12 Tf
-0 0 0 sc
-( line?) Tj
+(Zeilen! ) Tj
 ET
 
 endstream
@@ -625,19 +601,19 @@ xref
 0000001269 00000 n
 0000001457 00000 n
 0000001642 00000 n
-0000004619 00000 n
-0000005029 00000 n
-0000005859 00000 n
-0000005894 00000 n
-0000005938 00000 n
-0000006038 00000 n
+0000004645 00000 n
+0000005055 00000 n
+0000005614 00000 n
+0000005649 00000 n
+0000005693 00000 n
+0000005793 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<18D2EE2D5C43CD5194A5ED9E5873A177> <18D2EE2D5C43CD5194A5ED9E5873A177>]
+/ID [<79516C07F1A77B72B4763BF952F9A4A5> <79516C07F1A77B72B4763BF952F9A4A5>]
 /Size 18
 >>
 startxref
-6139
+5894
 %%EOF

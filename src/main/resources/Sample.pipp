@@ -21,11 +21,14 @@ work "Buchname"
 "geht es um die ..."
 
 "
-If this line
-enters a new line here, right now
-it instantly concatenates it.
-Even after a punctuation mark, I should continue.
+Leerzeilen
+
+und Zeilenenden
+werden in Leerzeichen umgewandelt.
 
 
-But an empty line?
+
+
+
+Auch bei mehreren leeren Zeilen!
 "

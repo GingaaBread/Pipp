@@ -108,6 +108,12 @@ public class Scanner {
     private int charInLine;
 
     /**
+     * Tracks if the token is a text that contains new line characters that have been converted into a new line.
+     * This is used to turn multiple new lines into only a single space.
+     */
+    private boolean hasConvertedTextNewLine;
+
+    /**
      * Creates a new instance of the scanner and passes the front end bridge as the
      * parent as an interface between the scanner and parser
      *
@@ -233,15 +239,22 @@ public class Scanner {
 
                 // If the user wants to escape a character do not include the \
                 if (current == '\\') {
+                    hasConvertedTextNewLine = false;
+                    
                     // If the user is already escaping a character and the backslash is escaped, append it (\\)
                     if (isEscapingACharacter) {
                         isEscapingACharacter = false;
                         currentlyReadValue.append("\\");
                     } else isEscapingACharacter = true;
+                } else if (current != '\n') {
+                    hasConvertedTextNewLine = false;
+                    currentlyReadValue.append(current);
                 }
-
-                // New line characters inside texts should not be included
-                else if (current != '\n') currentlyReadValue.append(current);
+                // New line characters inside texts should be converted into spaces, but not repeatedly
+                else if (!hasConvertedTextNewLine) {
+                    hasConvertedTextNewLine = true;
+                    currentlyReadValue.append(" ");
+                }
             }
 
             // Keywords are the default tokens if no other tokens are matched
