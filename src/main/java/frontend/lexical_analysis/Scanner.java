@@ -11,11 +11,11 @@ import frontend.FrontEndBridge;
 public class Scanner {
 
     /**
-     *  Defines the keywords that come with Pipp.
-     *  Lowercase words without any special characters in them must match one of these keywords,
-     *  otherwise an exception is thrown.
+     * Defines the keywords that come with Pipp.
+     * Lowercase words without any special characters in them must match one of these keywords,
+     * otherwise an exception is thrown.
      */
-    public static final String[] builtinKeywords = new String[] {
+    public static final String[] builtinKeywords = new String[]{
             "appendix",
             "allow",
             "assessor",
@@ -25,6 +25,7 @@ public class Scanner {
             "blank",
             "bold",
             "chapter",
+            "chair",
             "citation",
             "config",
             "colour",
@@ -38,10 +39,13 @@ public class Scanner {
             "height",
             "italic",
             "id",
+            "image",
             "in",
             "indentation",
+            "institution",
             "lastname",
             "layout",
+            "limit",
             "name",
             "numeration",
             "margin",
@@ -49,6 +53,7 @@ public class Scanner {
             "paragraph",
             "publication",
             "role",
+            "semester",
             "sentence",
             "size",
             "structure",
@@ -64,10 +69,48 @@ public class Scanner {
             "work",
             "whitespace"
     };
+    /**
+     * The reference to the front end bridge, which is used for communication purposes between
+     * the scanner and the parser.
+     */
+    private final FrontEndBridge frontEndBridge;
+    /**
+     * Saves the type of the currently scanned token during the scanning process,
+     * and resets it each time a token is submitted.
+     */
+    private TokenType currentTokenType;
+    /**
+     * Saves the value of the currently scanned token during the scanning process,
+     * and resets it each time a token is submitted.
+     */
+    private StringBuilder currentlyReadValue = new StringBuilder();
+    /**
+     * Yields true if the scanner is currently in a comment and should therefore ignore all characters
+     * until after the first NEW_LINE token.
+     */
+    private boolean inComment = false;
+    /**
+     * Yields true if the user uses the backslash in a text block and therefore wants to escape a character.
+     * If the next character then is a quotation mark, the quotation mark is escaped.
+     * If a character follows that cannot be escaped, an exception is thrown.
+     */
+    private boolean isEscapingACharacter = false;
+    /**
+     * Marks the current indentation level.
+     * Each time the tab character \t is scanned this is incremented, and reset once
+     * a different character is read.
+     */
+    private int currentAmountOfTabs = 0;
+    /**
+     * Tracks the current character of the current line.
+     * Characters are not zero-indexed, but start at one.
+     */
+    private int charInLine;
 
     /**
-     *  Creates a new instance of the scanner and passes the front end bridge as the
-     *  parent as an interface between the scanner and parser
+     * Creates a new instance of the scanner and passes the front end bridge as the
+     * parent as an interface between the scanner and parser
+     *
      * @param frontEndBridge - the instance of the FrontEndBridge used for communication
      */
     public Scanner(final FrontEndBridge frontEndBridge) {
@@ -75,51 +118,8 @@ public class Scanner {
     }
 
     /**
-     *  The reference to the front end bridge, which is used for communication purposes between
-     *  the scanner and the parser.
-     */
-    private final FrontEndBridge frontEndBridge;
-
-    /**
-     *  Saves the type of the currently scanned token during the scanning process,
-     *  and resets it each time a token is submitted.
-     */
-    private TokenType currentTokenType;
-
-    /**
-     *  Saves the value of the currently scanned token during the scanning process,
-     *  and resets it each time a token is submitted.
-     */
-    private StringBuilder currentlyReadValue = new StringBuilder();
-
-    /**
-     *  Yields true if the scanner is currently in a comment and should therefore ignore all characters
-     *  until after the first NEW_LINE token.
-     */
-    private boolean inComment = false;
-
-    /**
-     *  Yields true if the user uses the backslash in a text block and therefore wants to escape a character.
-     *  If the next character then is a quotation mark, the quotation mark is escaped.
-     *  If a character follows that cannot be escaped, an exception is thrown.
-     */
-    private boolean isEscapingACharacter = false;
-
-    /**
-     *  Marks the current indentation level.
-     *  Each time the tab character \t is scanned this is incremented, and reset once
-     *  a different character is read.
-     */
-    private int currentAmountOfTabs = 0;
-
-    /**
-     *  Tracks the current character of the current line.
-     *  Characters are not zero-indexed, but start at one.
-     */
-    private int charInLine;
-
-    /**
-     *  Scans the next character of the user input, and submits the token once found.
+     * Scans the next character of the user input, and submits the token once found.
+     *
      * @param current the next character that should be scanned
      */
     public void scan(final char current) {
@@ -129,7 +129,7 @@ public class Scanner {
         // Starts ignoring the line if the first character of a line is a comment (#)
         if (charInLine == 1 && current == '#') inComment = true;
 
-        // Marks the end of a comment if the new line character is scanned
+            // Marks the end of a comment if the new line character is scanned
         else if (inComment && current == '\n') {
             inComment = false;
             charInLine = 1;
@@ -253,13 +253,12 @@ public class Scanner {
     }
 
     /**
-     *  If there is a current token, this creates the type / value pair, notifies the FrontEndBridge
-     *  of the existence of the token, and then resets the token variables.
+     * If there is a current token, this creates the type / value pair, notifies the FrontEndBridge
+     * of the existence of the token, and then resets the token variables.
      */
     public void submitToken() {
         // Should only submit a token if it exists
-        if (currentTokenType != null)
-        {
+        if (currentTokenType != null) {
             // Create the token object with the token type and value pair
             var token = new Token(currentTokenType, currentlyReadValue.toString());
 

@@ -10,8 +10,8 @@ endobj
 3 0 obj
 <<
 /Creator (Pipp v.1.0)
-/Author (Max Mustermann, Max Mustermann5)
-/CreationDate (D:20240113020410+01'00')
+/Author (Gino G)
+/CreationDate (D:20240114015439+01'00')
 /Title ()
 /Keywords (Pipp)
 >>
@@ -27,14 +27,14 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R]
-/Resources 12 0 R
+/Contents [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R]
+/Resources 14 0 R
 /Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/Length 240
+/Length 163
 >>
 stream
 /F1 12 Tf
@@ -44,19 +44,13 @@ BT
 72 36 Td
 /F1 12 Tf
 0 0 0 sc
-137.84401 0 Td
+211.668 0 Td
 /F1 12 Tf
 0 0 0 sc
-(Max) Tj
+(Gino) Tj
 /F1 12 Tf
 0 0 0 sc
-( Mustermann,) Tj
-/F1 12 Tf
-0 0 0 sc
-( Max) Tj
-/F1 12 Tf
-0 0 0 sc
-( Mustermann5) Tj
+( G) Tj
 /F1 12 Tf
 0 0 0 sc
 ( 1) Tj
@@ -66,7 +60,7 @@ endstream
 endobj
 6 0 obj
 <<
-/Length 138
+/Length 135
 >>
 stream
 /F1 12 Tf
@@ -78,17 +72,17 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(Max) Tj
+(TU) Tj
 /F1 12 Tf
 0 0 0 sc
-( Mustermann) Tj
+( Dortmund) Tj
 ET
 
 endstream
 endobj
 7 0 obj
 <<
-/Length 139
+/Length 176
 >>
 stream
 /F1 12 Tf
@@ -100,17 +94,20 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(Max) Tj
+(Anglistik) Tj
 /F1 12 Tf
 0 0 0 sc
-( Mustermann5) Tj
+( und) Tj
+/F1 12 Tf
+0 0 0 sc
+( Amerikanistik) Tj
 ET
 
 endstream
 endobj
 8 0 obj
 <<
-/Length 164
+/Length 130
 >>
 stream
 /F1 12 Tf
@@ -122,18 +119,59 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(January) Tj
+(Gino) Tj
 /F1 12 Tf
 0 0 0 sc
-( 13) Tj
-/F1 12 Tf
-0 0 0 sc
-( 2024) Tj
+( G) Tj
 ET
 
 endstream
 endobj
 9 0 obj
+<<
+/Length 135
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 604.80005 Td
+/F1 12 Tf
+0 0 0 sc
+/F1 12 Tf
+0 0 0 sc
+(English) Tj
+/F1 12 Tf
+0 0 0 sc
+( 101) Tj
+ET
+
+endstream
+endobj
+10 0 obj
+<<
+/Length 131
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 576.00006 Td
+/F1 12 Tf
+0 0 0 sc
+/F1 12 Tf
+0 0 0 sc
+(WS) Tj
+/F1 12 Tf
+0 0 0 sc
+( 1998) Tj
+ET
+
+endstream
+endobj
+11 0 obj
 <<
 /Length 2922
 >>
@@ -142,7 +180,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 604.80005 Td
+72 547.20007 Td
 /F1 12 Tf
 0 0 0 sc
 /F1 12 Tf
@@ -419,7 +457,7 @@ ET
 
 endstream
 endobj
-10 0 obj
+12 0 obj
 <<
 /Length 356
 >>
@@ -428,7 +466,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 403.20013 Td
+72 345.60016 Td
 /F1 12 Tf
 0 0 0 sc
 /F2 12 Tf
@@ -463,7 +501,7 @@ ET
 
 endstream
 endobj
-11 0 obj
+13 0 obj
 <<
 /Length 776
 >>
@@ -472,7 +510,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 374.40015 Td
+72 316.80017 Td
 /F1 12 Tf
 0 0 0 sc
 /F1 12 Tf
@@ -546,18 +584,18 @@ ET
 
 endstream
 endobj
-12 0 obj
-<<
-/Font 13 0 R
->>
-endobj
-13 0 obj
-<<
-/F1 14 0 R
-/F2 15 0 R
->>
-endobj
 14 0 obj
+<<
+/Font 15 0 R
+>>
+endobj
+15 0 obj
+<<
+/F1 16 0 R
+/F2 17 0 R
+>>
+endobj
+16 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -565,7 +603,7 @@ endobj
 /Encoding /WinAnsiEncoding
 >>
 endobj
-15 0 obj
+17 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -574,30 +612,32 @@ endobj
 >>
 endobj
 xref
-0 16
+0 18
 0000000000 65535 f
 0000000015 00000 n
-0000000230 00000 n
+0000000205 00000 n
 0000000078 00000 n
-0000000287 00000 n
-0000000440 00000 n
-0000000733 00000 n
-0000000924 00000 n
-0000001116 00000 n
-0000001333 00000 n
-0000004309 00000 n
-0000004719 00000 n
-0000005549 00000 n
-0000005584 00000 n
-0000005628 00000 n
-0000005728 00000 n
+0000000262 00000 n
+0000000429 00000 n
+0000000645 00000 n
+0000000833 00000 n
+0000001062 00000 n
+0000001245 00000 n
+0000001433 00000 n
+0000001618 00000 n
+0000004595 00000 n
+0000005005 00000 n
+0000005835 00000 n
+0000005870 00000 n
+0000005914 00000 n
+0000006014 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<274215AB0B26A25C45FDE45870FE28F6> <274215AB0B26A25C45FDE45870FE28F6>]
-/Size 16
+/ID [<31ED1D2FC10AFC0D104B48C58F25B2E4> <31ED1D2FC10AFC0D104B48C58F25B2E4>]
+/Size 18
 >>
 startxref
-5829
+6115
 %%EOF

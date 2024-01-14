@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class MLA9 extends StyleGuide {
 
     /**
-     *  MLA 9 uses the standardised U.S. Letter
+     * MLA 9 uses the standardised U.S. Letter
      */
     @Override
     public PDRectangle pageFormat() {
@@ -22,8 +22,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines any easily readable font, which has a strongly contrasting italic version.
-     *  Pipp uses the Times Roman font for MLA9.
+     * MLA defines any easily readable font, which has a strongly contrasting italic version.
+     * Pipp uses the Times Roman font for MLA9.
      */
     @Override
     public PDFont font() {
@@ -31,8 +31,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines any easily readable font, which has a strongly contrasting default version.
-     *  Pipp uses the italic Times font for MLA9.
+     * MLA defines any easily readable font, which has a strongly contrasting default version.
+     * Pipp uses the italic Times font for MLA9.
      */
     @Override
     public PDFont emphasisFont() {
@@ -40,8 +40,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines any easily readable font, which has a strongly contrasting default version.
-     *  Pipp uses the italic Times font for MLA9.
+     * MLA defines any easily readable font, which has a strongly contrasting default version.
+     * Pipp uses the italic Times font for MLA9.
      */
     @Override
     public PDFont workFont() {
@@ -51,8 +51,8 @@ public class MLA9 extends StyleGuide {
     /// TODO: Hyphenation configuration: MLA does not allow hyphenation
 
     /**
-     *  MLA defines a font size of anywhere between 11 and 13 points.
-     *  Pipp uses a font size of 12.
+     * MLA defines a font size of anywhere between 11 and 13 points.
+     * Pipp uses a font size of 12.
      */
     @Override
     public int fontSize() {
@@ -60,8 +60,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines a font size of anywhere between 11 and 13 points.
-     *  Pipp uses a font size of 12.
+     * MLA defines a font size of anywhere between 11 and 13 points.
+     * Pipp uses a font size of 12.
      */
     @Override
     public int emphasisFontSize() {
@@ -69,8 +69,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines a font size of anywhere between 11 and 13 points.
-     *  Pipp uses a font size of 12.
+     * MLA defines a font size of anywhere between 11 and 13 points.
+     * Pipp uses a font size of 12.
      */
     @Override
     public int workFontSize() {
@@ -78,8 +78,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA does not define a font colour.
-     *  Pipp uses a black font colour.
+     * MLA does not define a font colour.
+     * Pipp uses a black font colour.
      */
     @Override
     public Color fontColour() {
@@ -87,8 +87,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA does not define a font colour.
-     *  Pipp uses a black font colour.
+     * MLA does not define a font colour.
+     * Pipp uses a black font colour.
      */
     @Override
     public Color emphasisFontColour() {
@@ -96,8 +96,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA does not define a font colour.
-     *  Pipp uses a black font colour.
+     * MLA does not define a font colour.
+     * Pipp uses a black font colour.
      */
     @Override
     public Color workFontColour() {
@@ -105,7 +105,7 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines a margin of one inch to the top and bottom and both sides of the text
+     * MLA defines a margin of one inch to the top and bottom and both sides of the text
      */
     @Override
     public float margin() {
@@ -113,7 +113,7 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines double-spacing for the entire document and all its elements
+     * MLA defines double-spacing for the entire document and all its elements
      */
     @Override
     public float spacing() {
@@ -125,7 +125,7 @@ public class MLA9 extends StyleGuide {
     // TODO: Title configurations: MLA uses double spaced centered text with no italic or underlined text. It needs to be put in quotation marks, boldface, or typed out in capital letters. capitalisation rules.
 
     /**
-     *  MLA uses arabic numeration
+     * MLA uses arabic numeration
      */
     @Override
     public NumerationType numerationType() {
@@ -133,7 +133,7 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA displays the page number in the top right corner
+     * MLA displays the page number in the top right corner
      */
     @Override
     public NumerationPosition numerationPosition() {
@@ -146,7 +146,15 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA displays the page number half an inch away from the top of the document
+     * MLA prefers to render all author names unless they do not fit in one line (then et al. is rendered)
+     */
+    @Override
+    public Integer numerationLimit() {
+        return null;
+    }
+
+    /**
+     * MLA displays the page number half an inch away from the top of the document
      */
     @Override
     public float numerationMargin() {
@@ -158,7 +166,7 @@ public class MLA9 extends StyleGuide {
     // TODO: Chapter configuration. MLA allows chapter titles as long as they are equal. No internal heading should have only one instance. Heading flush left margin, not indented or centered. A line space above and below a heading. Avoid numbers and letters. same capitalisation as headings.
 
     /**
-     *  MLA does only allow italic text if absolutely necessary
+     * MLA does only allow italic text if absolutely necessary
      */
     @Override
     public AllowanceType allowsEmphasis() {
@@ -166,7 +174,7 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA defines that the first line of a paragraph should be indented half an inch from the left margin
+     * MLA defines that the first line of a paragraph should be indented half an inch from the left margin
      */
     @Override
     public float paragraphIndentation() {
@@ -176,7 +184,7 @@ public class MLA9 extends StyleGuide {
     // TODO: Block indentation configuration: MLA also indents it half an inch from the left
 
     /**
-     *  MLA inserts a space before every sentence
+     * MLA inserts a space before every sentence
      */
     @Override
     public String sentencePrefix() {
@@ -184,7 +192,7 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  MLA allows whitespace if it has been escaped
+     * MLA allows whitespace if it has been escaped
      */
     @Override
     public WhitespaceAllowanceType allowsWhitespace() {
@@ -194,7 +202,7 @@ public class MLA9 extends StyleGuide {
     // TODO: Works cited config: 1 inch from the top. If the list has one entry: name "Work Cited". Double space between the heading and the first entry. Begin each line with left margin flush. If more than one line: indent half an inch from left margin (called hanging indent)
 
     /**
-     *  MLA uses a default document type of PAPER
+     * MLA uses a default document type of PAPER
      */
     @Override
     public DocumentType documentType() {
@@ -203,8 +211,8 @@ public class MLA9 extends StyleGuide {
 
     /**
      * MLA uses the following rules:
-     *  A full-stop is added if the last character is not a punctuation mark
-     *  Exactly one space is inserted before a new in-line sentence.
+     * A full-stop is added if the last character is not a punctuation mark
+     * Exactly one space is inserted before a new in-line sentence.
      */
     @Override
     public String formatText(String textBlock) {
@@ -229,7 +237,8 @@ public class MLA9 extends StyleGuide {
     }
 
     /**
-     *  Dates are represented in the British date format
+     * Dates are represented in the British date format
+     *
      * @param date - the date as a LocalDate, which needs to be turned into a string
      * @return the date as required in MLA9
      */

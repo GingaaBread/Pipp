@@ -10,10 +10,11 @@ An assessor requires a name configuration, but neither name, firstname nor lastn
 has been configured.
 
 *Cause*:
-This error occurs when trying to create an assessor in the configuration, but 
+This error occurs when trying to create an assessor in the configuration, but
 not supplying an appropriate `name` or `firstname` and `lastname` configuration.
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -31,12 +32,13 @@ configuration.
 
 *Cause*:
 This error occurs when trying to create an assessor in the configuration, but
-supplying both a `name` and `firstname` and `lastname` configuration. 
+supplying both a `name` and `firstname` and `lastname` configuration.
 The `name`configuration is used to automatically generate the `firstname` and `lastname`
 configurations. If these are used,
 the `name` configuration should be omitted (or vice-versa).
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -51,7 +53,7 @@ Remove either `firstname` and `lastname`, or `name`.
 ### 313
 
 *Description:*
-An assessor cannot only have a firstname configuration. 
+An assessor cannot only have a firstname configuration.
 Either also provide a lastname configuration or only use the name configuration.
 
 *Cause*:
@@ -61,6 +63,7 @@ Since it does not suffice to only supply one's first name in academic writing, t
 is supposed to prevent oversights.
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -83,6 +86,7 @@ Since it does not suffice to only supply one's last name in academic writing, th
 is supposed to prevent oversights.
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -95,7 +99,7 @@ Remove either `lastname` and add `name`, or add `firstname`.
 ### 315
 
 *Description:*
-An assessor cannot have a role configuration without also having a 
+An assessor cannot have a role configuration without also having a
 proper name configuration. Please use a name configuration or both a
 firstname and lastname configuration.
 
@@ -103,11 +107,13 @@ firstname and lastname configuration.
 This error occurs when trying to create an assessor in the configuration, but
 supplying a role without properly supplying the assessor's name. That means that
 either:
+
 - only the `firstname`, but not the `lastname` configuration is given
 - only the `lastname`, but not the `firstname` configuration is given
 - no name configuration is given
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -129,6 +135,7 @@ This error occurs when trying to create an author in the configuration, but
 not supplying an appropriate `name` or `firstname` and `lastname` configuration.
 
 *Example:*
+
 ```pipp
 config
     author
@@ -152,6 +159,7 @@ configurations. If these are used,
 the `name` configuration should be omitted (or vice-versa).
 
 *Example:*
+
 ```pipp
 config
     author
@@ -176,6 +184,7 @@ Since it does not suffice to only supply one's first name in academic writing, t
 is supposed to prevent oversights.
 
 *Example:*
+
 ```pipp
 config
     author
@@ -195,6 +204,7 @@ This error occurs when trying to use the `emphasis` keyword to emphasise a text 
 the style guide you are using, or its overridden configuration, does not allow the use of emphasis.
 
 *Example:*
+
 ```pipp
 config
     style "Some Style Example That Does Not Allow Emphasis"
@@ -216,6 +226,7 @@ This error occurs when trying to create a text, but only adding whitespace or no
 content at all to the text.
 
 *Example:*
+
 ```pipp
 config
     title "  "
@@ -231,10 +242,11 @@ A structure component is missing
 
 *Cause*:
 This error occurs when trying to confine a structure to only appear once
-a different structure has appeared or will appear, and the specified 
+a different structure has appeared or will appear, and the specified
 keyword is not a structure or is not allowed to be used in this context.
 
 *Example:*
+
 ```pipp
 config
     structure
@@ -261,6 +273,7 @@ not spelled wrong. If it is a custom style guide, make sure it is
 imported correctly.
 
 *Example:*
+
 ```pipp
 config
     style "Mla9"
@@ -285,6 +298,7 @@ not spelled incorrectly. If it is a custom type, make sure it is
 imported correctly.
 
 *Example:*
+
 ```pipp
 config
     numeration
@@ -310,6 +324,7 @@ not spelled incorrectly. If it is a custom position, make sure it is
 imported correctly.
 
 *Example:*
+
 ```pipp
 config
     numeration
@@ -330,6 +345,7 @@ cannot use as an actual font for the document. If you have used a
 font supported by Pipp, check that it is spelled correctly.
 
 *Example:*
+
 ```pipp
 config
     style
@@ -353,6 +369,7 @@ This error occurs when trying to use a custom font imported from a windows opera
 cannot be located in the font folder.
 
 *Example:*
+
 ```pipp
 config
     style
@@ -364,25 +381,47 @@ config
 ```
 
 *Fix:*
-The compiler uses the following path to windows fonts: C:\Windows\Fonts. Check if the specified font name exists at 
+The compiler uses the following path to windows fonts: C:\Windows\Fonts. Check if the specified font name exists at
 that path, and install it if it does not exist. Also make sure that it is a .ttf file and that the compiler has
 read access to the font folder. Make sure the font name is spelt exactly like in the font folder and only uses a single
 @ prefix to indicate that it is a windows font.
+
+### 328
+
+*Description:*
+Cannot use a publication chair if no publication institution is defined.
+
+*Cause*:
+This error occurs when trying to use a publication chair without having defined a publication institution.
+
+*Example:*
+
+```pipp
+config
+    publication
+        chair "No Institution"
+```
+
+*Fix:*
+A chair is a subtype of an institution (for example, a faculty of a university), therefore you **MUST** declare an
+institution if you want to use the chair attribute. To fix this error, either remove the publication chair configuration
+or include a publication institution configuration.
 
 ## 3.3 Incorrect Format Errors
 
 ### 331
 
 *Description:*
-The specified date is not `None` and does not adhere to the 
+The specified date is not `None` and does not adhere to the
 British date format: `dd/MM/yyyy` For example, June 3, 2023, is 03/06/2023.
 
 *Cause*:
 This error occurs when trying to create a date, but using an illegal date format,
-such as the American `(MM/dd/yyyy)` or International `(yyyy-dd-mm)` date format, and 
+such as the American `(MM/dd/yyyy)` or International `(yyyy-dd-mm)` date format, and
 the date is not set to `None`.
 
 *Example:*
+
 ```pipp
 config
     publication
@@ -403,6 +442,7 @@ This error occurs when trying to represent a number, which is not a non-negative
 An example is a `-0.5` padding.
 
 *Example:*
+
 ```pipp
 config
     structure
@@ -423,6 +463,7 @@ This error occurs when trying to represent a number, which is not a non-negative
 An example is a `-5` font size.
 
 *Example:*
+
 ```pipp
 config
     font
@@ -442,6 +483,7 @@ This error occurs when trying to represent a hexadecimal colour.
 Make sure the colour begins with a '#' and is followed by exactly six integers.
 
 *Example:*
+
 ```pipp
 config
     font
@@ -461,6 +503,7 @@ This error occurs when trying to set an allowance type, but not supplying either
 "Yes", "No" or "If Necessary". Check if you misspelled either of these.
 
 *Example:*
+
 ```pipp
 config
     structure
@@ -482,6 +525,7 @@ but not supplying either "Yes", "Remove" or "Escape".
 Check if you misspelled either of these.
 
 *Example:*
+
 ```pipp
 config
     structure
@@ -502,6 +546,7 @@ This error occurs when trying to refer to a structure.
 Make sure you spelled the structure correctly.
 
 *Example:*
+
 ```pipp
 config
     structure
@@ -523,6 +568,7 @@ This error occurs when trying to refer to a document type.
 Make sure you spelled the type correctly.
 
 *Example:*
+
 ```pipp
 config
     type "Novel"
@@ -542,10 +588,11 @@ instead of using the `firstname` and `lastname` configurations,
 but not providing a space. Pipp uses a space to determine
 what is part of the first and what is part of the last name.
 For example, "John Doe" results in the firstname `John`,
-and the last name `Doe`. 
+and the last name `Doe`.
 The error also occurs when providing a blank string.
 
 *Example:*
+
 ```pipp
 config
     author "Doe"
@@ -566,6 +613,7 @@ but neither supplying `1`, `1.5` or `2` (with our without the optional
 `in` ending if you want to use inches, instead of millimeters).
 
 *Example:*
+
 ```pipp
 config
     style
@@ -590,6 +638,7 @@ For example, `5-12` is a legal page span, whereas
 (three pages are specified) are not.
 
 *Example:*
+
 ```pipp
 config
     style
@@ -614,6 +663,7 @@ whereas `5-3` (the origin is larger than the destination) and `5-5`
 (the origin and destination are the same) are not.
 
 *Example:*
+
 ```pipp
 config
     style
@@ -635,6 +685,7 @@ an integer greater than 0. Note that the first page number is always 1.
 It can also occur when trying to use a custom font size, which is 0 or less.
 
 *Example:*
+
 ```pipp
 config
     style
@@ -660,6 +711,7 @@ Use `firstname` if you want to display the first names of all authors,
 `"None"` if you do not want to display the authors' names at all.
 
 *Example:*
+
 ```pipp
 config
     style

@@ -15,7 +15,7 @@ not want all assessors to have a role.
 
 *Cause:*
 This warning occurs when adding at least two assessors.
-If one assessor has got a role, and at least one other 
+If one assessor has got a role, and at least one other
 assessor has not got a role, this warning will be
 displayed.
 
@@ -28,6 +28,7 @@ be cases in which you want to omit a role, which is why
 this warning is not an enforced error.
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -62,6 +63,7 @@ be cases in which you want to omit an id, which is why
 this warning is not an enforced error.
 
 *Example:*
+
 ```pipp
 config
     author
@@ -90,6 +92,7 @@ measurement in your style, or if you want to confine
 yourself to only use either inches or millimeters.
 
 *Example:*
+
 ```pipp
 config
     style
@@ -121,6 +124,7 @@ of the document. It is recommended that you include
 the names of all authors in academic writing.
 
 *Example:*
+
 ```pipp
 config
     of "MLA9"
@@ -141,7 +145,7 @@ Author 2: (author)
 *Cause:*
 This warning occurs when creating at least two authors
 in the `author` configuration, which have the same ID.
-As the usual interpretation of an ID is a unique 
+As the usual interpretation of an ID is a unique
 identifier, this seems like a mistake.
 However, since there could be cases like group projects,
 in which authors could end up having the same IDs, this
@@ -152,6 +156,7 @@ Decide whether you really want to have authors
 with the same ID.
 
 *Example:*
+
 ```pipp
 config
     author
@@ -182,6 +187,7 @@ Decide whether you really want to have a font
 with a size of more than 96 points.
 
 *Example:*
+
 ```pipp
 config
     font
@@ -215,6 +221,7 @@ Decide whether you really want to have authors
 with the same name.
 
 *Example:*
+
 ```pipp
 config
     author
@@ -250,6 +257,7 @@ Decide whether you really want to have assessor
 with the same name.
 
 *Example:*
+
 ```pipp
 config
     assessor
@@ -276,8 +284,34 @@ It is your job to assess if the content you wish to emphasise MUST be emphasised
 Decide whether you really need to emphasise the content or not.
 
 *Example:*
+
 ```pipp
 config
     style "MLA9"
 emphasise "Example"
+```
+
+### 42
+
+*Severity:*
+Low
+
+*Description:*
+The semester format used appears to deviate from the standard "WS XXXX" or "SS XXXX" where XXXX is the year.
+While this may not be an issue in your specific context or country, please self-check the format to ensure it aligns
+with your intended representation.
+
+*Cause:*
+This warning occurs when using the publication semester configuration, but deviating from the aforementioned standard.
+Note that this may not be an issue for you, at all, so it is your decision whether to change this or not.
+
+*To do:*
+Decide whether you want to use the "WS/SS XXXX" format or not.
+
+*Example:*
+
+```pipp
+config
+    publication
+        semester "Summer Semester 1993"
 ```

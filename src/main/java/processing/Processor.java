@@ -14,10 +14,8 @@ import lombok.NonNull;
 import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDSimpleFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.encoding.WinAnsiEncoding;
 import processing.style.MLA9;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
@@ -25,7 +23,6 @@ import warning.*;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,19 +31,19 @@ import java.util.List;
 import java.util.MissingFormatArgumentException;
 
 /**
- *  The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
- *  that can be used when creating the document
+ * The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
+ * that can be used when creating the document
  *
  * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 @ToString
 public class Processor {
 
     /**
-     *  Determines the version of this compiler implementation.
-     *  Note that the user can choose to opt for a different version as long as it is supported by the compiler.
+     * Determines the version of this compiler implementation.
+     * Note that the user can choose to opt for a different version as long as it is supported by the compiler.
      */
     public static final String COMPILER_VERSION = "1.0";
 
@@ -55,37 +52,37 @@ public class Processor {
 
 
     /**
-     *  Determines the type of the document, which currently only affects the document's metadata
+     * Determines the type of the document, which currently only affects the document's metadata
      */
     public static DocumentType documentType;
 
     /**
-     *  Determines the title of the document, which can be displayed using the title instruction.
-     *  Note that the Title class is taken from the AST package simply to not have to duplicate it.
+     * Determines the title of the document, which can be displayed using the title instruction.
+     * Note that the Title class is taken from the AST package simply to not have to duplicate it.
      */
     public static Title documentTitle;
 
     /**
-     *  Determines the type of style guide which should be used during compilation
+     * Determines the type of style guide which should be used during compilation
      */
     public static StyleGuide usedStyleGuide;
 
     /**
-     *  Determines the dimensions of the document (the width and height)
+     * Determines the dimensions of the document (the width and height)
      */
     public static PDRectangle dimensions;
 
     /**
-     *  Determines the margin in points (pt.) to all four sides of the document.
-     *  All components need to have a minimum position of the margin to the left and top,
-     *  and a maximum position of the margin to the right and bottom.
+     * Determines the margin in points (pt.) to all four sides of the document.
+     * All components need to have a minimum position of the margin to the left and top,
+     * and a maximum position of the margin to the right and bottom.
      */
     public static float margin;
 
     /**
-     *  Determines the paragraph spacing as a float, which is the space between each line in a paragraph.
-     *  The spacing is multiplied by the font size (and font size increment factor) to calculate line leading.
-     *  Note that the unit is a float! It is not represented in points, inches or any other measurement.
+     * Determines the paragraph spacing as a float, which is the space between each line in a paragraph.
+     * The spacing is multiplied by the font size (and font size increment factor) to calculate line leading.
+     * Note that the unit is a float! It is not represented in points, inches or any other measurement.
      */
     public static float spacing;
 
@@ -94,80 +91,86 @@ public class Processor {
 
 
     /**
-     *  Determines how page numbers should be represented
+     * Determines how page numbers should be represented
      */
     public static NumerationType numerationType;
 
     /**
-     *  Determines where in the document page numbers should be displayed
+     * Determines where in the document page numbers should be displayed
      */
     public static NumerationPosition numerationPosition;
 
     /**
-     *  Determines the page number margin to the top or bottom of the document.
-     *  Note that the default layout margin is used for the left or right side.
+     * Determines the page number margin to the top or bottom of the document.
+     * Note that the default layout margin is used for the left or right side.
      */
     public static float numerationMargin;
 
     /**
-     *  Determines how the names of the authors should be inserted before the page number.
-     *  If there should not be a name before the page number, this value is null.
+     * Determines how the names of the authors should be inserted before the page number.
+     * If there should not be a name before the page number, this value is null.
      */
     public static NumerationAuthorName numerationAuthorName;
 
     /**
-     *  Contains all page numbers that the user does not want to have page numbers.
-     *  For each created page, the list will be checked if it contains the current page number,
-     *  and if it does, it will not receive a numeration stamp.
+     * Contains all page numbers that the user does not want to have page numbers.
+     * For each created page, the list will be checked if it contains the current page number,
+     * and if it does, it will not receive a numeration stamp.
      */
     public static List<Integer> skippedPages;
+
+    /**
+     * Contains the maximum amount of author names that should be rendered in the numeration.
+     * If there is no limitation, this is null.
+     */
+    public static Integer numerationLimit;
 
 
     //// FONT ////
 
 
     /**
-     *  Determines the main font family used throughout the document
+     * Determines the main font family used throughout the document
      */
     public static PDFont sentenceFont;
 
     /**
-     *  Determines the main font size in points (pt.) used throughout the document
+     * Determines the main font size in points (pt.) used throughout the document
      */
     public static float sentenceFontSize;
 
     /**
-     *  Determines the main font size used throughout the document
+     * Determines the main font size used throughout the document
      */
     public static Color sentenceFontColour;
 
     /**
-     *  Determines the font family used for emphasis
+     * Determines the font family used for emphasis
      */
     public static PDFont emphasisFont;
 
     /**
-     *  Determines the font size in points (pt.) used throughout for emphasis
+     * Determines the font size in points (pt.) used throughout for emphasis
      */
     public static float emphasisFontSize;
 
     /**
-     *  Determines the main font size used for emphasis
+     * Determines the main font size used for emphasis
      */
     public static Color emphasisFontColour;
 
     /**
-     *  Determines the font family used for work references
+     * Determines the font family used for work references
      */
     public static PDFont workFont;
 
     /**
-     *  Determines the font size in points (pt.) used throughout for work references
+     * Determines the font size in points (pt.) used throughout for work references
      */
     public static float workFontSize;
 
     /**
-     *  Determines the main font size used for work references
+     * Determines the main font size used for work references
      */
     public static Color workFontColour;
 
@@ -176,8 +179,8 @@ public class Processor {
 
 
     /**
-     *  Determines the paragraph indentation, which is the amount of space that a new paragraph will be
-     *  indented to
+     * Determines the paragraph indentation, which is the amount of space that a new paragraph will be
+     * indented to
      */
     public static float paragraphIndentation;
 
@@ -186,39 +189,29 @@ public class Processor {
 
 
     /**
-     *  Determines the string that will be appended before each sentence.
-     *  In most style guides, this is a single space.
+     * Determines the string that will be appended before each sentence.
+     * In most style guides, this is a single space.
      */
     public static String sentencePrefix;
 
     /**
-     *  Determines if the user is allowed to use italic text in a sentence
+     * Determines if the user is allowed to use italic text in a sentence
      */
     public static AllowanceType allowEmphasis;
-
-
-    //// END NOTES ////
-
-
-    /**
-     *  Determines the type of structure that needs to appear before the user can declare an end notes section.
-     *  This value can be null, if no structure is required to appear before the section.
-     */
-    public static StructureType requiredStructureBeforeEndnotes;
 
 
     //// AUTHORS & ASSESSORS ////
 
 
     /**
-     *  Determines the authors that have worked on the document.
-     *  Note that this only includes the authors of the working document, it does not include authors that
-     *  have been cited from in the document
+     * Determines the authors that have worked on the document.
+     * Note that this only includes the authors of the working document, it does not include authors that
+     * have been cited from in the document
      */
     public static Author[] authors;
 
     /**
-     *  Determines the assessors that may assess the document
+     * Determines the assessors that may assess the document
      */
     public static Assessor[] assessors;
 
@@ -227,16 +220,34 @@ public class Processor {
 
 
     /**
-     *  Determines the date of document publication, which is either given by the user or created by Pipp.
-     *  Note that if the user has explicitly expressed not to display the date, this is null.
+     * Determines the date of document publication, which is either given by the user or created by Pipp.
+     * Note that if the user has explicitly expressed not to display the date, this is null.
      */
     public static LocalDate publicationDate;
 
     /**
-     *  Determines the title of the publication, which in most style guides is put in the header or title page.
-     *  Note that the Title class is taken from the AST package simply to not have to duplicate it.
+     * Determines the title of the publication, which in most style guides is put in the header or title page.
+     * Note that the Title class is taken from the AST package simply to not have to duplicate it.
      */
     public static Title publicationTitle;
+
+    /**
+     * Determines the institution of the publication context.
+     * An example could be "XYZ University".
+     */
+    public static String publicationInstitution;
+
+    /**
+     * Determines the chair of the publication institution.
+     * Note that this should not be allowed to be set if the institution is not set.
+     */
+    public static String publicationChair;
+
+    /**
+     * Determines the semester of the publication context.
+     * This is used academic papers.
+     */
+    public static String publicationSemester;
 
 
     //// Document Body ////
@@ -244,8 +255,26 @@ public class Processor {
 
     public static LinkedList<BodyNode> documentBody = new LinkedList<>();
 
+    // TODO: Change to adapt configurations
+    public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
+        if (paragraphInstruction instanceof frontend.ast.paragraph.Text text) {
+            return new Text(text.getContent(), sentenceFont, sentenceFontSize, sentenceFontColour);
+        } else if (paragraphInstruction instanceof Emphasise emphasis) {
+            if (Processor.allowEmphasis == AllowanceType.NO)
+                throw new ConfigurationException("9: The style guide does not allow the use of emphasis, but you are " +
+                        "trying to emphasise text nonetheless.");
+            else if (Processor.allowEmphasis == AllowanceType.IF_NECESSARY)
+                WarningQueue.enqueue(new SelfCheckWarning("1: You are using a style guide that recommends" +
+                        " only using emphasis if absolutely necessary. Make sure that is the case.", WarningSeverity.LOW));
+
+            return new Text(emphasis.getContent(), emphasisFont, emphasisFontSize, emphasisFontColour);
+        } else if (paragraphInstruction instanceof Work work) {
+            return new Text(work.getWorkContent(), workFont, workFontSize, workFontColour);
+        } else throw new MissingFormatArgumentException("Not implemented");
+    }
+
     /**
-     *  Starts the processing phase by trying to convert the specified AST into usable objects.
+     * Starts the processing phase by trying to convert the specified AST into usable objects.
      *
      * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
      */
@@ -285,7 +314,7 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getHeight().substring(0, layout.getHeight().length() - 2);
-                height = pointsPerInch *  Float.parseFloat(asNumber);
+                height = pointsPerInch * Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
@@ -300,7 +329,7 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getWidth().substring(0, layout.getWidth().length() - 2);
-                width = pointsPerInch *  Float.parseFloat(asNumber);
+                width = pointsPerInch * Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
@@ -319,8 +348,7 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getMargin().substring(0, layout.getMargin().length() - 2);
-                System.out.println(asNumber);
-                margin = pointsPerInch *  Float.parseFloat(asNumber);
+                margin = pointsPerInch * Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
@@ -364,6 +392,20 @@ public class Processor {
                         "have misspelled the numeration position in the configuration.");
             };
         } else numerationPosition = usedStyleGuide.numerationPosition();
+
+        if (numeration.getAuthorLimit() != null) {
+            if (numeration.getAuthorLimit().equals("None")) {
+                numerationLimit = null;
+            } else {
+                try {
+                    var asInt = Integer.parseInt(numeration.getAuthorLimit());
+                    if (asInt < 1) throw new IncorrectFormatException("13: Integer larger than zero expected.");
+                    numerationLimit = asInt;
+                } catch (NumberFormatException e) {
+                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
+                }
+            }
+        } else numerationLimit = usedStyleGuide.numerationLimit();
 
         // Add all pages that the user desires to be skipped when adding the numeration stamp
         skippedPages = new LinkedList<>();
@@ -612,8 +654,7 @@ public class Processor {
                 Processor.authors[i] = newAuthor;
             }
 
-            for (int j = 0; j < i; j++)
-            {
+            for (int j = 0; j < i; j++) {
                 if (Processor.authors[j].nameToString().equals(Processor.authors[i].nameToString())) {
                     WarningQueue.enqueue(new UnlikelinessWarning(
                             "3: Two authors have the same name, which seems unlikely. " +
@@ -665,8 +706,7 @@ public class Processor {
                 Processor.assessors[j] = newAssessor;
             }
 
-            for (int k = 0; k < j; k++)
-            {
+            for (int k = 0; k < j; k++) {
                 if (Processor.assessors[k].nameToString().equals(Processor.assessors[k].nameToString())) {
                     WarningQueue.enqueue(new UnlikelinessWarning(
                             "4: Two assessors have the same name, which seems unlikely. " +
@@ -705,11 +745,32 @@ public class Processor {
                 }
 
                 publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            }
-            else publicationDate = null;
+            } else publicationDate = null;
         } else publicationDate = LocalDate.now();
 
-        publicationTitle = ast.getConfiguration().getPublication().getTitle();
+        publicationTitle = publication.getTitle();
+        publicationInstitution = publication.getInstitution();
+
+        if (publication.getChair() != null && publicationInstitution == null)
+            throw new MissingMemberException("8: Cannot use a publication chair if no publication institution is defined.");
+        else publicationChair = publication.getChair();
+
+        if (publication.getSemester() != null) {
+            publicationSemester = publication.getSemester();
+
+            var nonStandardSemester = (!publicationSemester.startsWith("WS ") && !publicationSemester.startsWith("SS ")) ||
+                    publicationSemester.length() != 7 ||
+                    !Character.isDigit(publicationSemester.charAt(3)) ||
+                    !Character.isDigit(publicationSemester.charAt(4)) ||
+                    !Character.isDigit(publicationSemester.charAt(5)) ||
+                    !Character.isDigit(publicationSemester.charAt(6));
+
+            if (nonStandardSemester)
+                WarningQueue.enqueue(new SelfCheckWarning("2: The semester format used appears to deviate " +
+                        "from the standard \"WS XXXX\" or \"SS XXXX\" where XXXX is the year. While this may not be " +
+                        "an issue in your specific context or country, please self-check the format to ensure it" +
+                        " aligns with your intended representation.", WarningSeverity.LOW));
+        }
 
         if (inchesUsed && mmUsed) WarningQueue.enqueue(new InconsistencyWarning(
                 "3: The style configuration uses both inches and millimeters.",
@@ -723,29 +784,9 @@ public class Processor {
         DocumentCreator.create();
     }
 
-    // TODO: Change to adapt configurations
-    public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
-        if (paragraphInstruction instanceof frontend.ast.paragraph.Text text) {
-            return new Text(text.getContent(), sentenceFont, sentenceFontSize, sentenceFontColour);
-        } else if (paragraphInstruction instanceof Emphasise emphasis) {
-            if (Processor.allowEmphasis == AllowanceType.NO)
-                throw new ConfigurationException("9: The style guide does not allow the use of emphasis, but you are " +
-                        "trying to emphasise text nonetheless.");
-            else if (Processor.allowEmphasis == AllowanceType.IF_NECESSARY)
-                WarningQueue.enqueue(new SelfCheckWarning("1: You are using a style guide that recommends" +
-                        " only using emphasis if absolutely necessary. Make sure that is the case.", WarningSeverity.LOW));
-
-            return new Text(emphasis.getContent(), emphasisFont, emphasisFontSize, emphasisFontColour);
-        } else if (paragraphInstruction instanceof Work work) {
-            return new Text(work.getWorkContent(), workFont, workFontSize, workFontColour);
-        } else throw new MissingFormatArgumentException("Not implemented");
-    }
-
-    private PDFont fontLookUp(String name)
-    {
+    private PDFont fontLookUp(String name) {
         // Check if the user is trying to import a font from their operating system
-        if (name.startsWith("@"))
-        {
+        if (name.startsWith("@")) {
             final String path = "C:\\Windows\\Fonts\\" + name.substring(1) + ".ttf";
             try {
                 return PDType0Font.load(PageAssembler.getDocument(), new File(path));

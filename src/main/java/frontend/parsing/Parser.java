@@ -2,6 +2,7 @@ package frontend.parsing;
 
 import frontend.FrontEndBridge;
 import frontend.ast.AST;
+import frontend.ast.Image;
 import frontend.ast.NoArgumentStructure;
 import frontend.ast.Node;
 import frontend.ast.config.*;
@@ -14,8 +15,8 @@ import lombok.NonNull;
 import processing.StructureType;
 
 /**
- *  The Parser class is responsible for creating a syntax tree for the Pipp document.
- *  It follows the top-down approach by making use of a lookahead in the FrontEndBridge.
+ * The Parser class is responsible for creating a syntax tree for the Pipp document.
+ * It follows the top-down approach by making use of a lookahead in the FrontEndBridge.
  *
  * @version 1.0
  * @since 1.0
@@ -23,61 +24,54 @@ import processing.StructureType;
 public class Parser {
 
     /**
-     *  The bridge is responsible for providing an interface between the Parser and the Scanner
-     *  The Parser can access the tokens scanned by the Scanner, and dequeue them.
-     *  Additionally, the bridge provides a lookahead method, which the Parser uses to look at a
-     *  future token to choose the correct production
+     * The bridge is responsible for providing an interface between the Parser and the Scanner
+     * The Parser can access the tokens scanned by the Scanner, and dequeue them.
+     * Additionally, the bridge provides a lookahead method, which the Parser uses to look at a
+     * future token to choose the correct production
      */
     private final FrontEndBridge frontEndBridge;
-
     /**
-     *  Tracks the current token, which needs to be parsed
+     * The abstract syntax tree of the document.
+     * The parser builds the AST depending on the text specified by the user.
+     */
+    private final AST ast;
+    /**
+     * Tracks the current token, which needs to be parsed
      */
     private Token current;
-
     /**
-     *  Tracks the current paragraph in order to be able to add paragraph instructions to it when parsing
-     *  its children, and then add the paragraph with the child nodes to the document body.
-     *  Note that this should be null when there is no paragraph being parsed.
+     * Tracks the current paragraph in order to be able to add paragraph instructions to it when parsing
+     * its children, and then add the paragraph with the child nodes to the document body.
+     * Note that this should be null when there is no paragraph being parsed.
      */
     private Paragraph currentParagraph;
-
     /**
-     *  Tracks the last token, which has already been parsed.
-     *  It ignores the following "helper" tokens: NewLine, Indentation
+     * Tracks the last token, which has already been parsed.
+     * It ignores the following "helper" tokens: NewLine, Indentation
      */
     private Token last;
-
     /**
-     *  Tracks the node, which was last added to the AST
+     * Tracks the node, which was last added to the AST
      */
     private Node lastNode;
-
     /**
-     *  Keeps track of the currently required indentation level
+     * Keeps track of the currently required indentation level
      */
     private int currentIndentationLevel = 0;
-
     /**
-     *  Marks the currently parsed line for debugging messages
+     * Marks the currently parsed line for debugging messages
      */
     private int currentLine = 0;
-
     /**
-     *  Determines the type of container that is currently being parsed.
-     *  This is used to enable different parts to be parsed by different containers
-     *  (for example, the title configuration)
+     * Determines the type of container that is currently being parsed.
+     * This is used to enable different parts to be parsed by different containers
+     * (for example, the title configuration)
      */
     private String currentlyParsedContainer = "Configuration";
 
     /**
-     *  The abstract syntax tree of the document.
-     *  The parser builds the AST depending on the text specified by the user.
-     */
-    private final AST ast;
-
-    /**
-     *  Creates the parser by supplying the bridge.
+     * Creates the parser by supplying the bridge.
+     *
      * @param frontEndBridge - the bridge between the Scanner and Parser
      */
     public Parser(final FrontEndBridge frontEndBridge) {
@@ -86,8 +80,8 @@ public class Parser {
     }
 
     /**
-     *  Once done parsing, it throws an error if there are still tokens.
-     *  If there are no more tokens, it starts the processing phase, instead.
+     * Once done parsing, it throws an error if there are still tokens.
+     * If there are no more tokens, it starts the processing phase, instead.
      */
     private void finishParsing() {
         if (frontEndBridge.containsTokens()) error();
@@ -96,8 +90,8 @@ public class Parser {
     }
 
     /**
-     *  Tries to parse an INDENT token and checks if its indentation value (amount of tabs) corresponds to the
-     *  required amount. If not, an indentation error is thrown, but if it does, the parser skips to the next token
+     * Tries to parse an INDENT token and checks if its indentation value (amount of tabs) corresponds to the
+     * required amount. If not, an indentation error is thrown, but if it does, the parser skips to the next token
      */
     private void expectIndentation() {
         if (current.type == TokenType.INDENT) {
@@ -113,8 +107,8 @@ public class Parser {
     }
 
     /**
-     *  Decreases the expected indentation level if possible.
-     *  Else, an IllegalStateException is thrown
+     * Decreases the expected indentation level if possible.
+     * Else, an IllegalStateException is thrown
      */
     private void forgoIndentation() {
         if (frontEndBridge.containsTokens()) {
@@ -122,11 +116,11 @@ public class Parser {
                     " to forgo indentation as there is no more indentation");
 
         }
-            currentIndentationLevel--;
+        currentIndentationLevel--;
     }
 
     /**
-     *  Tries to consume the current INDENT token which has the same indentation level as the currently required
+     * Tries to consume the current INDENT token which has the same indentation level as the currently required
      */
     private void remainIndentation() {
         if (frontEndBridge.containsTokens() && currentIndentationLevel > 0) {
@@ -144,11 +138,12 @@ public class Parser {
     }
 
     /**
-     *  Tries to consume to current token by comparing it to the required token.
-     *  If there is no current token, the program is in an illegal state.
-     *  If the required token does not match with the current token, the program entered by the user
-     *  is invalid, and an exception is thrown.
-     *  If the tokens do match, the next token is dequeued in the bridge if it exists.
+     * Tries to consume to current token by comparing it to the required token.
+     * If there is no current token, the program is in an illegal state.
+     * If the required token does not match with the current token, the program entered by the user
+     * is invalid, and an exception is thrown.
+     * If the tokens do match, the next token is dequeued in the bridge if it exists.
+     *
      * @param requiredToken - the required token compared to the current token
      */
     private void consume(final Token requiredToken) {
@@ -167,23 +162,23 @@ public class Parser {
     }
 
     /**
-     *  This method is called whenever a token is specified in a production without having to
-     *  consume a token directly. In that case, an IllegalArgumentException is thrown.
+     * This method is called whenever a token is specified in a production without having to
+     * consume a token directly. In that case, an IllegalArgumentException is thrown.
      */
     private void error() {
         throw new IllegalArgumentException("(Line " + currentLine + ") Unexpected token: " + current);
     }
 
     /**
-     *  This method is called whenever an indentation is expected, but not given by the user
+     * This method is called whenever an indentation is expected, but not given by the user
      */
     private void indendationError() {
         throw new IllegalArgumentException("(Line " + currentLine + ") Indentation error. Current token is: " +
-                current + ". Prior was: " + last + ". The required level is: " + currentIndentationLevel);
+                current + ". Prior was: " + last + ". The required level is: " + (currentIndentationLevel + 1));
     }
 
     /**
-     *  S := Document | epsilon
+     * S := Document | epsilon
      */
     public void s() {
         if (frontEndBridge.containsTokens()) {
@@ -195,7 +190,7 @@ public class Parser {
     }
 
     /**
-     *  Document := ConfigContainer InstructionList | InstructionList
+     * Document := ConfigContainer InstructionList | InstructionList
      */
     private void document() {
         if (isKeyword() && current.value.equals("config")) configContainer();
@@ -212,6 +207,7 @@ public class Parser {
                     case "header" -> header();
                     case "title" -> title();
                     case "blank" -> blank();
+                    case "image" -> image();
                     case "emphasise", "work" -> paragraph();
                     default -> error();
                 }
@@ -219,11 +215,11 @@ public class Parser {
         } while (frontEndBridge.containsTokens() && (current.type == TokenType.TEXT ||
                 current.type == TokenType.NEW_LINE || isKeyword()
                 && (isKeyword("header") || isKeyword("title") || isKeyword("citation") || isKeyword("emphasise")
-                    || isKeyword("work") || isKeyword("blank"))));
+                || isKeyword("work") || isKeyword("blank") || isKeyword("image"))));
     }
 
     /**
-     *  Title := "title" Newline
+     * Title := "title" Newline
      */
     private void title() {
         consumeKeyword("title");
@@ -232,7 +228,7 @@ public class Parser {
     }
 
     /**
-     *  Header := "header" Newline
+     * Header := "header" Newline
      */
     private void header() {
         consumeKeyword("header");
@@ -241,7 +237,7 @@ public class Parser {
     }
 
     /**
-     *  Blank := "blank" Newline
+     * Blank := "blank" Newline
      */
     private void blank() {
         consumeKeyword("blank");
@@ -250,7 +246,105 @@ public class Parser {
     }
 
     /**
-     *  ConfigContainer := "config" Newline INDENT ConfigList DEDENT
+     * Image := "image" NewLine ImageDeclaration | "image" ImageInlineDeclaration
+     */
+    private void image() {
+        consumeKeyword("image");
+        lastNode = new Image();
+
+        if (current.type == TokenType.NEW_LINE) {
+            newline();
+            imageDeclaration();
+        } else if (current.type == TokenType.TEXT) {
+            imageInlineDeclaration();
+        } else error();
+    }
+
+    /**
+     * ImageDeclaration := INDENT ImageID OptionalImageDimensions DEDENT
+     */
+    private void imageDeclaration() {
+        expectIndentation();
+
+        do {
+            if (isKeyword()) {
+                switch (current.value) {
+                    case "id" -> {
+                        consumeKeyword("id");
+                        textual();
+                        ((Image) lastNode).setId(last.value);
+                    }
+                    case "width" -> {
+                        consumeKeyword("width");
+                        textual();
+                        ((Image) lastNode).setWidth(last.value);
+                    }
+                    case "height" -> {
+                        consumeKeyword("height");
+                        textual();
+                        ((Image) lastNode).setHeight(last.value);
+                    }
+                    case "size" -> {
+                        consumeKeyword("size");
+                        textual();
+                        ((Image) lastNode).setSize(last.value);
+                    }
+                    default -> error();
+                }
+
+                if (frontEndBridge.containsTokens()) {
+                    var ahead = frontEndBridge.lookahead(0);
+                    if (ahead.value.equals("id") || ahead.value.equals("width") || ahead.value.equals("height") ||
+                            ahead.value.equals("size"))
+                        remainIndentation();
+                }
+            } else error();
+        } while (frontEndBridge.containsTokens() && isKeyword() && (
+                current.value.equals("id") || current.value.equals("width") || current.value.equals("height") ||
+                        current.value.equals("size")));
+
+        ast.pushDocumentNode((Image) lastNode);
+
+        forgoIndentation();
+    }
+
+    /**
+     * ImageInlineDeclaration := Text (Id) |
+     * Text (Id) ListSeparator Text (Size) |
+     * Text (Id) ListSeparator Text (Width) ListSeparator Text (Height)
+     */
+    private void imageInlineDeclaration() {
+        if (current.type == TokenType.TEXT) {
+            consume(new Token(TokenType.TEXT, null));
+            ((Image) lastNode).setId(last.value);
+
+            if (current.type == TokenType.LIST_SEPARATOR) {
+                consume(new Token(TokenType.LIST_SEPARATOR, ","));
+
+                if (current.type == TokenType.TEXT) {
+                    consume(new Token(TokenType.TEXT, null));
+                    var secondArgument = last.value;
+
+                    if (current.type == TokenType.LIST_SEPARATOR) {
+                        consume(new Token(TokenType.LIST_SEPARATOR, ","));
+                        ((Image) lastNode).setWidth(secondArgument);
+
+                        if (current.type == TokenType.TEXT) {
+                            consume(new Token(TokenType.TEXT, null));
+                            ((Image) lastNode).setHeight(last.value);
+                        } else error();
+                    } else {
+                        ((Image) lastNode).setSize(secondArgument);
+                    }
+                } else error();
+            }
+        } else error();
+
+        ast.pushDocumentNode((Image) lastNode);
+    }
+
+    /**
+     * ConfigContainer := "config" Newline INDENT ConfigList DEDENT
      */
     private void configContainer() {
         consume(new Token(TokenType.KEYWORD, "config"));
@@ -261,7 +355,7 @@ public class Parser {
     }
 
     /**
-     *  ConfigList := Configuration | Configuration ConfigList
+     * ConfigList := Configuration | Configuration ConfigList
      */
     private void configList() {
         do {
@@ -290,15 +384,15 @@ public class Parser {
             } else error();
         } while (frontEndBridge.containsTokens() && isKeyword() && (
                 current.value.equals("style") || current.value.equals("title") || current.value.equals("author") ||
-                current.value.equals("assessor") || current.value.equals("type") ||
+                        current.value.equals("assessor") || current.value.equals("type") ||
                         current.value.equals("publication")));
     }
 
     /**
-     *  PublicationConfiguration := "publication" NewLine INDENT TitleConfiguration DateConfiguration |
-     *                              "publication" NewLine INDENT DateConfiguration TitleConfiguration |
-     *                              "publication" NewLine INDENT TitleConfiguration DEDENT |
-     *                              "publication" NewLine INDENT DateConfiguration DEDENT
+     * PublicationConfiguration := "publication" NewLine INDENT TitleConfiguration DateConfiguration |
+     * "publication" NewLine INDENT DateConfiguration TitleConfiguration |
+     * "publication" NewLine INDENT TitleConfiguration DEDENT |
+     * "publication" NewLine INDENT DateConfiguration DEDENT
      */
     private void publicationConfiguration() {
         currentlyParsedContainer = "publication";
@@ -307,32 +401,37 @@ public class Parser {
         newline();
         expectIndentation();
 
-        if (isKeyword()) {
-            if (current.value.equals("title")) {
-                titleConfiguration();
-
-                if (frontEndBridge.lookahead(0).value.equals("date")) {
-                    remainIndentation();
-                    dateConfiguration();
+        do {
+            if (isKeyword()) {
+                switch (current.value) {
+                    case "title" -> titleConfiguration();
+                    case "date" -> dateConfiguration();
+                    case "institution" -> institutionConfiguration();
+                    case "semester" -> semesterConfiguration();
+                    case "chair" -> chairConfiguration();
+                    default -> error();
                 }
-            } else if (current.value.equals("date")) {
-                dateConfiguration();
 
-                if (frontEndBridge.lookahead(0).value.equals("title")) {
-                    remainIndentation();
-                    titleConfiguration();
+                if (frontEndBridge.containsTokens()) {
+                    var ahead = frontEndBridge.lookahead(0);
+                    if (ahead.value.equals("date") || ahead.value.equals("title") ||
+                            ahead.value.equals("institution") ||
+                            ahead.value.equals("semester") || ahead.value.equals("chair"))
+                        remainIndentation();
                 }
-            }
-        } else error();
+            } else error();
+        } while (frontEndBridge.containsTokens() && isKeyword() && (
+                current.value.equals("title") || current.value.equals("date") || current.value.equals("institution") ||
+                        current.value.equals("semester") || current.value.equals("chair")));
 
         forgoIndentation();
     }
 
     /**
-     *  DateConfiguration := "date" Textual
+     * DateConfiguration := "date" Textual
      */
     private void dateConfiguration() {
-        consume(new Token(TokenType.KEYWORD, "date"));
+        consumeKeyword("date");
         textual();
 
         if (currentlyParsedContainer.equals("publication")) {
@@ -342,7 +441,46 @@ public class Parser {
     }
 
     /**
-     *  TypeConfiguration := "type" Textual
+     * InstitutionConfiguration := "institution" Textual
+     */
+    private void institutionConfiguration() {
+        consumeKeyword("institution");
+        textual();
+
+        if (currentlyParsedContainer.equals("publication")) {
+            ast.getConfiguration().getPublication().setInstitution(last.value);
+            lastNode = ast.getConfiguration().getPublication();
+        }
+    }
+
+    /**
+     * ChairConfiguration := "chair" Textual
+     */
+    private void chairConfiguration() {
+        consumeKeyword("chair");
+        textual();
+
+        if (currentlyParsedContainer.equals("publication")) {
+            ast.getConfiguration().getPublication().setChair(last.value);
+            lastNode = ast.getConfiguration().getPublication();
+        }
+    }
+
+    /**
+     * SemesterConfiguration := "semester" Textual
+     */
+    private void semesterConfiguration() {
+        consumeKeyword("semester");
+        textual();
+
+        if (currentlyParsedContainer.equals("publication")) {
+            ast.getConfiguration().getPublication().setSemester(last.value);
+            lastNode = ast.getConfiguration().getPublication();
+        }
+    }
+
+    /**
+     * TypeConfiguration := "type" Textual
      */
     private void typeConfiguration() {
         consume(new Token(TokenType.KEYWORD, "type"));
@@ -353,7 +491,7 @@ public class Parser {
     }
 
     /**
-     *  AssessorConfiguration := "assessor" NewLine INDENT AssessorSpecification DEDENT | "assessor" Textual
+     * AssessorConfiguration := "assessor" NewLine INDENT AssessorSpecification DEDENT | "assessor" Textual
      */
     private void assessorConfiguration() {
         currentlyParsedContainer = "Assessor";
@@ -376,7 +514,7 @@ public class Parser {
     }
 
     /**
-     *  AssessorSpecification := NameSpecificationWithOptRole | AssessorList
+     * AssessorSpecification := NameSpecificationWithOptRole | AssessorList
      */
     private void assessorSpecification() {
         if (isKeyword()) {
@@ -389,7 +527,7 @@ public class Parser {
     }
 
     /**
-     *  AssessorList := AssessorItem | AssessorItem AssessorList
+     * AssessorList := AssessorItem | AssessorItem AssessorList
      */
     private void assessorList() {
         do {
@@ -440,7 +578,7 @@ public class Parser {
     }
 
     /**
-     *  AuthorConfiguration := "author" INDENT NewLine AuthorSpecification DEDENT | "author" Textual
+     * AuthorConfiguration := "author" INDENT NewLine AuthorSpecification DEDENT | "author" Textual
      */
     private void authorConfiguration() {
         consume(new Token(TokenType.KEYWORD, "author"));
@@ -461,7 +599,7 @@ public class Parser {
     }
 
     /**
-     *  AuthorSpecification := NameSpecificationWithOptID | AuthorList
+     * AuthorSpecification := NameSpecificationWithOptID | AuthorList
      */
     private void authorSpecification() {
         if (isKeyword()) {
@@ -475,7 +613,7 @@ public class Parser {
     }
 
     /**
-     *  AuthorList := AuthorItem | AuthorItem AuthorList
+     * AuthorList := AuthorItem | AuthorItem AuthorList
      */
     private void authorList() {
         do {
@@ -501,13 +639,12 @@ public class Parser {
                         frontEndBridge.lookahead(0).value.equals("of")) {
                     remainIndentation();
                 }
-            }
-            else error();
+            } else error();
         } while (frontEndBridge.containsTokens() && isKeyword() && current.value.equals("of"));
     }
 
     /**
-     *  NameSpecificationWithOptID := NameSpecification | NameSpecification "id" Textual
+     * NameSpecificationWithOptID := NameSpecification | NameSpecification "id" Textual
      */
     private void nameSpecificationWithOptId() {
         nameSpecification();
@@ -524,7 +661,7 @@ public class Parser {
     }
 
     /**
-     *  NameSpecification := Name | FirstName LastName | Title Name | Title FirstName LastName
+     * NameSpecification := Name | FirstName LastName | Title Name | Title FirstName LastName
      */
     private void nameSpecification() {
         String title = null;
@@ -587,7 +724,7 @@ public class Parser {
     }
 
     /**
-     *  FirstName := "firstname" Textual
+     * FirstName := "firstname" Textual
      */
     private void firstname() {
         consume(new Token(TokenType.KEYWORD, "firstname"));
@@ -595,7 +732,7 @@ public class Parser {
     }
 
     /**
-     *  LastName := "lastname" Textual
+     * LastName := "lastname" Textual
      */
     private void lastname() {
         consume(new Token(TokenType.KEYWORD, "lastname"));
@@ -603,7 +740,7 @@ public class Parser {
     }
 
     /**
-     *  Name := "name" Textual
+     * Name := "name" Textual
      */
     private void name() {
         consume(new Token(TokenType.KEYWORD, "name"));
@@ -611,7 +748,7 @@ public class Parser {
     }
 
     /**
-     *  TitleConfiguration := "title" Textual | "title" NewLine INDENT CitedTextual DEDENT
+     * TitleConfiguration := "title" Textual | "title" NewLine INDENT CitedTextual DEDENT
      */
     private void titleConfiguration() {
         consumeKeyword("title");
@@ -631,12 +768,11 @@ public class Parser {
                 ast.getConfiguration().getPublication().getTitle().add(new TitleText(last.value));
                 lastNode = ast.getConfiguration().getPublication().getTitle();
             }
-        }
-        else error();
+        } else error();
     }
 
     /**
-     *  StyleConfiguration := "style" Textual | "style" NewLine INDENT CustomStyle DEDENT
+     * StyleConfiguration := "style" Textual | "style" NewLine INDENT CustomStyle DEDENT
      */
     private void styleConfiguration() {
         consume(new Token(TokenType.KEYWORD, "style"));
@@ -646,8 +782,7 @@ public class Parser {
 
             ast.getConfiguration().getStyle().setBaseStyle(last.value);
             lastNode = ast.getConfiguration().getStyle();
-        }
-        else {
+        } else {
             newline();
             expectIndentation();
             customStyle();
@@ -656,7 +791,7 @@ public class Parser {
     }
 
     /**
-     *  CustomStyle := "of" Textual OptionalCustomStyleList
+     * CustomStyle := "of" Textual OptionalCustomStyleList
      */
     private void customStyle() {
         consume(new Token(TokenType.KEYWORD, "of"));
@@ -670,10 +805,10 @@ public class Parser {
     }
 
     /**
-     *  OptionalCustomStyleList := epsilon | GeneralLayoutStyle | PageNumerationStyle |  StructuresStyle |
-     *                     GeneralLayoutStyle CustomStyleList |
-     *                     PageNumerationStyle CustomStyleList |
-     *                     StructuresStyle | CustomStyleList
+     * OptionalCustomStyleList := epsilon | GeneralLayoutStyle | PageNumerationStyle |  StructuresStyle |
+     * GeneralLayoutStyle CustomStyleList |
+     * PageNumerationStyle CustomStyleList |
+     * StructuresStyle | CustomStyleList
      */
     private void optionalCustomStyleList() {
         if (isKeyword()) {
@@ -695,9 +830,9 @@ public class Parser {
     }
 
     /**
-     *  StructureStyle := "structure" NewLine INDENT ParagraphStructureStyle DEDENT |
-     *                    "structure" NewLine INDENT SentenceStructureStyle DEDENT |
-     *                    "structure" NewLine INDENT EndnotesStructureStyle DEDENT
+     * StructureStyle := "structure" NewLine INDENT ParagraphStructureStyle DEDENT |
+     * "structure" NewLine INDENT SentenceStructureStyle DEDENT |
+     * "structure" NewLine INDENT EndnotesStructureStyle DEDENT
      */
     private void structureStyle() {
         if (isKeyword()) {
@@ -728,7 +863,7 @@ public class Parser {
     }
 
     /**
-     *  SentenceStructureStyle := "sentence" NewLine INDENT SentenceStructureStyleList DEDENT
+     * SentenceStructureStyle := "sentence" NewLine INDENT SentenceStructureStyleList DEDENT
      */
     private void sentenceStructureStyle() {
         currentlyParsedContainer = "Sentence Structure";
@@ -740,7 +875,7 @@ public class Parser {
     }
 
     /**
-     *  WorkStructureStyle := "work" NewLine INDENT WorkStructureStyleList DEDENT
+     * WorkStructureStyle := "work" NewLine INDENT WorkStructureStyleList DEDENT
      */
     private void workStructureStyle() {
         currentlyParsedContainer = "Work Structure";
@@ -752,7 +887,7 @@ public class Parser {
     }
 
     /**
-     *  WorkStructureStyle := "emphasise" NewLine INDENT EmphasisStructureStyleList DEDENT
+     * WorkStructureStyle := "emphasise" NewLine INDENT EmphasisStructureStyleList DEDENT
      */
     private void emphasisStructureStyle() {
         currentlyParsedContainer = "Work Structure";
@@ -765,12 +900,12 @@ public class Parser {
 
     /**
      * SentenceStructureStyleList := "before" Textual SentenceStructureStyleList |
-     *                               "allow" NewLine INDENT SentenceStructureStyleAllowConfiguration
-     *                                  SentenceStructureStyleList DEDENT |
-     *                               "before" Textual |
-     *                               "allow" NewLine SentenceStructureStyleAllowConfiguration |
-     *                               "font" FontConfiguration SentenceStructureStyleAllowConfiguration |
-     *                               "font" FontConfiguration
+     * "allow" NewLine INDENT SentenceStructureStyleAllowConfiguration
+     * SentenceStructureStyleList DEDENT |
+     * "before" Textual |
+     * "allow" NewLine SentenceStructureStyleAllowConfiguration |
+     * "font" FontConfiguration SentenceStructureStyleAllowConfiguration |
+     * "font" FontConfiguration
      */
     private void sentenceStructureStyleList() {
         if (isKeyword()) {
@@ -796,7 +931,7 @@ public class Parser {
     }
 
     /**
-     *  Font := "font" NewLine INDENT FontStyleList DEDENT
+     * Font := "font" NewLine INDENT FontStyleList DEDENT
      */
     private void font() {
         consume(new Token(TokenType.KEYWORD, "font"));
@@ -828,8 +963,7 @@ public class Parser {
                     consume(new Token(TokenType.KEYWORD, "allow"));
                     textual();
                     ast.getConfiguration().getStyle().getStructure().getEmphasis().setAllowEmphasis(last.value);
-                }
-                else error();
+                } else error();
 
                 if (frontEndBridge.containsTokens()) {
                     var ahead = frontEndBridge.lookahead(0);
@@ -840,7 +974,7 @@ public class Parser {
     }
 
     /**
-     *  ParagraphStructureStyle := "paragraph" NewLine INDENT "indentation" Textual DEDENT
+     * ParagraphStructureStyle := "paragraph" NewLine INDENT "indentation" Textual DEDENT
      */
     private void paragraphStructureStyle() {
         consume(new Token(TokenType.KEYWORD, "paragraph"));
@@ -858,10 +992,10 @@ public class Parser {
     }
 
     /**
-     *  FontStyleList := "name" Textual FontStyleList |
-     *                   "size" Textual FontStyleList |
-     *                   "colour" Textual FontStyleList |
-     *                   "name" Textual | "size" Textual | "colour" Textual
+     * FontStyleList := "name" Textual FontStyleList |
+     * "size" Textual FontStyleList |
+     * "colour" Textual FontStyleList |
+     * "name" Textual | "size" Textual | "colour" Textual
      */
     private void fontStyleList() {
         if (isKeyword()) {
@@ -925,7 +1059,7 @@ public class Parser {
     }
 
     /**
-     *  PageNumerationStyle := "numeration" NewLine INDENT PageNumerationStyleList DEDENT
+     * PageNumerationStyle := "numeration" NewLine INDENT PageNumerationStyleList DEDENT
      */
     private void pageNumerationStyle() {
         currentlyParsedContainer = "Numeration";
@@ -938,13 +1072,13 @@ public class Parser {
     }
 
     /**
-     *  PageNumerationStyleList := "in" Textual PageNumerationStyleList |
-     *                             "display" Textual PageNumerationStyleList |
-     *                             "margin" Textual PageNumerationStyleList |
-     *                             "skip" TextualList PageNumerationStyleList |
-     *                             "author" AuthorNameType PageNumerationStyleList |
-     *                             "in" Textual | "display" Textual | "margin" Textual | "skip" TextualList |
-     *                                  "author" AuthorNameType
+     * PageNumerationStyleList := "in" Textual PageNumerationStyleList |
+     * "display" Textual PageNumerationStyleList |
+     * "margin" Textual PageNumerationStyleList |
+     * "skip" TextualList PageNumerationStyleList |
+     * "author" AuthorNameType PageNumerationStyleList |
+     * "in" Textual | "display" Textual | "margin" Textual | "skip" TextualList |
+     * "author" AuthorNameType
      */
     private void pageNumerationStyleList() {
         if (isKeyword()) {
@@ -959,6 +1093,11 @@ public class Parser {
                         consumeKeyword("display");
                         textual();
                         ast.getConfiguration().getStyle().getNumeration().setPosition(last.value);
+                    }
+                    case "limit" -> {
+                        consumeKeyword("limit");
+                        textual();
+                        ast.getConfiguration().getStyle().getNumeration().setAuthorLimit(last.value);
                     }
                     case "margin" -> {
                         consumeKeyword("margin");
@@ -980,17 +1119,17 @@ public class Parser {
 
                 if (frontEndBridge.containsTokens()) {
                     var ahead = frontEndBridge.lookahead(0);
-                    if (ahead.value.equals("in") || ahead.value.equals("display") ||
+                    if (ahead.value.equals("in") || ahead.value.equals("display") || ahead.value.equals("limit") ||
                             ahead.value.equals("margin") || ahead.value.equals("skip") || ahead.value.equals("author"))
                         remainIndentation();
                 }
-            } while (current.value.equals("in") || current.value.equals("display") ||
+            } while (current.value.equals("in") || current.value.equals("display") || current.value.equals("limit") ||
                     current.value.equals("margin") || current.value.equals("skip") || current.value.equals("author"));
         } else error();
     }
 
     /**
-     *  AuthorNameType := "firstname" | "lastname" | "name" | Textual
+     * AuthorNameType := "firstname" | "lastname" | "name" | Textual
      */
     private void authorNameType() {
         if (isKeyword()) {
@@ -1008,7 +1147,7 @@ public class Parser {
     }
 
     /**
-     *  GeneralLayoutStyle := "layout" NewLine INDENT LayoutStyleList DEDENT
+     * GeneralLayoutStyle := "layout" NewLine INDENT LayoutStyleList DEDENT
      */
     private void generalLayoutStyle() {
         consumeKeyword("layout");
@@ -1019,11 +1158,11 @@ public class Parser {
     }
 
     /**
-     *  LayoutStyleList := "width" Textual | "height" Textual | "margin" Textual | "spacing" Textual |
-     *                     "width" Textual LayoutStyleList |
-     *                     "height" Textual LayoutStyleList |
-     *                     "margin" Textual LayoutStyleList |
-     *                     "spacing" Textual LayoutStyleList
+     * LayoutStyleList := "width" Textual | "height" Textual | "margin" Textual | "spacing" Textual |
+     * "width" Textual LayoutStyleList |
+     * "height" Textual LayoutStyleList |
+     * "margin" Textual LayoutStyleList |
+     * "spacing" Textual LayoutStyleList
      */
     private void layoutStyleList() {
         if (isKeyword()) {
@@ -1066,7 +1205,7 @@ public class Parser {
     }
 
     /**
-     *  TitleTextual := Text TitleTextual | Emphasis TitleTextual | Work TitleTextual | Textual | Emphasis | Work
+     * TitleTextual := Text TitleTextual | Emphasis TitleTextual | Work TitleTextual | Textual | Emphasis | Work
      */
     private void titleTextual() {
         var wasFirst = true;
@@ -1088,13 +1227,13 @@ public class Parser {
                 lastNode = titleText;
             } else error();
         } while (frontEndBridge.containsTokens() && (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
-            (frontEndBridge.lookahead(0).value.equals("emphasise") ||
-            frontEndBridge.lookahead(0).value.equals("work")) ||
-            frontEndBridge.lookahead(0).type == TokenType.TEXT));
+                (frontEndBridge.lookahead(0).value.equals("emphasise") ||
+                        frontEndBridge.lookahead(0).value.equals("work")) ||
+                frontEndBridge.lookahead(0).type == TokenType.TEXT));
     }
 
     /**
-     *  Emphasis := "emphasise" Textual
+     * Emphasis := "emphasise" Textual
      */
     private void emphasis() {
         consumeKeyword("emphasise");
@@ -1115,7 +1254,7 @@ public class Parser {
     }
 
     /**
-     *  Work := "work" Textual
+     * Work := "work" Textual
      */
     private void work() {
         consumeKeyword("work");
@@ -1128,7 +1267,8 @@ public class Parser {
             switch (currentlyParsedContainer) {
                 case "Document Title" -> ast.getConfiguration().getTitle().add(titleText);
                 case "publication" -> ast.getConfiguration().getPublication().getTitle().add(titleText);
-                case "paragraph" -> currentParagraph.enqueueParagraphInstruction(new frontend.ast.paragraph.Work(last.value));
+                case "paragraph" ->
+                        currentParagraph.enqueueParagraphInstruction(new frontend.ast.paragraph.Work(last.value));
             }
 
             lastNode = titleText;
@@ -1136,7 +1276,7 @@ public class Parser {
     }
 
     /**
-     *  Paragraph := ParagraphInstruction+ NewLine
+     * Paragraph := ParagraphInstruction+ NewLine
      */
     private void paragraph() {
         currentParagraph = new Paragraph();
@@ -1153,7 +1293,7 @@ public class Parser {
     }
 
     /**
-     *  ParagraphInstruction := Textual | Emphasis | Work | Citation
+     * ParagraphInstruction := Textual | Emphasis | Work | Citation
      */
     private void paragraphInstruction() {
         if (current.type == TokenType.TEXT) {
@@ -1173,14 +1313,14 @@ public class Parser {
     }
 
     /**
-     *  Citation := KeywordCitation | ShorthandCitation
+     * Citation := KeywordCitation | ShorthandCitation
      */
     private void citation() {
 
     }
 
     /**
-     *  Textual := Text Newline
+     * Textual := Text Newline
      */
     private void textual() {
         consume(new Token(TokenType.TEXT, null));
@@ -1188,7 +1328,7 @@ public class Parser {
     }
 
     /**
-     *  TextualList := Textual | Textual "," TextualList
+     * TextualList := Textual | Textual "," TextualList
      */
     private void textualList() {
         textual();
@@ -1204,21 +1344,23 @@ public class Parser {
     }
 
     /**
-     *  NewLine := "NewLine" | epsilon
+     * NewLine := "NewLine" | epsilon
      */
     private void newline() {
         if (frontEndBridge.containsTokens()) consume(new Token(TokenType.NEW_LINE, null));
     }
 
     /**
-     *  Returns true if the current token is a KEYWORD token
+     * Returns true if the current token is a KEYWORD token
      *
      * @return - true if the current type is KEYWORD, false if not
      */
-    private boolean isKeyword() { return current.type == TokenType.KEYWORD; }
+    private boolean isKeyword() {
+        return current.type == TokenType.KEYWORD;
+    }
 
     /**
-     *  Returns true if the current token is a keyword, which is equal to the specified keyword
+     * Returns true if the current token is a keyword, which is equal to the specified keyword
      *
      * @param keyword - the keyword that should be matched against the current token value
      * @return - true if the keyword equals the specified keyword, false else
@@ -1228,8 +1370,8 @@ public class Parser {
     }
 
     /**
-     *  Simple helper method to consume the specified keyword.
-     *  Note that this method does NOT throw state exceptions!
+     * Simple helper method to consume the specified keyword.
+     * Note that this method does NOT throw state exceptions!
      *
      * @param keyword - the keyword that should be consumed
      */

@@ -2,45 +2,46 @@ package creation;
 
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.PDPage;
-import processing.*;
+import processing.Author;
+import processing.NumerationAuthorName;
+import processing.Processor;
 
 import java.util.List;
+import java.util.Stack;
 import java.util.TreeMap;
 
-import java.util.Stack;
-
 /**
- *  Used to add a stamp to the current page rendering the current page number and author
+ * Used to add a stamp to the current page rendering the current page number and author
  *
  * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 public class PageNumberStamp {
 
     /**
-     *  Contains a reference to all page instances, which have already been stamped.
-     *  If trying to stamp a page object, which exists on the stack, an exception is thrown.
+     * Contains a reference to all page instances, which have already been stamped.
+     * If trying to stamp a page object, which exists on the stack, an exception is thrown.
      */
     private static final Stack<PDPage> stampedPages = new Stack<>();
 
     /**
-     *  Contains the page number that should be rendered next.
-     *  If a page is skipped, the value is NOT incremented, which means that the next page after a skipped page
-     *  receives the page number, the skipped page would have received.
+     * Contains the page number that should be rendered next.
+     * If a page is skipped, the value is NOT incremented, which means that the next page after a skipped page
+     * receives the page number, the skipped page would have received.
      */
     private static int nextNumber = 1;
 
     /**
-     *  The number index is ALWAYS incremented, even if the page is skipped.
-     *  This is used to address and identify the individual pages.
+     * The number index is ALWAYS incremented, even if the page is skipped.
+     * This is used to address and identify the individual pages.
      */
     private static int numberIndex = 1;
 
     /**
-     *  Adds a page number stamp to the current page.
-     *  Throws an exception if there is no current page, the page has already been stamped or if the stamp
-     *  could not be applied caused by an IOException.
+     * Adds a page number stamp to the current page.
+     * Throws an exception if there is no current page, the page has already been stamped or if the stamp
+     * could not be applied caused by an IOException.
      */
     @NonNull
     public static void stampCurrentPage() {
@@ -56,61 +57,64 @@ public class PageNumberStamp {
 
         // Do not stamp the page if the "actual" page is included in the skipped pages list
         if (!Processor.skippedPages.contains(numberIndex)) {
-                // Contains the displayed name of the author(s), which is added before the page number
-                final var authorNamePrefixBuilder = new StringBuilder();
+            // Contains the displayed name of the author(s), which is added before the page number
+            final var authorNamePrefixBuilder = new StringBuilder();
 
-                String firstAuthorName = null;
+            String firstAuthorName = null;
 
-                // The names should only be displayed if there are authors configured in the first place
-                if (Processor.numerationAuthorName != NumerationAuthorName.NONE) {
-                    Author[] authors = Processor.authors;
-                    for (int i = 0; i < authors.length; i++) {
-                        var author = authors[i];
-                        final String authorPrefix = switch (Processor.numerationAuthorName) {
-                            case FIRST_NAME -> author.getFirstname();
-                            case LAST_NAME -> author.getLastname();
-                            case NAME -> author.getFirstname() + " " + author.getLastname();
-                            case FULL_NAME -> author.nameToString();
-                            default ->
-                                    throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
-                        };
+            // The names should only be displayed if there are authors configured in the first place
+            if (Processor.numerationAuthorName != NumerationAuthorName.NONE) {
+                Author[] authors = Processor.authors;
+                for (int i = 0; i < authors.length; i++) {
+                    var author = authors[i];
+                    final String authorPrefix = switch (Processor.numerationAuthorName) {
+                        case FIRST_NAME -> author.getFirstname();
+                        case LAST_NAME -> author.getLastname();
+                        case NAME -> author.getFirstname() + " " + author.getLastname();
+                        case FULL_NAME -> author.nameToString();
+                        default ->
+                                throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
+                    };
 
-                        authorNamePrefixBuilder.append(authorPrefix);
+                    authorNamePrefixBuilder.append(authorPrefix);
 
-                        if (i != authors.length - 1) authorNamePrefixBuilder.append(", ");
+                    if (i != authors.length - 1) authorNamePrefixBuilder.append(", ");
 
-                        if (i == 0) firstAuthorName = authorPrefix;
-                    }
+                    if (i == 0) firstAuthorName = authorPrefix;
                 }
+            }
 
-                // Contains the page number as a string in the desired numeral system
-                final String pageString = switch (Processor.numerationType) {
-                    case ARABIC -> String.valueOf(nextNumber);
-                    case ROMAN -> arabicToRoman(nextNumber);
-                };
+            // Contains the page number as a string in the desired numeral system
+            final String pageString = switch (Processor.numerationType) {
+                case ARABIC -> String.valueOf(nextNumber);
+                case ROMAN -> arabicToRoman(nextNumber);
+            };
 
-                // Contains the entire text as one string (the author texts and page number)
-                final String content = authorNamePrefixBuilder + " " + pageString;
+            // Contains the entire text as one string (the author texts and page number)
+            final String content = authorNamePrefixBuilder + " " + pageString;
 
-                var asText = new Text(content, Processor.sentenceFont,
-                        Processor.sentenceFontSize, Processor.sentenceFontColour);
+            var asText = new Text(content, Processor.sentenceFont,
+                    Processor.sentenceFontSize, Processor.sentenceFontColour);
 
-                // Calculates the starting x position of the text
-                final TextAlignment alignment = switch (Processor.numerationPosition) {
-                    case TOP_LEFT, BOTTOM_LEFT -> TextAlignment.LEFT;
-                    case TOP_RIGHT, BOTTOM_RIGHT -> TextAlignment.RIGHT;
-                    case TOP, BOTTOM -> TextAlignment.CENTER;
-                };
+            // Calculates the starting x position of the text
+            final TextAlignment alignment = switch (Processor.numerationPosition) {
+                case TOP_LEFT, BOTTOM_LEFT -> TextAlignment.LEFT;
+                case TOP_RIGHT, BOTTOM_RIGHT -> TextAlignment.RIGHT;
+                case TOP, BOTTOM -> TextAlignment.CENTER;
+            };
 
-                // Calculates the starting y position of the text
-                final float y = switch (Processor.numerationPosition) {
-                    // If the numeration should be rendered at the top, start at the numeration margin from the top
-                    case TOP, TOP_LEFT, TOP_RIGHT -> page.getMediaBox().getHeight() - Processor.numerationMargin;
+            // Calculates the starting y position of the text
+            final float y = switch (Processor.numerationPosition) {
+                // If the numeration should be rendered at the top, start at the numeration margin from the top
+                case TOP, TOP_LEFT, TOP_RIGHT -> page.getMediaBox().getHeight() - Processor.numerationMargin;
 
-                    // Else, start at the numeration margin from the bottom
-                    case BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT -> Processor.numerationMargin;
-                };
+                // Else, start at the numeration margin from the bottom
+                case BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT -> Processor.numerationMargin;
+            };
 
+            var pageText = new Text(pageString, asText.getFont(), asText.getFontSize(), asText.getFontColour());
+
+            if (Processor.numerationLimit == null) {
                 if (TextRenderer.textFitsInOneLine(asText)) {
                     TextRenderer.renderNoContentText(List.of(asText), alignment, y);
                 } else if (Processor.authors.length > 1 && Processor.numerationAuthorName != NumerationAuthorName.NONE) {
@@ -120,17 +124,32 @@ public class PageNumberStamp {
                     // Check if the first name and et al. would fit in one line
                     if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
                         TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y);
-                    // If not, only the page number is rendered
-                    else
-                    {
-                        var pageText = new Text(pageString, asText.getFont(), asText.getFontSize(),
-                                asText.getFontColour());
+                        // If not, only the page number is rendered
+                    else {
                         TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
                     }
                 }
+            } else {
+                if (Processor.authors.length > Processor.numerationLimit) {
+                    var firstAuthorOnlyText = new Text(firstAuthorName + " et al. " + pageString,
+                            asText.getFont(), asText.getFontSize(), asText.getFontColour());
 
-                // Increment the page number (only if this page was not skipped)
-                nextNumber++;
+                    // Check if the first name and et al. would fit in one line
+                    if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
+                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y);
+                        // If not, only the page number is rendered
+                    else {
+                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
+                    }
+                } else if (TextRenderer.textFitsInOneLine(asText)) {
+                    TextRenderer.renderNoContentText(List.of(asText), alignment, y);
+                } else {
+                    TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
+                }
+            }
+
+            // Increment the page number (only if this page was not skipped)
+            nextNumber++;
         }
 
         // Even if the page was skipped, increment the number index, which is needed for addressing the pages
@@ -141,7 +160,7 @@ public class PageNumberStamp {
     }
 
     /**
-     *  Translates a number using arabic numerals into a number using Roman numerals
+     * Translates a number using arabic numerals into a number using Roman numerals
      *
      * @param number - the number in arabic numerals (1,2,5,...)
      * @return - the number in Roman numerals (I, II, V, ...)
@@ -163,7 +182,7 @@ public class PageNumberStamp {
         map.put(4, "IV");
         map.put(1, "I");
 
-        int floored =  map.floorKey(number);
+        int floored = map.floorKey(number);
         return number == floored
                 ? map.get(number)
                 : map.get(floored) + arabicToRoman(number - floored);

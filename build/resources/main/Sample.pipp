@@ -1,10 +1,11 @@
 config
 	author
-		of "Max Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1Mustermann1"
-		of "Max Mustermann2"
-		of "Max Mustermann3"
-		of "Max Mustermann4"
-		of "Max Mustermann5"
+		of "Max Mustermann"
+	publication
+		institution "TU Dortmund"
+		chair "Anglistik und Amerikanistik"
+		title "English 101"
+		semester "WS 2014"
 header
 
 
@@ -18,7 +19,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 "Im Abenteuerbuch"
 work "Buchname"
 "geht es um die ..."
-
 
 "
 If this line
