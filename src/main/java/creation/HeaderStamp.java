@@ -61,7 +61,7 @@ public class HeaderStamp {
                                             " is not yet supported!");
                             })
                             .toList(),
-                    TextAlignment.LEFT
+                    ContentAlignment.LEFT
             );
         }
 

@@ -16,7 +16,7 @@ public class ParagraphStamp {
             texts.add(Processor.paragraphInstructionToText(instruction));
         }
 
-        TextRenderer.renderText(texts, TextAlignment.LEFT);
+        TextRenderer.renderText(texts, ContentAlignment.LEFT);
     }
 
 }

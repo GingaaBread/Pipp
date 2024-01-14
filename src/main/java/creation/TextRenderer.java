@@ -10,62 +10,62 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *  The TextRenderer class is an essential part of the document creation process, used to render formatted text
- *  to the document. It offers an automatic format depending on the used style configuration, which
- *  takes margin, leading, and other factors into consideration, and allows aligning the text to a specific
- *  position within the document. Furthermore, multiple text styles can be used in the same line.
+ * The TextRenderer class is an essential part of the document creation process, used to render formatted text
+ * to the document. It offers an automatic format depending on the used style configuration, which
+ * takes margin, leading, and other factors into consideration, and allows aligning the text to a specific
+ * position within the document. Furthermore, multiple text styles can be used in the same line.
  *
  * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 public class TextRenderer {
 
     /**
-     *  Shorthand method to render text to the current y position of the page.
+     * Shorthand method to render text to the current y position of the page.
      *
      * @param textComponentsToRender - the text components that should be rendered on the page
-     * @param alignment - the text alignment that should be used for the rendered text
+     * @param alignment              - the text alignment that should be used for the rendered text
      */
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
-                                  @NonNull final TextAlignment alignment) {
+                                  @NonNull final ContentAlignment alignment) {
         renderText(textComponentsToRender, alignment, PageCreator.currentYPosition);
     }
 
     /**
-     *  Utility method to automatically render normal text aligned left.
-     *  Renders the specified text on the current page, using the page's current y position as the starting y
-     *  position, and the style's margin as the starting x position. Takes leading into consideration.
-     *  Cuts the individual words using the space as the splitting character
+     * Utility method to automatically render normal text aligned left.
+     * Renders the specified text on the current page, using the page's current y position as the starting y
+     * position, and the style's margin as the starting x position. Takes leading into consideration.
+     * Cuts the individual words using the space as the splitting character
      *
      * @param text - the text that should be rendered on the page
      */
     public static void renderLeftAlignedText(@NonNull final String text) {
         renderText(List.of(new Text(text, Processor.sentenceFont, Processor.sentenceFontSize, Processor.sentenceFontColour)),
-                TextAlignment.LEFT);
+                ContentAlignment.LEFT);
     }
 
     /**
      * Used to render text components using the specified alignment in the document without registering them as content
      * of the current page. This can be useful to ignore certain texts, such as the page number, from affecting whether
      * there is content on the current page.
-     Renders the specified text on the current page, using the page's current y position as the starting y
-     *  position, and the style's margin as the starting x position. Takes leading into consideration.
-     *  Cuts the individual words using the space as the splitting character.
-     *  Note that the method does not change the strings in any way.
+     * Renders the specified text on the current page, using the page's current y position as the starting y
+     * position, and the style's margin as the starting x position. Takes leading into consideration.
+     * Cuts the individual words using the space as the splitting character.
+     * Note that the method does not change the strings in any way.
      *
      * @param textComponentsToRender - the text components that should be rendered on the page
-     * @param alignment - the text alignment that should be used for the rendered text
+     * @param alignment              - the text alignment that should be used for the rendered text
      */
     public static void renderNoContentText(@NonNull final List<Text> textComponentsToRender,
-                                           @NonNull final TextAlignment alignment,
+                                           @NonNull final ContentAlignment alignment,
                                            final float startY) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
-            final float leading = 1.2f * Processor.sentenceFontSize * Processor.spacing;
+            final float leading = Processor.getLeading();
 
             // Determines how much space the text can take up, by subtracting the margin for both sides
-            final float availableWidth = Processor.dimensions.getWidth() - 2 * Processor.margin;
+            final float availableWidth = Processor.getAvailableContentWidth();
             float maximumWidth = availableWidth;
             float currentLineWidth = 0, lastXOffset = 0;
 
@@ -126,7 +126,7 @@ public class TextRenderer {
                     // If the word does not fit in the current line, render the line and start a new line
                     else if (wordWidth > maximumWidth) {
                         // When trying to center the text, we first need to calculate the total width for our offset
-                        if (alignment == TextAlignment.CENTER) {
+                        if (alignment == ContentAlignment.CENTER) {
                             final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() -
                                     currentLineWidth) / 2 - Processor.margin;
                             contentStream.newLineAtOffset(-lastXOffset, 0);
@@ -206,7 +206,7 @@ public class TextRenderer {
             // If there is still one last remaining line, it should be displayed
             if (rest.isEmpty()) {
                 // When trying to center the text, we first need to calculate the total width for our offset
-                if (alignment == TextAlignment.CENTER) {
+                if (alignment == ContentAlignment.CENTER) {
                     final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() - currentLineWidth) / 2
                             - Processor.margin;
                     contentStream.newLineAtOffset(xOffset, 0);
@@ -264,17 +264,17 @@ public class TextRenderer {
     }
 
     /**
-     *  Base method to render text components in the specified alignment in the document.
-     *  Renders the specified text on the current page, using the page's current y position as the starting y
-     *  position, and the style's margin as the starting x position. Takes leading into consideration.
-     *  Cuts the individual words using the space as the splitting character.
-     *  Note that the method does not change the strings in any way.
+     * Base method to render text components in the specified alignment in the document.
+     * Renders the specified text on the current page, using the page's current y position as the starting y
+     * position, and the style's margin as the starting x position. Takes leading into consideration.
+     * Cuts the individual words using the space as the splitting character.
+     * Note that the method does not change the strings in any way.
      *
      * @param textComponentsToRender - the text components that should be rendered on the page
-     * @param alignment - the text alignment that should be used for the rendered text
+     * @param alignment              - the text alignment that should be used for the rendered text
      */
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
-                                  @NonNull final TextAlignment alignment,
+                                  @NonNull final ContentAlignment alignment,
                                   final float startY) {
         renderNoContentText(textComponentsToRender, alignment, startY);
 
@@ -283,8 +283,9 @@ public class TextRenderer {
     }
 
     /**
-     *  Returns true if the specified text (a string in a certain font and font size) can be rendered in a single line
-     *  or not. Note that this does not render the text, but simply checks if it could be rendered in one line.
+     * Returns true if the specified text (a string in a certain font and font size) can be rendered in a single line
+     * or not. Note that this does not render the text, but simply checks if it could be rendered in one line.
+     *
      * @param asText the non-null text component that should be checked
      * @return true - if the text would fit in one line; false - if it would not
      */

@@ -273,6 +273,14 @@ public class Processor {
         } else throw new MissingFormatArgumentException("Not implemented");
     }
 
+    public static float getLeading() {
+        return 1.2f * Processor.sentenceFontSize * Processor.spacing;
+    }
+
+    public static float getAvailableContentWidth() {
+        return Processor.dimensions.getWidth() - 2 * Processor.margin;
+    }
+
     /**
      * Starts the processing phase by trying to convert the specified AST into usable objects.
      *

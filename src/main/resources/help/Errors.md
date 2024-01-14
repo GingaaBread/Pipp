@@ -407,6 +407,26 @@ A chair is a subtype of an institution (for example, a faculty of a university),
 institution if you want to use the chair attribute. To fix this error, either remove the publication chair configuration
 or include a publication institution configuration.
 
+### 329
+
+*Description:*
+Image with the image id '[ID]' does not exist in the img/ folder. Make sure it also has its file ending defined.
+
+*Cause*:
+This error occurs when trying to use render an image using the `image` instruction, but its identifier does not exist
+in the `img/` image source folder. Note that the identifier must also include the file ending, including the `.`, in
+order to be referenced.
+
+*Example:*
+
+```pipp
+img "I do not exist in img/"
+```
+
+*Fix:*
+Check if the identifier you have defined in the `image` instruction exactly matches the name of the image file in the
+`img/` folder. Then make sure both file endings are the same. Note the case sensitivity.
+
 ## 3.3 Incorrect Format Errors
 
 ### 331
@@ -721,3 +741,76 @@ config
 
 *Fix:*
 Use either `firstname`, `lastname`, `name` or `"None"`.
+
+### 3315
+
+*Description:*
+Positive integer percentage expected.
+
+*Cause*:
+This error occurs when a positive integer percentage expected, but the input is zero, negative, not an integer, or
+does not end with the `%` percentage character.
+
+*Examples:*
+
+```pipp
+img
+    id "Dog.png"
+    size "25 percent"
+#   Should be "25%"
+```
+
+```pipp
+img
+    id "Dog.png"
+    size "0%"
+#   Should be more than 0
+```
+
+```pipp
+img
+    id "Dog.png"
+    size "-25%"
+#   Should be more than 0
+```
+
+*Fix:*
+Use the proper percentage format `x%`, where x is a positive integer.
+
+## 3.4 Content Errors
+
+### 3341
+
+*Description:*
+Image with ID '[ID]' is too large to fit on a single page.
+
+*Cause*:
+This error occurs when trying to render an image that would be too large to fit on a single page. This takes into
+consideration leading and layout margins.
+
+*Example:*
+
+```pipp
+img "VeryLarge.png"
+```
+
+*Fix:*
+Resize the image using either `size` or `width` / `height`, or change the `layout` dimensions.
+
+### 3342
+
+*Description:*
+Image with ID '[ID]' is too wide to fit on a page.
+
+*Cause*:
+This error occurs when trying to render an image that would be too wide to fit on the current page. This takes into
+consideration leading and layout margins. The available width is less than the width of the image.
+
+*Example:*
+
+```pipp
+img "VeryWide.png"
+```
+
+*Fix:*
+Resize the image using either `size` or `width` / `height`, or change the `layout` dimensions.

@@ -97,10 +97,10 @@ public class PageNumberStamp {
                     Processor.sentenceFontSize, Processor.sentenceFontColour);
 
             // Calculates the starting x position of the text
-            final TextAlignment alignment = switch (Processor.numerationPosition) {
-                case TOP_LEFT, BOTTOM_LEFT -> TextAlignment.LEFT;
-                case TOP_RIGHT, BOTTOM_RIGHT -> TextAlignment.RIGHT;
-                case TOP, BOTTOM -> TextAlignment.CENTER;
+            final ContentAlignment alignment = switch (Processor.numerationPosition) {
+                case TOP_LEFT, BOTTOM_LEFT -> ContentAlignment.LEFT;
+                case TOP_RIGHT, BOTTOM_RIGHT -> ContentAlignment.RIGHT;
+                case TOP, BOTTOM -> ContentAlignment.CENTER;
             };
 
             // Calculates the starting y position of the text
