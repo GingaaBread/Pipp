@@ -127,12 +127,15 @@ public class Scanner {
         charInLine++;
 
         // Starts ignoring the line if the first character of a line is a comment (#)
-        if (charInLine == 1 && current == '#') inComment = true;
+        if (charInLine == 1 && current == '#') {
+            inComment = true;
+            charInLine = 0;
+        }
 
-            // Marks the end of a comment if the new line character is scanned
+        // Marks the end of a comment if the new line character is scanned
         else if (inComment && current == '\n') {
             inComment = false;
-            charInLine = 1;
+            charInLine = 0;
         }
 
         // Ignores all input if in a comment or if scanning a carriage return character
