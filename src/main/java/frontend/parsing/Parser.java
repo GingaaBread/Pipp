@@ -289,19 +289,24 @@ public class Parser {
                         textual();
                         ((Image) lastNode).setSize(last.value);
                     }
+                    case "display" -> {
+                        consumeKeyword("display");
+                        textual();
+                        ((Image) lastNode).setAlignment(last.value);
+                    }
                     default -> error();
                 }
 
                 if (frontEndBridge.containsTokens()) {
                     var ahead = frontEndBridge.lookahead(0);
                     if (ahead.value.equals("id") || ahead.value.equals("width") || ahead.value.equals("height") ||
-                            ahead.value.equals("size"))
+                            ahead.value.equals("size") || ahead.value.equals("display"))
                         remainIndentation();
                 }
             } else error();
         } while (frontEndBridge.containsTokens() && isKeyword() && (
                 current.value.equals("id") || current.value.equals("width") || current.value.equals("height") ||
-                        current.value.equals("size")));
+                        current.value.equals("size") || current.value.equals("display")));
 
         ast.pushDocumentNode((Image) lastNode);
 

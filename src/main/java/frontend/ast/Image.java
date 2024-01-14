@@ -6,6 +6,7 @@ import error.IncorrectFormatException;
 import error.MissingMemberException;
 import lombok.Getter;
 import lombok.Setter;
+import processing.Processor;
 
 @Getter
 @Setter
@@ -33,6 +34,11 @@ public class Image extends BodyNode {
      */
     private String size;
 
+    /**
+     * The alignment of the image. If not used, the default image alignment type of the style guide is used.
+     */
+    private String alignment;
+
     @Override
     public void handleBodyElement() {
         Integer imageSize = null;
@@ -51,7 +57,60 @@ public class Image extends BodyNode {
             }
         }
 
-        ImageRenderer.render(id, ContentAlignment.CENTER, imageSize);
+        Float imageWidth = null;
+        if (width != null) {
+            if (width.isBlank()) throw new MissingMemberException("1: A text component cannot be blank");
+
+            try {
+                float unit;
+                if (width.endsWith("in")) {
+                    width = width.substring(0, width.length() - 2);
+                    unit = Processor.getPointsPerInch();
+                } else {
+                    unit = Processor.getPointsPerMM();
+                }
+
+                float asNumber = Float.parseFloat(width);
+                if (asNumber < 0) throw new IncorrectFormatException("2: Non-negative decimal expected.");
+                else imageWidth = asNumber * unit;
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("2: Non-negative decimal expected.");
+            }
+        }
+
+        Float imageHeight = null;
+        if (height != null) {
+            if (height.isBlank()) throw new MissingMemberException("1: A text component cannot be blank");
+
+            try {
+                float unit;
+                if (height.endsWith("in")) {
+                    height = height.substring(0, height.length() - 2);
+                    unit = Processor.getPointsPerInch();
+                } else {
+                    unit = Processor.getPointsPerMM();
+                }
+
+                float asNumber = Float.parseFloat(height);
+                if (asNumber < 0) throw new IncorrectFormatException("2: Non-negative decimal expected.");
+                else imageHeight = asNumber * unit;
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("2: Non-negative decimal expected.");
+            }
+        }
+
+        ContentAlignment imageAlignment;
+        if (alignment != null) {
+            if (alignment.isBlank()) throw new MissingMemberException("1: A text component cannot be blank");
+            imageAlignment = switch (alignment) {
+                case "Left" -> ContentAlignment.LEFT;
+                case "Right" -> ContentAlignment.RIGHT;
+                case "Center" -> ContentAlignment.CENTER;
+                default -> throw new IncorrectFormatException("6: Content alignment type expected.");
+            };
+        } else imageAlignment = Processor.usedStyleGuide.defaultImageAlignment();
+
+        ImageRenderer.render(id, imageAlignment, imageSize, imageWidth, imageHeight);
     }
 
     @Override

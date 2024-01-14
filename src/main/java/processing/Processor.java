@@ -281,6 +281,14 @@ public class Processor {
         return Processor.dimensions.getWidth() - 2 * Processor.margin;
     }
 
+    public static int getPointsPerInch() {
+        return 72;
+    }
+
+    public static float getPointsPerMM() {
+        return 1 / (10 * 2.54f) * getPointsPerInch();
+    }
+
     /**
      * Starts the processing phase by trying to convert the specified AST into usable objects.
      *
@@ -310,8 +318,8 @@ public class Processor {
         }
 
         var layout = styleConfiguration.getLayout();
-        int pointsPerInch = 72;
-        var pointsPerMM = 1 / (10 * 2.54f) * pointsPerInch;
+        final int pointsPerInch = getPointsPerInch();
+        var pointsPerMM = getPointsPerMM();
 
         // Check if the user demands a custom document dimension
 

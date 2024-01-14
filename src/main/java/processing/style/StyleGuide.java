@@ -1,5 +1,6 @@
 package processing.style;
 
+import creation.ContentAlignment;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -36,8 +37,6 @@ public abstract class StyleGuide {
     //// General Layout ////
 
 
-    // TODO: page numeration
-
     /**
      * Determines the default document type specified by the style guide.
      * For most style guides, this would be PAPER.
@@ -45,6 +44,13 @@ public abstract class StyleGuide {
      * @return - the default document type as a {@link DocumentType} constant.
      */
     public abstract DocumentType documentType();
+
+    /**
+     * Determines the default alignment of images that is applied when the user defines no alignment.
+     *
+     * @return the alignment as an enumeration constant
+     */
+    public abstract ContentAlignment defaultImageAlignment();
 
     /**
      * Defines the page format of the style guide.
@@ -187,13 +193,6 @@ public abstract class StyleGuide {
      * @return - a specification as an {@link AllowanceType}
      */
     public abstract AllowanceType allowsEmphasis();
-
-    /**
-     * Determines if the style guide allows whitespace in sentences
-     *
-     * @return - a specification as an {@link WhitespaceAllowanceType}
-     */
-    public abstract WhitespaceAllowanceType allowsWhitespace();
 
     public abstract float paragraphIndentation();
 

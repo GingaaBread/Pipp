@@ -35,4 +35,5 @@ Auch bei mehreren leeren Zeilen!
 
 image
 	id "Nature.jpg"
+	display "Right"
 	size "3%"

@@ -1,5 +1,6 @@
 package processing.style;
 
+import creation.ContentAlignment;
 import lombok.NonNull;
 import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -47,8 +48,6 @@ public class MLA9 extends StyleGuide {
     public PDFont workFont() {
         return PDType1Font.TIMES_ITALIC;
     }
-
-    /// TODO: Hyphenation configuration: MLA does not allow hyphenation
 
     /**
      * MLA defines a font size of anywhere between 11 and 13 points.
@@ -120,9 +119,10 @@ public class MLA9 extends StyleGuide {
         return 2f;
     }
 
-    // TODO: Header configurations: MLA flushes with the left margin
-
-    // TODO: Title configurations: MLA uses double spaced centered text with no italic or underlined text. It needs to be put in quotation marks, boldface, or typed out in capital letters. capitalisation rules.
+    @Override
+    public ContentAlignment defaultImageAlignment() {
+        return ContentAlignment.CENTER;
+    }
 
     /**
      * MLA uses arabic numeration
@@ -161,10 +161,6 @@ public class MLA9 extends StyleGuide {
         return 0.5f;
     }
 
-    // TODO: Numeration author type: MLA when multiple authors: separate by comma until it does not fit in the line any more. Then only the page number.
-
-    // TODO: Chapter configuration. MLA allows chapter titles as long as they are equal. No internal heading should have only one instance. Heading flush left margin, not indented or centered. A line space above and below a heading. Avoid numbers and letters. same capitalisation as headings.
-
     /**
      * MLA does only allow italic text if absolutely necessary
      */
@@ -181,8 +177,6 @@ public class MLA9 extends StyleGuide {
         return 0.5f;
     }
 
-    // TODO: Block indentation configuration: MLA also indents it half an inch from the left
-
     /**
      * MLA inserts a space before every sentence
      */
@@ -190,16 +184,6 @@ public class MLA9 extends StyleGuide {
     public String sentencePrefix() {
         return " ";
     }
-
-    /**
-     * MLA allows whitespace if it has been escaped
-     */
-    @Override
-    public WhitespaceAllowanceType allowsWhitespace() {
-        return WhitespaceAllowanceType.ESCAPED;
-    }
-
-    // TODO: Works cited config: 1 inch from the top. If the list has one entry: name "Work Cited". Double space between the heading and the first entry. Begin each line with left margin flush. If more than one line: indent half an inch from left margin (called hanging indent)
 
     /**
      * MLA uses a default document type of PAPER
@@ -221,7 +205,6 @@ public class MLA9 extends StyleGuide {
 
         if (textBlock.isBlank()) throw new IllegalArgumentException("Blank text block processed.");
 
-        // todo: use the method instead
         // White space of more than one space is silently removed within texts.
         textBlock = textBlock.replaceAll("\\s+", " ");
 
@@ -230,8 +213,6 @@ public class MLA9 extends StyleGuide {
         if (!StyleGuide.isPunctuation(lastChar)) {
             textBlock += ".";
         }
-
-        // todo: Exactly one space is inserted before a new in-line sentence.
 
         return textBlock;
     }

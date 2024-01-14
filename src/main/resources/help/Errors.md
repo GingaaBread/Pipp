@@ -500,7 +500,7 @@ Colour expected.
 
 *Cause*:
 This error occurs when trying to represent a hexadecimal colour.
-Make sure the colour begins with a '#' and is followed by exactly six integers.
+Make sure the colour begins with a '#' and is followed by exactly six hexadecimals.
 
 *Example:*
 
@@ -511,7 +511,7 @@ config
 ```
 
 *Fix:*
-Use a non-negative decimal (0.0, 23.5, 105.125, ...)
+Use the `#` hash character followed by exactly six hexadecimals (0,1,2,3,4,5,6,7,8,9,0,a,b,c,d,e, or f).
 
 ### 335
 
@@ -537,46 +537,39 @@ Use either "Yes", "No" or "If Necessary"
 ### 336
 
 *Description:*
-Whitespace allowance type expected.
+Content alignment type expected.
 
 *Cause*:
-This error occurs when trying to set a whitespace allowance type,
-but not supplying either "Yes", "Remove" or "Escape".
-Check if you misspelled either of these.
+This error occurs when trying to set a content alignment which is neither `Left`, `Right` or `Center`.
 
 *Example:*
 
 ```pipp
-config
-    structure
-        sentence
-            whitespace "yes"
+img
+    id "Dog.png"
+    display "Middle"
+#   Should be "Center"
 ```
 
 *Fix:*
-Use either "Yes", "Remove" or "Escape".
+Use either "Left", "Right" or "Center".
 
 ### 337
 
 *Description:*
-Structure type expected.
+Deprecated.
 
 *Cause*:
-This error occurs when trying to refer to a structure.
-Make sure you spelled the structure correctly.
+/
 
 *Example:*
 
 ```pipp
-config
-    structure
-        endnotes
-            allow
-                before workscited
+/
 ```
 
 *Fix:*
-Use a correct structure
+/
 
 ### 338
 
