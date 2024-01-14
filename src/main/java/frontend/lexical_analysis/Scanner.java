@@ -1,5 +1,6 @@
 package frontend.lexical_analysis;
 
+import error.MissingMemberException;
 import frontend.FrontEndBridge;
 
 /**
@@ -197,7 +198,7 @@ public class Scanner {
                 }
 
                 // In this case, the current character is the end of a text or an escaped quotation mark
-                else if (currentlyReadValue.length() > 1 && currentlyReadValue.charAt(0) == '"') {
+                else if (currentlyReadValue.length() >= 1 && currentlyReadValue.charAt(0) == '"') {
 
                     // In this case, the current character is an escaped quotation mark
                     if (isEscapingACharacter) {
@@ -207,11 +208,16 @@ public class Scanner {
 
                     // In this case, the current character is the end of a text
                     else {
-                        // We still want to include the quotation mark in the text
-                        currentlyReadValue.append(current);
+                        // Should not create empty strings
+                        if (currentlyReadValue.substring(1, currentlyReadValue.length()).isBlank()) {
+                            throw new MissingMemberException("1: A text component cannot be blank.");
+                        } else {
+                            // We still want to include the quotation mark in the text
+                            currentlyReadValue.append(current);
 
-                        submitToken();
-                        currentAmountOfTabs = 0;
+                            submitToken();
+                            currentAmountOfTabs = 0;
+                        }
                     }
                 }
 
@@ -240,7 +246,7 @@ public class Scanner {
                 // If the user wants to escape a character do not include the \
                 if (current == '\\') {
                     hasConvertedTextNewLine = false;
-                    
+
                     // If the user is already escaping a character and the backslash is escaped, append it (\\)
                     if (isEscapingACharacter) {
                         isEscapingACharacter = false;
