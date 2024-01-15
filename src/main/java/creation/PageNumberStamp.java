@@ -116,17 +116,17 @@ public class PageNumberStamp {
 
             if (Processor.numerationLimit == null) {
                 if (TextRenderer.textFitsInOneLine(asText)) {
-                    TextRenderer.renderNoContentText(List.of(asText), alignment, y);
+                    TextRenderer.renderNoContentText(List.of(asText), alignment, y, null);
                 } else if (Processor.authors.length > 1 && Processor.numerationAuthorName != NumerationAuthorName.NONE) {
                     var firstAuthorOnlyText = new Text(firstAuthorName + " et al. " + pageString,
                             asText.getFont(), asText.getFontSize(), asText.getFontColour());
 
                     // Check if the first name and et al. would fit in one line
                     if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
-                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y);
+                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y, null);
                         // If not, only the page number is rendered
                     else {
-                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
+                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null);
                     }
                 }
             } else {
@@ -136,15 +136,15 @@ public class PageNumberStamp {
 
                     // Check if the first name and et al. would fit in one line
                     if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
-                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y);
+                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y, null);
                         // If not, only the page number is rendered
                     else {
-                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
+                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null);
                     }
                 } else if (TextRenderer.textFitsInOneLine(asText)) {
-                    TextRenderer.renderNoContentText(List.of(asText), alignment, y);
+                    TextRenderer.renderNoContentText(List.of(asText), alignment, y, null);
                 } else {
-                    TextRenderer.renderNoContentText(List.of(pageText), alignment, y);
+                    TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null);
                 }
             }
 

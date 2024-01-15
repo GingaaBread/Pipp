@@ -15,11 +15,17 @@ import java.util.List;
  * takes margin, leading, and other factors into consideration, and allows aligning the text to a specific
  * position within the document. Furthermore, multiple text styles can be used in the same line.
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
 public class TextRenderer {
+
+    /**
+     * Prevents object instantiation
+     */
+    private TextRenderer() {
+        throw new UnsupportedOperationException("Should not instantiate a utility class");
+    }
 
     /**
      * Shorthand method to render text to the current y position of the page.
@@ -59,7 +65,8 @@ public class TextRenderer {
      */
     public static void renderNoContentText(@NonNull final List<Text> textComponentsToRender,
                                            @NonNull final ContentAlignment alignment,
-                                           final float startY) {
+                                           final float startY,
+                                           Float firstIndentation) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = Processor.getLeading();
@@ -67,10 +74,14 @@ public class TextRenderer {
             // Determines how much space the text can take up, by subtracting the margin for both sides
             final float availableWidth = Processor.getAvailableContentWidth();
             float maximumWidth = availableWidth;
-            float currentLineWidth = 0, lastXOffset = 0;
+            float currentLineWidth = 0;
+            float lastXOffset = 0;
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
             float startX = Processor.margin;
+
+            // Converts the indentation in inches to points
+            if (firstIndentation != null) firstIndentation *= Processor.getPointsPerInch();
 
             // Creates the content stream with the append mode, which prevents overriding existing streams
             final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
@@ -82,12 +93,22 @@ public class TextRenderer {
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
 
+            boolean hasIndentedFirstPart = false;
+
             // Contains the currently created lines
             final var textBuilder = new LinkedList<Text>();
             final var rest = new LinkedList<Text>();
 
             for (int k = 0; k < textComponentsToRender.size(); k++) {
                 var textPart = textComponentsToRender.get(k);
+
+                // Indents the first part if necessary
+                if (firstIndentation != null && k == 0) {
+                    contentStream.newLineAtOffset(firstIndentation, 0f);
+                    maximumWidth -= firstIndentation;
+                    hasIndentedFirstPart = true;
+                }
+
                 // Divides the text into its words, using exactly one (!) space as the split char
                 final var words = textPart.getContent().split(" ");
 
@@ -166,7 +187,8 @@ public class TextRenderer {
                                 }
 
                                 contentStream.showText(currentLine);
-                                contentStream.newLineAtOffset(0, -leading);
+                                contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0, -leading);
+                                hasIndentedFirstPart = false;
                                 PageCreator.currentYPosition -= leading;
 
                                 currentLine = stringForNextLine.reverse().toString();
@@ -179,7 +201,8 @@ public class TextRenderer {
                             contentStream.newLineAtOffset(0, -leading);
                         } else {
                             PageCreator.currentYPosition -= leading;
-                            contentStream.newLineAtOffset(0, -leading);
+                            contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0, -leading);
+                            hasIndentedFirstPart = false;
 
                             textBuilder.addLast(new Text(word + " ", textPart.getFont(), textPart.getFontSize(),
                                     textPart.getFontColour()));
@@ -276,7 +299,25 @@ public class TextRenderer {
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
                                   @NonNull final ContentAlignment alignment,
                                   final float startY) {
-        renderNoContentText(textComponentsToRender, alignment, startY);
+        renderNoContentText(textComponentsToRender, alignment, startY, null);
+
+        // Now that there has been at least one line rendered on the current page, update the flag
+        PageCreator.currentPageIsEmpty = false;
+    }
+
+    /**
+     * Renders the text on the page by using an indentation that offsets the first text component by that amount.
+     *
+     * @param textComponentsToRender the text components that should be rendered. the first will be indented.
+     * @param alignment              the desired text alignment
+     * @param startY                 the start y position of the text render
+     * @param indentation            the amount of indentation in inches
+     */
+    public static void renderIndentedText(@NonNull final List<Text> textComponentsToRender,
+                                          @NonNull final ContentAlignment alignment,
+                                          final float startY,
+                                          final float indentation) {
+        renderNoContentText(textComponentsToRender, alignment, startY, indentation);
 
         // Now that there has been at least one line rendered on the current page, update the flag
         PageCreator.currentPageIsEmpty = false;

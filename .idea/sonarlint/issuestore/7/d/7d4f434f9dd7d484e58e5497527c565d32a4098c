@@ -1,0 +1,106 @@
+
+g
+java:S1192·"KDefine a constant instead of duplicating this literal "numeration" 4 times.(’ûùÿÿÿÿ
+^
+java:S1192—"GDefine a constant instead of duplicating this literal "before" 4 times.(Š´äÈ
+`
+java:S1192ø"IDefine a constant instead of duplicating this literal "assessor" 4 times.(âşˆ
+h
+java:S1192"LDefine a constant instead of duplicating this literal "institution" 4 times.(³‡‡ıÿÿÿÿ
+j
+java:S1192ê"SDefine a constant instead of duplicating this literal "Sentence Structure" 5 times.(’Š·Á
+c
+java:S1192ù"MDefine a constant instead of duplicating this literal "publication" 13 times.(øªĞm
+b
+java:S1192Î"FDefine a constant instead of duplicating this literal "limit" 4 times.(®óŒ‚üÿÿÿÿ
+j
+java:S1192ù"SDefine a constant instead of duplicating this literal "Emphasis Structure" 4 times.(¼Òâã
+^
+java:S1192š"GDefine a constant instead of duplicating this literal "height" 8 times.(¨‹”
+`
+java:S1192Ó"IDefine a constant instead of duplicating this literal "sentence" 4 times.(¤¬½¥
+b
+java:S1192Ò"FDefine a constant instead of duplicating this literal "image" 3 times.(²Óø¹úÿÿÿÿ
+c
+java:S1192Ó"GDefine a constant instead of duplicating this literal "margin" 8 times.(ë¸ªïùÿÿÿÿ
+f
+java:S1192ô"ODefine a constant instead of duplicating this literal "Document Title" 5 times.(™¬¶š
+^
+java:S1192÷"GDefine a constant instead of duplicating this literal "author" 8 times.(—Ñ¨
+e
+java:S1192ç"IDefine a constant instead of duplicating this literal "lastname" 3 times.(ŒÃ–ÿÿÿÿÿ
+^
+java:S1192ã"GDefine a constant instead of duplicating this literal "Author" 5 times.(‘Ùã£
+^
+java:S1192Ï"GDefine a constant instead of duplicating this literal "header" 3 times.(’©ù
+b
+java:S1192ñ"FDefine a constant instead of duplicating this literal "style" 4 times.(×³åÁúÿÿÿÿ
+k
+java:S1192ö"ODefine a constant instead of duplicating this literal "Work Structure" 6 times.(í»Œùÿÿÿÿ
+]
+java:S1192£"FDefine a constant instead of duplicating this literal "allow" 4 times.(ä‚ä¶
+a
+java:S1192Ò"JDefine a constant instead of duplicating this literal "paragraph" 7 times.(êã“³
+f
+java:S1192"JDefine a constant instead of duplicating this literal "firstname" 6 times.(öÔ¿‹øÿÿÿÿ
+b
+java:S1192Ñ"FDefine a constant instead of duplicating this literal "blank" 3 times.(»ê¸„üÿÿÿÿ
+^
+java:S1192"GDefine a constant instead of duplicating this literal "(Line " 3 times.(ìò¬ß
+^
+java:S1192Ğ"GDefine a constant instead of duplicating this literal "title" 14 times.(èßø²
+_
+java:S1192§	"HDefine a constant instead of duplicating this literal "spacing" 4 times.(ìî×™
+`
+java:S1192Ù"IDefine a constant instead of duplicating this literal "citation" 3 times.(–°š°
+b
+java:S1192 "FDefine a constant instead of duplicating this literal "chair" 4 times.(»šòƒüÿÿÿÿ
+_
+java:S1192¤"HDefine a constant instead of duplicating this literal "display" 8 times.(ò¹´›
+f
+java:S1192¸"JDefine a constant instead of duplicating this literal "structure" 4 times.(„¾«Ùùÿÿÿÿ
+^
+java:S1192¶"GDefine a constant instead of duplicating this literal "layout" 4 times.(Æàä«
+c
+java:S1192‰"GDefine a constant instead of duplicating this literal "colour" 4 times.(ó®œÍıÿÿÿÿ
+g
+java:S1192Ó"KDefine a constant instead of duplicating this literal "emphasise" 11 times.(¦Êûªıÿÿÿÿ
+b
+java:S1192•"FDefine a constant instead of duplicating this literal "width" 8 times.(ë±ŞÎÿÿÿÿÿ
+`
+java:S1192Ÿ"IDefine a constant instead of duplicating this literal "semester" 4 times.(÷´Ëº
+`
+java:S1192ö"IDefine a constant instead of duplicating this literal "Assessor" 5 times.(Á†¥¯
+E
+java:S1066s"/Merge this if statement with the enclosing one.(÷è¼È
+
+java:S1186«
+"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¢éÂ¡ùÿÿÿÿ
+i
+java:S3776Š"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(¶Ø•ˆ
+i
+java:S3776Á"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(åÁÉ
+n
+java:S3776í"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(âÈùÿÿÿÿ
+i
+java:S3776’"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Ê›‰î
+n
+java:S3776™"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(òĞø÷ÿÿÿÿÿ
+n
+java:S3776ï"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(±×áåúÿÿÿÿ
+n
+java:S3776Ÿ"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Ó­»òûÿÿÿÿ
+n
+java:S3776Ê"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(éÇ°Èøÿÿÿÿ
+i
+java:S3776“"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(üÙ§í
+n
+java:S3776Ã"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÑïÕ¥üÿÿÿÿ
+n
+java:S3776í"RRefactor this method to reduce its Cognitive Complexity from 28 to the 15 allowed.(õÃ¶‡şÿÿÿÿ
+i
+java:S3776À"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÈöÎ 
+n
+java:S3776”	"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(çÔŒĞúÿÿÿÿ
+8	java:S131ã	""Add a default case to this switch.(Õßãƒ
+8	java:S131ø	""Add a default case to this switch.(Õßãƒ

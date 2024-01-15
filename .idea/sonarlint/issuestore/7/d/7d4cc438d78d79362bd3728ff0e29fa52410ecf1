@@ -1,0 +1,293 @@
+
+p
+java:S1192¸"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T
+|
+java:S1192"eDefine a constant instead of duplicating this literal "1: A text component cannot be blank." 4 times.(ä§€É
+k
+java:S1192‹"TDefine a constant instead of duplicating this literal "4: Colour expected." 3 times.(‰ğ™½
+y
+java:S1192ì"bDefine a constant instead of duplicating this literal "2: Non-negative decimal expected." 4 times.(ë£æè
+~
+java:S1192¢"gDefine a constant instead of duplicating this literal "13: Integer larger than zero expected." 8 times.(ÊÜ¡³
+„
+java:S1319€"mThe type of "documentBody" should be an interface such as "List" rather than the implementation "LinkedList".(ã›¦
+s
+java:S11049"XMake documentType a static final constant or non-public and provide accessors if needed.(ûª¿Àüÿÿÿÿ
+t
+java:S1104?"YMake documentTitle a static final constant or non-public and provide accessors if needed.(šùÙıÿÿÿÿ
+p
+java:S1104D"ZMake usedStyleGuide a static final constant or non-public and provide accessors if needed.(òßÙÇ
+q
+java:S1104I"VMake dimensions a static final constant or non-public and provide accessors if needed.(˜İéñùÿÿÿÿ
+h
+java:S1104P"RMake margin a static final constant or non-public and provide accessors if needed.(Ï†¼–
+h
+java:S1104W"SMake spacing a static final constant or non-public and provide accessors if needed.(·ÊÑ,
+u
+java:S1104`"ZMake numerationType a static final constant or non-public and provide accessors if needed.(×‹Ù²øÿÿÿÿ
+t
+java:S1104e"^Make numerationPosition a static final constant or non-public and provide accessors if needed.(±Ÿ©ã
+r
+java:S1104k"\Make numerationMargin a static final constant or non-public and provide accessors if needed.(§•¦­
+v
+java:S1104q"`Make numerationAuthorName a static final constant or non-public and provide accessors if needed.(Şˆã„
+s
+java:S1104x"XMake skippedPages a static final constant or non-public and provide accessors if needed.(¹×ˆšùÿÿÿÿ
+q
+java:S1104~"[Make numerationLimit a static final constant or non-public and provide accessors if needed.(ò€†Ø
+t
+java:S1104‡"XMake sentenceFont a static final constant or non-public and provide accessors if needed.(¥õ½‡ıÿÿÿÿ
+r
+java:S1104Œ"\Make sentenceFontSize a static final constant or non-public and provide accessors if needed.(ö¸Ï|
+u
+java:S1104‘"^Make sentenceFontColour a static final constant or non-public and provide accessors if needed.(¸Ñç
+o
+java:S1104–"XMake emphasisFont a static final constant or non-public and provide accessors if needed.(„¢²Ü
+s
+java:S1104›"\Make emphasisFontSize a static final constant or non-public and provide accessors if needed.(ßÌ¢×
+u
+java:S1104 "^Make emphasisFontColour a static final constant or non-public and provide accessors if needed.(˜€ÊŒ
+p
+java:S1104¥"TMake workFont a static final constant or non-public and provide accessors if needed.(­è–ÿÿÿÿÿ
+n
+java:S1104ª"XMake workFontSize a static final constant or non-public and provide accessors if needed.(æ«×A
+q
+java:S1104¯"ZMake workFontColour a static final constant or non-public and provide accessors if needed.( ·»š
+w
+java:S1104¹"`Make paragraphIndentation a static final constant or non-public and provide accessors if needed.(Üßìğ
+v
+java:S1104Ã"ZMake sentencePrefix a static final constant or non-public and provide accessors if needed.(‰œ×°øÿÿÿÿ
+u
+java:S1104È"YMake allowEmphasis a static final constant or non-public and provide accessors if needed.(ª‡ìşÿÿÿÿ
+j
+java:S1104Ó"SMake authors a static final constant or non-public and provide accessors if needed.(œ±ÀĞ
+l
+java:S1104Ø"UMake assessors a static final constant or non-public and provide accessors if needed.(ËÙÌ
+w
+java:S1104â"[Make publicationDate a static final constant or non-public and provide accessors if needed.(’üñÒÿÿÿÿÿ
+s
+java:S1104è"\Make publicationTitle a static final constant or non-public and provide accessors if needed.(õšº
+~
+java:S1104î"bMake publicationInstitution a static final constant or non-public and provide accessors if needed.(ÉÉù™üÿÿÿÿ
+s
+java:S1104ô"\Make publicationChair a static final constant or non-public and provide accessors if needed.(¹’ÕÈ
+v
+java:S1104ú"_Make publicationSemester a static final constant or non-public and provide accessors if needed.(Ê—é
+o
+java:S1104€"XMake documentBody a static final constant or non-public and provide accessors if needed.(ã›¦
+M
+java:S14449"2Make this "public static documentType" field final(ûª¿Àüÿÿÿÿ
+N
+java:S1444?"3Make this "public static documentTitle" field final(šùÙıÿÿÿÿ
+J
+java:S1444D"4Make this "public static usedStyleGuide" field final(òßÙÇ
+K
+java:S1444I"0Make this "public static dimensions" field final(˜İéñùÿÿÿÿ
+B
+java:S1444P",Make this "public static margin" field final(Ï†¼–
+B
+java:S1444W"-Make this "public static spacing" field final(·ÊÑ,
+O
+java:S1444`"4Make this "public static numerationType" field final(×‹Ù²øÿÿÿÿ
+N
+java:S1444e"8Make this "public static numerationPosition" field final(±Ÿ©ã
+L
+java:S1444k"6Make this "public static numerationMargin" field final(§•¦­
+P
+java:S1444q":Make this "public static numerationAuthorName" field final(Şˆã„
+M
+java:S1444x"2Make this "public static skippedPages" field final(¹×ˆšùÿÿÿÿ
+K
+java:S1444~"5Make this "public static numerationLimit" field final(ò€†Ø
+N
+java:S1444‡"2Make this "public static sentenceFont" field final(¥õ½‡ıÿÿÿÿ
+L
+java:S1444Œ"6Make this "public static sentenceFontSize" field final(ö¸Ï|
+O
+java:S1444‘"8Make this "public static sentenceFontColour" field final(¸Ñç
+I
+java:S1444–"2Make this "public static emphasisFont" field final(„¢²Ü
+M
+java:S1444›"6Make this "public static emphasisFontSize" field final(ßÌ¢×
+O
+java:S1444 "8Make this "public static emphasisFontColour" field final(˜€ÊŒ
+J
+java:S1444¥".Make this "public static workFont" field final(­è–ÿÿÿÿÿ
+H
+java:S1444ª"2Make this "public static workFontSize" field final(æ«×A
+K
+java:S1444¯"4Make this "public static workFontColour" field final( ·»š
+Q
+java:S1444¹":Make this "public static paragraphIndentation" field final(Üßìğ
+P
+java:S1444Ã"4Make this "public static sentencePrefix" field final(‰œ×°øÿÿÿÿ
+O
+java:S1444È"3Make this "public static allowEmphasis" field final(ª‡ìşÿÿÿÿ
+D
+java:S1444Ó"-Make this "public static authors" field final(œ±ÀĞ
+F
+java:S1444Ø"/Make this "public static assessors" field final(ËÙÌ
+Q
+java:S1444â"5Make this "public static publicationDate" field final(’üñÒÿÿÿÿÿ
+M
+java:S1444è"6Make this "public static publicationTitle" field final(õšº
+X
+java:S1444î"<Make this "public static publicationInstitution" field final(ÉÉù™üÿÿÿÿ
+M
+java:S1444ô"6Make this "public static publicationChair" field final(¹’ÕÈ
+P
+java:S1444ú"9Make this "public static publicationSemester" field final(Ê—é
+I
+java:S1444€"2Make this "public static documentBody" field final(ã›¦
+4
+java:S2386€"Make this member "protected".(ã›¦
+I
+java:S1135‚"2Complete the task associated to this TODO comment.(¾ğœÒ
+P
+java:S3400"9Remove this method and declare a constant for this value.(¹º¸
+o
+java:S3776©"SRefactor this method to reduce its Cognitive Complexity from 228 to the 15 allowed.(¬·»ùÿÿÿÿ
+A	java:S106ª"+Replace this use of System.out by a logger.(ÁŠü¢
+F	java:S106¬"+Replace this use of System.out by a logger.(ŞÄ”†ÿÿÿÿÿ
+R
+java:S2696¯"6Make the enclosing method "static" or remove this set.(Ó¨œ£ÿÿÿÿÿ
+R
+java:S2696º"6Make the enclosing method "static" or remove this set.(ÊØÅ›ıÿÿÿÿ
+M
+java:S2696½"6Make the enclosing method "static" or remove this set.(¢“º–
+M
+java:S2696ä"6Make the enclosing method "static" or remove this set.(çå
+L
+java:S2696ç"6Make the enclosing method "static" or remove this set.(Ùê¯~
+M
+java:S2696ï"6Make the enclosing method "static" or remove this set.(¢õµ
+R
+java:S2696ó"6Make the enclosing method "static" or remove this set.(Ëùèüÿÿÿÿ
+R
+java:S2696õ"6Make the enclosing method "static" or remove this set.(Ö¬˜“üÿÿÿÿ
+R
+java:S2696ú"6Make the enclosing method "static" or remove this set.(ïÅ®àûÿÿÿÿ
+L
+java:S2696ş"6Make the enclosing method "static" or remove this set.(à²ê
+R
+java:S2696„"6Make the enclosing method "static" or remove this set.(ÒÚ üÿÿÿÿ
+R
+java:S2696‹"6Make the enclosing method "static" or remove this set.(Ä§í†ûÿÿÿÿ
+R
+java:S2696"6Make the enclosing method "static" or remove this set.(ÆÀÇ™øÿÿÿÿ
+M
+java:S2696š"6Make the enclosing method "static" or remove this set.(ğÇŠû
+R
+java:S2696"6Make the enclosing method "static" or remove this set.(ÉÍ‡úúÿÿÿÿ
+M
+java:S2696£"6Make the enclosing method "static" or remove this set.(¼Â—õ
+M
+java:S2696¨"6Make the enclosing method "static" or remove this set.(½á‹ƒ
+>
+java:S2386«"'Make member "skippedPages" "protected".(ÏÏêç
+M
+java:S2696«"6Make the enclosing method "static" or remove this set.(ÏÏêç
+R
+java:S2696Ğ"6Make the enclosing method "static" or remove this set.(ÏûÖøÿÿÿÿ
+M
+java:S2696Ø"6Make the enclosing method "static" or remove this set.(Š•á
+M
+java:S2696í"6Make the enclosing method "static" or remove this set.(‰·¡
+L
+java:S2696ñ"6Make the enclosing method "static" or remove this set.(´¤¬
+R
+java:S2696÷"6Make the enclosing method "static" or remove this set.(èÎØ·ùÿÿÿÿ
+R
+java:S2696ø"6Make the enclosing method "static" or remove this set.(§÷ÄŒùÿÿÿÿ
+R
+java:S2696€"6Make the enclosing method "static" or remove this set.(ûÃà–ÿÿÿÿÿ
+R
+java:S2696„"6Make the enclosing method "static" or remove this set.(Éß®¨ûÿÿÿÿ
+M
+java:S2696‰"6Make the enclosing method "static" or remove this set.(ë˜¡ª
+L
+java:S2696"6Make the enclosing method "static" or remove this set.(§µÙ/
+M
+java:S2696’"6Make the enclosing method "static" or remove this set.(ØêĞı
+R
+java:S2696˜"6Make the enclosing method "static" or remove this set.(ˆ•¸şÿÿÿÿ
+]
+java:S1117š"ARename "emphasisFont" which hides the field declared at line 150.(Ê‡À¤ÿÿÿÿÿ
+R
+java:S2696œ"6Make the enclosing method "static" or remove this set.(ğÆŠøÿÿÿÿ
+R
+java:S2696"6Make the enclosing method "static" or remove this set.(àÖ˜ÿÿÿÿÿ
+M
+java:S2696¥"6Make the enclosing method "static" or remove this set.(Èæ­­
+R
+java:S2696©"6Make the enclosing method "static" or remove this set.(èÿåûÿÿÿÿ
+R
+java:S2696®"6Make the enclosing method "static" or remove this set.(‚ş«³øÿÿÿÿ
+M
+java:S2696²"6Make the enclosing method "static" or remove this set.(éï¨ù
+T
+java:S1117´"=Rename "workFont" which hides the field declared at line 165.(ìèõè
+R
+java:S2696¶"6Make the enclosing method "static" or remove this set.(ß‹İÍùÿÿÿÿ
+R
+java:S2696·"6Make the enclosing method "static" or remove this set.(Ô›õ°úÿÿÿÿ
+R
+java:S2696¿"6Make the enclosing method "static" or remove this set.(Íúíöıÿÿÿÿ
+M
+java:S2696Ã"6Make the enclosing method "static" or remove this set.(êÅ¹ˆ
+M
+java:S2696È"6Make the enclosing method "static" or remove this set.(ë¾‚
+M
+java:S2696Ì"6Make the enclosing method "static" or remove this set.(š†ĞŞ
+L
+java:S2696ã"6Make the enclosing method "static" or remove this set.(ÁŒÔ
+R
+java:S2696ç"6Make the enclosing method "static" or remove this set.(÷“Õ¼ıÿÿÿÿ
+R
+java:S2696í"6Make the enclosing method "static" or remove this set.(Ô®òşÿÿÿÿ
+M
+java:S2696î"6Make the enclosing method "static" or remove this set.(·”Â¹
+R
+java:S2696ó"6Make the enclosing method "static" or remove this set.(û”µüÿÿÿÿ
+M
+java:S2696÷"6Make the enclosing method "static" or remove this set.(·«¬‹
+X
+java:S1117ú"<Rename "authors" which hides the field declared at line 211.(µñºµøÿÿÿÿ
+9
+java:S2386û""Make member "authors" "protected".(ê¿Øô
+M
+java:S2696û"6Make the enclosing method "static" or remove this set.(ê¿Øô
+M
+java:S2696•"6Make the enclosing method "static" or remove this set.(‰Á ‡
+M
+java:S2696"6Make the enclosing method "static" or remove this set.(‰Á ‡
+U
+java:S1117¯">Rename "assessors" which hides the field declared at line 216.(¹“Øã
+;
+java:S2386°"$Make member "assessors" "protected".(øÕßİ
+M
+java:S2696°"6Make the enclosing method "static" or remove this set.(øÕßİ
+M
+java:S2696É"6Make the enclosing method "static" or remove this set.(·çöı
+M
+java:S2696Ò"6Make the enclosing method "static" or remove this set.(·çöı
+\
+java:S1764Ö"ECorrect one of the identical sub-expressions on both sides of equals.(Ç³ï€
+R
+java:S2696û"6Make the enclosing method "static" or remove this set.(¥ûìƒúÿÿÿÿ
+R
+java:S2696ü"6Make the enclosing method "static" or remove this set.(µÔ™øÿÿÿÿ
+M
+java:S2696ı"6Make the enclosing method "static" or remove this set.(¥øÆí
+M
+java:S2696ÿ"6Make the enclosing method "static" or remove this set.(á¶é¬
+M
+java:S2696€"6Make the enclosing method "static" or remove this set.(şÃÖô
+L
+java:S2696„"6Make the enclosing method "static" or remove this set.(ÁÛ¢E
+R
+java:S2696‡"6Make the enclosing method "static" or remove this set.(á³…îøÿÿÿÿ
+A	java:S106œ"+Replace this use of System.out by a logger.(äÁ‹Ö
+A	java:S106"+Replace this use of System.out by a logger.(¿è®Î
+ä
+java:S6541©"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 392 to 64, Complexity from 132 to 14, Nesting Level from 5 to 2, Number of Variables from 63 to 6.(¬·»ùÿÿÿÿ
