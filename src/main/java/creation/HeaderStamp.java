@@ -12,6 +12,13 @@ import processing.Processor;
 public class HeaderStamp {
 
     /**
+     * Prevents instantiation
+     */
+    private HeaderStamp() {
+        throw new UnsupportedOperationException("Cannot instantiate helper class");
+    }
+
+    /**
      * Renders the header stamp to the current position in the document
      */
     public static void renderHeader() {
@@ -41,7 +48,7 @@ public class HeaderStamp {
         }
 
         // List the title of the publication
-        if (Processor.publicationTitle.getTexts().size() > 0) {
+        if (!Processor.publicationTitle.getTexts().isEmpty()) {
             TextRenderer.renderText(
                     Processor
                             .publicationTitle

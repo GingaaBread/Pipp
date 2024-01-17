@@ -238,25 +238,19 @@ Add actual text to the text component.
 ### 322
 
 *Description:*
-A structure component is missing
+Cannot render a title if no title has been configured.
 
 *Cause*:
-This error occurs when trying to confine a structure to only appear once
-a different structure has appeared or will appear, and the specified
-keyword is not a structure or is not allowed to be used in this context.
+This error occurs when trying to use the `title` instruction, but no title has been configured.
 
 *Example:*
 
 ```pipp
-config
-    structure
-        endnotes
-            allow
-                before before
+title
 ```
 
 *Fix:*
-Replace the keyword with a legal keyword.
+Remove the title instruction or include the title in the configuration.
 
 ### 323
 

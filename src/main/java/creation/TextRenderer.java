@@ -30,8 +30,8 @@ public class TextRenderer {
     /**
      * Shorthand method to render text to the current y position of the page.
      *
-     * @param textComponentsToRender - the text components that should be rendered on the page
-     * @param alignment              - the text alignment that should be used for the rendered text
+     * @param textComponentsToRender the text components that should be rendered on the page
+     * @param alignment              the text alignment that should be used for the rendered text
      */
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
                                   @NonNull final ContentAlignment alignment) {
@@ -44,7 +44,7 @@ public class TextRenderer {
      * position, and the style's margin as the starting x position. Takes leading into consideration.
      * Cuts the individual words using the space as the splitting character
      *
-     * @param text - the text that should be rendered on the page
+     * @param text the text that should be rendered on the page
      */
     public static void renderLeftAlignedText(@NonNull final String text) {
         renderText(List.of(new Text(text, Processor.sentenceFont, Processor.sentenceFontSize, Processor.sentenceFontColour)),
@@ -66,7 +66,7 @@ public class TextRenderer {
     public static void renderNoContentText(@NonNull final List<Text> textComponentsToRender,
                                            @NonNull final ContentAlignment alignment,
                                            final float startY,
-                                           Float firstIndentation) {
+                                           final Float firstIndentation) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
             final float leading = Processor.getLeading();
@@ -81,10 +81,11 @@ public class TextRenderer {
             float startX = Processor.margin;
 
             // Converts the indentation in inches to points
-            if (firstIndentation != null) firstIndentation *= Processor.getPointsPerInch();
+            Float usedIndentation = null;
+            if (firstIndentation != null) usedIndentation = firstIndentation * Processor.POINTS_PER_INCH;
 
             // Creates the content stream with the append mode, which prevents overriding existing streams
-            final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
+            var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
                     PDPageContentStream.AppendMode.APPEND, false);
 
             // Sets up the content stream
@@ -101,11 +102,14 @@ public class TextRenderer {
 
             for (int k = 0; k < textComponentsToRender.size(); k++) {
                 var textPart = textComponentsToRender.get(k);
+                final var textPartFont = textPart.getFont();
+                final var textPartFontColour = textPart.getFontColour();
+                final var textPartFontSize = textPart.getFontSize();
 
                 // Indents the first part if necessary
-                if (firstIndentation != null && k == 0) {
-                    contentStream.newLineAtOffset(firstIndentation, 0f);
-                    maximumWidth -= firstIndentation;
+                if (usedIndentation != null && k == 0) {
+                    contentStream.newLineAtOffset(usedIndentation, 0f);
+                    maximumWidth -= usedIndentation;
                     hasIndentedFirstPart = true;
                 }
 
@@ -114,7 +118,7 @@ public class TextRenderer {
 
                 // Used to skip the first word when appending a space after all other words
                 var isFirstWord = true;
-                var isLastWordOfNoneLastTextPart = false;
+                var isLastWordOfNotLastTextPart = false;
 
                 // Apply the correct font style
                 contentStream.setFont(textPart.getFont(), textPart.getFontSize());
@@ -123,26 +127,28 @@ public class TextRenderer {
                 // Tries to check if the next word can be rendered in the current line or if it does not fit
                 for (int j = 0; j < words.length; j++) {
                     String word = words[j];
-                    isLastWordOfNoneLastTextPart = j == words.length - 1 && k != textComponentsToRender.size() - 1;
+                    isLastWordOfNotLastTextPart = j == words.length - 1 && k != textComponentsToRender.size() - 1;
 
                     // Calculate the width of the entire line with a space and the current word
                     final float wordWidth = Processor.sentenceFont.getStringWidth(
-                            (isFirstWord ? "" : " ") + word + (isLastWordOfNoneLastTextPart ? " " : "")) /
+                            (isFirstWord ? "" : " ") + word + (isLastWordOfNotLastTextPart ? " " : "")) /
                             1000 * Processor.sentenceFontSize;
 
                     // Check if the next line does not fit into the current page anymore
                     if (PageCreator.currentYPosition < Processor.margin) {
                         if (!textBuilder.isEmpty()) {
                             final var textSize = textBuilder.size();
-                            for (int i = 0; i < textSize; i++) {
-                                rest.addLast(textBuilder.remove());
-                                rest.addLast(new Text(" ", textPart.getFont(), textPart.getFontSize(),
-                                        textPart.getFontColour()));
-                            }
+                            for (int i = 0; i < textSize; i++) rest.addLast(textBuilder.remove());
                         }
 
-                        rest.addLast(new Text(word + (isFirstWord ? "" : " "), textPart.getFont(),
-                                textPart.getFontSize(), textPart.getFontColour()));
+                        if (isFirstWord) {
+                            rest.addLast(new Text(word + (isLastWordOfNotLastTextPart ? " " : ""), textPart.getFont(), textPart.getFontSize(),
+                                    textPart.getFontColour()));
+                            isFirstWord = false;
+                        } else {
+                            rest.addLast(new Text(" " + word + (isLastWordOfNotLastTextPart ? " " : ""), textPart.getFont(), textPart.getFontSize(),
+                                    textPart.getFontColour()));
+                        }
                     }
                     // If the word does not fit in the current line, render the line and start a new line
                     else if (wordWidth > maximumWidth) {
@@ -156,8 +162,10 @@ public class TextRenderer {
                         }
 
                         final var textSize = textBuilder.size();
+
                         for (int i = 0; i < textSize; i++) {
                             var text = textBuilder.remove();
+
                             // Apply the correct font style
                             contentStream.setFont(text.getFont(), text.getFontSize());
                             contentStream.setNonStrokingColor(text.getFontColour());
@@ -167,7 +175,7 @@ public class TextRenderer {
                             contentStream.showText(textToRender);
                         }
 
-                        maximumWidth = availableWidth;
+                        maximumWidth = availableWidth - (hasIndentedFirstPart ? usedIndentation : 0);
                         currentLineWidth = wordWidth;
                         textBuilder.clear();
 
@@ -175,8 +183,9 @@ public class TextRenderer {
                         if (wordWidth > maximumWidth) {
                             var currentLine = word;
                             var nextLineWidth = wordWidth;
+                            var reachedNewPage = false;
 
-                            while (nextLineWidth > maximumWidth) {
+                            while (nextLineWidth > maximumWidth && !reachedNewPage) {
                                 var stringForNextLine = new StringBuilder();
 
                                 while (nextLineWidth > maximumWidth) {
@@ -186,25 +195,35 @@ public class TextRenderer {
                                             Processor.sentenceFontSize;
                                 }
 
-                                contentStream.showText(currentLine);
-                                contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0, -leading);
-                                hasIndentedFirstPart = false;
                                 PageCreator.currentYPosition -= leading;
 
-                                currentLine = stringForNextLine.reverse().toString();
-                                nextLineWidth = Processor.sentenceFont.getStringWidth(currentLine) / 1000 *
-                                        Processor.sentenceFontSize;
-                                stringForNextLine.setLength(0);
+                                if (PageCreator.currentYPosition < Processor.margin) {
+                                    reachedNewPage = true;
+                                    rest.add(new Text(stringForNextLine.reverse().toString(), textPartFont,
+                                            textPartFontSize, textPartFontColour));
+                                } else {
+                                    contentStream.showText(currentLine);
+                                    contentStream.newLineAtOffset(hasIndentedFirstPart ? -usedIndentation : 0, -leading);
+
+                                    if (hasIndentedFirstPart) maximumWidth += usedIndentation;
+
+                                    hasIndentedFirstPart = false;
+
+                                    currentLine = stringForNextLine.reverse().toString();
+                                    nextLineWidth = Processor.sentenceFont.getStringWidth(currentLine) / 1000 *
+                                            Processor.sentenceFontSize;
+                                    stringForNextLine.setLength(0);
+                                }
                             }
 
                             contentStream.showText(currentLine);
                             contentStream.newLineAtOffset(0, -leading);
                         } else {
                             PageCreator.currentYPosition -= leading;
-                            contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0, -leading);
+                            contentStream.newLineAtOffset(hasIndentedFirstPart ? -usedIndentation : 0, -leading);
                             hasIndentedFirstPart = false;
 
-                            textBuilder.addLast(new Text(word + " ", textPart.getFont(), textPart.getFontSize(),
+                            textBuilder.addLast(new Text(word + (isLastWordOfNotLastTextPart ? " " : ""), textPart.getFont(), textPart.getFontSize(),
                                     textPart.getFontColour()));
                             maximumWidth -= wordWidth;
                         }
@@ -213,11 +232,11 @@ public class TextRenderer {
                         // Add the word to the builder and add a space
                         // character if the word is not the first word in the line
                         if (isFirstWord) {
-                            textBuilder.addLast(new Text(word + (isLastWordOfNoneLastTextPart ? " " : ""),
+                            textBuilder.addLast(new Text(word + (isLastWordOfNotLastTextPart ? " " : ""),
                                     textPart.getFont(), textPart.getFontSize(), textPart.getFontColour()));
                             isFirstWord = false;
                         } else textBuilder.addLast(new Text(" " + word +
-                                (isLastWordOfNoneLastTextPart ? " " : ""), textPart.getFont(),
+                                (isLastWordOfNotLastTextPart ? " " : ""), textPart.getFont(),
                                 textPart.getFontSize(), textPart.getFontColour()));
 
                         currentLineWidth += wordWidth;
@@ -270,7 +289,9 @@ public class TextRenderer {
                                 currentFontColour));
                         itemBuilder.setLength(0);
                         currentFont = text.getFont();
-                    } else itemBuilder.append(text.getContent());
+                    }
+
+                    itemBuilder.append(text.getContent());
                 }
 
                 if (!itemBuilder.isEmpty()) {
@@ -279,7 +300,8 @@ public class TextRenderer {
                     itemBuilder.setLength(0);
                 }
 
-                renderText(collectedRest, alignment);
+                renderNoContentText(collectedRest, alignment, PageCreator.currentYPosition, firstIndentation);
+                PageCreator.currentPageIsEmpty = false;
             }
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");

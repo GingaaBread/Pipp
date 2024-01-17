@@ -34,7 +34,6 @@ import java.util.MissingFormatArgumentException;
  * The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
  * that can be used when creating the document
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
@@ -254,6 +253,8 @@ public class Processor {
 
 
     public static LinkedList<BodyNode> documentBody = new LinkedList<>();
+    public static int POINTS_PER_INCH = 72;
+    public static float POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH;
 
     // TODO: Change to adapt configurations
     public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
@@ -279,14 +280,6 @@ public class Processor {
 
     public static float getAvailableContentWidth() {
         return Processor.dimensions.getWidth() - 2 * Processor.margin;
-    }
-
-    public static int getPointsPerInch() {
-        return 72;
-    }
-
-    public static float getPointsPerMM() {
-        return 1 / (10 * 2.54f) * getPointsPerInch();
     }
 
     /**
@@ -318,8 +311,6 @@ public class Processor {
         }
 
         var layout = styleConfiguration.getLayout();
-        final int pointsPerInch = getPointsPerInch();
-        var pointsPerMM = getPointsPerMM();
 
         // Check if the user demands a custom document dimension
 
@@ -330,11 +321,11 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getHeight().substring(0, layout.getHeight().length() - 2);
-                height = pointsPerInch * Float.parseFloat(asNumber);
+                height = POINTS_PER_INCH * Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
-                height = pointsPerMM * Float.parseFloat(layout.getHeight());
+                height = POINTS_PER_MM * Float.parseFloat(layout.getHeight());
             }
         } else height = usedStyleGuide.pageFormat().getHeight();
 
@@ -345,11 +336,11 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getWidth().substring(0, layout.getWidth().length() - 2);
-                width = pointsPerInch * Float.parseFloat(asNumber);
+                width = POINTS_PER_INCH * Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
-                width = pointsPerMM * Float.parseFloat(layout.getWidth());
+                width = POINTS_PER_MM * Float.parseFloat(layout.getWidth());
             }
         } else width = usedStyleGuide.pageFormat().getWidth();
 
@@ -364,13 +355,13 @@ public class Processor {
                 inchesUsed = true;
 
                 var asNumber = layout.getMargin().substring(0, layout.getMargin().length() - 2);
-                margin = pointsPerInch * Float.parseFloat(asNumber);
+                margin = POINTS_PER_INCH * Float.parseFloat(asNumber);
             } else {
                 mmUsed = true;
 
-                margin = pointsPerMM * Float.parseFloat(layout.getMargin());
+                margin = POINTS_PER_MM * Float.parseFloat(layout.getMargin());
             }
-        } else margin = pointsPerInch * usedStyleGuide.margin();
+        } else margin = POINTS_PER_INCH * usedStyleGuide.margin();
 
         // Check if the user demands a custom spacing
         if (layout.getSpacing() != null) {
@@ -481,9 +472,9 @@ public class Processor {
                     inchesUsed = true;
 
                     pageNumerationMargin = pageNumerationMargin.substring(0, pageNumerationMargin.length() - 2);
-                    unit = pointsPerInch;
+                    unit = POINTS_PER_INCH;
                 } else {
-                    unit = pointsPerMM;
+                    unit = POINTS_PER_MM;
 
                     mmUsed = true;
                 }
@@ -494,7 +485,7 @@ public class Processor {
             } catch (NumberFormatException e) {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
-        } else numerationMargin = pointsPerInch * usedStyleGuide.numerationMargin();
+        } else numerationMargin = POINTS_PER_INCH * usedStyleGuide.numerationMargin();
 
         var structure = styleConfiguration.getStructure();
 
@@ -598,9 +589,9 @@ public class Processor {
                     inchesUsed = true;
 
                     indentation = indentation.substring(0, indentation.length() - 2);
-                    unit = pointsPerInch;
+                    unit = POINTS_PER_INCH;
                 } else {
-                    unit = pointsPerMM;
+                    unit = POINTS_PER_MM;
 
                     mmUsed = true;
                 }

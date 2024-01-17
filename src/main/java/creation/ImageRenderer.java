@@ -12,35 +12,38 @@ import java.io.IOException;
 
 public class ImageRenderer {
 
+    /**
+     * Path to the image (img/) folder that contains all images the user wants to include in the document
+     */
     private static final String IMAGE_INPUT_PATH = "src/main/resources/img/";
+
+    /**
+     * Prevents instantiation
+     */
+    private ImageRenderer() {
+        throw new UnsupportedOperationException("Cannot instantiate helper class");
+    }
 
     public static void render(@NonNull String imageId, @NonNull ContentAlignment imageAlignment, Integer imageSize,
                               Float imageWidth, Float imageHeight) {
         try {
-            final float
-                    leading = Processor.getLeading(),
-                    availableWidth = Processor.getAvailableContentWidth();
+            final float leading = Processor.getLeading();
+            final float availableWidth = Processor.getAvailableContentWidth();
 
-            int width, height;
-            PDImageXObject imageObject;
-            try {
-                var file = new File(IMAGE_INPUT_PATH + imageId);
+            int width;
+            int height;
+            PDImageXObject imageObject = tryCreateImageObject(imageId);
 
-                imageObject = PDImageXObject.createFromFileByExtension(file, PageAssembler.getDocument());
-                width = imageObject.getWidth();
-                height = imageObject.getHeight();
+            width = imageObject.getWidth();
+            height = imageObject.getHeight();
 
-                if (imageSize != null) {
-                    float scale = imageSize / 100.0f;
-                    width = (Math.round(imageObject.getWidth() * scale));
-                    height = (Math.round(imageObject.getHeight() * scale));
-                } else {
-                    if (imageWidth != null) width = (Math.round(imageWidth));
-                    if (imageHeight != null) height = (Math.round(imageHeight));
-                }
-            } catch (IllegalArgumentException | IOException e) {
-                throw new MissingMemberException("9: Image with the image id '" + imageId + "' does not exist in the " +
-                        "img/ folder. Make sure it also has its file ending defined.");
+            if (imageSize != null) {
+                float scale = imageSize / 100.0f;
+                width = (Math.round(imageObject.getWidth() * scale));
+                height = (Math.round(imageObject.getHeight() * scale));
+            } else {
+                if (imageWidth != null) width = (Math.round(imageWidth));
+                if (imageHeight != null) height = (Math.round(imageHeight));
             }
 
             var targetYPosition = PageCreator.currentYPosition - height;
@@ -68,12 +71,28 @@ public class ImageRenderer {
             };
 
             contentStream.drawImage(imageObject, targetXPosition, targetYPosition, width, height);
-            PageCreator.currentYPosition -= leading;
+            PageCreator.currentYPosition -= leading + height;
             PageCreator.currentPageIsEmpty = false;
 
             contentStream.close();
         } catch (IOException e) {
             throw new IllegalStateException("Image could not be rendered.");
+        }
+    }
+
+    /**
+     * If the image at the path exists, yields the image as an image object.
+     *
+     * @param imageId the id of the image in the img/ folder
+     * @return the image as an image object
+     */
+    private static PDImageXObject tryCreateImageObject(@NonNull final String imageId) {
+        try {
+            var file = new File(IMAGE_INPUT_PATH + imageId);
+            return PDImageXObject.createFromFileByExtension(file, PageAssembler.getDocument());
+        } catch (IllegalArgumentException | IOException e) {
+            throw new MissingMemberException("9: Image with the image id '" + imageId + "' does not exist in the " +
+                    "img/ folder. Make sure it also has its file ending defined.");
         }
     }
 
