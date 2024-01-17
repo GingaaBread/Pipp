@@ -1,5 +1,4 @@
 config
-	author "Max Mustermann"
 	title
 		"Heterotopian Qualities in"
 		work "King Rat"
@@ -8,6 +7,15 @@ config
 		chair "Anglistik und Amerikanistik"
 		title "English 101"
 		semester "WS 1998"
+	style
+		of "MLA9"
+		numeration
+			limit "None"
+			author "firstname"
+
+
+
+
 header
 title
 
@@ -42,11 +50,11 @@ of the scene matching those heterotopian qualities. In addition, I attempt to ev
 their effects on the reader and the story progression.
 "
 
-image
-	id "Nature.jpg"
-	display "Right"
-	size "3%"
-
-image "Nature.jpg", "3%"
+#image
+#	id "Nature.jpg"
+#	display "Right"
+#	size "3%"
+#
+#image "Nature.jpg", "3%"
 
 blank

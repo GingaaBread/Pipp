@@ -230,6 +230,54 @@ config
 		date "None"
 ```
 
+#### Publication Institution
+
+The `institution` keyword can be used to define the institution of the publication. An example use case would be
+the name of a university.
+
+_Examples:_
+
+```
+config
+	publication
+		institution "University of Nowhere"
+```
+
+```
+config
+	publication
+		institution "Newspaper Agency XYZ"
+```
+
+#### Publication Chair
+
+The `chair` keyword can be used to define the chair of the institution of the publication. An example use case would be
+the name of a branch in a university.
+
+_Example:_
+
+```
+config
+	publication
+		institution "University of Nowhere"
+		chair "XIV Computer Science"
+```
+
+#### Publication Semester
+
+The `chair` keyword can be used to replace the publication date by a semester format. This can be useful for academic
+contexts.
+
+_Example:_
+
+```
+config
+	publication
+		institution "University of Nowhere"
+		chair "XIV Computer Science"
+		semester "Winter Semester 1998"
+```
+
 ### Document Type
 
 The document type is currently a reserved configuration with no effect.

@@ -7,7 +7,10 @@ import frontend.parsing.Parser;
 import lombok.NonNull;
 import processing.Processor;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,15 +18,13 @@ public class FrontEndBridge {
 
     private final Scanner scanner;
     private final Parser parser;
-
+    private final List<Token> tokens;
     private File fileToRead;
     private BufferedReader reader;
 
-    private final List<Token> tokens;
-
     /**
-     *  The standard method of compilation requires a file, which contains the Pipp code.
-     *  This constructor should be the default approach when compiling.
+     * The standard method of compilation requires a file, which contains the Pipp code.
+     * This constructor should be the default approach when compiling.
      *
      * @param fileToRead - the non-null file that should be read.
      */
@@ -33,8 +34,8 @@ public class FrontEndBridge {
     }
 
     /**
-     *  Provides a method to use predefined text, instead of a text file during compilation.
-     *  This can be useful for debugging and testing purposes.
+     * Provides a method to use predefined text, instead of a text file during compilation.
+     * This can be useful for debugging and testing purposes.
      *
      * @param textToRead - the non-null text that should be read. It can be empty.
      */
@@ -50,7 +51,7 @@ public class FrontEndBridge {
     }
 
     /**
-     *  A private constructor to create the mandatory fields
+     * A private constructor to create the mandatory fields
      */
     private FrontEndBridge() {
         this.tokens = new LinkedList<>();
@@ -93,7 +94,7 @@ public class FrontEndBridge {
             read();
 
             scanner.submitToken();
-            if (tokens.size() > 0) parser.s();
+            if (!tokens.isEmpty()) parser.s();
 
             reader.close();
         } catch (IOException e) {
