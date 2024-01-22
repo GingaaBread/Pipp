@@ -19,18 +19,21 @@ public class FrontEndBridge {
     private final Scanner scanner;
     private final Parser parser;
     private final List<Token> tokens;
-    private File fileToRead;
+    private File documentFileToRead;
+    private File bibliographyFileToRead;
     private BufferedReader reader;
 
     /**
      * The standard method of compilation requires a file, which contains the Pipp code.
      * This constructor should be the default approach when compiling.
      *
-     * @param fileToRead - the non-null file that should be read.
+     * @param documentFile     - the non-null document file that should be read.
+     * @param bibliographyFile - the non-null bibliography file that should be read.
      */
-    public FrontEndBridge(@NonNull final File fileToRead) {
+    public FrontEndBridge(@NonNull final File documentFile, @NonNull final File bibliographyFile) {
         this();
-        this.fileToRead = fileToRead;
+        this.documentFileToRead = documentFile;
+        this.bibliographyFileToRead = bibliographyFile;
     }
 
     /**
@@ -84,12 +87,23 @@ public class FrontEndBridge {
     }
 
     public void compile() {
-        if (fileToRead == null)
+        if (documentFileToRead == null)
             throw new IllegalStateException("Should not try to read the empty file. If you are trying to debug or " +
                     "test, use the second constructor, instead.");
 
-        try {
-            reader = new BufferedReader(new FileReader(fileToRead));
+        try (var bibliographyReader = new BufferedReader(new FileReader(bibliographyFileToRead))) {
+            reader = new BufferedReader(new FileReader(documentFileToRead));
+
+            if (bibliographyFileToRead != null) {
+                int current;
+                while ((current = bibliographyReader.read()) != -1) scanner.scan((char) current);
+
+                scanner.submitToken();
+                if (!tokens.isEmpty()) {
+                    parser.bibliography();
+                }
+                tokens.clear();
+            }
 
             read();
 

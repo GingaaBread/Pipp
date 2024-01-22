@@ -5,39 +5,39 @@ import lombok.NonNull;
 import lombok.Setter;
 
 /**
- *  Represents the author of a type of work represented by a first and last name.
- *  The author can also have an optional identification number/string.
+ * Represents the author of a type of work represented by a first and last name.
+ * The author can also have an optional identification number/string.
  *
- *  @author Gino Glink
- *  @version 1.0
- *  @since 1.0
+ * @version 1.0
+ * @since 1.0
  */
-public class Author extends Person
-{
+public class Author extends Person {
 
     /**
-     *  Defines the identification number/string of the author.
-     *  Providing an author's ID is optional, so this field can be null.
+     * Defines the identification number/string of the author.
+     * Providing an author's ID is optional, so this field can be null.
      */
     @Getter
     @Setter
     private String id;
 
     /**
-     *  Creates a new author by specifying the first and last names separately.
-     *  Note that leading and trailing white space is removed.
+     * Creates a new author by specifying the first and last names separately.
+     * Note that leading and trailing white space is removed.
+     *
      * @param firstname - the first name of the string as a whole string. For example: "John"
-     * @param lastname - the last name of the string as a whole string. For example: "Doe"
+     * @param lastname  - the last name of the string as a whole string. For example: "Doe"
      */
     public Author(@NonNull final String firstname, @NonNull final String lastname) {
         super(firstname, lastname);
     }
 
     /**
-     *  Creates a new author by specifying the name as a whole string.
-     *  In that case, all characters until the last white space character are interpreted as the first name,
-     *  and all characters after it are interpreted as the last name.
-     *  Note that leading and trailing white space is removed.
+     * Creates a new author by specifying the name as a whole string.
+     * In that case, all characters until the last white space character are interpreted as the first name,
+     * and all characters after it are interpreted as the last name.
+     * Note that leading and trailing white space is removed.
+     *
      * @param name - the name of the assessor as a whole string. For example: "John Doe"
      */
     public Author(@NonNull final String name) {

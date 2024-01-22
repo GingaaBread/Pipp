@@ -1,10 +1,7 @@
 package frontend.parsing;
 
 import frontend.FrontEndBridge;
-import frontend.ast.AST;
-import frontend.ast.Image;
-import frontend.ast.NoArgumentStructure;
-import frontend.ast.Node;
+import frontend.ast.*;
 import frontend.ast.config.*;
 import frontend.ast.paragraph.Emphasise;
 import frontend.ast.paragraph.Paragraph;
@@ -28,6 +25,8 @@ public class Parser {
     /// CONSTANTS
 
     private static final String AUTHOR_KEYWORD = "author";
+    private static final String YEAR_KEYWORD = "year";
+    private static final String BIBLIOGRAPHY_KEYWORD = "bibliography";
     private static final String SEMESTER_KEYWORD = "semester";
     private static final String INSTITUTION_KEYWORD = "institution";
     private static final String CHAIR_KEYWORD = "chair";
@@ -85,6 +84,8 @@ public class Parser {
      * Tracks the current token, which needs to be parsed
      */
     private Token current;
+
+
     /**
      * Tracks the current paragraph in order to be able to add paragraph instructions to it when parsing
      * its children, and then add the paragraph with the child nodes to the document body.
@@ -246,6 +247,121 @@ public class Parser {
     private void indendationError() {
         throw new IllegalArgumentException("Indentation error. Current token is: " +
                 current + ". Prior was: " + last + ". The required level is: " + (currentIndentationLevel + 1));
+    }
+
+    /**
+     * Bibliography := "bibliography" INDENT BibliographyItemList
+     */
+    public void bibliography() {
+        if (frontEndBridge.containsTokens()) {
+            current = frontEndBridge.dequeueToken();
+            consumeKeyword(BIBLIOGRAPHY_KEYWORD);
+            newline();
+            expectIndentation();
+            bibliographyItemList();
+            if (frontEndBridge.containsTokens()) error();
+        }
+    }
+
+    /**
+     * BibliographyItemList := "id" INDENT BibliographyItem DEDENT
+     */
+    private void bibliographyItemList() {
+        expectKeyword(it -> {
+            lastNode = new BibliographySource();
+            consumeKeyword(ID_KEYWORD);
+            textual();
+            ((BibliographySource) lastNode).setId(last.value);
+            expectIndentation();
+            bibliographyItem();
+
+            ast.includeBibliographySource((BibliographySource) lastNode);
+            forgoIndentation();
+        }, ID_KEYWORD);
+    }
+
+    /**
+     * BibliographyItem := Type | Author | Title | PublicationInfo
+     */
+    private void bibliographyItem() {
+        expectKeyword(it -> {
+            switch (it) {
+                case TYPE_KEYWORD -> {
+                    consumeKeyword(TYPE_KEYWORD);
+                    textual();
+                    ((BibliographySource) lastNode).setType(last.value);
+                }
+                case TITLE_KEYWORD -> {
+                    consumeKeyword(TITLE_KEYWORD);
+                    textual();
+                    ((BibliographySource) lastNode).setTitle(last.value);
+                }
+                case AUTHOR_KEYWORD -> {
+                    consumeKeyword(AUTHOR_KEYWORD);
+                    bibliographyItemAuthor();
+                }
+                case PUBLICATION_KEYWORD -> {
+                    consumeKeyword(PUBLICATION_KEYWORD);
+                    newline();
+                    expectIndentation();
+                    bibliographyItemPublication();
+                    forgoIndentation();
+                }
+                default -> error();
+            }
+        }, TYPE_KEYWORD, AUTHOR_KEYWORD, TITLE_KEYWORD, PUBLICATION_KEYWORD);
+    }
+
+    private void bibliographyItemPublication() {
+        expectKeyword(it -> {
+            if (it.equals(NAME_KEYWORD)) {
+                consumeKeyword(NAME_KEYWORD);
+                textual();
+                ((BibliographySource) lastNode).getPublication().setName(last.value);
+            } else if (it.equals(YEAR_KEYWORD)) {
+                consumeKeyword(YEAR_KEYWORD);
+                textual();
+                ((BibliographySource) lastNode).getPublication().setYear(last.value);
+            } else error();
+        }, NAME_KEYWORD, YEAR_KEYWORD);
+    }
+
+    private void bibliographyItemAuthor() {
+        currentlyParsedContainer = "Bibliography Author";
+        if (current.type == TokenType.NEW_LINE) {
+            newline();
+            expectIndentation();
+
+            if (isKeyword()) {
+                switch (current.value) {
+                    case NAME_KEYWORD, FIRST_NAME_KEYWORD, TITLE_KEYWORD -> nameSpecification();
+                    case OF_KEYWORD -> expectKeyword(it -> {
+                        consumeKeyword(OF_KEYWORD);
+
+                        if (current.type == TokenType.NEW_LINE) {
+                            newline();
+                            expectIndentation();
+                            nameSpecification();
+                            forgoIndentation();
+                        } else if (current.type == TokenType.TEXT) bibliographyInlineAuthor();
+                        else error();
+                    }, OF_KEYWORD);
+                    default -> error();
+                }
+            } else error();
+
+            forgoIndentation();
+        } else if (current.type == TokenType.TEXT) bibliographyInlineAuthor();
+        else error();
+    }
+
+    private void bibliographyInlineAuthor() {
+        textual();
+
+        var author = new Author();
+        author.setName(last.value);
+
+        ((BibliographySource) lastNode).getAuthors().add(author);
     }
 
     /**
@@ -699,20 +815,30 @@ public class Parser {
             if (current.value.equals(NAME_KEYWORD)) {
                 name();
 
-                if (currentlyParsedContainer.equals("Author")) {
-                    var author = new Author();
-                    author.setTitle(title);
-                    author.setName(last.value);
+                switch (currentlyParsedContainer) {
+                    case "Author" -> {
+                        var author = new Author();
+                        author.setTitle(title);
+                        author.setName(last.value);
 
-                    ast.getConfiguration().getAuthors().add(author);
-                    lastNode = author;
-                } else if (currentlyParsedContainer.equals("Assessor")) {
-                    var assessor = new Assessor();
-                    assessor.setTitle(title);
-                    assessor.setName(last.value);
+                        ast.getConfiguration().getAuthors().add(author);
+                        lastNode = author;
+                    }
+                    case "Assessor" -> {
+                        var assessor = new Assessor();
+                        assessor.setTitle(title);
+                        assessor.setName(last.value);
+                        ast.getConfiguration().getAssessors().add(assessor);
+                        lastNode = assessor;
+                    }
+                    case "Bibliography Author" -> {
+                        var author = new Author();
+                        author.setTitle(title);
+                        author.setName(last.value);
 
-                    ast.getConfiguration().getAssessors().add(assessor);
-                    lastNode = assessor;
+                        ((BibliographySource) lastNode).getAuthors().add(author);
+                    }
+                    default -> error();
                 }
             } else if (current.value.equals(FIRST_NAME_KEYWORD)) {
                 firstname();
@@ -724,22 +850,33 @@ public class Parser {
 
                 var lastname = last.value;
 
-                if (currentlyParsedContainer.equals("Author")) {
-                    var author = new Author();
-                    author.setTitle(title);
-                    author.setFirstname(firstname);
-                    author.setLastname(lastname);
+                switch (currentlyParsedContainer) {
+                    case "Author" -> {
+                        var author = new Author();
+                        author.setTitle(title);
+                        author.setFirstname(firstname);
+                        author.setLastname(lastname);
 
-                    ast.getConfiguration().getAuthors().add(author);
-                    lastNode = author;
-                } else if (currentlyParsedContainer.equals("Assessor")) {
-                    var assessor = new Assessor();
-                    assessor.setTitle(title);
-                    assessor.setFirstname(firstname);
-                    assessor.setLastname(lastname);
+                        ast.getConfiguration().getAuthors().add(author);
+                        lastNode = author;
+                    }
+                    case "Assessor" -> {
+                        var assessor = new Assessor();
+                        assessor.setTitle(title);
+                        assessor.setFirstname(firstname);
+                        assessor.setLastname(lastname);
+                        ast.getConfiguration().getAssessors().add(assessor);
+                        lastNode = assessor;
+                    }
+                    case "Bibliography Author" -> {
+                        var author = new Author();
+                        author.setTitle(title);
+                        author.setFirstname(firstname);
+                        author.setLastname(lastname);
 
-                    ast.getConfiguration().getAssessors().add(assessor);
-                    lastNode = assessor;
+                        ((BibliographySource) lastNode).getAuthors().add(author);
+                    }
+                    default -> error();
                 }
             } else error();
         } else error();

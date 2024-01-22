@@ -290,6 +290,9 @@ public class Processor {
     public void processAST(@NonNull final AST ast) {
         System.out.println("AST has been generated generated.");
 
+        System.out.println("There are the following sources in the bibliography:");
+        System.out.println(ast.getBibliographySources());
+
         System.out.println("Now checking AST for possible warnings");
         ast.checkForWarnings();
 

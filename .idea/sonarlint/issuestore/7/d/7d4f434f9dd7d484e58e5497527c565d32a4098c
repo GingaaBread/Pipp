@@ -1,17 +1,22 @@
 
-u
-java:S1192·	"WUse already-defined constant 'PARAGRAPH_KEYWORD' instead of duplicating its value here.(‰Œ¯’8©ÁàÇÑ1
 q
-java:S1192ê"SDefine a constant instead of duplicating this literal "Sentence Structure" 5 times.(’Š·Á8©ÁàÇÑ1
+java:S1192ó"SDefine a constant instead of duplicating this literal "Sentence Structure" 5 times.(’Š·Á8ÿİÁãÒ1
 w
-java:S1192Á"YUse already-defined constant 'PUBLICATION_KEYWORD' instead of duplicating its value here.(¦··û8©ÁàÇÑ1
+java:S1192µ"YUse already-defined constant 'PUBLICATION_KEYWORD' instead of duplicating its value here.(¦··û8ÿİÁãÒ1
 q
-java:S1192å"SDefine a constant instead of duplicating this literal "Emphasis Structure" 4 times.(¼Òâã8©ÁàÇÑ1
+java:S1192î"SDefine a constant instead of duplicating this literal "Emphasis Structure" 4 times.(¼Òâã8ÿİÁãÒ1
 m
-java:S1192®"ODefine a constant instead of duplicating this literal "Document Title" 5 times.(™¬¶š8©ÁàÇÑ1
+java:S1192¢"ODefine a constant instead of duplicating this literal "Document Title" 5 times.(™¬¶š8ÿİÁãÒ1
+w
+java:S1192Ê"TDefine a constant instead of duplicating this literal "Bibliography Author" 3 times.(é½¡İıÿÿÿÿ8É¾ÌãÒ1
 e
-java:S1192û"GDefine a constant instead of duplicating this literal "Author" 5 times.(‘Ùã£8©ÁàÇÑ1
+java:S1192ï"GDefine a constant instead of duplicating this literal "Author" 5 times.(‘Ùã£8ÿİÁãÒ1
 r
-java:S1192ö"ODefine a constant instead of duplicating this literal "Work Structure" 6 times.(í»Œùÿÿÿÿ8©ÁàÇÑ1
+java:S1192ÿ"ODefine a constant instead of duplicating this literal "Work Structure" 6 times.(í»Œùÿÿÿÿ8ÿİÁãÒ1
+u
+java:S1192À
+"WUse already-defined constant 'PARAGRAPH_KEYWORD' instead of duplicating its value here.(‰Œ¯’8şİÁãÒ1
 g
-java:S1192˜"IDefine a constant instead of duplicating this literal "Assessor" 5 times.(Á†¥¯8©ÁàÇÑ1
+java:S1192Œ"IDefine a constant instead of duplicating this literal "Assessor" 5 times.(Á†¥¯8ÿİÁãÒ1
+u
+java:S3776É"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÿ÷©ûÿÿÿÿ8áßÁãÒ1

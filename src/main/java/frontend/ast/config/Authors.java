@@ -8,24 +8,23 @@ import warning.*;
 import java.util.ArrayList;
 
 /**
- *  The authors node groups together all authors specified by the user
+ * The authors node groups together all authors specified by the user
  *
- * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 @Getter
 @ToString
 public class Authors extends Node {
 
     /**
-     *  Contains all authors specified by the user.
-     *  To add an author to the list, use the add-method of this node.
+     * Contains all authors specified by the user.
+     * To add an author to the list, use the add-method of this node.
      */
     private final ArrayList<Author> authors = new ArrayList<>();
 
     /**
-     *  Adds the specified author node to end of the author list
+     * Adds the specified author node to end of the author list
      *
      * @param author - the author AST node that should be added to the list
      */
@@ -34,8 +33,8 @@ public class Authors extends Node {
     }
 
     /**
-     *  Produces a warning if there is at least one author with an ID, and one author without one
-     *  Also produces a warning if there are two authors with the same ID, and a warning if there is no author
+     * Produces a warning if there is at least one author with an ID, and one author without one
+     * Also produces a warning if there are two authors with the same ID, and a warning if there is no author
      */
     @Override
     protected void checkForWarnings() {
