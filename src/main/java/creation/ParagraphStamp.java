@@ -4,7 +4,6 @@ import frontend.ast.paragraph.ParagraphInstruction;
 import lombok.NonNull;
 import processing.Processor;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,12 +30,10 @@ public class ParagraphStamp {
      * @param contentToRender a non-null list of all instructions that make up the paragraph.
      */
     public static void renderParagraph(@NonNull final List<ParagraphInstruction> contentToRender) {
-        final LinkedList<Text> texts = new LinkedList<>();
-        for (ParagraphInstruction instruction : contentToRender)
-            texts.add(Processor.paragraphInstructionToText(instruction));
+        final var instructionTexts = contentToRender.stream().map(ParagraphInstruction::toTextComponent).toList();
 
-        TextRenderer.renderIndentedText(texts, ContentAlignment.LEFT, PageCreator.currentYPosition,
-                Processor.usedStyleGuide.paragraphIndentation());
+        TextRenderer.renderIndentedText(instructionTexts, ContentAlignment.LEFT, PageCreator.currentYPosition,
+                Processor.getUsedStyleGuide().paragraphIndentation());
     }
 
 }

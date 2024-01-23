@@ -1,14 +1,16 @@
 package frontend.ast.paragraph;
 
+import creation.Text;
 import error.MissingMemberException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import processing.Processor;
 
 /**
  * The work node defines the reference to work inside a paragraph that should be emphasised.
+ * Note that this trims the content of leading and trailing whitespace.
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
@@ -28,7 +30,7 @@ public class Work extends ParagraphInstruction {
      * @throws MissingMemberException if the text content is blank
      */
     public Work(@NonNull final String content) {
-        if (content.isBlank()) throw new MissingMemberException("1: A text component cannot be blank");
+        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
         this.workContent = content.trim();
     }
 
@@ -40,4 +42,13 @@ public class Work extends ParagraphInstruction {
         // No warnings
     }
 
+    /**
+     * Converts the node into a text component
+     *
+     * @return the work node as a text component ready to be rendered
+     */
+    @Override
+    public Text toTextComponent() {
+        return new Text(workContent, Processor.getWorkFont(), Processor.getWorkFontSize(), Processor.getWorkFontColour());
+    }
 }

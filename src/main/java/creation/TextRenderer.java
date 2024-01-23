@@ -47,8 +47,8 @@ public class TextRenderer {
      * @param text the text that should be rendered on the page
      */
     public static void renderLeftAlignedText(@NonNull final String text) {
-        renderText(List.of(new Text(text, Processor.sentenceFont, Processor.sentenceFontSize, Processor.sentenceFontColour)),
-                ContentAlignment.LEFT);
+        renderText(List.of(new Text(text, Processor.getSentenceFont(), Processor.getSentenceFontSize(),
+                Processor.getSentenceFontColour())), ContentAlignment.LEFT);
     }
 
     /**
@@ -69,7 +69,7 @@ public class TextRenderer {
                                            final Float firstIndentation) {
         try {
             // Calculates the distance of the bottom of one line to the top of the next line
-            final float leading = Processor.getLeading();
+            final float leading = Processor.LEADING;
 
             // Determines how much space the text can take up, by subtracting the margin for both sides
             final float availableWidth = Processor.getAvailableContentWidth();
@@ -78,7 +78,7 @@ public class TextRenderer {
             float lastXOffset = 0;
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
-            float startX = Processor.margin;
+            float startX = Processor.getMargin();
 
             // Converts the indentation in inches to points
             Float usedIndentation = null;
@@ -89,8 +89,8 @@ public class TextRenderer {
                     PDPageContentStream.AppendMode.APPEND, false);
 
             // Sets up the content stream
-            contentStream.setFont(Processor.sentenceFont, Processor.sentenceFontSize);
-            contentStream.setNonStrokingColor(Processor.sentenceFontColour);
+            contentStream.setFont(Processor.getSentenceFont(), Processor.getSentenceFontSize());
+            contentStream.setNonStrokingColor(Processor.getSentenceFontColour());
             contentStream.beginText();
             contentStream.newLineAtOffset(startX, startY);
 
@@ -130,12 +130,12 @@ public class TextRenderer {
                     isLastWordOfNotLastTextPart = j == words.length - 1 && k != textComponentsToRender.size() - 1;
 
                     // Calculate the width of the entire line with a space and the current word
-                    final float wordWidth = Processor.sentenceFont.getStringWidth(
+                    final float wordWidth = textPartFont.getStringWidth(
                             (isFirstWord ? "" : " ") + word + (isLastWordOfNotLastTextPart ? " " : "")) /
-                            1000 * Processor.sentenceFontSize;
+                            1000 * textPartFontSize;
 
                     // Check if the next line does not fit into the current page anymore
-                    if (PageCreator.currentYPosition < Processor.margin) {
+                    if (PageCreator.currentYPosition < Processor.getMargin()) {
                         if (!textBuilder.isEmpty()) {
                             final var textSize = textBuilder.size();
                             for (int i = 0; i < textSize; i++) rest.addLast(textBuilder.remove());
@@ -155,7 +155,7 @@ public class TextRenderer {
                         // When trying to center the text, we first need to calculate the total width for our offset
                         if (alignment == ContentAlignment.CENTER) {
                             final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() -
-                                    currentLineWidth) / 2 - Processor.margin;
+                                    currentLineWidth) / 2 - Processor.getMargin();
                             contentStream.newLineAtOffset(-lastXOffset, 0);
                             contentStream.newLineAtOffset(xOffset, 0);
                             lastXOffset = xOffset;
@@ -191,13 +191,12 @@ public class TextRenderer {
                                 while (nextLineWidth > maximumWidth) {
                                     stringForNextLine.append(currentLine.charAt(currentLine.length() - 1));
                                     currentLine = currentLine.substring(0, currentLine.length() - 1);
-                                    nextLineWidth = Processor.sentenceFont.getStringWidth(currentLine) / 1000 *
-                                            Processor.sentenceFontSize;
+                                    nextLineWidth = textPartFont.getStringWidth(currentLine) / 1000 * textPartFontSize;
                                 }
 
                                 PageCreator.currentYPosition -= leading;
 
-                                if (PageCreator.currentYPosition < Processor.margin) {
+                                if (PageCreator.currentYPosition < Processor.getMargin()) {
                                     reachedNewPage = true;
                                     rest.add(new Text(stringForNextLine.reverse().toString(), textPartFont,
                                             textPartFontSize, textPartFontColour));
@@ -210,8 +209,7 @@ public class TextRenderer {
                                     hasIndentedFirstPart = false;
 
                                     currentLine = stringForNextLine.reverse().toString();
-                                    nextLineWidth = Processor.sentenceFont.getStringWidth(currentLine) / 1000 *
-                                            Processor.sentenceFontSize;
+                                    nextLineWidth = textPartFont.getStringWidth(currentLine) / 1000 * textPartFontSize;
                                     stringForNextLine.setLength(0);
                                 }
                             }
@@ -250,7 +248,7 @@ public class TextRenderer {
                 // When trying to center the text, we first need to calculate the total width for our offset
                 if (alignment == ContentAlignment.CENTER) {
                     final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() - currentLineWidth) / 2
-                            - Processor.margin;
+                            - Processor.getMargin();
                     contentStream.newLineAtOffset(xOffset, 0);
                 }
 
@@ -353,7 +351,7 @@ public class TextRenderer {
      * @return true - if the text would fit in one line; false - if it would not
      */
     public static boolean textFitsInOneLine(@NonNull Text asText) {
-        final float availableWidth = Processor.dimensions.getWidth() - 2 * Processor.margin;
+        final float availableWidth = Processor.getDimensions().getWidth() - 2 * Processor.getMargin();
         final float textWidth;
         try {
             textWidth = asText.getFont().getStringWidth(asText.getContent()) / 1000 * asText.getFontSize();

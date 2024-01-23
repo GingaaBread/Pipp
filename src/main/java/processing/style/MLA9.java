@@ -6,7 +6,10 @@ import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import processing.*;
+import processing.AllowanceType;
+import processing.NumerationAuthorName;
+import processing.NumerationPosition;
+import processing.NumerationType;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -175,22 +178,6 @@ public class MLA9 extends StyleGuide {
     @Override
     public float paragraphIndentation() {
         return 0.5f;
-    }
-
-    /**
-     * MLA inserts a space before every sentence
-     */
-    @Override
-    public String sentencePrefix() {
-        return " ";
-    }
-
-    /**
-     * MLA uses a default document type of PAPER
-     */
-    @Override
-    public DocumentType documentType() {
-        return DocumentType.PAPER;
     }
 
     /**

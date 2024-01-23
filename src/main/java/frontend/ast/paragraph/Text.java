@@ -4,9 +4,11 @@ import error.MissingMemberException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import processing.Processor;
 
 /**
  * The Text node defines textual content inside a paragraph.
+ * Note that this trims the content of leading and trailing whitespace.
  *
  * @version 1.0
  * @since 1.0
@@ -27,7 +29,7 @@ public class Text extends ParagraphInstruction {
      * @throws MissingMemberException if the text content is blank
      */
     public Text(@NonNull final String content) {
-        if (content.isBlank()) throw new MissingMemberException("1: A text component cannot be blank");
+        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
         this.content = content.trim();
     }
 
@@ -39,4 +41,14 @@ public class Text extends ParagraphInstruction {
         // No warnings
     }
 
+    /**
+     * Converts the node into a text component
+     *
+     * @return the text node as a text component ready to be rendered
+     */
+    @Override
+    public creation.Text toTextComponent() {
+        return new creation.Text(content, Processor.getSentenceFont(), Processor.getSentenceFontSize(),
+                Processor.getSentenceFontColour());
+    }
 }

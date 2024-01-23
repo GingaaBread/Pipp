@@ -1,11 +1,9 @@
 package frontend;
 
-import frontend.ast.AST;
 import frontend.lexical_analysis.Scanner;
 import frontend.lexical_analysis.Token;
 import frontend.parsing.Parser;
 import lombok.NonNull;
-import processing.Processor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -76,10 +74,6 @@ public class FrontEndBridge {
         if (index >= tokens.size() || index < 0) throw new IndexOutOfBoundsException();
 
         return tokens.get(index);
-    }
-
-    public void startProcessor(@NonNull final AST ast) {
-        new Processor().processAST(ast);
     }
 
     public boolean containsTokens() {

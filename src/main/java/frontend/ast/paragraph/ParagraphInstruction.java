@@ -1,5 +1,6 @@
 package frontend.ast.paragraph;
 
+import creation.Text;
 import frontend.ast.Node;
 
 /**
@@ -10,4 +11,12 @@ import frontend.ast.Node;
  * @since 1.0
  */
 public abstract class ParagraphInstruction extends Node {
+
+    /**
+     * Forces paragraph instructions to define how they should be rendered on the screen when created.
+     *
+     * @return the instruction as a text consisting of a font, font size, font colour and content.
+     */
+    public abstract Text toTextComponent();
+
 }

@@ -8,25 +8,24 @@ import lombok.ToString;
 import java.util.ArrayList;
 
 /**
- *  The title node contains the title of the document
+ * The title node contains the title of the document
  *
- * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 @ToString
 public class Title extends Node {
 
     /**
-     *  A list of textual content within the title.
-     *  The title can include a mix of texts and citations.
-     *  To add an element to the list, use the add-method of this node.
+     * A list of textual content within the title.
+     * The title can include a mix of texts and citations.
+     * To add an element to the list, use the add-method of this node.
      */
     @Getter
     private final ArrayList<TitleText> texts = new ArrayList<>();
 
     /**
-     *  Adds either a citation or a text to the title list
+     * Adds either a citation or a text to the title list
      *
      * @param text - the text or citation as a cited text, which should be added to the text list
      */
@@ -36,7 +35,7 @@ public class Title extends Node {
     }
 
     /**
-     *  Retrieves all texts as a single string without taking formatting into consideration
+     * Retrieves all texts as a single string without taking formatting into consideration
      *
      * @return - all string values of all texts as a single string separated by a space
      */
@@ -57,7 +56,7 @@ public class Title extends Node {
     }
 
     /**
-     *  The title node does not produce warnings
+     * The title node does not produce warnings
      */
     @Override
     protected void checkForWarnings() {

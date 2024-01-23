@@ -10,6 +10,16 @@ import processing.Processor;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The ImageRender class is used to render images on the document.
+ * Users can specify the identifier of the image including its file ending (for example, "dog.png") and the renderer
+ * will look up the project's img/ folder looking for an image with that identifier.
+ * Supported formats are png, jpg, jpeg, gif, bmp and tiff.
+ * Note that this will throw an exception if the rendered result would display an image that did not fit on a page.
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class ImageRenderer {
 
     /**
@@ -24,10 +34,24 @@ public class ImageRenderer {
         throw new UnsupportedOperationException("Cannot instantiate helper class");
     }
 
+    /**
+     * Renders the image with the specified identifier on the document using the specified content alignment.
+     * If no alignment is specified, the style guide's default image alignment is used. Uses either the size value
+     * as a relative size in regard to the default image size, or uses the width and height attributes as an absolute
+     * image scale. If neither attribute is set, the default image resolution is used.
+     * Throws exceptions if the image with the specified id cannot be found, if the image does not fit on the page using
+     * the used dimensions, or if the conversion fails.
+     *
+     * @param imageId        the identifier of the image including its file ending relative to the project's img/ folder
+     * @param imageAlignment the desired alignment of the image, or null if the style guide's default should be used
+     * @param imageSize      the relative size of the image as an Integer (25% = 25) or null if undesired
+     * @param imageWidth     the absolute width of the image in points (25pt = 25) or null if undesired
+     * @param imageHeight    the absolute height of the image in points (25pt = 25) or null if undesired
+     */
     public static void render(@NonNull String imageId, @NonNull ContentAlignment imageAlignment, Integer imageSize,
                               Float imageWidth, Float imageHeight) {
         try {
-            final float leading = Processor.getLeading();
+            final float leading = Processor.LEADING;
             final float availableWidth = Processor.getAvailableContentWidth();
 
             int width;
@@ -49,12 +73,12 @@ public class ImageRenderer {
             var targetYPosition = PageCreator.currentYPosition - height;
 
             // Check if the image does not fit on the current page anymore
-            if (targetYPosition < Processor.margin) {
+            if (targetYPosition < Processor.getMargin()) {
                 PageCreator.createNewPage();
                 targetYPosition = PageCreator.currentYPosition - height;
 
                 // Check if the image is too large to even fit on an empty page
-                if (targetYPosition < Processor.margin)
+                if (targetYPosition < Processor.getMargin())
                     throw new ContentException("1: Image with ID '" + imageId + "' is too large to fit on a single page.");
             }
 
@@ -65,9 +89,9 @@ public class ImageRenderer {
                     PDPageContentStream.AppendMode.APPEND, false);
 
             final float targetXPosition = switch (imageAlignment) {
-                case LEFT -> Processor.margin;
-                case RIGHT -> availableWidth - width + Processor.margin;
-                case CENTER -> Processor.margin + (availableWidth / 2) - (width / 2f);
+                case LEFT -> Processor.getMargin();
+                case RIGHT -> availableWidth - width + Processor.getMargin();
+                case CENTER -> Processor.getMargin() + (availableWidth / 2) - (width / 2f);
             };
 
             contentStream.drawImage(imageObject, targetXPosition, targetYPosition, width, height);

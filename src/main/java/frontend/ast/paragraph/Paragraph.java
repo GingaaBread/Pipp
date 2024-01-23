@@ -35,8 +35,9 @@ public class Paragraph extends BodyNode {
     }
 
     /**
-     * If handles, renders the paragraph on the current page.
+     * If handled, renders the paragraph on the current page.
      * Throws an IllegalStateException if the paragraph instruction list is empty, i.e. there are no instructions
+     * (this would be an internal compiler error, not a user error), hence the exception type.
      */
     @Override
     public void handleBodyElement() {

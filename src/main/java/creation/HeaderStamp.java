@@ -22,66 +22,96 @@ public class HeaderStamp {
      * Renders the header stamp to the current position in the document
      */
     public static void renderHeader() {
+        renderInstitutionIfExists();
+        renderChairIfExists();
+        renderAuthorsIfAnyExist();
+        renderAssessorsIfAnyExist();
+        renderTitleIfExists();
+        renderDateOrSemesterIfExist();
+    }
+
+    /**
+     * If the user has defined a publication institution, it is rendered on the header using left content alignment.
+     */
+    private static void renderInstitutionIfExists() {
+        if (Processor.getPublicationInstitution() == null) return;
+        TextRenderer.renderLeftAlignedText(Processor.getPublicationInstitution());
+    }
+
+    /**
+     * If the user has defined a publication chair, it is rendered on the header using left content alignment.
+     */
+    private static void renderChairIfExists() {
+        if (Processor.getPublicationChair() == null) return;
+        TextRenderer.renderLeftAlignedText(Processor.getPublicationChair());
+    }
+
+    /**
+     * Renders all authors one after another using left content alignment.
+     */
+    private static void renderAuthorsIfAnyExist() {
+        for (var author : Processor.getAuthors()) TextRenderer.renderLeftAlignedText(author.nameToString());
+    }
+
+    /**
+     * Renders all assessors as a single unit of text using left content alignment.
+     * Assessors are separated by a comma.
+     */
+    private static void renderAssessorsIfAnyExist() {
         final var headerBuilder = new StringBuilder();
-
-        // First print the institution if it exists
-        if (Processor.publicationInstitution != null)
-            TextRenderer.renderLeftAlignedText(Processor.publicationInstitution);
-
-        // Then print the chair if it exists
-        if (Processor.publicationChair != null)
-            TextRenderer.renderLeftAlignedText(Processor.publicationChair);
-
-        for (var author : Processor.authors) TextRenderer.renderLeftAlignedText(author.nameToString());
+        final var assessors = Processor.getAssessors();
 
         // List the assessors' names separated by a comma and one space
-        for (int i = 0; i < Processor.assessors.length; i++) {
-            var assessor = Processor.assessors[i];
+        for (int i = 0; i < assessors.length; i++) {
+            var assessor = assessors[i];
             headerBuilder.append(assessor.nameToString());
 
-            if (i < Processor.assessors.length - 1) headerBuilder.append(", ");
+            if (i < assessors.length - 1) headerBuilder.append(", ");
         }
 
-        if (Processor.assessors.length > 0) {
-            TextRenderer.renderLeftAlignedText(headerBuilder.toString());
-            headerBuilder.setLength(0);
-        }
+        // Only render if there is at least one assessor
+        if (assessors.length > 0) TextRenderer.renderLeftAlignedText(headerBuilder.toString());
+    }
 
-        // List the title of the publication
-        if (!Processor.publicationTitle.getTexts().isEmpty()) {
-            TextRenderer.renderText(
-                    Processor
-                            .publicationTitle
-                            .getTexts()
-                            .stream()
-                            .map(titleText -> {
-                                if (titleText.getText() != null)
-                                    return new Text(titleText.getText(), Processor.sentenceFont, Processor.sentenceFontSize,
-                                            Processor.sentenceFontColour);
-                                else if (titleText.getEmphasis() != null)
-                                    return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.emphasisFont,
-                                            Processor.emphasisFontSize, Processor.emphasisFontColour);
-                                else if (titleText.getWork() != null)
-                                    return new Text(titleText.getWork().getEmphasisedWork(), Processor.workFont,
-                                            Processor.workFontSize, Processor.workFontColour);
-                                else throw new UnsupportedOperationException("Title text type " + titleText +
-                                            " is not yet supported!");
-                            })
-                            .toList(),
-                    ContentAlignment.LEFT
-            );
-        }
+    /**
+     * Renders the title using the different font components and left content alignment
+     */
+    private static void renderTitleIfExists() {
+        if (Processor.getPublicationTitle().getTexts().isEmpty()) return;
+        TextRenderer.renderText(
+                Processor
+                        .getPublicationTitle()
+                        .getTexts()
+                        .stream()
+                        .map(titleText -> {
+                            if (titleText.getText() != null)
+                                return new Text(titleText.getText(), Processor.getSentenceFont(),
+                                        Processor.getSentenceFontSize(), Processor.getSentenceFontColour());
+                            else if (titleText.getEmphasis() != null)
+                                return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.getEmphasisFont(),
+                                        Processor.getEmphasisFontSize(), Processor.getEmphasisFontColour());
+                            else if (titleText.getWork() != null)
+                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.getWorkFont(),
+                                        Processor.getWorkFontSize(), Processor.getWorkFontColour());
+                            else throw new UnsupportedOperationException("Title text type " + titleText +
+                                        " is not yet supported!");
+                        })
+                        .toList(),
+                ContentAlignment.LEFT
+        );
+    }
 
-        // List the date of the publication only if there is no given semester
-        if (Processor.publicationDate != null && Processor.publicationSemester == null) {
-            final var formattedDate = Processor.usedStyleGuide.dateToString(Processor.publicationDate);
-            headerBuilder.append(formattedDate);
-            TextRenderer.renderLeftAlignedText(headerBuilder.toString());
-            headerBuilder.setLength(0);
+    /**
+     * Renders the formatted date if specified by the user, but only if the date exists and the user has not defined
+     * a semester as well.
+     */
+    private static void renderDateOrSemesterIfExist() {
+        if (Processor.getPublicationSemester() != null)
+            TextRenderer.renderLeftAlignedText(Processor.getPublicationSemester());
+        else if (Processor.getPublicationDate() != null) {
+            final var formattedDate = Processor.getUsedStyleGuide().dateToString(Processor.getPublicationDate());
+            TextRenderer.renderLeftAlignedText(formattedDate);
         }
-
-        if (Processor.publicationSemester != null)
-            TextRenderer.renderLeftAlignedText(Processor.publicationSemester);
     }
 
 }

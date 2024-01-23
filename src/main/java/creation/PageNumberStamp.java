@@ -11,9 +11,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 
 /**
- * Used to add a stamp to the current page rendering the current page number and author
+ * Used to add a stamp to the current page rendering the current page number and author, if desired.
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
@@ -56,24 +55,23 @@ public class PageNumberStamp {
         if (stampedPages.contains(page)) throw new IllegalStateException("Trying to re-stamp an already stamped page");
 
         // Do not stamp the page if the "actual" page is included in the skipped pages list
-        if (!Processor.skippedPages.contains(numberIndex)) {
+        if (!Processor.getSkippedPages().contains(numberIndex)) {
             // Contains the displayed name of the author(s), which is added before the page number
             final var authorNamePrefixBuilder = new StringBuilder();
 
             String firstAuthorName = null;
 
             // The names should only be displayed if there are authors configured in the first place
-            if (Processor.numerationAuthorName != NumerationAuthorName.NONE) {
-                Author[] authors = Processor.authors;
+            if (Processor.getNumerationAuthorName() != NumerationAuthorName.NONE) {
+                Author[] authors = Processor.getAuthors();
                 for (int i = 0; i < authors.length; i++) {
                     var author = authors[i];
-                    final String authorPrefix = switch (Processor.numerationAuthorName) {
+                    final String authorPrefix = switch (Processor.getNumerationAuthorName()) {
                         case FIRST_NAME -> author.getFirstname();
                         case LAST_NAME -> author.getLastname();
                         case NAME -> author.getFirstname() + " " + author.getLastname();
                         case FULL_NAME -> author.nameToString();
-                        default ->
-                                throw new IllegalStateException("Unexpected value: " + Processor.numerationAuthorName);
+                        case NONE -> throw new IllegalStateException();
                     };
 
                     authorNamePrefixBuilder.append(authorPrefix);
@@ -85,7 +83,7 @@ public class PageNumberStamp {
             }
 
             // Contains the page number as a string in the desired numeral system
-            final String pageString = switch (Processor.numerationType) {
+            final String pageString = switch (Processor.getNumerationType()) {
                 case ARABIC -> String.valueOf(nextNumber);
                 case ROMAN -> arabicToRoman(nextNumber);
             };
@@ -93,31 +91,33 @@ public class PageNumberStamp {
             // Contains the entire text as one string (the author texts and page number)
             final String content = authorNamePrefixBuilder + " " + pageString;
 
-            var asText = new Text(content, Processor.sentenceFont,
-                    Processor.sentenceFontSize, Processor.sentenceFontColour);
+            // Numerations use the default "sentence" font style
+            var asText = new Text(content, Processor.getSentenceFont(),
+                    Processor.getSentenceFontSize(), Processor.getSentenceFontColour());
 
             // Calculates the starting x position of the text
-            final ContentAlignment alignment = switch (Processor.numerationPosition) {
+            final ContentAlignment alignment = switch (Processor.getNumerationPosition()) {
                 case TOP_LEFT, BOTTOM_LEFT -> ContentAlignment.LEFT;
                 case TOP_RIGHT, BOTTOM_RIGHT -> ContentAlignment.RIGHT;
                 case TOP, BOTTOM -> ContentAlignment.CENTER;
             };
 
             // Calculates the starting y position of the text
-            final float y = switch (Processor.numerationPosition) {
+            final float y = switch (Processor.getNumerationPosition()) {
                 // If the numeration should be rendered at the top, start at the numeration margin from the top
-                case TOP, TOP_LEFT, TOP_RIGHT -> page.getMediaBox().getHeight() - Processor.numerationMargin;
+                case TOP, TOP_LEFT, TOP_RIGHT -> page.getMediaBox().getHeight() - Processor.getNumerationMargin();
 
                 // Else, start at the numeration margin from the bottom
-                case BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT -> Processor.numerationMargin;
+                case BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT -> Processor.getNumerationMargin();
             };
 
             var pageText = new Text(pageString, asText.getFont(), asText.getFontSize(), asText.getFontColour());
 
-            if (Processor.numerationLimit == null) {
+            if (Processor.getNumerationLimit() == null) {
                 if (TextRenderer.textFitsInOneLine(asText)) {
                     TextRenderer.renderNoContentText(List.of(asText), alignment, y, null);
-                } else if (Processor.authors.length > 1 && Processor.numerationAuthorName != NumerationAuthorName.NONE) {
+                } else if (Processor.getAuthors().length > 1 &&
+                        Processor.getNumerationAuthorName() != NumerationAuthorName.NONE) {
                     var firstAuthorOnlyText = new Text(firstAuthorName + " et al. " + pageString,
                             asText.getFont(), asText.getFontSize(), asText.getFontColour());
 
@@ -130,7 +130,7 @@ public class PageNumberStamp {
                     }
                 }
             } else {
-                if (Processor.authors.length > Processor.numerationLimit) {
+                if (Processor.getAuthors().length > Processor.getNumerationLimit()) {
                     var firstAuthorOnlyText = new Text(firstAuthorName + " et al. " + pageString,
                             asText.getFont(), asText.getFontSize(), asText.getFontColour());
 

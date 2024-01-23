@@ -21,10 +21,14 @@ public class Emphasis extends Node {
     @Getter
     private final String emphasisedText;
 
+    /**
+     * Creates emphasis using the specified text as its content
+     *
+     * @param emphasisedText the non-null emphasised textual content
+     */
     public Emphasis(@NonNull final String emphasisedText) {
         this.emphasisedText = emphasisedText;
     }
-
 
     /**
      * The emphasis node does not produce warnings

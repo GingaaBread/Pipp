@@ -2,16 +2,15 @@ package processing;
 
 import creation.DocumentCreator;
 import creation.PageAssembler;
-import creation.Text;
-import error.*;
+import error.IllegalConfigurationException;
+import error.IncorrectFormatException;
+import error.MissingConfigurationException;
+import error.MissingMemberException;
 import frontend.ast.AST;
 import frontend.ast.BodyNode;
 import frontend.ast.config.Title;
-import frontend.ast.paragraph.Emphasise;
-import frontend.ast.paragraph.ParagraphInstruction;
-import frontend.ast.paragraph.Work;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
@@ -28,7 +27,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.MissingFormatArgumentException;
+import java.util.logging.Logger;
 
 /**
  * The processor class translates the AST given by the {@link frontend.parsing.Parser} to actual objects
@@ -37,245 +36,201 @@ import java.util.MissingFormatArgumentException;
  * @version 1.0
  * @since 1.0
  */
-@ToString
 public class Processor {
 
     /**
      * Determines the version of this compiler implementation.
-     * Note that the user can choose to opt for a different version as long as it is supported by the compiler.
      */
     public static final String COMPILER_VERSION = "1.0";
-
-
-    //// GENERAL ////
-
-
     /**
-     * Determines the type of the document, which currently only affects the document's metadata
+     * Determines the amount of points that make up one inch.
+     * This is used to properly compute distances and sizes.
      */
-    public static DocumentType documentType;
-
+    public static final int POINTS_PER_INCH = 72;
     /**
-     * Determines the title of the document, which can be displayed using the title instruction.
-     * Note that the Title class is taken from the AST package simply to not have to duplicate it.
+     * Determines the amount of points that make up one millimeter.
+     * This is used to properly compute distances and sizes.
      */
-    public static Title documentTitle;
-
+    public static final float POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH;
     /**
-     * Determines the type of style guide which should be used during compilation
+     * Determines the main font family used throughout the document
      */
-    public static StyleGuide usedStyleGuide;
-
+    @Getter
+    private static PDFont sentenceFont;
     /**
-     * Determines the dimensions of the document (the width and height)
+     * Determines the main font size in points (pt.) used throughout the document
      */
-    public static PDRectangle dimensions;
-
+    @Getter
+    private static float sentenceFontSize;
     /**
-     * Determines the margin in points (pt.) to all four sides of the document.
-     * All components need to have a minimum position of the margin to the left and top,
-     * and a maximum position of the margin to the right and bottom.
+     * Determines the main font size used throughout the document
      */
-    public static float margin;
-
+    @Getter
+    private static Color sentenceFontColour;
     /**
-     * Determines the paragraph spacing as a float, which is the space between each line in a paragraph.
-     * The spacing is multiplied by the font size (and font size increment factor) to calculate line leading.
-     * Note that the unit is a float! It is not represented in points, inches or any other measurement.
+     * Determines the font family used for emphasis
      */
-    public static float spacing;
-
-
-    //// PAGE NUMERATION ////
-
-
+    @Getter
+    private static PDFont emphasisFont;
     /**
-     * Determines how page numbers should be represented
+     * Determines the font size in points (pt.) used throughout for emphasis
      */
-    public static NumerationType numerationType;
-
+    @Getter
+    private static float emphasisFontSize;
     /**
-     * Determines where in the document page numbers should be displayed
+     * Determines the main font size used for emphasis
      */
-    public static NumerationPosition numerationPosition;
-
+    @Getter
+    private static Color emphasisFontColour;
     /**
-     * Determines the page number margin to the top or bottom of the document.
-     * Note that the default layout margin is used for the left or right side.
+     * Determines the font size in points (pt.) used throughout for work references
      */
-    public static float numerationMargin;
-
+    @Getter
+    private static float workFontSize;
+    /**
+     * Determines the main font size used for work references
+     */
+    @Getter
+    private static Color workFontColour;
+    /**
+     * Determines the font family used for work references
+     */
+    @Getter
+    private static PDFont workFont;
     /**
      * Determines how the names of the authors should be inserted before the page number.
      * If there should not be a name before the page number, this value is null.
      */
-    public static NumerationAuthorName numerationAuthorName;
-
+    @Getter
+    private static NumerationAuthorName numerationAuthorName;
+    /**
+     * Determines the page number margin to the top or bottom of the document.
+     * Note that the default layout margin is used for the left or right side.
+     */
+    @Getter
+    private static float numerationMargin;
+    /**
+     * Determines where in the document page numbers should be displayed
+     */
+    @Getter
+    private static NumerationPosition numerationPosition;
+    /**
+     * Determines how page numbers should be represented
+     */
+    @Getter
+    private static NumerationType numerationType;
     /**
      * Contains all page numbers that the user does not want to have page numbers.
      * For each created page, the list will be checked if it contains the current page number,
      * and if it does, it will not receive a numeration stamp.
      */
-    public static List<Integer> skippedPages;
-
+    @Getter
+    private static List<Integer> skippedPages;
     /**
      * Contains the maximum amount of author names that should be rendered in the numeration.
      * If there is no limitation, this is null.
      */
-    public static Integer numerationLimit;
-
-
-    //// FONT ////
-
-
+    @Getter
+    private static Integer numerationLimit;
     /**
-     * Determines the main font family used throughout the document
+     * Determines the paragraph spacing as a float, which is the space between each line in a paragraph.
+     * The spacing is multiplied by the font size (and font size increment factor) to calculate line leading.
+     * Note that the unit is a float! It is not represented in points, inches or any other measurement.
      */
-    public static PDFont sentenceFont;
-
+    @Getter
+    private static float spacing;
+    public static final float LEADING = 1.2f * Processor.sentenceFontSize * Processor.spacing;
     /**
-     * Determines the main font size in points (pt.) used throughout the document
+     * Determines the dimensions of the document (the width and height)
      */
-    public static float sentenceFontSize;
-
+    @Getter
+    private static PDRectangle dimensions;
     /**
-     * Determines the main font size used throughout the document
+     * Determines the margin in points (pt.) to all four sides of the document.
+     * All components need to have a minimum position of the margin to the left and top,
+     * and a maximum position of the margin to the right and bottom.
      */
-    public static Color sentenceFontColour;
-
+    @Getter
+    private static float margin;
     /**
-     * Determines the font family used for emphasis
+     * Determines the type of style guide which should be used during compilation
      */
-    public static PDFont emphasisFont;
-
+    @Getter
+    private static StyleGuide usedStyleGuide;
     /**
-     * Determines the font size in points (pt.) used throughout for emphasis
+     * Determines the title of the document, which can be displayed using the title instruction.
+     * Note that the Title class is taken from the AST package simply to not have to duplicate it.
      */
-    public static float emphasisFontSize;
-
-    /**
-     * Determines the main font size used for emphasis
-     */
-    public static Color emphasisFontColour;
-
-    /**
-     * Determines the font family used for work references
-     */
-    public static PDFont workFont;
-
-    /**
-     * Determines the font size in points (pt.) used throughout for work references
-     */
-    public static float workFontSize;
-
-    /**
-     * Determines the main font size used for work references
-     */
-    public static Color workFontColour;
+    @Getter
+    private static Title documentTitle;
 
 
-    //// PARAGRAPH ////
-
-
+    //// SENTENCES ////
     /**
      * Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      * indented to
      */
-    public static float paragraphIndentation;
-
-
-    //// SENTENCES ////
-
-
-    /**
-     * Determines the string that will be appended before each sentence.
-     * In most style guides, this is a single space.
-     */
-    public static String sentencePrefix;
-
+    @Getter
+    private static float paragraphIndentation;
     /**
      * Determines if the user is allowed to use italic text in a sentence
      */
-    public static AllowanceType allowEmphasis;
+    @Getter
+    private static AllowanceType allowEmphasis;
 
 
     //// AUTHORS & ASSESSORS ////
-
-
     /**
      * Determines the authors that have worked on the document.
      * Note that this only includes the authors of the working document, it does not include authors that
      * have been cited from in the document
      */
-    public static Author[] authors;
-
+    @Getter
+    private static Author[] authors;
     /**
      * Determines the assessors that may assess the document
      */
-    public static Assessor[] assessors;
-
-
-    //// Publication ////
-
-
+    @Getter
+    private static Assessor[] assessors;
     /**
      * Determines the date of document publication, which is either given by the user or created by Pipp.
      * Note that if the user has explicitly expressed not to display the date, this is null.
      */
-    public static LocalDate publicationDate;
-
-    /**
-     * Determines the title of the publication, which in most style guides is put in the header or title page.
-     * Note that the Title class is taken from the AST package simply to not have to duplicate it.
-     */
-    public static Title publicationTitle;
-
-    /**
-     * Determines the institution of the publication context.
-     * An example could be "XYZ University".
-     */
-    public static String publicationInstitution;
-
+    @Getter
+    private static LocalDate publicationDate;
     /**
      * Determines the chair of the publication institution.
      * Note that this should not be allowed to be set if the institution is not set.
      */
-    public static String publicationChair;
-
+    @Getter
+    private static String publicationChair;
+    //// Publication ////
+    @Getter
+    private static LinkedList<BodyNode> documentBody = new LinkedList<>();
+    /**
+     * Determines the title of the publication, which in most style guides is put in the header or title page.
+     * Note that the Title class is taken from the AST package simply to not have to duplicate it.
+     */
+    @Getter
+    private static Title publicationTitle;
+    /**
+     * Determines the institution of the publication context.
+     * An example could be "XYZ University".
+     */
+    @Getter
+    private static String publicationInstitution;
     /**
      * Determines the semester of the publication context.
      * This is used academic papers.
      */
-    public static String publicationSemester;
+    @Getter
+    private static String publicationSemester;
 
-
-    //// Document Body ////
-
-
-    public static LinkedList<BodyNode> documentBody = new LinkedList<>();
-    public static int POINTS_PER_INCH = 72;
-    public static float POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH;
-
-    // TODO: Change to adapt configurations
-    public static Text paragraphInstructionToText(@NonNull final ParagraphInstruction paragraphInstruction) {
-        if (paragraphInstruction instanceof frontend.ast.paragraph.Text text) {
-            return new Text(text.getContent(), sentenceFont, sentenceFontSize, sentenceFontColour);
-        } else if (paragraphInstruction instanceof Emphasise emphasis) {
-            if (Processor.allowEmphasis == AllowanceType.NO)
-                throw new ConfigurationException("9: The style guide does not allow the use of emphasis, but you are " +
-                        "trying to emphasise text nonetheless.");
-            else if (Processor.allowEmphasis == AllowanceType.IF_NECESSARY)
-                WarningQueue.enqueue(new SelfCheckWarning("1: You are using a style guide that recommends" +
-                        " only using emphasis if absolutely necessary. Make sure that is the case.", WarningSeverity.LOW));
-
-            return new Text(emphasis.getContent(), emphasisFont, emphasisFontSize, emphasisFontColour);
-        } else if (paragraphInstruction instanceof Work work) {
-            return new Text(work.getWorkContent(), workFont, workFontSize, workFontColour);
-        } else throw new MissingFormatArgumentException("Not implemented");
-    }
-
-    public static float getLeading() {
-        return 1.2f * Processor.sentenceFontSize * Processor.spacing;
+    /**
+     * Prevents instantiation
+     */
+    private Processor() {
+        throw new UnsupportedOperationException("Should not instantiate static helper class");
     }
 
     public static float getAvailableContentWidth() {
@@ -287,13 +242,11 @@ public class Processor {
      *
      * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
      */
-    public void processAST(@NonNull final AST ast) {
-        System.out.println("AST has been generated generated.");
-
-        System.out.println("There are the following sources in the bibliography:");
-        System.out.println(ast.getBibliographySources());
-
-        System.out.println("Now checking AST for possible warnings");
+    public static void processAST(@NonNull final AST ast) {
+        final var logger = Logger.getLogger(AST.class.getName());
+        logger.info("AST has been generated generated.");
+        logger.info("There are the following sources in the bibliography: " + ast.getBibliographySources());
+        logger.info("Now checking AST for possible warnings");
         ast.checkForWarnings();
 
         documentBody = ast.getDocumentBody();
@@ -483,10 +436,10 @@ public class Processor {
                 }
 
                 float asNumber = Float.parseFloat(pageNumerationMargin);
-                if (asNumber < 0) throw new IncorrectFormatException("2: Non-negative decimal expected.");
+                if (asNumber < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
                 else numerationMargin = asNumber * unit;
             } catch (NumberFormatException e) {
-                throw new IncorrectFormatException("2: Non-negative decimal expected.");
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
             }
         } else numerationMargin = POINTS_PER_INCH * usedStyleGuide.numerationMargin();
 
@@ -608,22 +561,6 @@ public class Processor {
             }
         } else paragraphIndentation = usedStyleGuide.paragraphIndentation();
 
-        var sentence = structure.getSentence();
-
-        // Check if the user demands a custom sentence prefix
-        if (sentence.getPrefix() != null) {
-            sentencePrefix = sentence.getPrefix();
-        } else sentencePrefix = usedStyleGuide.sentencePrefix();
-
-        // Check if the user demands a custom document type
-        if (ast.getConfiguration().getDocumentType() != null) {
-            try {
-                documentType = DocumentType.valueOf(ast.getConfiguration().getDocumentType().toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("8: Document type expected.");
-            }
-        } else documentType = usedStyleGuide.documentType();
-
         // Convert the given author nodes to actual author objects
         var authors = ast.getConfiguration().getAuthors().getAuthors();
         Processor.authors = new Author[authors.size()];
@@ -647,7 +584,7 @@ public class Processor {
                 if (author.getFirstname().isBlank() || author.getLastname().isBlank() ||
                         author.getId() != null && author.getId().isBlank() ||
                         author.getTitle() != null && author.getTitle().isBlank())
-                    throw new MissingMemberException("1: A text component cannot be blank.");
+                    throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
 
                 var newAuthor = new Author(author.getFirstname(), author.getLastname());
                 newAuthor.setTitle(author.getTitle());
@@ -717,7 +654,7 @@ public class Processor {
             }
 
             for (int k = 0; k < j; k++) {
-                if (Processor.assessors[k].nameToString().equals(Processor.assessors[k].nameToString())) {
+                if (Processor.assessors[k].nameToString().equals(Processor.assessors[j].nameToString())) {
                     WarningQueue.enqueue(new UnlikelinessWarning(
                             "4: Two assessors have the same name, which seems unlikely. " +
                                     "Check if that is correct. \n\tAssessor 1: " + Processor.assessors[k] +
@@ -787,14 +724,21 @@ public class Processor {
                 WarningSeverity.LOW));
 
         // For debugging purposes
-        System.out.println("Finished processing.");
-        System.out.println(this);
+        logger.info("Finished processing.");
 
         // Start the creation process
         DocumentCreator.create();
     }
 
-    private PDFont fontLookUp(String name) {
+    /**
+     * Tries to convert the given font name into a PDFont object to be used during the document creation phase.
+     * If the name starts with the @ prefix, it tries to use a windows path to the fonts-folder.
+     * Else, it must be one of the predefined PD fonts.
+     *
+     * @param name the non-null name of the font
+     * @return the font as a PDFont object
+     */
+    private static @NonNull PDFont fontLookUp(@NonNull final String name) {
         // Check if the user is trying to import a font from their operating system
         if (name.startsWith("@")) {
             final String path = "C:\\Windows\\Fonts\\" + name.substring(1) + ".ttf";

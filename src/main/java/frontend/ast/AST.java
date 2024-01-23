@@ -9,9 +9,9 @@ import java.util.LinkedList;
 
 /**
  * The AST represents Pipp's Abstract Syntax Tree (AST).
- * The tree consists of a list of the provided user input.
+ * The tree consists of a tree of the provided user configuration, a list of user-defined body nodes, and
+ * a list of user-defined bibliography sources.
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
@@ -20,19 +20,30 @@ import java.util.LinkedList;
 public class AST {
 
     /**
-     * The configurations provided by the user input
+     * The configurations provided by the user.
+     * The instance is created automatically.
      */
     private final Configuration configuration = new Configuration();
 
     /**
-     * The document body consists of nodes given by the user.
-     * It is the job of the {@link processing.Processor} to find whether the input is legal, the AST only collects
-     * the nodes specified one after the other.
+     * The document body consists of nodes specified by the user.
+     * It is the job of the {@link processing.Processor} to determine whether the input is legal, the AST only collects
+     * the nodes specified one after the other, and performs rudimentary warning checks.
      */
     private final LinkedList<BodyNode> documentBody = new LinkedList<>();
 
+    /**
+     * The list contains all bibliography entries specified by the user.
+     * It is the job of the {@link processing.Processor} to determine whether the input is legal, the AST only collects
+     * the nodes specified one after the other, and performs rudimentary warning checks.
+     */
     private final LinkedList<BibliographySource> bibliographySources = new LinkedList<>();
 
+    /**
+     * Adds the non-null bibliography source to the end of the list.
+     *
+     * @param source the source that should be added to the bibliography
+     */
     public void includeBibliographySource(@NonNull final BibliographySource source) {
         bibliographySources.addLast(source);
     }

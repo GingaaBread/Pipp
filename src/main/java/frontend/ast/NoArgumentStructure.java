@@ -12,12 +12,11 @@ import processing.Processor;
 import processing.StructureType;
 
 /**
- *  The no argument structure node contains a structure, which receives no arguments.
- *  This is because the structure is used to build content based on the user's configurations.
+ * The no argument structure node contains a structure, which receives no arguments.
+ * This is because the structure is used to build content based on the user's configurations.
  *
- * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 @Setter
 @Getter
@@ -26,26 +25,29 @@ import processing.StructureType;
 public class NoArgumentStructure extends BodyNode {
 
     /**
-     *  The type of the structure.
-     *  For example, "bibliography" is a structure with no arguments.
+     * The type of the structure.
+     * For example, "bibliography" is a structure with no arguments.
      */
     private StructureType type;
 
     /**
-     *  The No argument structure node does not produce errors
+     * The No argument structure node does not produce errors
      */
     @Override
-    protected void checkForWarnings() { }
+    protected void checkForWarnings() {
+        // Does not produce errors
+    }
 
     /**
-     *  Determines what stamps or renders should be applied when this element is rendered on the document
+     * Determines what stamps or renders should be applied when this element is rendered on the document
      */
     @Override
     public void handleBodyElement() {
         switch (type) {
             case TITLE -> TitleStamp.renderTitle();
             case HEADER -> HeaderStamp.renderHeader();
-            case BLANKPAGE -> PageCreator.createBlankPage(Processor.documentBody.getLast() == this);
+            case BLANKPAGE -> PageCreator.createBlankPage(
+                    Processor.getDocumentBody().getLast() == this);
             default -> throw new PippException("Document type " + type + " is not yet implemented!");
         }
     }

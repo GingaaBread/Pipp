@@ -9,6 +9,7 @@ import frontend.ast.paragraph.Text;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
 import lombok.NonNull;
+import processing.Processor;
 import processing.StructureType;
 
 import java.util.function.Consumer;
@@ -67,6 +68,9 @@ public class Parser {
     private static final String PUBLICATION_KEYWORD = "publication";
     private static final String TYPE_KEYWORD = "type";
     private static final String STYLE_KEYWORD = "style";
+
+    private static final String DOCUMENT_TITLE_CONTAINER_NAME = "Document Title";
+    private static final String PUBLICATION_CONFIGURATION_CONTAINER_NAME = "Publication Configuration";
 
     /**
      * The bridge is responsible for providing an interface between the Parser and the Scanner
@@ -129,7 +133,7 @@ public class Parser {
     private void finishParsing() {
         if (frontEndBridge.containsTokens()) error();
 
-        frontEndBridge.startProcessor(ast);
+        Processor.processAST(ast);
     }
 
     /**
@@ -541,11 +545,11 @@ public class Parser {
     private void configList() {
         expectKeyword(it -> {
             switch (it) {
-                case STYLE_KEYWORD -> styleConfiguration();
                 case TITLE_KEYWORD -> {
-                    currentlyParsedContainer = "Document Title";
+                    currentlyParsedContainer = DOCUMENT_TITLE_CONTAINER_NAME;
                     titleConfiguration();
                 }
+                case STYLE_KEYWORD -> styleConfiguration();
                 case AUTHOR_KEYWORD -> authorConfiguration();
                 case ASSESSOR_KEYWORD -> assessorConfiguration();
                 case PUBLICATION_KEYWORD -> publicationConfiguration();
@@ -562,7 +566,7 @@ public class Parser {
      * "publication" NewLine INDENT DateConfiguration DEDENT
      */
     private void publicationConfiguration() {
-        currentlyParsedContainer = "publication";
+        currentlyParsedContainer = PUBLICATION_CONFIGURATION_CONTAINER_NAME;
 
         consumeKeyword(PUBLICATION_KEYWORD);
         newline();
@@ -589,7 +593,7 @@ public class Parser {
         consumeKeyword("date");
         textual();
 
-        if (currentlyParsedContainer.equals("publication")) {
+        if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME)) {
             ast.getConfiguration().getPublication().setDate(last.value);
             lastNode = ast.getConfiguration().getPublication();
         } else error();
@@ -602,7 +606,7 @@ public class Parser {
         consumeKeyword(INSTITUTION_KEYWORD);
         textual();
 
-        if (currentlyParsedContainer.equals("publication")) {
+        if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME)) {
             ast.getConfiguration().getPublication().setInstitution(last.value);
             lastNode = ast.getConfiguration().getPublication();
         } else error();
@@ -615,7 +619,7 @@ public class Parser {
         consumeKeyword(CHAIR_KEYWORD);
         textual();
 
-        if (currentlyParsedContainer.equals("publication")) {
+        if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME)) {
             ast.getConfiguration().getPublication().setChair(last.value);
             lastNode = ast.getConfiguration().getPublication();
         } else error();
@@ -628,7 +632,7 @@ public class Parser {
         consumeKeyword(SEMESTER_KEYWORD);
         textual();
 
-        if (currentlyParsedContainer.equals("publication")) {
+        if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME)) {
             ast.getConfiguration().getPublication().setSemester(last.value);
             lastNode = ast.getConfiguration().getPublication();
         } else error();
@@ -920,10 +924,10 @@ public class Parser {
         } else if (current.type == TokenType.TEXT) {
             textual();
 
-            if (currentlyParsedContainer.equals("Document Title")) {
+            if (currentlyParsedContainer.equals(DOCUMENT_TITLE_CONTAINER_NAME)) {
                 ast.getConfiguration().getTitle().add(new TitleText(last.value));
                 lastNode = ast.getConfiguration().getTitle();
-            } else if (currentlyParsedContainer.equals("publication")) {
+            } else if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME)) {
                 ast.getConfiguration().getPublication().getTitle().add(new TitleText(last.value));
                 lastNode = ast.getConfiguration().getPublication().getTitle();
             }
@@ -1314,9 +1318,9 @@ public class Parser {
                 textual();
                 var titleText = new TitleText(last.value);
 
-                if (currentlyParsedContainer.equals("Document Title"))
+                if (currentlyParsedContainer.equals(DOCUMENT_TITLE_CONTAINER_NAME))
                     ast.getConfiguration().getTitle().add(titleText);
-                else if (currentlyParsedContainer.equals("publication"))
+                else if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME))
                     ast.getConfiguration().getPublication().getTitle().add(titleText);
 
                 lastNode = titleText;
@@ -1339,8 +1343,9 @@ public class Parser {
             var titleText = new TitleText(new Emphasis(last.value));
 
             switch (currentlyParsedContainer) {
-                case "Document Title" -> ast.getConfiguration().getTitle().add(titleText);
-                case "publication" -> ast.getConfiguration().getPublication().getTitle().add(titleText);
+                case DOCUMENT_TITLE_CONTAINER_NAME -> ast.getConfiguration().getTitle().add(titleText);
+                case PUBLICATION_CONFIGURATION_CONTAINER_NAME ->
+                        ast.getConfiguration().getPublication().getTitle().add(titleText);
                 case "paragraph" -> currentParagraph.enqueueParagraphInstruction(new Emphasise(last.value));
                 default -> throw new UnsupportedOperationException("Container type not yet implemented");
             }
@@ -1361,8 +1366,9 @@ public class Parser {
             var titleText = new TitleText(new Work(last.value));
 
             switch (currentlyParsedContainer) {
-                case "Document Title" -> ast.getConfiguration().getTitle().add(titleText);
-                case "publication" -> ast.getConfiguration().getPublication().getTitle().add(titleText);
+                case DOCUMENT_TITLE_CONTAINER_NAME -> ast.getConfiguration().getTitle().add(titleText);
+                case PUBLICATION_CONFIGURATION_CONTAINER_NAME ->
+                        ast.getConfiguration().getPublication().getTitle().add(titleText);
                 case "paragraph" ->
                         currentParagraph.enqueueParagraphInstruction(new frontend.ast.paragraph.Work(last.value));
                 default -> throw new UnsupportedOperationException("Container type not yet implemented");

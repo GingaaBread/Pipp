@@ -23,26 +23,26 @@ public class TitleStamp {
      * Text object equivalent and then rendering it in the LineFactory.
      */
     public static void renderTitle() {
-        if (Processor.documentTitle.getTexts().isEmpty())
+        var title = Processor.getDocumentTitle();
+        if (title.getTexts().isEmpty())
             throw new MissingMemberException("2: Cannot render a title if no title has been configured.");
 
-        TextRenderer.renderText(
-                Processor
-                        .documentTitle
+        TextRenderer.renderText(title
                         .getTexts()
                         .stream()
                         .map(titleText -> {
                             if (titleText.getWork() != null)
-                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.workFont,
-                                        Processor.workFontSize, Processor.workFontColour);
+                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.getWorkFont(),
+                                        Processor.getWorkFontSize(), Processor.getWorkFontColour());
                             else if (titleText.getEmphasis() != null)
-                                return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.emphasisFont,
-                                        Processor.emphasisFontSize, Processor.emphasisFontColour);
+                                return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.getEmphasisFont(),
+                                        Processor.getEmphasisFontSize(), Processor.getEmphasisFontColour());
                             else
-                                return new Text(titleText.getText(), Processor.sentenceFont, Processor.sentenceFontSize,
-                                        Processor.sentenceFontColour);
+                                return new Text(titleText.getText(), Processor.getSentenceFont(),
+                                        Processor.getSentenceFontSize(), Processor.getSentenceFontColour());
                         }).toList(),
-                ContentAlignment.CENTER);
+                ContentAlignment.CENTER
+        );
     }
 
 }

@@ -1,30 +1,27 @@
 package creation;
 
-import org.apache.pdfbox.pdmodel.encryption.PDEncryption;
-
 import java.io.IOException;
-import java.util.List;
 
 /**
- *  The DocumentCreator class is responsible for starting the creation process, and saving the document
- *  to the specified path. It therefore constructs the framework for all other creation classes.
+ * The DocumentCreator class is responsible for starting the creation process, and saving the document
+ * to the specified path. It therefore constructs the framework for all other creation classes.
  *
  * @author Gino Glink
- * @since 1.0
  * @version 1.0
+ * @since 1.0
  */
 public class DocumentCreator {
 
     /**
-     *  Determines the path to the file, where the final document should be saved.
-     *  It will be saved under the specified name.
+     * Determines the path to the file, where the final document should be saved.
+     * It will be saved under the specified name.
      */
     public static final String outputPath = "src/main/resources/out.pdf";
 
     /**
-     *  Instantiates the creation process by setting the document's metadata, rendering the required components,
-     *  and then assembling the pages. The created document is saved under the path specified in the outputPath
-     *  variable.
+     * Instantiates the creation process by setting the document's metadata, rendering the required components,
+     * and then assembling the pages. The created document is saved under the path specified in the outputPath
+     * variable.
      */
     public static void create() {
         // Set the metadata
@@ -34,7 +31,7 @@ public class DocumentCreator {
         PageCreator.createNewPage();
 
         // Create the document's body elements
-        BodyHandler.handle();
+        BodyHandler.handleAll();
 
         // Always save the last page
         PageAssembler.commitCurrentPage();

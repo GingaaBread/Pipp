@@ -8,7 +8,6 @@ import lombok.ToString;
 /**
  * The publication node represents the publication configuration
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */

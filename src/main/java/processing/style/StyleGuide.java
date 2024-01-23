@@ -4,7 +4,10 @@ import creation.ContentAlignment;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import processing.*;
+import processing.AllowanceType;
+import processing.NumerationAuthorName;
+import processing.NumerationPosition;
+import processing.NumerationType;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -14,7 +17,6 @@ import java.time.LocalDate;
  * An example style guide is the MLA style in its 9th edition.
  * To create a custom style sheet, extend this class and specify all values.
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
@@ -35,15 +37,6 @@ public abstract class StyleGuide {
 
 
     //// General Layout ////
-
-
-    /**
-     * Determines the default document type specified by the style guide.
-     * For most style guides, this would be PAPER.
-     *
-     * @return - the default document type as a {@link DocumentType} constant.
-     */
-    public abstract DocumentType documentType();
 
     /**
      * Determines the default alignment of images that is applied when the user defines no alignment.
@@ -177,15 +170,6 @@ public abstract class StyleGuide {
     public abstract Color workFontColour();
 
     //// PARAGRAPH ////
-
-
-    /**
-     * Determines the string that will be inserted before every single sentence.
-     * In most style guides this is used to insert a space or tab before every sentence.
-     *
-     * @return - the prefix as a String
-     */
-    public abstract String sentencePrefix();
 
     /**
      * Determines if the style guide allows emphasised text in sentences
