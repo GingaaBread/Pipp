@@ -1,5 +1,7 @@
 package frontend.ast.config;
 
+import error.ConfigurationException;
+import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,10 +49,34 @@ public class Author extends Node {
     private String id;
 
     /**
-     * The author node does not produce warnings
+     * The author node produces warnings if the name is not set up correctly or if there are blank fields
      */
     @Override
-    protected void checkForWarnings() {
+    public void checkForWarnings() {
+        if (name == null && firstname == null && lastname == null)
+            throw new ConfigurationException("6: An author requires a name configuration, but neither " +
+                    "name, firstname nor lastname has been configured.");
+        else if (name != null && (firstname != null || lastname != null))
+            throw new ConfigurationException(ConfigurationException.ERR_MSG_7);
+        else if (name == null && firstname != null && lastname == null)
+            throw new ConfigurationException("8: An author cannot only have a firstname configuration. " +
+                    "Either also provide a lastname configuration or only use the name configuration.");
+        else if (name == null && firstname == null)
+            throw new ConfigurationException("9: An author cannot only have a lastname configuration. " +
+                    "Either also provide a firstname configuration or only use the name configuration.");
+        else checkBlankFields();
+    }
+
+    /**
+     * Throws a member missing exception if any field is blank
+     */
+    private void checkBlankFields() {
+        if (title != null && title.isBlank() ||
+                name != null && name.isBlank() ||
+                firstname != null && firstname.isBlank() ||
+                lastname != null && lastname.isBlank() ||
+                id != null && id.isBlank())
+            throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
 }

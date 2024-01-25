@@ -8,7 +8,8 @@ import lombok.ToString;
 import java.util.ArrayList;
 
 /**
- * The title node contains the title of the document
+ * The title node contains the title of the document and consists of a variable amount of text components that are
+ * allowed to be put in a title, called "TitleTexts".
  *
  * @version 1.0
  * @since 1.0
@@ -56,10 +57,10 @@ public class Title extends Node {
     }
 
     /**
-     * The title node does not produce warnings
+     * The title node does not produce warnings, but prompts the title texts to check for warnings
      */
     @Override
-    protected void checkForWarnings() {
+    public void checkForWarnings() {
         for (var text : texts) text.checkForWarnings();
     }
 

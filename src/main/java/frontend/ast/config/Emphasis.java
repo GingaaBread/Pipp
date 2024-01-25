@@ -1,5 +1,6 @@
 package frontend.ast.config;
 
+import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.NonNull;
@@ -34,8 +35,8 @@ public class Emphasis extends Node {
      * The emphasis node does not produce warnings
      */
     @Override
-    protected void checkForWarnings() {
-        // Does not produce warnings
+    public void checkForWarnings() {
+        if (emphasisedText.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
 }

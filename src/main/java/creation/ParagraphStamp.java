@@ -4,7 +4,10 @@ import frontend.ast.paragraph.ParagraphInstruction;
 import lombok.NonNull;
 import processing.Processor;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class is used to add text paragraphs to the document.
@@ -30,7 +33,10 @@ public class ParagraphStamp {
      * @param contentToRender a non-null list of all instructions that make up the paragraph.
      */
     public static void renderParagraph(@NonNull final List<ParagraphInstruction> contentToRender) {
-        final var instructionTexts = contentToRender.stream().map(ParagraphInstruction::toTextComponent).toList();
+        final var instructionTexts = contentToRender
+                .stream()
+                .flatMap(instruction -> Arrays.stream(instruction.toTextComponent()))
+                .collect(Collectors.toCollection(LinkedList::new));
 
         TextRenderer.renderIndentedText(instructionTexts, ContentAlignment.LEFT, PageCreator.currentYPosition,
                 Processor.getUsedStyleGuide().paragraphIndentation());

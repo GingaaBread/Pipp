@@ -19,9 +19,9 @@ public class BibliographySource extends Node {
     private String title;
 
     @Override
-    protected void checkForWarnings() {
-//        if (type == null)
-
+    public void checkForWarnings() {
+        authors.checkForWarnings();
+        publication.checkForWarnings();
     }
 
 }

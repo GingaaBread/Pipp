@@ -2,19 +2,23 @@ package processing;
 
 import creation.DocumentCreator;
 import creation.PageAssembler;
-import error.IllegalConfigurationException;
+import creation.Text;
+import error.ConfigurationException;
+import error.ContentException;
 import error.IncorrectFormatException;
-import error.MissingConfigurationException;
 import error.MissingMemberException;
 import frontend.ast.AST;
 import frontend.ast.BodyNode;
 import frontend.ast.config.Title;
+import frontend.ast.config.style.Citation;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import processing.bibliography.BibliographySource;
+import processing.bibliography.Book;
 import processing.style.MLA9;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
@@ -25,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -52,6 +57,8 @@ public class Processor {
      * This is used to properly compute distances and sizes.
      */
     public static final float POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH;
+    @Getter
+    private static final HashMap<String, BibliographySource> bibliographyEntries = new HashMap<>();
     /**
      * Determines the main font family used throughout the document
      */
@@ -157,29 +164,29 @@ public class Processor {
      */
     @Getter
     private static StyleGuide usedStyleGuide;
+
+
+    //// SENTENCES ////
     /**
      * Determines the title of the document, which can be displayed using the title instruction.
      * Note that the Title class is taken from the AST package simply to not have to duplicate it.
      */
     @Getter
     private static Title documentTitle;
-
-
-    //// SENTENCES ////
     /**
      * Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      * indented to
      */
     @Getter
     private static float paragraphIndentation;
+
+
+    //// AUTHORS & ASSESSORS ////
     /**
      * Determines if the user is allowed to use italic text in a sentence
      */
     @Getter
     private static AllowanceType allowEmphasis;
-
-
-    //// AUTHORS & ASSESSORS ////
     /**
      * Determines the authors that have worked on the document.
      * Note that this only includes the authors of the working document, it does not include authors that
@@ -245,7 +252,56 @@ public class Processor {
     public static void processAST(@NonNull final AST ast) {
         final var logger = Logger.getLogger(AST.class.getName());
         logger.info("AST has been generated generated.");
-        logger.info("There are the following sources in the bibliography: " + ast.getBibliographySources());
+
+        logger.info("Now checking the bibliography");
+        final var entries = ast.getBibliographySources();
+        entries.forEach(entry -> {
+            entry.checkForWarnings();
+
+            if (bibliographyEntries.containsKey(entry.getId()))
+                throw new ContentException("3: Bibliography entry with ID '" + entry.getId() + "' already exists.");
+
+            if (entry.getType() != null) {
+                if (entry.getType().equals("Book")) {
+                    final var newBookEntry = new Book();
+                    newBookEntry.setTitle(entry.getTitle().trim());
+                    newBookEntry.setAuthors(entry
+                            .getAuthors()
+                            .getAuthorList()
+                            .stream()
+                            .map(author -> {
+                                final Author newAuthor;
+                                if (author.getFirstname() == null) newAuthor = new Author(author.getName().trim());
+                                else newAuthor = new Author(author.getFirstname().trim(), author.getLastname().trim());
+
+                                if (author.getTitle() != null) newAuthor.setTitle(author.getTitle().trim());
+
+                                return newAuthor;
+                            })
+                            .toArray(Author[]::new)
+                    );
+
+                    if (entry.getPublication() != null) {
+                        final var year = entry.getPublication().getYear();
+                        if (year != null) newBookEntry.setPublicationYear(year.trim());
+
+                        final var name = entry.getPublication().getName();
+                        if (name != null) newBookEntry.setPublicationName(name.trim());
+                    } else {
+                        // TODO Self check warning
+                    }
+
+                    bibliographyEntries.put(entry.getId(), newBookEntry);
+                } else {
+                    // TODO Enqueue unknown type warning
+                }
+            } else {
+                // TODO Enqueue no type specified warning
+            }
+        });
+
+        logger.info("Bibliography contains the following sources: " + bibliographyEntries);
+
         logger.info("Now checking AST for possible warnings");
         ast.checkForWarnings();
 
@@ -562,24 +618,10 @@ public class Processor {
         } else paragraphIndentation = usedStyleGuide.paragraphIndentation();
 
         // Convert the given author nodes to actual author objects
-        var authors = ast.getConfiguration().getAuthors().getAuthors();
+        var authors = ast.getConfiguration().getAuthors().getAuthorList();
         Processor.authors = new Author[authors.size()];
         int i = 0;
         for (var author : authors) {
-            if (author.getName() == null && author.getFirstname() == null && author.getLastname() == null)
-                throw new MissingConfigurationException("6: An author requires a name configuration, but neither " +
-                        "name, firstname nor lastname has been configured.");
-            else if (author.getName() != null && (author.getFirstname() != null || author.getLastname() != null))
-                throw new IllegalConfigurationException("7: An author can only be given a name configuration " +
-                        "OR a firstname and lastname configuration.");
-            else if (author.getName() == null && author.getFirstname() != null && author.getLastname() == null)
-                throw new IllegalConfigurationException("8: An author cannot only have a firstname configuration. " +
-                        "Either also provide a lastname configuration or only use the name configuration.");
-            else if (author.getName() == null && author.getFirstname() == null) {
-                throw new IllegalConfigurationException("9: An author cannot only have a lastname configuration. " +
-                        "Either also provide a firstname configuration or only use the name configuration.");
-            }
-
             if (author.getName() == null) {
                 if (author.getFirstname().isBlank() || author.getLastname().isBlank() ||
                         author.getId() != null && author.getId().isBlank() ||
@@ -615,21 +657,21 @@ public class Processor {
         }
 
         // Convert the given author nodes to actual author objects
-        var assessors = ast.getConfiguration().getAssessors().getAssessors();
+        var assessors = ast.getConfiguration().getAssessors().getAssessorsList();
         Processor.assessors = new Assessor[assessors.size()];
         int j = 0;
         for (var assessor : assessors) {
             if (assessor.getName() == null && assessor.getFirstname() == null && assessor.getLastname() == null)
-                throw new MissingConfigurationException("1: An assessor requires a name configuration, but neither " +
+                throw new ConfigurationException("1: An assessor requires a name configuration, but neither " +
                         "name, firstname nor lastname has been configured.");
             else if (assessor.getName() != null && (assessor.getFirstname() != null || assessor.getLastname() != null))
-                throw new IllegalConfigurationException("2: An assessor can only be given a name configuration " +
+                throw new ConfigurationException("2: An assessor can only be given a name configuration " +
                         "OR a firstname and lastname configuration.");
             else if (assessor.getName() == null && assessor.getFirstname() != null && assessor.getLastname() == null)
-                throw new IllegalConfigurationException("3: An assessor cannot only have a firstname configuration. " +
+                throw new ConfigurationException("3: An assessor cannot only have a firstname configuration. " +
                         "Either also provide a lastname configuration or only use the name configuration.");
             else if (assessor.getName() == null && assessor.getFirstname() == null)
-                throw new IllegalConfigurationException("4: An assessor cannot only have a lastname configuration. " +
+                throw new ConfigurationException("4: An assessor cannot only have a lastname configuration. " +
                         "Either also provide a firstname configuration or only use the name configuration.");
 
             if (assessor.getName() == null) {
@@ -728,6 +770,38 @@ public class Processor {
 
         // Start the creation process
         DocumentCreator.create();
+
+        final var entriesToIncludeInBibliography = bibliographyEntries
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().isHasBeenCited())
+                .toList();
+
+        logger.info("Should include the following entries in the bibliography");
+        logger.info(entriesToIncludeInBibliography.toString());
+    }
+
+    /**
+     * Looks up the proper entry in the bibliography and returns an array of text components used to render the
+     * citation. Throws an error exception if the entry does not exist in the bibliography.
+     *
+     * @param citation the non-null citation that should be processed
+     * @return an array of text components to be rendered when the citation is handled
+     */
+    public static Text[] processCitation(@NonNull final Citation citation) {
+        final var source = citation.getSource().trim();
+        final var referenceSource = bibliographyEntries.get(source);
+
+        if (referenceSource == null)
+            throw new ContentException("4: Bibliography entry with ID '" + source + "' does not exist.");
+
+        final var content = citation.getCitedContent().trim();
+        final var numeration = citation.getNumeration().trim();
+
+        // Mark the source as cited
+        referenceSource.setHasBeenCited(true);
+
+        return usedStyleGuide.formatCitation(referenceSource, content, numeration);
     }
 
     /**

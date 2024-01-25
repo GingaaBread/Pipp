@@ -1,15 +1,15 @@
 package processing.style;
 
 import creation.ContentAlignment;
+import creation.Text;
 import lombok.NonNull;
 import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import processing.AllowanceType;
-import processing.NumerationAuthorName;
-import processing.NumerationPosition;
-import processing.NumerationType;
+import processing.*;
+import processing.bibliography.BibliographySource;
+import processing.bibliography.Book;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -186,23 +186,55 @@ public class MLA9 extends StyleGuide {
      * Exactly one space is inserted before a new in-line sentence.
      */
     @Override
-    public String formatText(String textBlock) {
-        // Texts are trimmed
-        textBlock = textBlock.trim();
-
-        if (textBlock.isBlank()) throw new IllegalArgumentException("Blank text block processed.");
-
-        // White space of more than one space is silently removed within texts.
-        textBlock = textBlock.replaceAll("\\s+", " ");
-
-        // Add a full stop if there is no punctuation
-        var lastChar = textBlock.charAt(textBlock.length() - 1);
-        if (!StyleGuide.isPunctuation(lastChar)) {
-            textBlock += ".";
-        }
-
+    public String formatText(final String textBlock) {
         return textBlock;
     }
+
+    @Override
+    public Text[] formatCitation(BibliographySource referenceSource, String content, String numeration) {
+        if (referenceSource instanceof Book book) {
+            final var citationBuilder = new StringBuilder();
+            citationBuilder.append("\"");
+            citationBuilder.append(content);
+            citationBuilder.append("\"");
+            citationBuilder.append(" ");
+
+            citationBuilder.append("(");
+            if (book.getAuthors().length > 0) {
+
+                // If there is only one author, display the last name in parentheses
+                if (book.getAuthors().length == 1) {
+                    citationBuilder.append(book.getAuthors()[0].getLastname());
+                    citationBuilder.append(" ");
+                }
+                // If there are two authors, display the last names of both in parentheses
+                else if (book.getAuthors().length == 2) {
+                    citationBuilder.append(book.getAuthors()[0].getLastname());
+                    citationBuilder.append(", ");
+                    citationBuilder.append(book.getAuthors()[1].getLastname());
+                    citationBuilder.append(" ");
+                }
+                // If there are three or more authors only display the first author's last name and "et. al."
+                else {
+                    citationBuilder.append(book.getAuthors()[0].getLastname());
+                    citationBuilder.append(" et. al. ");
+                }
+            }
+
+            citationBuilder.append(numeration);
+            citationBuilder.append(").");
+
+            return new Text[]{new Text(
+                    citationBuilder.toString(),
+                    Processor.getSentenceFont(),
+                    Processor.getSentenceFontSize(),
+                    Processor.getSentenceFontColour())
+            };
+        }
+
+        return new Text[0];
+    }
+
 
     /**
      * Dates are represented in the British date format

@@ -1,0 +1,9 @@
+
+r
+java:S1149"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(¼ù±µÿÿÿÿÿ8—úÔ¸Ó1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(…¬Š½øÿÿÿÿ8—úÔ¸Ó1
+t
+java:S3776."RRefactor this method to reduce its Cognitive Complexity from 39 to the 15 allowed.(ñéÒÍøÿÿÿÿ8˜úÔ¸Ó1
+è
+java:S6541."ÅA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 74 to 64, Complexity from 28 to 14, Nesting Level from 4 to 2, Number of Variables from 15 to 6.(ñéÒÍøÿÿÿÿ8êûÔ¸Ó1

@@ -65,7 +65,7 @@ public class TitleText extends Node {
      * The cited text node does not produce warnings
      */
     @Override
-    protected void checkForWarnings() {
+    public void checkForWarnings() {
         if (emphasis != null)
             emphasis.checkForWarnings();
 

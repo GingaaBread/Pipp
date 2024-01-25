@@ -3,6 +3,7 @@ package frontend.parsing;
 import frontend.FrontEndBridge;
 import frontend.ast.*;
 import frontend.ast.config.*;
+import frontend.ast.config.style.Citation;
 import frontend.ast.paragraph.Emphasise;
 import frontend.ast.paragraph.Paragraph;
 import frontend.ast.paragraph.Text;
@@ -53,7 +54,6 @@ public class Parser {
     private static final String BLANK_KEYWORD = "blank";
     private static final String LIMIT_KEYWORD = "limit";
     private static final String ALLOW_KEYWORD = "allow";
-    private static final String BEFORE_KEYWORD = "before";
     private static final String PARAGRAPH_KEYWORD = "paragraph";
     private static final String SENTENCE_KEYWORD = "sentence";
     private static final String FONT_KEYWORD = "font";
@@ -67,6 +67,7 @@ public class Parser {
     private static final String STRUCTURE_KEYWORD = "structure";
     private static final String PUBLICATION_KEYWORD = "publication";
     private static final String TYPE_KEYWORD = "type";
+    private static final String PAGE_KEYWORD = "page";
     private static final String STYLE_KEYWORD = "style";
 
     private static final String DOCUMENT_TITLE_CONTAINER_NAME = "Document Title";
@@ -263,6 +264,8 @@ public class Parser {
             newline();
             expectIndentation();
             bibliographyItemList();
+
+            currentIndentationLevel = 0;
             if (frontEndBridge.containsTokens()) error();
         }
     }
@@ -397,7 +400,7 @@ public class Parser {
                     case TITLE_KEYWORD -> title();
                     case BLANK_KEYWORD -> blank();
                     case IMAGE_KEYWORD -> image();
-                    case EMPHASISE_KEYWORD, WORK_KEYWORD -> paragraph();
+                    case EMPHASISE_KEYWORD, WORK_KEYWORD, CITATION_KEYWORD -> paragraph();
                     default -> error();
                 }
             } else paragraph();
@@ -508,14 +511,14 @@ public class Parser {
     }
 
     private void sizedImageInlineDeclaration() {
-        consume(new Token(TokenType.LIST_SEPARATOR, ","));
+        listSeparator();
 
         if (current.type == TokenType.TEXT) {
             consume(new Token(TokenType.TEXT, null));
             var secondArgument = last.value;
 
             if (current.type == TokenType.LIST_SEPARATOR) {
-                consume(new Token(TokenType.LIST_SEPARATOR, ","));
+                listSeparator();
                 ((Image) lastNode).setWidth(secondArgument);
 
                 if (current.type == TokenType.TEXT) {
@@ -1045,27 +1048,16 @@ public class Parser {
     }
 
     /**
-     * SentenceStructureStyleList := "before" Textual SentenceStructureStyleList |
-     * "allow" NewLine INDENT SentenceStructureStyleAllowConfiguration
-     * SentenceStructureStyleList DEDENT |
-     * "before" Textual |
-     * "allow" NewLine SentenceStructureStyleAllowConfiguration |
-     * "font" FontConfiguration SentenceStructureStyleAllowConfiguration |
-     * "font" FontConfiguration
+     * SentenceStructureStyleList := "font" Font
      */
     private void sentenceStructureStyleList() {
         expectKeyword(it -> {
-            switch (it) {
-                case BEFORE_KEYWORD -> {
-                    consumeKeyword(BEFORE_KEYWORD);
-                    textual();
-                    ast.getConfiguration().getStyle().getStructure().getSentence().setPrefix(last.value);
-                    lastNode = ast.getConfiguration().getStyle().getStructure().getSentence();
-                }
-                case FONT_KEYWORD -> font();
-                default -> error();
+            if (it.equals(FONT_KEYWORD)) {
+                font();
+            } else {
+                error();
             }
-        }, BEFORE_KEYWORD, FONT_KEYWORD);
+        }, FONT_KEYWORD);
     }
 
     /**
@@ -1416,10 +1408,80 @@ public class Parser {
     }
 
     /**
-     * Citation := KeywordCitation | ShorthandCitation
+     * Citation := "citation" KeywordCitation | "citation" CitationInlineDeclaration
      */
     private void citation() {
-        throw new UnsupportedOperationException("Citations are not implemented");
+        consumeKeyword(CITATION_KEYWORD);
+
+        if (current.type == TokenType.NEW_LINE) {
+            newline();
+            expectIndentation();
+            citationDetails();
+            forgoIndentation();
+        } else if (current.type == TokenType.TEXT) {
+            citationInlineDeclaration();
+        } else error();
+    }
+
+    /**
+     * CitationInlineDeclaration := Textual ListSeparator Textual | Textual ListSeparator Textual ListSeparator Textual
+     */
+    private void citationInlineDeclaration() {
+        final var citation = new Citation();
+
+        consume(new Token(TokenType.TEXT, null));
+        citation.setSource(last.value);
+
+        listSeparator();
+
+        consume(new Token(TokenType.TEXT, null));
+        citation.setCitedContent(last.value);
+
+        if (current.type == TokenType.LIST_SEPARATOR) {
+            listSeparator();
+            textual();
+            citation.setNumeration(last.value);
+        } else if (current.type == TokenType.NEW_LINE) {
+            newline();
+        }
+
+        currentParagraph.enqueueParagraphInstruction(citation);
+    }
+
+    /**
+     * CitationDetails := "id" Textual | "of" Textual | "page" Textual | _any_ CitationDetails
+     */
+    private void citationDetails() {
+        final var citation = new Citation();
+        expectKeyword(it -> {
+            switch (it) {
+                case ID_KEYWORD -> {
+                    consumeKeyword(ID_KEYWORD);
+                    textual();
+                    citation.setSource(last.value);
+                }
+                case OF_KEYWORD -> {
+                    consumeKeyword(OF_KEYWORD);
+                    textual();
+                    citation.setCitedContent(last.value);
+                }
+                case PAGE_KEYWORD -> {
+                    consumeKeyword(PAGE_KEYWORD);
+                    textual();
+                    citation.setNumeration(last.value);
+                }
+                default -> error();
+            }
+        }, ID_KEYWORD, OF_KEYWORD, PAGE_KEYWORD);
+
+        currentParagraph.enqueueParagraphInstruction(citation);
+    }
+
+    /**
+     * ListSeparator := ","
+     */
+    private void listSeparator() {
+        consume(new Token(TokenType.LIST_SEPARATOR, ","));
     }
 
     /**

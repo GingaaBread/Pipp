@@ -30,16 +30,15 @@ public class Work extends ParagraphInstruction {
      * @throws MissingMemberException if the text content is blank
      */
     public Work(@NonNull final String content) {
-        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
         this.workContent = content.trim();
     }
 
     /**
-     * Does not produce warnings
+     * Produces an error if the content is blank
      */
     @Override
-    protected void checkForWarnings() {
-        // No warnings
+    public void checkForWarnings() {
+        if (workContent.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
     /**
@@ -48,7 +47,8 @@ public class Work extends ParagraphInstruction {
      * @return the work node as a text component ready to be rendered
      */
     @Override
-    public Text toTextComponent() {
-        return new Text(workContent, Processor.getWorkFont(), Processor.getWorkFontSize(), Processor.getWorkFontColour());
+    public Text[] toTextComponent() {
+        return new Text[]{new Text(workContent, Processor.getWorkFont(), Processor.getWorkFontSize(),
+                Processor.getWorkFontColour())};
     }
 }

@@ -1,0 +1,9 @@
+
+t
+java:S1104"^Make currentPageIsEmpty a static final constant or non-public and provide accessors if needed.(å˜­Â
+w
+java:S1104"\Make currentYPosition a static final constant or non-public and provide accessors if needed.(øÿ¶øþÿÿÿÿ
+N
+java:S1444"8Make this "public static currentPageIsEmpty" field final(å˜­Â
+Q
+java:S1444"6Make this "public static currentYPosition" field final(øÿ¶øþÿÿÿÿ

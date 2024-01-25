@@ -35,16 +35,15 @@ public class Emphasise extends ParagraphInstruction {
      * @throws MissingMemberException if the text content is blank
      */
     public Emphasise(@NonNull final String content) {
-        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
         this.content = content.trim();
     }
 
     /**
-     * Does not produce warnings
+     * Produces an error if the content is blank
      */
     @Override
-    protected void checkForWarnings() {
-        // No warnings
+    public void checkForWarnings() {
+        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
     /**
@@ -53,13 +52,13 @@ public class Emphasise extends ParagraphInstruction {
      * @return the emphasis node as a text component ready to be rendered
      */
     @Override
-    public Text toTextComponent() {
+    public Text[] toTextComponent() {
         if (Processor.getAllowEmphasis() == AllowanceType.NO)
             throw new ConfigurationException(ConfigurationException.ERR_MSG_9);
         else if (Processor.getAllowEmphasis() == AllowanceType.IF_NECESSARY)
             WarningQueue.enqueue(new SelfCheckWarning(SelfCheckWarning.WARNING_MSG_1, WarningSeverity.LOW));
 
-        return new Text(content, Processor.getEmphasisFont(), Processor.getEmphasisFontSize(),
-                Processor.getEmphasisFontColour());
+        return new Text[]{new Text(content, Processor.getEmphasisFont(), Processor.getEmphasisFontSize(),
+                Processor.getEmphasisFontColour())};
     }
 }

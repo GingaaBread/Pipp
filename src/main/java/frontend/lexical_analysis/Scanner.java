@@ -16,12 +16,11 @@ public class Scanner {
      * Lowercase words without any special characters in them must match one of these keywords,
      * otherwise an exception is thrown.
      */
-    public static final String[] builtinKeywords = new String[]{
+    protected static final String[] builtinKeywords = new String[]{
             "appendix",
             "allow",
             "assessor",
             "author",
-            "before",
             "bibliography",
             "blank",
             "bold",
@@ -151,7 +150,7 @@ public class Scanner {
         else if (!inComment && current != '\r') {
 
             // Checks for indentation
-            if (current == '\t') {
+            if (current == '\t' && currentTokenType != TokenType.TEXT) {
                 // First submits the current token
                 if (currentTokenType != TokenType.INDENT) submitToken();
 
@@ -254,7 +253,7 @@ public class Scanner {
                         isEscapingACharacter = false;
                         currentlyReadValue.append("\\");
                     } else isEscapingACharacter = true;
-                } else if (current != '\n') {
+                } else if (current != '\n' && current != '\t') {
                     hasConvertedTextNewLine = false;
                     currentlyReadValue.append(current);
                 }
@@ -282,36 +281,36 @@ public class Scanner {
      */
     public void submitToken() {
         // Should only submit a token if it exists
-        if (currentTokenType != null) {
-            // Create the token object with the token type and value pair
-            var token = new Token(currentTokenType, currentlyReadValue.toString());
+        if (currentTokenType == null) return;
 
-            // In text tokens, the quotation marks do not have to be included ("Test" -> Test)
-            if (token.type == TokenType.TEXT) token.value = token.value.substring(1, token.value.length() - 1);
+        // Create the token object with the token type and value pair
+        var token = new Token(currentTokenType, currentlyReadValue.toString());
 
-            // Verify the integrity of KEYWORD tokens
-            if (token.type == TokenType.KEYWORD) {
-                var isLegalKeyword = false;
-                for (var keyword : builtinKeywords) {
-                    if (keyword.equals(token.value)) {
-                        isLegalKeyword = true;
-                        break;
-                    }
+        // In text tokens, the quotation marks do not have to be included ("Test" -> Test)
+        if (token.type == TokenType.TEXT) token.value = token.value.substring(1, token.value.length() - 1);
+
+        // Verify the integrity of KEYWORD tokens
+        if (token.type == TokenType.KEYWORD) {
+            var isLegalKeyword = false;
+            for (var keyword : builtinKeywords) {
+                if (keyword.equals(token.value)) {
+                    isLegalKeyword = true;
+                    break;
                 }
-
-                if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
             }
 
-            // INDENT tokens use the amount of tabs as their token values
-            else if (token.type == TokenType.INDENT) token.value = Integer.toString(currentAmountOfTabs);
-
-            // Tell the front end bridge that this token exists
-            frontEndBridge.enqueueToken(token);
-
-            // Reset token variables
-            currentTokenType = null;
-            currentlyReadValue = new StringBuilder();
+            if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
         }
+
+        // INDENT tokens use the amount of tabs as their token values
+        else if (token.type == TokenType.INDENT) token.value = Integer.toString(currentAmountOfTabs);
+
+        // Tell the front end bridge that this token exists
+        frontEndBridge.enqueueToken(token);
+
+        // Reset token variables
+        currentTokenType = null;
+        currentlyReadValue = new StringBuilder();
     }
 
 }

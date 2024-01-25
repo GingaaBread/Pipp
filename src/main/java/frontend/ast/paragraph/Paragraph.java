@@ -2,6 +2,7 @@ package frontend.ast.paragraph;
 
 import creation.ParagraphStamp;
 import frontend.ast.BodyNode;
+import frontend.ast.Node;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -46,11 +47,11 @@ public class Paragraph extends BodyNode {
     }
 
     /**
-     * Does not produce warnings
+     * Does not produce warnings itself, but prompts the instructions inside the paragraph
      */
     @Override
-    protected void checkForWarnings() {
-        // No warnings
+    public void checkForWarnings() {
+        paragraphInstructions.forEach(Node::checkForWarnings);
     }
 
 }

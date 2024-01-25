@@ -1,5 +1,6 @@
 package frontend.ast.config.style;
 
+import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.NonNull;
@@ -67,10 +68,16 @@ public class Numeration extends Node {
     }
 
     /**
-     * The numeration node does not produce warnings
+     * The numeration produces warnings if any field is blank
      */
     @Override
-    protected void checkForWarnings() {
+    public void checkForWarnings() {
+        if (numerationType != null && numerationType.isBlank() ||
+                authorLimit != null && authorLimit.isBlank() ||
+                position != null && position.isBlank() ||
+                margin != null && margin.isBlank() ||
+                authorName != null && authorName.isBlank())
+            throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
 }

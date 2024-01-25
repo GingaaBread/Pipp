@@ -1,6 +1,7 @@
 package processing.style;
 
 import creation.ContentAlignment;
+import creation.Text;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
@@ -8,6 +9,7 @@ import processing.AllowanceType;
 import processing.NumerationAuthorName;
 import processing.NumerationPosition;
 import processing.NumerationType;
+import processing.bibliography.BibliographySource;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -190,7 +192,22 @@ public abstract class StyleGuide {
      * @param textBlock - the text block content with the enclosing quotation marks removed
      * @return - returns the formatted text content as it will be forwarded to the paragraph formatter.
      */
-    public abstract String formatText(String textBlock);
+    public abstract String formatText(final String textBlock);
+
+    /**
+     * Defines how the style guide formats a citation.
+     *
+     * @param referenceSource the bibliography source that should be cited. The style guide may change its format
+     *                        depending on the source type (for example, a book may be different from a poem)
+     * @param content         the textual content that should be cited from the source. The style guide may insert quotation
+     *                        marks, etc.
+     * @param numeration      the numeration of the citation. For example, page numbers. The style guide may wrap it in
+     *                        parentheses.
+     * @return the result as an array of text components, which enables the backend to format different parts in
+     * different font styles
+     */
+    public abstract Text[] formatCitation(final BibliographySource referenceSource, final String content,
+                                          final String numeration);
 
     /**
      * Defines how the style sheet represents a date.

@@ -11,14 +11,14 @@ import lombok.Setter;
  * @version 1.0
  * @since 1.0
  */
+@Getter
+@Setter
 public class Author extends Person {
 
     /**
      * Defines the identification number/string of the author.
      * Providing an author's ID is optional, so this field can be null.
      */
-    @Getter
-    @Setter
     private String id;
 
     /**

@@ -15,6 +15,6 @@ public abstract class Node {
      * on the provided style guide. Note that all nodes only check for warnings.
      * Errors are checked during the processing phase by the {@link processing.Processor}
      */
-    protected abstract void checkForWarnings();
+    public abstract void checkForWarnings();
 
 }

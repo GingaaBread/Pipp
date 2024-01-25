@@ -15,7 +15,7 @@ public class Main {
 
     /**
      * Uses a hardcoded sample file to start the compilation process.
-     * Also prints all warnings afterwards.
+     * Also prints all warnings after compilation.
      *
      * @param args Java program arguments
      */

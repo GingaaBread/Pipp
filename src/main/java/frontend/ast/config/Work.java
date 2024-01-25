@@ -1,5 +1,6 @@
 package frontend.ast.config;
 
+import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.NonNull;
@@ -26,11 +27,11 @@ public class Work extends Node {
     }
 
     /**
-     * The Work node does not produce warnings
+     * The Work node produces a warning if the field is blank
      */
     @Override
-    protected void checkForWarnings() {
-        // Does not produce warnings
+    public void checkForWarnings() {
+        if (emphasisedWork.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
 }

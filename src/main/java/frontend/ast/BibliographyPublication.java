@@ -1,5 +1,6 @@
 package frontend.ast;
 
+import error.MissingMemberException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +15,8 @@ public class BibliographyPublication extends Node {
     private String year;
 
     @Override
-    protected void checkForWarnings() {
-
+    public void checkForWarnings() {
+        if (name != null && name.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
+        if (year != null && year.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 }

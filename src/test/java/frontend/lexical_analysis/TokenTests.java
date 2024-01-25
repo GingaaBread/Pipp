@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- *  Tests if the utility methods of the Token entity work as expected.
- *  The equals method must be reflexive, symmetric, and transitive.
+ * Tests if the utility methods of the Token entity work as expected.
+ * The equals method must be reflexive, symmetric, and transitive.
  */
-public class TokenTests {
+class TokenTests {
 
     /**
-     *  Tests if the equals method of tokens is reflexive for all token types
+     * Tests if the equals method of tokens is reflexive for all token types
      */
     @Test
-    public void equals_Is_Reflexive() {
+    void equals_Is_Reflexive() {
         var indent = new Token(TokenType.INDENT, "1");
         Assertions.assertEquals(indent, indent);
         Assertions.assertEquals(indent.hashCode(), indent.hashCode());
@@ -36,10 +36,10 @@ public class TokenTests {
     }
 
     /**
-     *  Tests if the equals method of tokens is symmetric for all token types
+     * Tests if the equals method of tokens is symmetric for all token types
      */
     @Test
-    public void equals_Is_Symmetric() {
+    void equals_Is_Symmetric() {
         var indentA = new Token(TokenType.INDENT, "1");
         var indentB = new Token(TokenType.INDENT, "1");
         Assertions.assertEquals(indentA, indentB);
@@ -78,10 +78,10 @@ public class TokenTests {
 
 
     /**
-     *  Tests if the equals method of tokens is transitive for all token types
+     * Tests if the equals method of tokens is transitive for all token types
      */
     @Test
-    public void equals_Is_Transitive() {
+    void equals_Is_Transitive() {
         var indentA = new Token(TokenType.INDENT, "1");
         var indentB = new Token(TokenType.INDENT, "1");
         var indentC = new Token(TokenType.INDENT, "1");

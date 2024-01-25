@@ -17,6 +17,6 @@ public abstract class ParagraphInstruction extends Node {
      *
      * @return the instruction as a text consisting of a font, font size, font colour and content.
      */
-    public abstract Text toTextComponent();
+    public abstract Text[] toTextComponent();
 
 }

@@ -152,8 +152,8 @@ An author can only be given a name configuration OR a firstname and lastname
 configuration.
 
 *Cause*:
-This error occurs when trying to create an author in the configuration, but
-supplying both a `name` and `firstname` and `lastname` configuration.
+This error occurs when trying to create an author in the configuration or bibliography, but
+supplying both a `name` and `firstname` or `lastname` configuration.
 The `name`configuration is used to automatically generate the `firstname` and `lastname`
 configurations. If these are used,
 the `name` configuration should be omitted (or vice-versa).
@@ -378,7 +378,7 @@ config
 The compiler uses the following path to windows fonts: C:\Windows\Fonts. Check if the specified font name exists at
 that path, and install it if it does not exist. Also make sure that it is a .ttf file and that the compiler has
 read access to the font folder. Make sure the font name is spelt exactly like in the font folder and only uses a single
-@ prefix to indicate that it is a windows font.
+@ prefix to indicate that it is a "windows"-font.
 
 ### 328
 
@@ -420,6 +420,45 @@ img "I do not exist in img/"
 *Fix:*
 Check if the identifier you have defined in the `image` instruction exactly matches the name of the image file in the
 `img/` folder. Then make sure both file endings are the same. Note the case sensitivity.
+
+### 3210
+
+*Description:*
+Cannot use a citation without referencing a source from the bibliography.
+
+*Cause*:
+This error occurs when trying to use a citation using the `citation` keyword, but leaving out the `id` keyword.
+The identifier is used to specify which source from the bibliography should be referenced, so it must not be left out.
+
+*Example:*
+
+```pipp
+citation
+    of "Hello World"
+```
+
+*Fix:*
+Add an `id` to the citation instruction.
+
+### 3211
+
+*Description:*
+Cannot use a citation without citing actual content from the source.
+
+*Cause*:
+This error occurs when trying to use a citation using the `citation` keyword, but leaving out the `of` keyword.
+The keyword is used to specify the cited content from the source, so it must not be left out.
+
+*Example:*
+
+```pipp
+citation
+    id "XYZ"
+# But what content should be cited?
+```
+
+*Fix:*
+Add an `of` to the citation instruction.
 
 ## 3.3 Incorrect Format Errors
 
@@ -801,3 +840,46 @@ img "VeryWide.png"
 
 *Fix:*
 Resize the image using either `size` or `width` / `height`, or change the `layout` dimensions.
+
+### 3343
+
+*Description:*
+Bibliography entry with ID '[ID]' already exists.
+
+*Cause*:
+This error occurs when defining a bibliography item with an ID that is already used for another bibliography item.
+Bibliography entries must all have a unique identifier.
+
+*Example:*
+
+```pipp
+bibliography
+    id "My ID"
+#   ...
+    id "My ID"
+```
+
+*Fix:*
+Change the ID to be a unique ID.
+
+### 3344
+
+*Description:*
+Bibliography entry with ID '[ID]' does not exist.
+
+*Cause*:
+This error occurs when using a citation using the `citation` instruction, but leaving referencing a source from the
+bibliography that does not exist.
+
+*Example:*
+
+```pipp
+#   In Bibliography:
+bibliography
+    id "My ID"
+#   In document:
+citation "My IDD", "XYZ"
+```
+
+*Fix:*
+Change the ID to be the correct ID of the desired bibliography source.

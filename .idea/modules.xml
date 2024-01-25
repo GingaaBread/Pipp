@@ -8,6 +8,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TokensUebung.test.iml" filepath="$PROJECT_DIR$/.idea/modules/TokensUebung.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/_Pipp.main.iml" filepath="$PROJECT_DIR$/.idea/modules/_Pipp.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/_Pipp.test.iml" filepath="$PROJECT_DIR$/.idea/modules/_Pipp.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.TokensUebung.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.TokensUebung.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.TokensUebung.test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.TokensUebung.test.iml" />
     </modules>
   </component>
 </project>

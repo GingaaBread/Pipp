@@ -13,7 +13,14 @@ public class ConfigurationException extends PippException {
      * Provides access to the 9 error message shown when the user is not allowed to use emphasis, but does.
      * Therefore, the string does not have to be copy-pasted over and over again.
      */
-    public static String ERR_MSG_9 = "9: The style guide does not allow the use of emphasis, but you are " +
+    public static final String ERR_MSG_7 = "7: An author can only be given a name configuration OR a firstname" +
+            " and lastname configuration.";
+
+    /**
+     * Provides access to the 9 error message shown when the user is not allowed to use emphasis, but does.
+     * Therefore, the string does not have to be copy-pasted over and over again.
+     */
+    public static final String ERR_MSG_9 = "9: The style guide does not allow the use of emphasis, but you are " +
             "trying to emphasise text nonetheless.";
 
     /**

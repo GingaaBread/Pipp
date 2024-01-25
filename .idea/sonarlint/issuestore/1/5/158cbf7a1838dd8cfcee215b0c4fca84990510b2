@@ -1,0 +1,7 @@
+
+v
+java:S1104"YMake WARNING_MSG_1 a static final constant or non-public and provide accessors if needed.(€çüª8¿ê Ó1
+P
+java:S1444"3Make this "public static WARNING_MSG_1" field final(€çüª8¿ê Ó1
+u
+java:S3008"XRename this field "WARNING_MSG_1" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€çüª8Àê Ó1

@@ -1,5 +1,6 @@
 package frontend.ast.config;
 
+import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,7 +56,13 @@ public class Publication extends Node {
      * The publication node does not produce warnings
      */
     @Override
-    protected void checkForWarnings() {
+    public void checkForWarnings() {
+        if (institution != null && institution.isBlank() ||
+                chair != null && chair.isBlank() ||
+                semester != null && semester.isBlank() ||
+                date != null && date.isBlank())
+            throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
+
         title.checkForWarnings();
     }
 

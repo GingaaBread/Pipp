@@ -34,7 +34,7 @@ public class NoArgumentStructure extends BodyNode {
      * The No argument structure node does not produce errors
      */
     @Override
-    protected void checkForWarnings() {
+    public void checkForWarnings() {
         // Does not produce errors
     }
 

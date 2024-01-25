@@ -29,16 +29,15 @@ public class Text extends ParagraphInstruction {
      * @throws MissingMemberException if the text content is blank
      */
     public Text(@NonNull final String content) {
-        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
         this.content = content.trim();
     }
 
     /**
-     * Does not produce warnings
+     * Produces an error if the content is blank
      */
     @Override
-    protected void checkForWarnings() {
-        // No warnings
+    public void checkForWarnings() {
+        if (content.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
     /**
@@ -47,8 +46,8 @@ public class Text extends ParagraphInstruction {
      * @return the text node as a text component ready to be rendered
      */
     @Override
-    public creation.Text toTextComponent() {
-        return new creation.Text(content, Processor.getSentenceFont(), Processor.getSentenceFontSize(),
-                Processor.getSentenceFontColour());
+    public creation.Text[] toTextComponent() {
+        return new creation.Text[]{new creation.Text(content, Processor.getSentenceFont(),
+                Processor.getSentenceFontSize(), Processor.getSentenceFontColour())};
     }
 }

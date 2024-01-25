@@ -154,11 +154,16 @@ public class Image extends BodyNode {
     }
 
     /**
-     * The Image node does not produce warnings
+     * The Image node produces an error if any field is blank
      */
     @Override
-    protected void checkForWarnings() {
-        // Does not produce warnings
+    public void checkForWarnings() {
+        if (width != null && width.isBlank() ||
+                height != null && height.isBlank() ||
+                size != null && size.isBlank() ||
+                alignment != null && alignment.isBlank() ||
+                id != null && id.isBlank())
+            throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }
 
 }
