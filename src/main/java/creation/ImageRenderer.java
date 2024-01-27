@@ -51,8 +51,8 @@ public class ImageRenderer {
     public static void render(@NonNull String imageId, @NonNull ContentAlignment imageAlignment, Integer imageSize,
                               Float imageWidth, Float imageHeight) {
         try {
-            final float leading = Processor.LEADING;
             final float availableWidth = Processor.getAvailableContentWidth();
+            final float leading = 1.2f * Processor.getSentenceFontSize() * Processor.getSpacing();
 
             int width;
             int height;

@@ -89,7 +89,7 @@ public class PageNumberStamp {
             };
 
             // Contains the entire text as one string (the author texts and page number)
-            final String content = authorNamePrefixBuilder + " " + pageString;
+            final String content = authorNamePrefixBuilder + (authorNamePrefixBuilder.isEmpty() ? "" : " ") + pageString;
 
             // Numerations use the default "sentence" font style
             var asText = new Text(content, Processor.getSentenceFont(),

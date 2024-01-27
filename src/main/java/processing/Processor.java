@@ -146,7 +146,6 @@ public class Processor {
      */
     @Getter
     private static float spacing;
-    public static final float LEADING = 1.2f * Processor.sentenceFontSize * Processor.spacing;
     /**
      * Determines the dimensions of the document (the width and height)
      */
@@ -164,29 +163,29 @@ public class Processor {
      */
     @Getter
     private static StyleGuide usedStyleGuide;
-
-
-    //// SENTENCES ////
     /**
      * Determines the title of the document, which can be displayed using the title instruction.
      * Note that the Title class is taken from the AST package simply to not have to duplicate it.
      */
     @Getter
     private static Title documentTitle;
+
+
+    //// SENTENCES ////
     /**
      * Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      * indented to
      */
     @Getter
     private static float paragraphIndentation;
-
-
-    //// AUTHORS & ASSESSORS ////
     /**
      * Determines if the user is allowed to use italic text in a sentence
      */
     @Getter
     private static AllowanceType allowEmphasis;
+
+
+    //// AUTHORS & ASSESSORS ////
     /**
      * Determines the authors that have worked on the document.
      * Note that this only includes the authors of the working document, it does not include authors that

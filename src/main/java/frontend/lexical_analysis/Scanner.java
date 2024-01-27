@@ -199,7 +199,7 @@ public class Scanner {
                 }
 
                 // In this case, the current character is the end of a text or an escaped quotation mark
-                else if (currentlyReadValue.length() >= 1 && currentlyReadValue.charAt(0) == '"') {
+                else if (!currentlyReadValue.isEmpty() && currentlyReadValue.charAt(0) == '"') {
 
                     // In this case, the current character is an escaped quotation mark
                     if (isEscapingACharacter) {
@@ -255,12 +255,15 @@ public class Scanner {
                     } else isEscapingACharacter = true;
                 } else if (current != '\n' && current != '\t') {
                     hasConvertedTextNewLine = false;
-                    currentlyReadValue.append(current);
+
+                    if (current != ' ' || currentlyReadValue.charAt(currentlyReadValue.length() - 1) != ' ')
+                        currentlyReadValue.append(current);
                 }
                 // New line characters inside texts should be converted into spaces, but not repeatedly
                 else if (!hasConvertedTextNewLine) {
                     hasConvertedTextNewLine = true;
-                    currentlyReadValue.append(" ");
+                    if (currentlyReadValue.charAt(currentlyReadValue.length() - 1) != ' ')
+                        currentlyReadValue.append(" ");
                 }
             }
 

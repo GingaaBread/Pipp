@@ -115,7 +115,7 @@ class ScannerTests {
      */
     @Test
     void text_Can_Span_Multiple_Lines() {
-        var bridge = new FrontEndBridge("\"Hello \n \n\nWorld!\"");
+        var bridge = new FrontEndBridge("\"Hello    \n \n\nWorld!\"");
         Assertions.assertEquals(new Token(TokenType.TEXT, "Hello World!"), bridge.dequeueToken());
         Assertions.assertFalse(bridge.containsTokens());
     }

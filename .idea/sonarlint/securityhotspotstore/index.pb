@@ -181,10 +181,6 @@ m
 =src/main/java/processing/bibliography/BibliographySource.java,b\9\b95b61f6eaeae91e4d12fc679bfdb4b8ba647962
 _
 /src/main/java/processing/bibliography/Book.java,0\4\04f7ef4a3c5583bbc54b131e89a0780f5861b3d9
-f
-6src/main/java/error/IllegalConfigurationException.java,f\2\f2eaac1fcbccadc56914565967f9991fb03c7035
-f
-6src/main/java/error/MissingConfigurationException.java,f\9\f955344d7fcb582f49fae640c469658de9b9c15e
 Y
 )src/main/java/error/ContentException.java,f\0\f085eaa36ed29d5a29d780763e299ed919646b64
 i
@@ -225,10 +221,6 @@ Q.idea/sonarlint/securityhotspotstore/a/d/ad5fdc44fa7df38267acddcea5526d74b6b235
 Q.idea/sonarlint/securityhotspotstore/2/2/2251f29bb0f1c5ed3101b0d55dc8a9ebfaa3a9e4,3\4\3466f760c3bc96c5b82f3a6acf54c0d721b85837
 Å
 Q.idea/sonarlint/securityhotspotstore/a/d/ad538b65ca425747be2437ca22668e76b67e9191,b\9\b9b84ffdc037222e0a9105ee1196c50ff6d12157
-Å
-Q.idea/sonarlint/securityhotspotstore/f/2/f2eaac1fcbccadc56914565967f9991fb03c7035,1\b\1b07ffca3ed7aac4f8b45e4851a8e44c05f9f154
-Å
-Q.idea/sonarlint/securityhotspotstore/f/9/f955344d7fcb582f49fae640c469658de9b9c15e,c\1\c15e395777b17867011654f07f6f20e758be0762
 w
 G.idea/sonarlint/issuestore/3/c/3c23f0f293dd3fca407c20356176a67b525bce2f,e\e\ee4d4f52b824938cc47187f0e64be7121e636bd5
 Å
