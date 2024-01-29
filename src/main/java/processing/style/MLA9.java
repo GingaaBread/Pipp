@@ -13,9 +13,44 @@ import processing.bibliography.Book;
 
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 @Setter
 public class MLA9 extends StyleGuide {
+
+    private static Text getAuthorText(BibliographySource entry) {
+        Text authorText = null;
+        final var amountOfAuthors = entry.getAuthors().length;
+        if (amountOfAuthors > 0) {
+            final String authorTextContent = switch (amountOfAuthors) {
+                case 1 -> entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ". ";
+                case 2 -> entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ", and " +
+                        entry.getAuthors()[1].getLastname() + ", " + entry.getAuthors()[1].getFirstname() + ". ";
+                default ->
+                        entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ", et. al. ";
+            };
+
+            authorText = new Text(authorTextContent, Processor.getSentenceFont(), Processor.getSentenceFontSize(),
+                    Processor.getSentenceFontColour());
+        }
+        return authorText;
+    }
+
+    private static String getPublisherTextContent(BibliographySource entry) {
+        String publisherTextContent = null;
+        if (entry instanceof Book bookEntry) {
+            if (bookEntry.getPublicationName() != null && bookEntry.getPublicationYear() != null)
+                publisherTextContent = bookEntry.getPublicationName() + ", " + bookEntry.getPublicationYear() + ".";
+            else if (bookEntry.getPublicationName() != null) {
+                // TODO print warning that year is missing
+                publisherTextContent = bookEntry.getPublicationName() + ".";
+            } else if (bookEntry.getPublicationYear() != null) {
+                // TODO print warning that pub name is missing
+                publisherTextContent = bookEntry.getPublicationYear() + ".";
+            }
+        }
+        return publisherTextContent;
+    }
 
     /**
      * MLA 9 uses the standardised U.S. Letter
@@ -235,6 +270,35 @@ public class MLA9 extends StyleGuide {
         return new Text[0];
     }
 
+    @Override
+    public String formatBibliographyTitle(BibliographySource[] sources) {
+        if (sources.length == 0)
+            throw new IllegalStateException("Should not render bibliography title of an empty bibliography");
+        return sources.length == 1 ? "Work Cited" : "Works Cited";
+    }
+
+    @Override
+    public Text[] formatBibliographyEntry(BibliographySource entry) {
+        final var textList = new LinkedList<Text>();
+
+        Text authorText = getAuthorText(entry);
+        if (authorText != null) textList.add(authorText);
+
+        final var titleText = new Text(
+                entry.getTitle() + ".",
+                Processor.getWorkFont(),
+                Processor.getWorkFontSize(),
+                Processor.getWorkFontColour()
+        );
+        textList.add(titleText);
+
+        String publisherTextContent = getPublisherTextContent(entry);
+
+        if (publisherTextContent != null) textList.add(new Text(publisherTextContent,
+                Processor.getSentenceFont(), Processor.getSentenceFontSize(), Processor.getSentenceFontColour()));
+
+        return textList.toArray(Text[]::new);
+    }
 
     /**
      * Dates are represented in the British date format

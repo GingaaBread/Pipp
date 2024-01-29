@@ -5,11 +5,41 @@ bibliography
 		author "J.K. Rowling"
 		publication
 			name "Bloomsbury (UK)"
-			year "1997"
+			year "2001"
 	id "HG"
 		type "Book"
 		title "The Hunger Games"
 		author "Susan Collins"
 		publication
 			name "Scholastic"
-			year "2008"
+			year "2002"
+	id "2"
+    		type "Book"
+    		title "No Author"
+    		publication
+    			name "Scholastic"
+    			year "2003"
+	id "32"
+    		type "Book"
+    		title "A"
+    		author "Al A"
+    		publication
+    			name "Scholastic"
+    			year "2004"
+	id "4"
+    		type "Book"
+    		title "A"
+    		author
+    			of "Armin Bmin"
+    			of "Darwin Carwin"
+    		publication
+    			name "Scholastic"
+	id "5"
+    		type "Book"
+    		title "A"
+    		author
+    			of "Numero Uno"
+    			of "Persona Dos"
+    			of "Mensch Dreis"
+    		publication
+    			year "2006"

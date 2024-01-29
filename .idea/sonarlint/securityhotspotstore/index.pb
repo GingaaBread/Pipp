@@ -521,3 +521,9 @@ G.idea/sonarlint/issuestore/3/0/30e2cf48b38d2f4b14dc6fbca83e235576d18b7c,1\b\1b
 Q.idea/sonarlint/securityhotspotstore/1/d/1d09414caecf329be068d422993dd4f8de7d4e9f,a\2\a2992de27027a7f225f13ff1b4e0571a918bde7a
 Å
 Q.idea/sonarlint/securityhotspotstore/1/d/1d2cd151a772a431ecf280712105a612dbac012b,4\4\44d2db807044c061097f396c7a927ce87f4f7398
+k
+;src/main/java/frontend/lexical_analysis/DebugTokenInfo.java,3\5\35440872c992b32ee8454df7b2f9c22065b63a5f
+u
+Esrc/test/java/frontend/lexical_analysis/syntax/BibliographyTests.java,2\c\2c89b77752da31a0f4a46c69921fe1223725e10d
+]
+-src/main/java/creation/BibliographyStamp.java,e\2\e20bf8b0026bde9ba228df3d434b1b7f1cfe72c8

@@ -23,11 +23,10 @@ public class Main {
         final var logger = Logger.getLogger(Main.class.getName());
 
         // Specify the file path relative to the src/ folder
-        final String documentFilePath = "src/main/resources/Sample.pipp";
-        final String bibliographyFilePath = "src/main/resources/bibliography.pipp";
 
-        final var documentFile = new File(documentFilePath);
-        final var bibliographyFile = new File(bibliographyFilePath);
+
+        final var documentFile = new File(FrontEndBridge.DOCUMENT_FILE_PATH);
+        final var bibliographyFile = new File(FrontEndBridge.BIBLIOGRAPHY_FILE_PATH);
 
 
         // Compile the pipp and bibliography files

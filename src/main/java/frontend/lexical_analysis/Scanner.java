@@ -2,6 +2,7 @@ package frontend.lexical_analysis;
 
 import error.MissingMemberException;
 import frontend.FrontEndBridge;
+import lombok.NonNull;
 
 /**
  * Responsible for the lexical analysis of .pipp files.
@@ -76,6 +77,7 @@ public class Scanner {
      * the scanner and the parser.
      */
     private final FrontEndBridge frontEndBridge;
+    private final StringBuilder currentLineBuilder = new StringBuilder();
     /**
      * Saves the type of the currently scanned token during the scanning process,
      * and resets it each time a token is submitted.
@@ -104,10 +106,18 @@ public class Scanner {
      */
     private int currentAmountOfTabs = 0;
     /**
+     * Saves the path to the file that is currently being scanned for debug and error purposes
+     */
+    private String currentFilePath;
+    /**
      * Tracks the current character of the current line.
      * Characters are not zero-indexed, but start at one.
      */
     private int charInLine;
+    /**
+     * Tracks the current line. Is one-indexed.
+     */
+    private int currentLine = 1;
 
     /**
      * Tracks if the token is a text that contains new line characters that have been converted into a new line.
@@ -125,6 +135,18 @@ public class Scanner {
         this.frontEndBridge = frontEndBridge;
     }
 
+    public void resetFile(@NonNull final String filePath) {
+        currentLine = 1;
+        charInLine = 0;
+        currentAmountOfTabs = 0;
+        inComment = false;
+        isEscapingACharacter = false;
+        currentTokenType = null;
+        currentlyReadValue.setLength(0);
+        currentLineBuilder.setLength(0);
+        currentFilePath = filePath;
+    }
+
     /**
      * Scans the next character of the user input, and submits the token once found.
      *
@@ -133,6 +155,10 @@ public class Scanner {
     public void scan(final char current) {
         // We are scanning the next character, so the counter is incremented
         charInLine++;
+
+        if (current == '\t') currentLineBuilder.append("[\\t]");
+        else if (current == '\n') currentLineBuilder.append("[\\n]");
+        else currentLineBuilder.append(current);
 
         // Starts ignoring the line if the first character of a line is a comment (#)
         if (charInLine == 1 && current == '#') {
@@ -144,6 +170,8 @@ public class Scanner {
         else if (inComment && current == '\n') {
             inComment = false;
             charInLine = 0;
+            currentLine++;
+            currentLineBuilder.setLength(0);
         }
 
         // Ignores all input if in a comment or if scanning a carriage return character
@@ -182,6 +210,8 @@ public class Scanner {
                 currentAmountOfTabs = 0;
                 charInLine = 0;
                 submitToken();
+                currentLine++;
+                currentLineBuilder.setLength(0);
             }
 
             // A quotation mark begins or ends a text token
@@ -261,6 +291,11 @@ public class Scanner {
                 }
                 // New line characters inside texts should be converted into spaces, but not repeatedly
                 else if (!hasConvertedTextNewLine) {
+                    if (current == '\n') {
+                        currentLine++;
+                        currentLineBuilder.setLength(0);
+                    }
+
                     hasConvertedTextNewLine = true;
                     if (currentlyReadValue.charAt(currentlyReadValue.length() - 1) != ' ')
                         currentlyReadValue.append(" ");
@@ -292,6 +327,14 @@ public class Scanner {
         // In text tokens, the quotation marks do not have to be included ("Test" -> Test)
         if (token.type == TokenType.TEXT) token.value = token.value.substring(1, token.value.length() - 1);
 
+        StringBuilder debugLine = new StringBuilder(currentLineBuilder.toString());
+        if (token.type == TokenType.INDENT && !currentLineBuilder.toString().endsWith("]"))
+            debugLine.deleteCharAt(debugLine.length() - 1);
+
+        token.getDebugInfo().setFilePath(currentFilePath);
+        token.getDebugInfo().setLineNumber(currentLine);
+        token.getDebugInfo().setCurrentLine(debugLine.toString());
+
         // Verify the integrity of KEYWORD tokens
         if (token.type == TokenType.KEYWORD) {
             var isLegalKeyword = false;
@@ -302,7 +345,8 @@ public class Scanner {
                 }
             }
 
-            if (!isLegalKeyword) throw new IllegalArgumentException("Unknown keyword:  '" + token.value + "'");
+            if (!isLegalKeyword) throw new IllegalArgumentException(token.getDebugInfo().errorMessage(
+                    "Unknown keyword:  '" + token.value + "'"));
         }
 
         // INDENT tokens use the amount of tabs as their token values

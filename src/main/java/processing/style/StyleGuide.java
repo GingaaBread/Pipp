@@ -209,6 +209,10 @@ public abstract class StyleGuide {
     public abstract Text[] formatCitation(final BibliographySource referenceSource, final String content,
                                           final String numeration);
 
+    public abstract String formatBibliographyTitle(final BibliographySource[] sources);
+
+    public abstract Text[] formatBibliographyEntry(final BibliographySource entry);
+
     /**
      * Defines how the style sheet represents a date.
      * It may choose to use its default representation or create a custom string.

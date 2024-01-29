@@ -2,6 +2,7 @@ package processing.bibliography;
 
 import lombok.Getter;
 import lombok.Setter;
+import processing.Author;
 
 /**
  * A work represents any kind of work done that is referenced in the bibliography, which needs to be referenced.
@@ -17,6 +18,11 @@ public class BibliographySource {
      * Determines the main title of the work. Different work types can interpret this differently.
      */
     protected String title;
+
+    /**
+     * Determines the authors of the work.
+     */
+    protected Author[] authors;
 
     /**
      * Marks whether this bibliography source has also been cited by the user.

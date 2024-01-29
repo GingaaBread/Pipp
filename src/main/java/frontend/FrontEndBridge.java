@@ -14,6 +14,8 @@ import java.util.List;
 
 public class FrontEndBridge {
 
+    public static final String DOCUMENT_FILE_PATH = "src/main/resources/Sample.pipp";
+    public static final String BIBLIOGRAPHY_FILE_PATH = "src/main/resources/bibliography.pipp";
     private final Scanner scanner;
     private final Parser parser;
     private final List<Token> tokens;
@@ -49,6 +51,25 @@ public class FrontEndBridge {
         }
 
         scanner.submitToken();
+    }
+
+    public FrontEndBridge(@NonNull final String textToRead, final boolean bibliographyOnly) {
+        this();
+
+        if (!bibliographyOnly) return;
+
+        scanner.resetFile(BIBLIOGRAPHY_FILE_PATH);
+
+        for (int i = 0; i < textToRead.length(); i++) {
+            var character = textToRead.charAt(i);
+            scanner.scan(character);
+        }
+
+        scanner.submitToken();
+        if (!tokens.isEmpty()) {
+            parser.bibliography();
+        }
+        tokens.clear();
     }
 
     /**
@@ -87,6 +108,7 @@ public class FrontEndBridge {
 
         try (var bibliographyReader = new BufferedReader(new FileReader(bibliographyFileToRead))) {
             reader = new BufferedReader(new FileReader(documentFileToRead));
+            scanner.resetFile(BIBLIOGRAPHY_FILE_PATH);
 
             if (bibliographyFileToRead != null) {
                 int current;
@@ -98,6 +120,8 @@ public class FrontEndBridge {
                 }
                 tokens.clear();
             }
+
+            scanner.resetFile(DOCUMENT_FILE_PATH);
 
             read();
 

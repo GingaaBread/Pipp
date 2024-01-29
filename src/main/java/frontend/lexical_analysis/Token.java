@@ -1,30 +1,48 @@
 package frontend.lexical_analysis;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
- *  Creates a token used by the scanner to divide input into tokens.
- *  Consists of a {@link TokenType} and a token value.
- * @author Gino Glink
+ * Creates a token used by the scanner to divide input into tokens.
+ * Consists of a {@link TokenType} and a token value.
+ *
  * @version 1.0
  * @since 1.0
  */
-@AllArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class Token {
 
     /**
-     *  The constant type of the token used by the parser to parse input
+     * Used to include debug information for debugging purposes and error messages
      */
-    public TokenType type;
+    @Getter
+    private final DebugTokenInfo debugInfo;
 
     /**
-     *  The value of the token.
-     *  Depending on the token type this may be the name of the keyword, the content of a text, etc.
+     * The constant type of the token used by the parser to parse input
+     */
+    public TokenType type;
+    
+    /**
+     * The value of the token.
+     * Depending on the token type this may be the name of the keyword, the content of a text, etc.
      */
     public String value;
+
+    /**
+     * Instantiates a new token using the desired token type and value and automatically creates an
+     * empty debug info object.
+     *
+     * @param type  the type of the token (text, keyword, etc.)
+     * @param value the content value of the token
+     */
+    public Token(TokenType type, String value) {
+        this.type = type;
+        this.value = value;
+        debugInfo = new DebugTokenInfo();
+    }
 
 }

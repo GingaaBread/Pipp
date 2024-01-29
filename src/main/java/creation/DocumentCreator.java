@@ -33,6 +33,9 @@ public class DocumentCreator {
         // Create the document's body elements
         BodyHandler.handleAll();
 
+        // If there is at least one entry in the bibliography, display it
+        BibliographyStamp.stampBibliography();
+
         // Always save the last page
         PageAssembler.commitCurrentPage();
 

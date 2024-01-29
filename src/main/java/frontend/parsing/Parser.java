@@ -175,9 +175,10 @@ public class Parser {
      */
     private void remainIndentation() {
         if (frontEndBridge.containsTokens() && currentIndentationLevel > 0) {
-            if (current.type != TokenType.INDENT) throw new IllegalStateException("Should remain at the current " +
-                    "indentation level (" + currentIndentationLevel + "). Instead" +
-                    " found unexpected token: " + current);
+            if (current.type != TokenType.INDENT)
+                throw new IllegalStateException(current.getDebugInfo().errorMessage("Should remain at the current " +
+                        "indentation level (" + currentIndentationLevel + "). Instead" +
+                        " found unexpected token: " + current));
 
             if (Integer.parseInt(current.value) != currentIndentationLevel) indendationError();
             else if (frontEndBridge.containsTokens()) current = frontEndBridge.dequeueToken();
@@ -211,7 +212,7 @@ public class Parser {
      * consume a token directly. In that case, an IllegalArgumentException is thrown.
      */
     private void error() {
-        throw new IllegalArgumentException("Unexpected token: " + current);
+        throw new IllegalArgumentException(current.getDebugInfo().errorMessage("Unexpected token: " + current.type));
     }
 
     private void expectKeyword(Consumer<String> handler, String... keywords) {
@@ -220,7 +221,8 @@ public class Parser {
             do {
                 handler.accept(current.value);
 
-                handleLookaheadIndentation(keywords);
+                boolean insufficientIndentation = handleLookaheadIndentation(keywords);
+                if (insufficientIndentation) break;
 
                 currentIsAcceptableKeyword = false;
                 for (var keyword : keywords) {
@@ -233,25 +235,26 @@ public class Parser {
         } else error();
     }
 
-    private void handleLookaheadIndentation(@NonNull String... keywords) {
-        if (current.type != TokenType.INDENT || indentTokenToInt() < currentIndentationLevel) return;
+    private boolean handleLookaheadIndentation(@NonNull String... keywords) {
+        if (current.type != TokenType.INDENT || indentTokenToInt() < currentIndentationLevel) return true;
 
         var ahead = frontEndBridge.lookahead(0);
         for (var keyword : keywords) {
-
             if (frontEndBridge.containsTokens() && ahead.value.equals(keyword)) {
                 remainIndentation();
-                return;
+                return false;
             }
         }
+
+        return false;
     }
 
     /**
      * This method is called whenever an indentation is expected, but not given by the user
      */
     private void indendationError() {
-        throw new IllegalArgumentException("Indentation error. Current token is: " +
-                current + ". Prior was: " + last + ". The required level is: " + (currentIndentationLevel + 1));
+        throw new IllegalArgumentException(current.getDebugInfo().errorMessage("Indentation error." +
+                " The required level is: " + (currentIndentationLevel + 1)));
     }
 
     /**

@@ -3,17 +3,11 @@ package processing.bibliography;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import processing.Author;
 
 @Getter
 @Setter
 @ToString
 public class Book extends BibliographySource {
-
-    /**
-     * Determines the authors of the work. Every work needs to have at least one credited author.
-     */
-    protected Author[] authors;
 
     /**
      * The year the book was published.

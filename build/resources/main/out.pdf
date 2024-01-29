@@ -10,23 +10,25 @@ endobj
 3 0 obj
 <<
 /Creator (Pipp v.1.0)
-/CreationDate (D:20240127013747+01'00')
-/Title (Heterotopian Qualities in King Rat)
+/Author (Max Mustermann)
+/CreationDate (D:20240129011150+01'00')
+/Title (Mein Erstes Dokument mit Pipp)
 /Keywords (Pipp)
 >>
 endobj
 2 0 obj
 <<
 /Type /Pages
-/Kids [4 0 R 5 0 R 6 0 R]
-/Count 3
+/Kids [4 0 R 5 0 R]
+/Count 2
 >>
 endobj
 4 0 obj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents [7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R]
+/Contents [6 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R
+16 0 R]
 /Resources 17 0 R
 /Parent 2 0 R
 >>
@@ -35,23 +37,14 @@ endobj
 <<
 /Type /Page
 /MediaBox [0.0 0.0 612.0 792.0]
-/Contents [18 0 R 19 0 R]
-/Resources 20 0 R
+/Contents [18 0 R 19 0 R 20 0 R]
+/Resources 21 0 R
 /Parent 2 0 R
 >>
 endobj
 6 0 obj
 <<
-/Type /Page
-/MediaBox [0.0 0.0 612.0 792.0]
-/Contents 21 0 R
-/Resources 22 0 R
-/Parent 2 0 R
->>
-endobj
-7 0 obj
-<<
-/Length 102
+/Length 171
 >>
 stream
 /F1 12 Tf
@@ -61,15 +54,21 @@ BT
 72 36 Td
 /F1 12 Tf
 0 0 0 sc
-231 0 Td
+186.672 0 Td
 /F1 12 Tf
 0 0 0 sc
-(1) Tj
+(Max) Tj
+/F1 12 Tf
+0 0 0 sc
+( Mustermann) Tj
+/F1 12 Tf
+0 0 0 sc
+( 1) Tj
 ET
 
 endstream
 endobj
-8 0 obj
+7 0 obj
 <<
 /Length 135
 >>
@@ -91,9 +90,9 @@ ET
 
 endstream
 endobj
-9 0 obj
+8 0 obj
 <<
-/Length 176
+/Length 138
 >>
 stream
 /F1 12 Tf
@@ -105,20 +104,17 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(Anglistik) Tj
+(Germanistik) Tj
 /F1 12 Tf
 0 0 0 sc
-( und) Tj
-/F1 12 Tf
-0 0 0 sc
-( Amerikanistik) Tj
+( II) Tj
 ET
 
 endstream
 endobj
-10 0 obj
+9 0 obj
 <<
-/Length 135
+/Length 138
 >>
 stream
 /F1 12 Tf
@@ -130,17 +126,17 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(English) Tj
+(Max) Tj
 /F1 12 Tf
 0 0 0 sc
-( 101) Tj
+( Mustermann) Tj
 ET
 
 endstream
 endobj
-11 0 obj
+10 0 obj
 <<
-/Length 131
+/Length 194
 >>
 stream
 /F1 12 Tf
@@ -152,17 +148,23 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(WS) Tj
+(John) Tj
 /F1 12 Tf
 0 0 0 sc
-( 1998) Tj
+( Doe,) Tj
+/F1 12 Tf
+0 0 0 sc
+( Alice) Tj
+/F1 12 Tf
+0 0 0 sc
+( Evil) Tj
 ET
 
 endstream
 endobj
-12 0 obj
+11 0 obj
 <<
-/Length 265
+/Length 171
 >>
 stream
 /F1 12 Tf
@@ -172,24 +174,40 @@ BT
 72 576.00006 Td
 /F1 12 Tf
 0 0 0 sc
-/F2 12 Tf
-0 0 0 sc
-150.336 0 Td
 /F1 12 Tf
 0 0 0 sc
-(Heterotopian) Tj
+(Deutsche) Tj
 /F1 12 Tf
 0 0 0 sc
-( Qualities) Tj
+( Literatur) Tj
 /F1 12 Tf
 0 0 0 sc
-( in ) Tj
-/F2 12 Tf
+( 102) Tj
+ET
+
+endstream
+endobj
+12 0 obj
+<<
+/Length 164
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
 0 0 0 sc
-(King) Tj
-/F2 12 Tf
+BT
+72 547.20007 Td
+/F1 12 Tf
 0 0 0 sc
-( Rat) Tj
+/F1 12 Tf
+0 0 0 sc
+(January) Tj
+/F1 12 Tf
+0 0 0 sc
+( 29) Tj
+/F1 12 Tf
+0 0 0 sc
+( 2024) Tj
 ET
 
 endstream
@@ -203,326 +221,120 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 547.20007 Td
-36 0 Td
+72 518.40009 Td
 /F1 12 Tf
 0 0 0 sc
+156.33 0 Td
 /F1 12 Tf
 0 0 0 sc
-("Harry) Tj
+(Mein) Tj
 /F1 12 Tf
 0 0 0 sc
-( is) Tj
+( Erstes) Tj
 /F1 12 Tf
 0 0 0 sc
-( happy") Tj
+( Dokument) Tj
 /F1 12 Tf
 0 0 0 sc
-( \(Rowling) Tj
+( mit) Tj
 /F1 12 Tf
 0 0 0 sc
-( 134\).) Tj
+( Pipp) Tj
 ET
 
 endstream
 endobj
 14 0 obj
 <<
-/Length 2926
+/Length 743
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 518.40009 Td
+72 489.6001 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(Lorem) Tj
+(Dies) Tj
 /F1 12 Tf
 0 0 0 sc
-( ipsum) Tj
+( ist) Tj
 /F1 12 Tf
 0 0 0 sc
-( dolor) Tj
+( ein) Tj
 /F1 12 Tf
 0 0 0 sc
-( sit) Tj
+( langer) Tj
 /F1 12 Tf
 0 0 0 sc
-( amet,) Tj
+( langer) Tj
 /F1 12 Tf
 0 0 0 sc
-( consectetur) Tj
+( Satz,) Tj
 /F1 12 Tf
 0 0 0 sc
-( adipiscing) Tj
+( der) Tj
 /F1 12 Tf
 0 0 0 sc
-( elit,) Tj
+( mir) Tj
 /F1 12 Tf
 0 0 0 sc
-( sed) Tj
+( ganz) Tj
 /F1 12 Tf
 0 0 0 sc
-( do) Tj
+( viel) Tj
 /F1 12 Tf
 0 0 0 sc
-( eiusmod) Tj
+( Spannung) Tj
 /F1 12 Tf
 0 0 0 sc
-( tempor) Tj
+( einbringt.) Tj
 /F1 12 Tf
 0 0 0 sc
-( incididunt) Tj
+( Vielleicht) Tj
+/F1 12 Tf
+0 0 0 sc
+( komme) Tj
 -36 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(ut) Tj
+(ich) Tj
 /F1 12 Tf
 0 0 0 sc
-( labore) Tj
-/F1 12 Tf
-0 0 0 sc
-( et) Tj
-/F1 12 Tf
-0 0 0 sc
-( dolore) Tj
-/F1 12 Tf
-0 0 0 sc
-( magna) Tj
-/F1 12 Tf
-0 0 0 sc
-( aliqua.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Eget) Tj
-/F1 12 Tf
-0 0 0 sc
-( magna) Tj
-/F1 12 Tf
-0 0 0 sc
-( fermentum) Tj
-/F1 12 Tf
-0 0 0 sc
-( iaculis) Tj
-/F1 12 Tf
-0 0 0 sc
-( eu) Tj
-/F1 12 Tf
-0 0 0 sc
-( non) Tj
-/F1 12 Tf
-0 0 0 sc
-( diam) Tj
-/F1 12 Tf
-0 0 0 sc
-( phasellus.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Ornare) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(arcu) Tj
-/F1 12 Tf
-0 0 0 sc
-( odio) Tj
-/F1 12 Tf
-0 0 0 sc
-( ut) Tj
-/F1 12 Tf
-0 0 0 sc
-( sem) Tj
-/F1 12 Tf
-0 0 0 sc
-( nulla) Tj
-/F1 12 Tf
-0 0 0 sc
-( pharetra) Tj
-/F1 12 Tf
-0 0 0 sc
-( diam.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Tristique) Tj
-/F1 12 Tf
-0 0 0 sc
-( risus) Tj
-/F1 12 Tf
-0 0 0 sc
-( nec) Tj
-/F1 12 Tf
-0 0 0 sc
-( feugiat) Tj
+( dadurch) Tj
 /F1 12 Tf
 0 0 0 sc
 ( in) Tj
 /F1 12 Tf
 0 0 0 sc
-( fermentum) Tj
+( eine) Tj
 /F1 12 Tf
 0 0 0 sc
-( posuere) Tj
+( neue) Tj
 /F1 12 Tf
 0 0 0 sc
-( urna) Tj
+( Zeile!) Tj
 /F1 12 Tf
 0 0 0 sc
-( nec.) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(Ac) Tj
-/F1 12 Tf
-0 0 0 sc
-( turpis) Tj
-/F1 12 Tf
-0 0 0 sc
-( egestas) Tj
-/F1 12 Tf
-0 0 0 sc
-( integer) Tj
-/F1 12 Tf
-0 0 0 sc
-( eget) Tj
-/F1 12 Tf
-0 0 0 sc
-( aliquet) Tj
-/F1 12 Tf
-0 0 0 sc
-( nibh.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Nisl) Tj
-/F1 12 Tf
-0 0 0 sc
-( nunc) Tj
-/F1 12 Tf
-0 0 0 sc
-( mi) Tj
-/F1 12 Tf
-0 0 0 sc
-( ipsum) Tj
-/F1 12 Tf
-0 0 0 sc
-( faucibus) Tj
-/F1 12 Tf
-0 0 0 sc
-( vitae) Tj
-/F1 12 Tf
-0 0 0 sc
-( aliquet) Tj
-/F1 12 Tf
-0 0 0 sc
-( nec) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(ullamcorper) Tj
-/F1 12 Tf
-0 0 0 sc
-( sit.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Commodo) Tj
-/F1 12 Tf
-0 0 0 sc
-( quis) Tj
-/F1 12 Tf
-0 0 0 sc
-( imperdiet) Tj
-/F1 12 Tf
-0 0 0 sc
-( massa) Tj
-/F1 12 Tf
-0 0 0 sc
-( tincidunt.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Ornare) Tj
-/F1 12 Tf
-0 0 0 sc
-( lectus) Tj
-/F1 12 Tf
-0 0 0 sc
-( sit) Tj
-/F1 12 Tf
-0 0 0 sc
-( amet) Tj
-/F1 12 Tf
-0 0 0 sc
-( est.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Sit) Tj
-/F1 12 Tf
-0 0 0 sc
-( amet) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(porttitor) Tj
-/F1 12 Tf
-0 0 0 sc
-( eget) Tj
-/F1 12 Tf
-0 0 0 sc
-( dolor.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Aliquam) Tj
-/F1 12 Tf
-0 0 0 sc
-( etiam) Tj
-/F1 12 Tf
-0 0 0 sc
-( erat) Tj
-/F1 12 Tf
-0 0 0 sc
-( velit) Tj
-/F1 12 Tf
-0 0 0 sc
-( scelerisque.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Platea) Tj
-/F1 12 Tf
-0 0 0 sc
-( dictumst) Tj
-/F1 12 Tf
-0 0 0 sc
-( vestibulum) Tj
-/F1 12 Tf
-0 0 0 sc
-( rhoncus) Tj
-/F1 12 Tf
-0 0 0 sc
-( est) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(pellentesque) Tj
-/F1 12 Tf
-0 0 0 sc
-( elit.) Tj
+( Test.) Tj
 ET
 
 endstream
 endobj
 15 0 obj
 <<
-/Length 3833
+/Length 521
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 316.80017 Td
+72 432.00012 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
@@ -530,379 +342,61 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-/F1 12 Tf
-0 0 0 sc
-(In) Tj
-/F1 12 Tf
-0 0 0 sc
-( this) Tj
-/F1 12 Tf
-0 0 0 sc
-( paper,) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( intend) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( outline) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopian) Tj
-/F1 12 Tf
-0 0 0 sc
-( qualities) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( urban) Tj
-/F1 12 Tf
-0 0 0 sc
-( fantasy) Tj
-/F1 12 Tf
-0 0 0 sc
-( novel ) Tj
 /F2 12 Tf
 0 0 0 sc
-(King) Tj
+/F1 12 Tf
+0 0 0 sc
+(Wieder) Tj
+/F1 12 Tf
+0 0 0 sc
+( ein) Tj
+/F1 12 Tf
+0 0 0 sc
+( neuer) Tj
+/F1 12 Tf
+0 0 0 sc
+( Paragraph.) Tj
+/F1 12 Tf
+0 0 0 sc
+( Im) Tj
+/F1 12 Tf
+0 0 0 sc
+( Englischen) Tj
+/F1 12 Tf
+0 0 0 sc
+( wird) Tj
+/F1 12 Tf
+0 0 0 sc
+( es) Tj
+/F1 12 Tf
+0 0 0 sc
+( als ) Tj
 /F2 12 Tf
 0 0 0 sc
-( Rat ) Tj
--36 -28.8 Td
+(ship ) Tj
 /F1 12 Tf
 0 0 0 sc
-(by ) Tj
-/F1 12 Tf
-0 0 0 sc
-(China) Tj
-/F1 12 Tf
-0 0 0 sc
-( Mieville.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Due) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( inherently) Tj
-/F1 12 Tf
-0 0 0 sc
-( tiny) Tj
-/F1 12 Tf
-0 0 0 sc
-( scope) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( this) Tj
-/F1 12 Tf
-0 0 0 sc
-( paper,) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( focus) Tj
-/F1 12 Tf
-0 0 0 sc
-( on) Tj
-/F1 12 Tf
-0 0 0 sc
-( one) Tj
-/F1 12 Tf
-0 0 0 sc
-( particular) Tj
-/F1 12 Tf
-0 0 0 sc
-( scene,) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(which) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( intend) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( analyse) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( more) Tj
-/F1 12 Tf
-0 0 0 sc
-( detail,) Tj
-/F1 12 Tf
-0 0 0 sc
-( instead) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( analysing) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( novel) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( a) Tj
-/F1 12 Tf
-0 0 0 sc
-( broader) Tj
-/F1 12 Tf
-0 0 0 sc
-( context.) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(have) Tj
-/F1 12 Tf
-0 0 0 sc
-( chosen) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( topic) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( Foucault's) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopias) Tj
-/F1 12 Tf
-0 0 0 sc
-( with) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( intention) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( connecting) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( theoretical) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(knowledge) Tj
-/F1 12 Tf
-0 0 0 sc
-( learnt) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( British) Tj
-/F1 12 Tf
-0 0 0 sc
-( Cultural) Tj
-/F1 12 Tf
-0 0 0 sc
-( Studies) Tj
-/F1 12 Tf
-0 0 0 sc
-( lecture) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( a) Tj
-/F1 12 Tf
-0 0 0 sc
-( novel) Tj
-/F1 12 Tf
-0 0 0 sc
-( read) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( pro-seminar.) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(Assessing) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopian) Tj
-/F1 12 Tf
-0 0 0 sc
-( features) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( novel) Tj
-/F1 12 Tf
-0 0 0 sc
-( read) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( our) Tj
-/F1 12 Tf
-0 0 0 sc
-( British) Tj
-/F1 12 Tf
-0 0 0 sc
-( Urban) Tj
-/F1 12 Tf
-0 0 0 sc
-( Fantasy) Tj
-/F1 12 Tf
-0 0 0 sc
-( class) Tj
-/F1 12 Tf
-0 0 0 sc
-( is) Tj
-/F1 12 Tf
-0 0 0 sc
-( relevant) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(because) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( its) Tj
-/F1 12 Tf
-0 0 0 sc
-( link) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( urbanity) Tj
-/F1 12 Tf
-0 0 0 sc
-( and) Tj
-/F1 12 Tf
-0 0 0 sc
-( spaces.) Tj
-/F1 12 Tf
-0 0 0 sc
-( Moreover,) Tj
-/F1 12 Tf
-0 0 0 sc
-( Foucault) Tj
-/F1 12 Tf
-0 0 0 sc
-( and) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopias) Tj
-/F1 12 Tf
-0 0 0 sc
-( specifically) Tj
-/F1 12 Tf
-0 0 0 sc
-( have) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(been) Tj
-/F1 12 Tf
-0 0 0 sc
-( mentioned) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( seminar) Tj
-/F1 12 Tf
-0 0 0 sc
-( as) Tj
-/F1 12 Tf
+(bezeichnet. ) Tj
+/F2 12 Tf
 0 0 0 sc
-( well.) Tj
+(Unterschied) Tj
 ET
 
 endstream
 endobj
 16 0 obj
 <<
-/Length 585
+/Length 417
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 86.40018 Td
+72 403.20013 Td
 36 0 Td
+/F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
 /F1 12 Tf
@@ -910,62 +404,43 @@ BT
 (In) Tj
 /F1 12 Tf
 0 0 0 sc
-( regard) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( my) Tj
-/F1 12 Tf
-0 0 0 sc
-( thesis) Tj
-/F1 12 Tf
-0 0 0 sc
-( statement,) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( hypothesize) Tj
-/F1 12 Tf
-0 0 0 sc
-( that) Tj
-/F1 12 Tf
-0 0 0 sc
 ( the) Tj
 /F1 12 Tf
 0 0 0 sc
-( scene) Tj
+( novel,) Tj
 /F1 12 Tf
 0 0 0 sc
-( at) Tj
+( Geralt) Tj
 /F1 12 Tf
 0 0 0 sc
-( hand) Tj
+( tells) Tj
 /F1 12 Tf
 0 0 0 sc
-( reveals) Tj
+( Milva) Tj
 /F1 12 Tf
 0 0 0 sc
-( instances) Tj
+( that ) Tj
 /F1 12 Tf
 0 0 0 sc
-( of) Tj
--36 -28.8 Td
+("quatsch") Tj
+/F1 12 Tf
+0 0 0 sc
+( \(Sapkowski) Tj
+/F1 12 Tf
+0 0 0 sc
+( 243\).) Tj
 ET
 
 endstream
 endobj
 17 0 obj
 <<
-/Font 23 0 R
+/Font 22 0 R
 >>
 endobj
 18 0 obj
 <<
-/Length 102
+/Length 171
 >>
 stream
 /F1 12 Tf
@@ -975,17 +450,23 @@ BT
 72 36 Td
 /F1 12 Tf
 0 0 0 sc
-231 0 Td
+186.672 0 Td
 /F1 12 Tf
 0 0 0 sc
-(2) Tj
+(Max) Tj
+/F1 12 Tf
+0 0 0 sc
+( Mustermann) Tj
+/F1 12 Tf
+0 0 0 sc
+( 2) Tj
 ET
 
 endstream
 endobj
 19 0 obj
 <<
-/Length 3009
+/Length 147
 >>
 stream
 /F1 12 Tf
@@ -995,336 +476,82 @@ BT
 72 691.20001 Td
 /F1 12 Tf
 0 0 0 sc
+205.836 0 Td
 /F1 12 Tf
 0 0 0 sc
-(Foucault's) Tj
+(Work) Tj
 /F1 12 Tf
 0 0 0 sc
-( concept) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopias,) Tj
-/F1 12 Tf
-0 0 0 sc
-( which) Tj
-/F1 12 Tf
-0 0 0 sc
-( help) Tj
-/F1 12 Tf
-0 0 0 sc
-( propel) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( story) Tj
-/F1 12 Tf
-0 0 0 sc
-( and) Tj
-/F1 12 Tf
-0 0 0 sc
-( illustrate) Tj
-/F1 12 Tf
-0 0 0 sc
-( new) Tj
-/F1 12 Tf
-0 0 0 sc
-( information) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(about) Tj
-/F1 12 Tf
-0 0 0 sc
-( characters) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( reader.) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( would) Tj
-/F1 12 Tf
-0 0 0 sc
-( like) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( structure) Tj
-/F1 12 Tf
-0 0 0 sc
-( my) Tj
-/F1 12 Tf
-0 0 0 sc
-( paper) Tj
-/F1 12 Tf
-0 0 0 sc
-( by) Tj
-/F1 12 Tf
-0 0 0 sc
-( briefly) Tj
-/F1 12 Tf
-0 0 0 sc
-( outlining) Tj
-/F1 12 Tf
-0 0 0 sc
-( both) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(scene) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( focus) Tj
-/F1 12 Tf
-0 0 0 sc
-( as) Tj
-/F1 12 Tf
-0 0 0 sc
-( well) Tj
-/F1 12 Tf
-0 0 0 sc
-( as) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopias) Tj
-/F1 12 Tf
-0 0 0 sc
-( generally,) Tj
-/F1 12 Tf
-0 0 0 sc
-( then) Tj
-/F1 12 Tf
-0 0 0 sc
-( critically) Tj
-/F1 12 Tf
-0 0 0 sc
-( assessing) Tj
-/F1 12 Tf
-0 0 0 sc
-( my) Tj
-/F1 12 Tf
-0 0 0 sc
-( findings) Tj
-/F1 12 Tf
-0 0 0 sc
-( in) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(scene,) Tj
-/F1 12 Tf
-0 0 0 sc
-( and) Tj
-/F1 12 Tf
-0 0 0 sc
-( finally) Tj
-/F1 12 Tf
-0 0 0 sc
-( offering) Tj
-/F1 12 Tf
-0 0 0 sc
-( a) Tj
-/F1 12 Tf
-0 0 0 sc
-( concluding) Tj
-/F1 12 Tf
-0 0 0 sc
-( overview) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( my) Tj
-/F1 12 Tf
-0 0 0 sc
-( findings) Tj
-/F1 12 Tf
-0 0 0 sc
-( as) Tj
-/F1 12 Tf
-0 0 0 sc
-( well) Tj
-/F1 12 Tf
-0 0 0 sc
-( as) Tj
-/F1 12 Tf
-0 0 0 sc
-( limitations.) Tj
-/F1 12 Tf
-0 0 0 sc
-( My) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(analysis) Tj
-/F1 12 Tf
-0 0 0 sc
-( consists) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( illustrating) Tj
-/F1 12 Tf
-0 0 0 sc
-( Foucault's) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopias,) Tj
-/F1 12 Tf
-0 0 0 sc
-( and) Tj
-/F1 12 Tf
-0 0 0 sc
-( analysing) Tj
-/F1 12 Tf
-0 0 0 sc
-( traits) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( scene) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(matching) Tj
-/F1 12 Tf
-0 0 0 sc
-( those) Tj
-/F1 12 Tf
-0 0 0 sc
-( heterotopian) Tj
-/F1 12 Tf
-0 0 0 sc
-( qualities.) Tj
-/F1 12 Tf
-0 0 0 sc
-( In) Tj
-/F1 12 Tf
-0 0 0 sc
-( addition,) Tj
-/F1 12 Tf
-0 0 0 sc
-( I) Tj
-/F1 12 Tf
-0 0 0 sc
-( attempt) Tj
-/F1 12 Tf
-0 0 0 sc
-( to) Tj
-/F1 12 Tf
-0 0 0 sc
-( evaluate) Tj
-/F1 12 Tf
-0 0 0 sc
-( their) Tj
-/F1 12 Tf
-0 0 0 sc
-( effects) Tj
-/F1 12 Tf
-0 0 0 sc
-( on) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( reader) Tj
-0 -28.8 Td
-/F1 12 Tf
-0 0 0 sc
-(and) Tj
-/F1 12 Tf
-0 0 0 sc
-( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( story) Tj
-/F1 12 Tf
-0 0 0 sc
-( progression.) Tj
+( Cited) Tj
 ET
 
 endstream
 endobj
 20 0 obj
 <<
-/Font 24 0 R
->>
-endobj
-21 0 obj
-<<
-/Length 102
+/Length 407
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 36 Td
+72 662.40002 Td
 /F1 12 Tf
 0 0 0 sc
-231 0 Td
+/F2 12 Tf
+0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(3) Tj
+/F1 12 Tf
+0 0 0 sc
+(Sapkowski,) Tj
+/F1 12 Tf
+0 0 0 sc
+( Andrej. ) Tj
+/F2 12 Tf
+0 0 0 sc
+(The) Tj
+/F2 12 Tf
+0 0 0 sc
+( Witcher:) Tj
+/F2 12 Tf
+0 0 0 sc
+( Last) Tj
+/F2 12 Tf
+0 0 0 sc
+( Wish. ) Tj
+/F1 12 Tf
+0 0 0 sc
+(Beispiel) Tj
+/F1 12 Tf
+0 0 0 sc
+( Publikation,) Tj
+/F1 12 Tf
+0 0 0 sc
+( 1997.) Tj
 ET
 
 endstream
 endobj
+21 0 obj
+<<
+/Font 23 0 R
+>>
+endobj
 22 0 obj
 <<
-/Font 25 0 R
+/F1 24 0 R
+/F2 25 0 R
 >>
 endobj
 23 0 obj
 <<
-/F1 26 0 R
-/F2 27 0 R
+/F1 24 0 R
+/F2 25 0 R
 >>
 endobj
 24 0 obj
-<<
-/F1 26 0 R
->>
-endobj
-25 0 obj
-<<
-/F1 26 0 R
->>
-endobj
-26 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -1332,7 +559,7 @@ endobj
 /Encoding /WinAnsiEncoding
 >>
 endobj
-27 0 obj
+25 0 obj
 <<
 /Type /Font
 /Subtype /Type1
@@ -1341,42 +568,40 @@ endobj
 >>
 endobj
 xref
-0 28
+0 26
 0000000000 65535 f
 0000000015 00000 n
-0000000222 00000 n
+0000000242 00000 n
 0000000078 00000 n
-0000000291 00000 n
-0000000467 00000 n
-0000000590 00000 n
-0000000704 00000 n
-0000000859 00000 n
-0000001047 00000 n
-0000001276 00000 n
-0000001465 00000 n
-0000001650 00000 n
-0000001969 00000 n
-0000002263 00000 n
-0000005244 00000 n
-0000009132 00000 n
-0000009771 00000 n
-0000009806 00000 n
-0000009962 00000 n
-0000013026 00000 n
-0000013061 00000 n
-0000013217 00000 n
-0000013252 00000 n
-0000013296 00000 n
-0000013329 00000 n
-0000013362 00000 n
-0000013462 00000 n
+0000000305 00000 n
+0000000487 00000 n
+0000000617 00000 n
+0000000841 00000 n
+0000001029 00000 n
+0000001220 00000 n
+0000001411 00000 n
+0000001659 00000 n
+0000001884 00000 n
+0000002102 00000 n
+0000002396 00000 n
+0000003193 00000 n
+0000003768 00000 n
+0000004239 00000 n
+0000004274 00000 n
+0000004499 00000 n
+0000004700 00000 n
+0000005161 00000 n
+0000005196 00000 n
+0000005240 00000 n
+0000005284 00000 n
+0000005384 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/ID [<A239D619938F7BE9FB5C0D383F725366> <A239D619938F7BE9FB5C0D383F725366>]
-/Size 28
+/ID [<ED33F8D0E069D760B090982DFEDFDFF8> <ED33F8D0E069D760B090982DFEDFDFF8>]
+/Size 26
 >>
 startxref
-13563
+5485
 %%EOF
