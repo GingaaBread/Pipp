@@ -60,6 +60,7 @@ public class Parser {
     private static final String WIDTH_KEYWORD = "width";
     private static final String DISPLAY_KEYWORD = "display";
     private static final String OF_KEYWORD = "of";
+    private static final String ROLE_KEYWORD = "role";
     private static final String MARGIN_KEYWORD = "margin";
     private static final String SPACING_KEYWORD = "spacing";
     private static final String INDENTATION_KEYWORD = "indentation";
@@ -71,7 +72,14 @@ public class Parser {
     private static final String STYLE_KEYWORD = "style";
 
     private static final String DOCUMENT_TITLE_CONTAINER_NAME = "Document Title";
+    private static final String PARAGRAPH_CONTAINER_NAME = "paragraph";
+    private static final String SENTENCE_STRUCTURE_CONTAINER_NAME = "Sentence Structure";
+    private static final String EMPHASIS_STRUCTURE_CONTAINER_NAME = "Emphasis Structure";
+    private static final String WORK_STRUCTURE_CONTAINER_NAME = "Work Structure";
     private static final String PUBLICATION_CONFIGURATION_CONTAINER_NAME = "Publication Configuration";
+    private static final String AUTHOR_CONTAINER_NAME = "Author";
+    private static final String BIBLIOGRAPHY_AUTHOR_CONTAINER_NAME = "Bibliography Assessor";
+    private static final String ASSESSOR_CONTAINER_NAME = "Assessor";
 
     /**
      * The bridge is responsible for providing an interface between the Parser and the Scanner
@@ -337,7 +345,7 @@ public class Parser {
     }
 
     private void bibliographyItemAuthor() {
-        currentlyParsedContainer = "Bibliography Author";
+        currentlyParsedContainer = BIBLIOGRAPHY_AUTHOR_CONTAINER_NAME;
         if (current.type == TokenType.NEW_LINE) {
             newline();
             expectIndentation();
@@ -596,7 +604,7 @@ public class Parser {
      * DateConfiguration := "date" Textual
      */
     private void dateConfiguration() {
-        consumeKeyword("date");
+        consumeKeyword(DATE_KEYWORD);
         textual();
 
         if (currentlyParsedContainer.equals(PUBLICATION_CONFIGURATION_CONTAINER_NAME)) {
@@ -659,7 +667,7 @@ public class Parser {
      * AssessorConfiguration := "assessor" NewLine INDENT AssessorSpecification DEDENT | "assessor" Textual
      */
     private void assessorConfiguration() {
-        currentlyParsedContainer = "Assessor";
+        currentlyParsedContainer = ASSESSOR_CONTAINER_NAME;
 
         consumeKeyword(ASSESSOR_KEYWORD);
 
@@ -706,7 +714,7 @@ public class Parser {
             } else if (current.type == TokenType.TEXT) {
                 textual();
 
-                if (currentlyParsedContainer.equals("Assessor")) {
+                if (currentlyParsedContainer.equals(ASSESSOR_CONTAINER_NAME)) {
                     var assessor = new Assessor();
                     assessor.setName(last.value);
                     ast.getConfiguration().getAssessors().add(assessor);
@@ -721,12 +729,12 @@ public class Parser {
     private void nameSpecificationWithOptRole() {
         nameSpecification();
         if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
-                frontEndBridge.lookahead(0).value.equals("role")) {
+                frontEndBridge.lookahead(0).value.equals(ROLE_KEYWORD)) {
             remainIndentation();
-            consumeKeyword("role");
+            consumeKeyword(ROLE_KEYWORD);
             textual();
 
-            if (currentlyParsedContainer.equals("Assessor")) {
+            if (currentlyParsedContainer.equals(ASSESSOR_CONTAINER_NAME)) {
                 ((Assessor) lastNode).setRole(last.value);
             } else error();
         }
@@ -758,7 +766,7 @@ public class Parser {
      */
     private void authorSpecification() {
         if (isKeyword()) {
-            currentlyParsedContainer = "Author";
+            currentlyParsedContainer = AUTHOR_CONTAINER_NAME;
             switch (current.value) {
                 case NAME_KEYWORD, FIRST_NAME_KEYWORD, TITLE_KEYWORD -> nameSpecificationWithOptId();
                 case OF_KEYWORD -> authorList();
@@ -782,7 +790,7 @@ public class Parser {
             } else if (current.type == TokenType.TEXT) {
                 textual();
 
-                if (currentlyParsedContainer.equals("Author")) {
+                if (currentlyParsedContainer.equals(AUTHOR_CONTAINER_NAME)) {
                     var author = new Author();
                     author.setName(last.value);
                     ast.getConfiguration().getAuthors().add(author);
@@ -802,7 +810,7 @@ public class Parser {
             consume(new Token(TokenType.KEYWORD, ID_KEYWORD));
             textual();
 
-            if (currentlyParsedContainer.equals("Author")) {
+            if (currentlyParsedContainer.equals(AUTHOR_CONTAINER_NAME)) {
                 ((Author) lastNode).setId(last.value);
             }
         }
@@ -826,7 +834,7 @@ public class Parser {
                 name();
 
                 switch (currentlyParsedContainer) {
-                    case "Author" -> {
+                    case AUTHOR_CONTAINER_NAME -> {
                         var author = new Author();
                         author.setTitle(title);
                         author.setName(last.value);
@@ -834,14 +842,14 @@ public class Parser {
                         ast.getConfiguration().getAuthors().add(author);
                         lastNode = author;
                     }
-                    case "Assessor" -> {
+                    case ASSESSOR_CONTAINER_NAME -> {
                         var assessor = new Assessor();
                         assessor.setTitle(title);
                         assessor.setName(last.value);
                         ast.getConfiguration().getAssessors().add(assessor);
                         lastNode = assessor;
                     }
-                    case "Bibliography Author" -> {
+                    case BIBLIOGRAPHY_AUTHOR_CONTAINER_NAME -> {
                         var author = new Author();
                         author.setTitle(title);
                         author.setName(last.value);
@@ -861,7 +869,7 @@ public class Parser {
                 var lastname = last.value;
 
                 switch (currentlyParsedContainer) {
-                    case "Author" -> {
+                    case AUTHOR_CONTAINER_NAME -> {
                         var author = new Author();
                         author.setTitle(title);
                         author.setFirstname(firstname);
@@ -870,7 +878,7 @@ public class Parser {
                         ast.getConfiguration().getAuthors().add(author);
                         lastNode = author;
                     }
-                    case "Assessor" -> {
+                    case ASSESSOR_CONTAINER_NAME -> {
                         var assessor = new Assessor();
                         assessor.setTitle(title);
                         assessor.setFirstname(firstname);
@@ -878,7 +886,7 @@ public class Parser {
                         ast.getConfiguration().getAssessors().add(assessor);
                         lastNode = assessor;
                     }
-                    case "Bibliography Author" -> {
+                    case BIBLIOGRAPHY_AUTHOR_CONTAINER_NAME -> {
                         var author = new Author();
                         author.setTitle(title);
                         author.setFirstname(firstname);
@@ -1018,7 +1026,7 @@ public class Parser {
      * SentenceStructureStyle := "sentence" NewLine INDENT SentenceStructureStyleList DEDENT
      */
     private void sentenceStructureStyle() {
-        currentlyParsedContainer = "Sentence Structure";
+        currentlyParsedContainer = SENTENCE_STRUCTURE_CONTAINER_NAME;
         consumeKeyword(SENTENCE_KEYWORD);
         newline();
         expectIndentation();
@@ -1030,7 +1038,7 @@ public class Parser {
      * WorkStructureStyle := "work" NewLine INDENT WorkStructureStyleList DEDENT
      */
     private void workStructureStyle() {
-        currentlyParsedContainer = "Work Structure";
+        currentlyParsedContainer = WORK_STRUCTURE_CONTAINER_NAME;
         consumeKeyword(WORK_KEYWORD);
         newline();
         expectIndentation();
@@ -1042,7 +1050,7 @@ public class Parser {
      * WorkStructureStyle := "emphasise" NewLine INDENT EmphasisStructureStyleList DEDENT
      */
     private void emphasisStructureStyle() {
-        currentlyParsedContainer = "Work Structure";
+        currentlyParsedContainer = EMPHASIS_STRUCTURE_CONTAINER_NAME;
         consumeKeyword(EMPHASISE_KEYWORD);
         newline();
         expectIndentation();
@@ -1128,9 +1136,9 @@ public class Parser {
 
                     var structure = ast.getConfiguration().getStyle().getStructure();
                     switch (currentlyParsedContainer) {
-                        case "Sentence Structure" -> structure.getSentence().getFont().setName(last.value);
-                        case "Work Structure" -> structure.getWork().getFont().setName(last.value);
-                        case "Emphasis Structure" -> structure.getEmphasis().getFont().setName(last.value);
+                        case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setName(last.value);
+                        case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setName(last.value);
+                        case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setName(last.value);
                         default -> error();
                     }
                 }
@@ -1140,9 +1148,9 @@ public class Parser {
 
                     var structure = ast.getConfiguration().getStyle().getStructure();
                     switch (currentlyParsedContainer) {
-                        case "Sentence Structure" -> structure.getSentence().getFont().setSize(last.value);
-                        case "Work Structure" -> structure.getWork().getFont().setSize(last.value);
-                        case "Emphasis Structure" -> structure.getEmphasis().getFont().setSize(last.value);
+                        case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setSize(last.value);
+                        case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setSize(last.value);
+                        case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setSize(last.value);
                         default -> error();
                     }
                 }
@@ -1152,9 +1160,11 @@ public class Parser {
 
                     var structure = ast.getConfiguration().getStyle().getStructure();
                     switch (currentlyParsedContainer) {
-                        case "Sentence Structure" -> structure.getSentence().getFont().setColour(last.value);
-                        case "Work Structure" -> structure.getWork().getFont().setColour(last.value);
-                        case "Emphasis Structure" -> structure.getEmphasis().getFont().setColour(last.value);
+                        case SENTENCE_STRUCTURE_CONTAINER_NAME ->
+                                structure.getSentence().getFont().setColour(last.value);
+                        case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setColour(last.value);
+                        case EMPHASIS_STRUCTURE_CONTAINER_NAME ->
+                                structure.getEmphasis().getFont().setColour(last.value);
                         default -> error();
                     }
                 }
@@ -1163,9 +1173,9 @@ public class Parser {
 
             var structure = ast.getConfiguration().getStyle().getStructure();
             lastNode = switch (currentlyParsedContainer) {
-                case "Sentence Structure" -> structure.getSentence().getFont();
-                case "Work Structure" -> structure.getWork().getFont();
-                case "Emphasis Structure" -> structure.getEmphasis().getFont();
+                case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont();
+                case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont();
+                case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont();
                 default -> throw new IllegalStateException("Should be in either parsed container");
             };
         }, NAME_KEYWORD, SIZE_KEYWORD, COLOUR_KEYWORD);
@@ -1341,7 +1351,8 @@ public class Parser {
                 case DOCUMENT_TITLE_CONTAINER_NAME -> ast.getConfiguration().getTitle().add(titleText);
                 case PUBLICATION_CONFIGURATION_CONTAINER_NAME ->
                         ast.getConfiguration().getPublication().getTitle().add(titleText);
-                case "paragraph" -> currentParagraph.enqueueParagraphInstruction(new Emphasise(last.value));
+                case PARAGRAPH_CONTAINER_NAME ->
+                        currentParagraph.enqueueParagraphInstruction(new Emphasise(last.value));
                 default -> throw new UnsupportedOperationException("Container type not yet implemented");
             }
 
@@ -1364,7 +1375,7 @@ public class Parser {
                 case DOCUMENT_TITLE_CONTAINER_NAME -> ast.getConfiguration().getTitle().add(titleText);
                 case PUBLICATION_CONFIGURATION_CONTAINER_NAME ->
                         ast.getConfiguration().getPublication().getTitle().add(titleText);
-                case "paragraph" ->
+                case PARAGRAPH_CONTAINER_NAME ->
                         currentParagraph.enqueueParagraphInstruction(new frontend.ast.paragraph.Work(last.value));
                 default -> throw new UnsupportedOperationException("Container type not yet implemented");
             }
@@ -1378,7 +1389,7 @@ public class Parser {
      */
     private void paragraph() {
         currentParagraph = new Paragraph();
-        currentlyParsedContainer = "paragraph";
+        currentlyParsedContainer = PARAGRAPH_CONTAINER_NAME;
 
         do paragraphInstruction();
         while (frontEndBridge.containsTokens() && current.type == TokenType.TEXT ||

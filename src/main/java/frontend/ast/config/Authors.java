@@ -3,6 +3,7 @@ package frontend.ast.config;
 import frontend.ast.Node;
 import lombok.Getter;
 import lombok.ToString;
+import processing.Processor;
 import warning.*;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class Authors extends Node {
      * Enqueues a missing member warning if the document does not have a specified author
      */
     private void checkIfIsEmpty() {
-        if (authorList.isEmpty())
+        if (!Processor.isProcessingBibliography() && authorList.isEmpty())
             WarningQueue.enqueue(new MissingMemberWarning("1: There is no specified author. " +
                     "Check if you really want to omit an author specification.",
                     WarningSeverity.CRITICAL));

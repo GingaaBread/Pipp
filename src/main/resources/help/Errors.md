@@ -214,6 +214,32 @@ emphasise "Example"
 *Fix:*
 You should follow the style guide and remove the emphasis and use a normal text block, instead.
 
+### 3110
+
+*Description:*
+The specified paragraph indentation exceeds the page width.
+
+*Cause*:
+This error occurs when the width of the layout is less than the specified paragraph indentation. Both types are
+compared in points as their units.
+
+*Example:*
+
+```pipp
+config
+	style
+		of "MLA9"
+		layout
+			width "8in"
+		structure
+			paragraph
+				indentation "10in"
+```
+
+*Fix:*
+Change the layout width to be more than the paragraph indentation, or change the indentation to be less than the
+layout width.
+
 ## 3.2 Missing Member Errors
 
 ### 321

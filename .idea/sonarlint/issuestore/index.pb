@@ -527,3 +527,9 @@ u
 Esrc/test/java/frontend/lexical_analysis/syntax/BibliographyTests.java,2\c\2c89b77752da31a0f4a46c69921fe1223725e10d
 ]
 -src/main/java/creation/BibliographyStamp.java,e\2\e20bf8b0026bde9ba228df3d434b1b7f1cfe72c8
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+Y
+)src/main/java/creation/PageAssembler.java,e\2\e2a0508549ffa254c2b83b13bae07b6e7a151ee6
+b
+2src/main/java/frontend/ast/config/style/Style.java,d\9\d90be47738f0c16f29ad899fa1d6de17c97cc485

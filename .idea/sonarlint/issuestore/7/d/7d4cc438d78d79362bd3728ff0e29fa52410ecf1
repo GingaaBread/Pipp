@@ -1,21 +1,17 @@
 
+h	java:S112Ó"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÚÈáÕ1
+h	java:S112Ö"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÚÈáÕ1
 w
-java:S1192º"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T8¼ñÈ°Ô1
-ƒ
-java:S1192ı"eDefine a constant instead of duplicating this literal "1: A text component cannot be blank." 3 times.(ä§€É8¼ñÈ°Ô1
+java:S1192Ü"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T8ÛÈáÕ1
 r
-java:S1192"TDefine a constant instead of duplicating this literal "4: Colour expected." 3 times.(‰ğ™½8¼ñÈ°Ô1
+java:S1192¯"TDefine a constant instead of duplicating this literal "4: Colour expected." 3 times.(‰ğ™½8ÛÈáÕ1
+‚
+java:S1192ë"dDefine a constant instead of duplicating this literal "5: Odd layout dimensions specified." 4 times.(µÍ»Ç8ÛÈáÕ1
 …
-java:S1192¤"gDefine a constant instead of duplicating this literal "13: Integer larger than zero expected." 8 times.(ÊÜ¡³8¼ñÈ°Ô1
-G
-java:S2629Œ"$Invoke method(s) only conditionally.(éåçáşÿÿÿÿ8¿ñÈ°Ô1
+java:S1192Æ"gDefine a constant instead of duplicating this literal "13: Integer larger than zero expected." 8 times.(ÊÜ¡³8ÛÈáÕ1
+X
+java:S1141Î"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ÜÈáÕ1
 q
-java:S3776û"SRefactor this method to reduce its Cognitive Complexity from 247 to the 15 allowed.(ƒ›ôŸ8ãòÈ°Ô1
-U
-java:S1135¢"2Complete the task associated to this TODO comment.(ª÷òıøÿÿÿÿ8éòÈ°Ô1
-O
-java:S1135§"2Complete the task associated to this TODO comment.(¬«×8éòÈ°Ô1
-U
-java:S1135ª"2Complete the task associated to this TODO comment.(œı½€şÿÿÿÿ8éòÈ°Ô1
+java:S3776†"SRefactor this method to reduce its Cognitive Complexity from 253 to the 15 allowed.(ƒ›ôŸ8î‚ÈáÕ1
 æ
-java:S6541û"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 410 to 64, Complexity from 119 to 14, Nesting Level from 5 to 2, Number of Variables from 68 to 6.(ƒ›ôŸ8‚óÈ°Ô1
+java:S6541†"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 426 to 64, Complexity from 128 to 14, Nesting Level from 5 to 2, Number of Variables from 67 to 6.(ƒ›ôŸ8ˆƒÈáÕ1

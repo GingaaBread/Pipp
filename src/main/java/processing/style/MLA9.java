@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import processing.*;
 import processing.bibliography.BibliographySource;
 import processing.bibliography.Book;
@@ -66,7 +67,7 @@ public class MLA9 extends StyleGuide {
      */
     @Override
     public PDFont font() {
-        return PDType1Font.TIMES_ROMAN;
+        return new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN);
     }
 
     /**
@@ -75,7 +76,7 @@ public class MLA9 extends StyleGuide {
      */
     @Override
     public PDFont emphasisFont() {
-        return PDType1Font.TIMES_ITALIC;
+        return new PDType1Font(Standard14Fonts.FontName.TIMES_ITALIC);
     }
 
     /**
@@ -84,7 +85,7 @@ public class MLA9 extends StyleGuide {
      */
     @Override
     public PDFont workFont() {
-        return PDType1Font.TIMES_ITALIC;
+        return new PDType1Font(Standard14Fonts.FontName.TIMES_ITALIC);
     }
 
     /**

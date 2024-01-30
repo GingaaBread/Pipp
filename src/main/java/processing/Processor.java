@@ -17,6 +17,7 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import processing.bibliography.BibliographySource;
 import processing.bibliography.Book;
 import processing.style.MLA9;
@@ -26,7 +27,11 @@ import warning.*;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -184,6 +189,12 @@ public class Processor {
     @Getter
     private static AllowanceType allowEmphasis;
 
+    /**
+     * Yields true if the bibliography file is being processed and false if the document file is being processed
+     */
+    @Getter
+    private static boolean isProcessingBibliography;
+
 
     //// AUTHORS & ASSESSORS ////
     /**
@@ -252,7 +263,7 @@ public class Processor {
         final var logger = Logger.getLogger(AST.class.getName());
         logger.info("AST has been generated generated.");
 
-        logger.info("Now checking the bibliography");
+        isProcessingBibliography = true;
         final var entries = ast.getBibliographySources();
         entries.forEach(entry -> {
             entry.checkForWarnings();
@@ -260,46 +271,53 @@ public class Processor {
             if (bibliographyEntries.containsKey(entry.getId()))
                 throw new ContentException("3: Bibliography entry with ID '" + entry.getId() + "' already exists.");
 
+            var newEntry = new BibliographySource();
             if (entry.getType() != null) {
                 if (entry.getType().equals("Book")) {
-                    final var newBookEntry = new Book();
-                    newBookEntry.setTitle(entry.getTitle().trim());
-                    newBookEntry.setAuthors(entry
-                            .getAuthors()
-                            .getAuthorList()
-                            .stream()
-                            .map(author -> {
-                                final Author newAuthor;
-                                if (author.getFirstname() == null) newAuthor = new Author(author.getName().trim());
-                                else newAuthor = new Author(author.getFirstname().trim(), author.getLastname().trim());
+                    newEntry = new Book();
 
-                                if (author.getTitle() != null) newAuthor.setTitle(author.getTitle().trim());
-
-                                return newAuthor;
-                            })
-                            .toArray(Author[]::new)
-                    );
-
-                    if (entry.getPublication() != null) {
+                    if (entry.getPublication().getName() != null || entry.getPublication().getYear() != null) {
                         final var year = entry.getPublication().getYear();
-                        if (year != null) newBookEntry.setPublicationYear(year.trim());
+                        if (year != null) ((Book) newEntry).setPublicationYear(year.trim());
 
                         final var name = entry.getPublication().getName();
-                        if (name != null) newBookEntry.setPublicationName(name.trim());
+                        if (name != null) ((Book) newEntry).setPublicationName(name.trim());
                     } else {
-                        // TODO Self check warning
+                        WarningQueue.enqueue(new SelfCheckWarning(
+                                "3: The bibliography entry with the ID '" + entry.getId() +
+                                        "' does not have a publication name or year.", WarningSeverity.CRITICAL));
                     }
-
-                    bibliographyEntries.put(entry.getId(), newBookEntry);
                 } else {
-                    // TODO Enqueue unknown type warning
+                    WarningQueue.enqueue(new MissingMemberWarning(
+                            "2: The bibliography entry type '" + entry.getType() + "' is not supported.",
+                            WarningSeverity.HIGH));
                 }
-            } else {
-                // TODO Enqueue no type specified warning
-            }
-        });
 
-        logger.info("Bibliography contains the following sources: " + bibliographyEntries);
+            } else {
+                WarningQueue.enqueue(new MissingMemberWarning("3: The bibliography entry with the ID '" +
+                        entry.getId() + "' does not have a type.", WarningSeverity.CRITICAL));
+            }
+
+            newEntry.setTitle(entry.getTitle().trim());
+            newEntry.setAuthors(entry
+                    .getAuthors()
+                    .getAuthorList()
+                    .stream()
+                    .map(author -> {
+                        final Author newAuthor;
+                        if (author.getFirstname() == null) newAuthor = new Author(author.getName().trim());
+                        else newAuthor = new Author(author.getFirstname().trim(), author.getLastname().trim());
+
+                        if (author.getTitle() != null) newAuthor.setTitle(author.getTitle().trim());
+
+                        return newAuthor;
+                    })
+                    .toArray(Author[]::new)
+            );
+
+            bibliographyEntries.put(entry.getId(), newEntry);
+        });
+        isProcessingBibliography = false;
 
         logger.info("Now checking AST for possible warnings");
         ast.checkForWarnings();
@@ -340,6 +358,10 @@ public class Processor {
             }
         } else height = usedStyleGuide.pageFormat().getHeight();
 
+        if (height < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (height < 500)
+            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
+
         float width;
         if (layout.getWidth() != null) {
             // Check if the user wants to use inches
@@ -354,6 +376,10 @@ public class Processor {
                 width = POINTS_PER_MM * Float.parseFloat(layout.getWidth());
             }
         } else width = usedStyleGuide.pageFormat().getWidth();
+
+        if (width < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (width < 400)
+            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
 
         documentTitle = ast.getConfiguration().getTitle();
 
@@ -374,6 +400,10 @@ public class Processor {
             }
         } else margin = POINTS_PER_INCH * usedStyleGuide.margin();
 
+        if (margin < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (margin > 200)
+            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
+
         // Check if the user demands a custom spacing
         if (layout.getSpacing() != null) {
             try {
@@ -382,6 +412,10 @@ public class Processor {
                 throw new IncorrectFormatException("10: Incorrect spacing constant.");
             }
         } else Processor.spacing = usedStyleGuide.spacing();
+
+        if (spacing < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (spacing >= 3)
+            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
 
         var numeration = styleConfiguration.getNumeration();
 
@@ -614,7 +648,10 @@ public class Processor {
             } catch (IllegalArgumentException e) {
                 throw new IncorrectFormatException("2: Non-negative decimal expected.");
             }
-        } else paragraphIndentation = usedStyleGuide.paragraphIndentation();
+        } else paragraphIndentation = usedStyleGuide.paragraphIndentation() * POINTS_PER_INCH;
+
+        if (paragraphIndentation > width)
+            throw new ConfigurationException("10: The specified paragraph indentation exceeds the page width.");
 
         // Convert the given author nodes to actual author objects
         var authors = ast.getConfiguration().getAuthors().getAuthorList();
@@ -634,7 +671,7 @@ public class Processor {
             } else {
                 if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank() ||
                         author.getTitle() != null && author.getTitle().isBlank())
-                    throw new MissingMemberException("1: A text component cannot be blank.");
+                    throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
 
                 var newAuthor = new Author(author.getName());
                 newAuthor.setTitle(author.getTitle());
@@ -769,15 +806,6 @@ public class Processor {
 
         // Start the creation process
         DocumentCreator.create();
-
-        final var entriesToIncludeInBibliography = bibliographyEntries
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().isHasBeenCited())
-                .toList();
-
-        logger.info("Should include the following entries in the bibliography");
-        logger.info(entriesToIncludeInBibliography.toString());
     }
 
     /**
@@ -812,6 +840,21 @@ public class Processor {
      * @return the font as a PDFont object
      */
     private static @NonNull PDFont fontLookUp(@NonNull final String name) {
+        if (name.equals("test")) {
+            try {
+                var resource = Processor.class.getResource("/OpenSans-Regular.ttf");
+                try {
+                    var file = Paths.get(resource.toURI()).toFile();
+                    InputStream targetStream = new FileInputStream(file);
+                    return PDType0Font.load(PageAssembler.getDocument(), targetStream, false);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         // Check if the user is trying to import a font from their operating system
         if (name.startsWith("@")) {
             final String path = "C:\\Windows\\Fonts\\" + name.substring(1) + ".ttf";
@@ -823,11 +866,11 @@ public class Processor {
         }
 
         return switch (name) {
-            case "Times Roman" -> PDType1Font.TIMES_ROMAN;
-            case "Helvetica" -> PDType1Font.HELVETICA;
-            case "Courier" -> PDType1Font.COURIER;
-            case "Symbol" -> PDType1Font.SYMBOL;
-            case "Zapf Dingbats" -> PDType1Font.ZAPF_DINGBATS;
+            case "Times Roman" -> new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN);
+            case "Helvetica" -> new PDType1Font(Standard14Fonts.FontName.HELVETICA);
+            case "Courier" -> new PDType1Font(Standard14Fonts.FontName.COURIER);
+            case "Symbol" -> new PDType1Font(Standard14Fonts.FontName.SYMBOL);
+            case "Zapf Dingbats" -> new PDType1Font(Standard14Fonts.FontName.ZAPF_DINGBATS);
             default -> throw new MissingMemberException("6: The specified font is missing or does" +
                     " not exist.");
         };

@@ -97,7 +97,6 @@ public class TextRenderer {
                                            final float startY,
                                            final Float firstIndentation) {
         try {
-            // Determines how much space the text can take up, by subtracting the margin for both sides
             final float availableWidth = Processor.getAvailableContentWidth();
             float maximumWidth = availableWidth;
             float currentLineWidth = 0;
@@ -105,10 +104,6 @@ public class TextRenderer {
 
             // Sets the starting positions to the margin to the left, and the current paper's y position
             float startX = Processor.getMargin();
-
-            // Converts the indentation in inches to points
-            Float usedIndentation = null;
-            if (firstIndentation != null) usedIndentation = firstIndentation * Processor.POINTS_PER_INCH;
 
             // Creates the content stream with the append mode, which prevents overriding existing streams
             var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
@@ -137,9 +132,9 @@ public class TextRenderer {
                     maxFontSizeOfCurrentLine = textPartFontSize;
 
                 // Indents the first part if necessary
-                if (usedIndentation != null && k == 0) {
-                    contentStream.newLineAtOffset(usedIndentation, 0f);
-                    maximumWidth -= usedIndentation;
+                if (firstIndentation != null && k == 0) {
+                    contentStream.newLineAtOffset(firstIndentation, 0f);
+                    maximumWidth -= firstIndentation;
                     hasIndentedFirstPart = true;
                     hasAlreadyIndented = true;
                 }
@@ -236,10 +231,10 @@ public class TextRenderer {
                                             textPartFontSize, textPartFontColour));
                                 } else {
                                     contentStream.showText(currentLine);
-                                    contentStream.newLineAtOffset(hasIndentedFirstPart ? -usedIndentation : 0,
+                                    contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0,
                                             -leading());
 
-                                    if (hasIndentedFirstPart) maximumWidth += usedIndentation;
+                                    if (hasIndentedFirstPart) maximumWidth += firstIndentation;
 
                                     hasIndentedFirstPart = false;
 
@@ -256,7 +251,7 @@ public class TextRenderer {
                             PageCreator.currentYPosition -= currentLeading;
                             resetMaxFontSize();
 
-                            contentStream.newLineAtOffset(hasIndentedFirstPart ? -usedIndentation : 0, -currentLeading);
+                            contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0, -currentLeading);
                             hasIndentedFirstPart = false;
 
                             textBuilder.addLast(new Text(word + (isLastWordOfNotLastTextPart || isFirstWord ?

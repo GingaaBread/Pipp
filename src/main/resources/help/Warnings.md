@@ -130,6 +130,56 @@ config
     of "MLA9"
 ```
 
+## 22
+
+*Severity:*
+High
+
+*Description:*
+The bibliography entry type '[TYPE]' is not supported.
+
+*Cause:*
+This warning occurs when defining an unknown type for a bibliography entry. A cause could be a simple typo, or
+referring to a type, which is not implemented or supported. Unsupported bibliography entry types may be rendered
+incorrectly and should be avoided.
+
+*To do:*
+Decide if you really want to keep the unsupported bibliography entry type, or if there is a typo in the specified type.
+
+*Example:*
+
+```pipp
+bibliography
+	id "1"
+#       Should be type "Book"
+		type "Novel"
+```
+
+## 23
+
+*Severity:*
+Critical
+
+*Description:*
+The bibliography entry with the ID '[ID]' does not have a type.
+
+*Cause:*
+This warning occurs when there is no specified bibliography entry type for a certain bibliography entry.
+This is NOT recommended as it may be rendered incorrectly, or cannot receive certain configurations.
+
+*To do:*
+Define a type for each bibliography entry.
+
+*Example:*
+
+```pipp
+bibliography
+	id "1"
+#       Should be type "Book"
+		title "XYZ"
+		author "John Doe"
+```
+
 # 3. Unlikeliness
 
 ## 31
@@ -138,9 +188,7 @@ config
 Critical
 
 *Description:*
-Two authors have the same id, which seems unlikely.
-Check if that is correct. Author 1: (author).
-Author 2: (author)
+Two authors have the same id, which seems unlikely. Check if that is correct. Author 1: (author). Author 2: (author)
 
 *Cause:*
 This warning occurs when creating at least two authors
@@ -152,8 +200,7 @@ in which authors could end up having the same IDs, this
 warning is not enforced as an error.
 
 *To do:*
-Decide whether you really want to have authors
-with the same ID.
+Decide if you really want to have authors with the same ID.
 
 *Example:*
 
@@ -266,6 +313,33 @@ config
         of "John Doe"
 ```
 
+## 35
+
+*Severity:*
+High
+
+*Description:*
+Odd layout dimensions specified.
+
+*Cause:*
+This warning occurs when using odd heights, widths, margins, spacing, etc.
+For example, a height of only two inches is rather odd, and might be a user typo, hence this warning.
+Note that using odd layout dimensions is NOT recommended and should be avoided as it may result in errors during
+the rendering state and may throw recursion errors because a text cannot be rendered on a line anymore.
+
+*To do:*
+Decide if you really want to have odd dimensions or not.
+
+*Example:*
+
+```pipp
+config
+    style
+        of "MLA9"
+        layout
+            height "1in"
+```
+
 # 4. Self-Checks
 
 ## 41
@@ -314,4 +388,30 @@ Decide whether you want to use the "WS/SS XXXX" format or not.
 config
     publication
         semester "Summer Semester 1993"
+```
+
+### 43
+
+*Severity:*
+Critical
+
+*Description:*
+The bibliography entry with the ID '[ID]' does not have a publication name or year.
+
+*Cause:*
+This warning occurs when defining an item in the bibliography, but not using the `publication` configuration to
+define a publication name, or a publication year. This may be acceptable in very rare cases, where there is no known
+publisher or even no known publication date, so it is up to you to check if this is correct or not.
+
+*To do:*
+Decide whether you want to include a publication name / year, or not.
+
+*Example:*
+
+```pipp
+bibliography
+	id "1"
+		type "Book"
+		title "XYZ"
+		author "John Doe"
 ```
