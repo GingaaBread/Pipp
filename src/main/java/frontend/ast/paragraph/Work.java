@@ -48,7 +48,6 @@ public class Work extends ParagraphInstruction {
      */
     @Override
     public Text[] toTextComponent() {
-        return new Text[]{new Text(workContent, Processor.getWorkFont(), Processor.getWorkFontSize(),
-                Processor.getWorkFontColour())};
+        return new Text[]{new Text(workContent, Processor.getWorkFontData())};
     }
 }

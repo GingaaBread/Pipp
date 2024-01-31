@@ -533,3 +533,19 @@ Y
 )src/main/java/creation/PageAssembler.java,e\2\e2a0508549ffa254c2b83b13bae07b6e7a151ee6
 b
 2src/main/java/frontend/ast/config/style/Style.java,d\9\d90be47738f0c16f29ad899fa1d6de17c97cc485
+V
+&src/main/java/processing/FontData.java,8\b\8bcfff71a37f6ffced2017bc600d69b74548e003
+O
+src/test/java/AssessorTest.java,8\4\84ee500fe66030cc06ccd4b3c568b7ee960dc9c5
+[
++src/main/java/processing/person/Person.java,1\9\19a16eb9106a934687b34e50c462456c82e70750
+g
+7src/main/java/processing/numeration/NumerationType.java,4\2\42a3b6d4bb7674c457772f97cb9d63e92cd2ccc4
+k
+;src/main/java/processing/numeration/NumerationPosition.java,7\0\70b5d5472c1c2145b80c935afe64856c22f0a04b
+m
+=src/main/java/processing/numeration/NumerationAuthorName.java,b\2\b272c0940563a7305ed5cfd7da93991e4edbbed2
+[
++src/main/java/processing/person/Author.java,2\d\2d6ce2a8f5ab15b1a1c5dbeed8862a47d2ce5d32
+]
+-src/main/java/processing/person/Assessor.java,6\d\6df08e8cfc917d2e6cce07688bcf7f7e43596219

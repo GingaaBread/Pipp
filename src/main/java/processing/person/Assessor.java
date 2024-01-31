@@ -1,4 +1,4 @@
-package processing;
+package processing.person;
 
 import lombok.Getter;
 import lombok.NonNull;

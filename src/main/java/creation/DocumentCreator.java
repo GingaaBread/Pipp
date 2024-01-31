@@ -1,5 +1,7 @@
 package creation;
 
+import error.PippException;
+
 import java.io.IOException;
 
 /**
@@ -16,7 +18,14 @@ public class DocumentCreator {
      * Determines the path to the file, where the final document should be saved.
      * It will be saved under the specified name.
      */
-    public static final String outputPath = "src/main/resources/out.pdf";
+    public static final String OUTPUT_PATH = "src/main/resources/out.pdf";
+
+    /**
+     * Prevents instantiation
+     */
+    private DocumentCreator() {
+        throw new UnsupportedOperationException("Should not instantiate static helper class");
+    }
 
     /**
      * Instantiates the creation process by setting the document's metadata, rendering the required components,
@@ -43,10 +52,10 @@ public class DocumentCreator {
         try {
             final var document = PageAssembler.getDocument();
 
-            document.save(outputPath);
+            document.save(OUTPUT_PATH);
             document.close();
         } catch (IOException e) {
-            System.out.println("Could not save and close the document");
+            throw new PippException("Could not save and close the document");
         }
     }
 

@@ -58,7 +58,6 @@ public class Emphasise extends ParagraphInstruction {
         else if (Processor.getAllowEmphasis() == AllowanceType.IF_NECESSARY)
             WarningQueue.enqueue(new SelfCheckWarning(SelfCheckWarning.WARNING_MSG_1, WarningSeverity.LOW));
 
-        return new Text[]{new Text(content, Processor.getEmphasisFont(), Processor.getEmphasisFontSize(),
-                Processor.getEmphasisFontColour())};
+        return new Text[]{new Text(content, Processor.getEmphasisFontData())};
     }
 }

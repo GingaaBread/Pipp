@@ -1,4 +1,4 @@
-package processing;
+package processing.numeration;
 
 /**
  * Used to determine how the name of an author should be rendered in the page number stamps of the document.

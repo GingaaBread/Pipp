@@ -47,7 +47,6 @@ public class Text extends ParagraphInstruction {
      */
     @Override
     public creation.Text[] toTextComponent() {
-        return new creation.Text[]{new creation.Text(content, Processor.getSentenceFont(),
-                Processor.getSentenceFontSize(), Processor.getSentenceFontColour())};
+        return new creation.Text[]{new creation.Text(content, Processor.getSentenceFontData())};
     }
 }

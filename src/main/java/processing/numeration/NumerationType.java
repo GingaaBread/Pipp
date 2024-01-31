@@ -1,4 +1,4 @@
-package processing;
+package processing.numeration;
 
 /**
  * The numeration type class determines in which numeration system the numbers are displayed.

@@ -85,14 +85,12 @@ public class HeaderStamp {
                         .stream()
                         .map(titleText -> {
                             if (titleText.getText() != null)
-                                return new Text(titleText.getText(), Processor.getSentenceFont(),
-                                        Processor.getSentenceFontSize(), Processor.getSentenceFontColour());
+                                return new Text(titleText.getText(), Processor.getSentenceFontData());
                             else if (titleText.getEmphasis() != null)
-                                return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.getEmphasisFont(),
-                                        Processor.getEmphasisFontSize(), Processor.getEmphasisFontColour());
+                                return new Text(titleText.getEmphasis().getEmphasisedText(),
+                                        Processor.getEmphasisFontData());
                             else if (titleText.getWork() != null)
-                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.getWorkFont(),
-                                        Processor.getWorkFontSize(), Processor.getWorkFontColour());
+                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.getWorkFontData());
                             else throw new UnsupportedOperationException("Title text type " + titleText +
                                         " is not yet supported!");
                         })

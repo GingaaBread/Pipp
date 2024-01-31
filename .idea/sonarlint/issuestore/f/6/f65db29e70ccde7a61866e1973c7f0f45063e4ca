@@ -1,5 +1,26 @@
 
-o
-java:S3776_"SRefactor this method to reduce its Cognitive Complexity from 133 to the 15 allowed.( ı²K8‡‚ƒáÕ1
-ã
-java:S6541_"ÆA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 180 to 64, Complexity from 40 to 14, Nesting Level from 8 to 2, Number of Variables from 48 to 6.( ı²K8•‚ƒáÕ1
+g	java:S112z"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8¦úßèÕ1
+W
+java:S1141w"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8§úßèÕ1
+b
+java:S1854j"@Remove this useless assignment to local variable "maximumWidth".(©Œ–´úÿÿÿÿ8µúßèÕ1
+\
+java:S1854o":Remove this useless assignment to local variable "startX".(çõîÒúÿÿÿÿ8µúßèÕ1
+†
+java:S1172d"jRemove these unused method parameters "textComponentsToRender", "alignment", "startY", "firstIndentation".( ı²K8µúßèÕ1
+S
+java:S1481j"1Remove this unused "maximumWidth" local variable.(©Œ–´úÿÿÿÿ8¶úßèÕ1
+W
+java:S1481k"5Remove this unused "currentLineWidth" local variable.(±âºıÿÿÿÿ8¶úßèÕ1
+R
+java:S1481l"0Remove this unused "lastXOffset" local variable.(¼ê¥¡úÿÿÿÿ8¶úßèÕ1
+M
+java:S1481o"+Remove this unused "startX" local variable.(çõîÒúÿÿÿÿ8¶úßèÕ1
+Y	java:S125‚"<This block of commented-out lines of code should be removed.(‹Å¦˜8¹úßèÕ1
+Y	java:S125…"<This block of commented-out lines of code should be removed.(…º–æ8¹úßèÕ1
+M	java:S106‡"+Replace this use of System.out by a logger.(è×”àşÿÿÿÿ8¹úßèÕ1
+Y	java:S125‹"<This block of commented-out lines of code should be removed.(™˜¥ª8»úßèÕ1
+Q
+java:S1144-"5Remove this unused private "resetMaxFontSize" method.(®¦›j8¾úßèÕ1
+N
+java:S1144;",Remove this unused private "leading" method.(Ò¬Ãİûÿÿÿÿ8¾úßèÕ1

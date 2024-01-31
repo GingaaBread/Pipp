@@ -1,4 +1,4 @@
-package processing;
+package processing.numeration;
 
 /**
  * The numeration position class determines where the page numbers are located

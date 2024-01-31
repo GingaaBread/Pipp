@@ -1,17 +1,11 @@
 
-h	java:S112Ó"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÚÈáÕ1
-h	java:S112Ö"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÚÈáÕ1
 w
-java:S1192Ü"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T8ÛÈáÕ1
-r
-java:S1192¯"TDefine a constant instead of duplicating this literal "4: Colour expected." 3 times.(‰ğ™½8ÛÈáÕ1
+java:S1192½"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T8Ş®èèÕ1
 ‚
-java:S1192ë"dDefine a constant instead of duplicating this literal "5: Odd layout dimensions specified." 4 times.(µÍ»Ç8ÛÈáÕ1
-…
-java:S1192Æ"gDefine a constant instead of duplicating this literal "13: Integer larger than zero expected." 8 times.(ÊÜ¡³8ÛÈáÕ1
-X
-java:S1141Î"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ÜÈáÕ1
+java:S1192Ì"dDefine a constant instead of duplicating this literal "5: Odd layout dimensions specified." 4 times.(µÍ»Ç8Ş®èèÕ1
 q
-java:S3776†"SRefactor this method to reduce its Cognitive Complexity from 253 to the 15 allowed.(ƒ›ôŸ8î‚ÈáÕ1
+java:S3776æ"SRefactor this method to reduce its Cognitive Complexity from 214 to the 15 allowed.(ƒ›ôŸ8ñ®èèÕ1
+P
+java:S1135Ú"2Complete the task associated to this TODO comment.(Ã×şø8‡¯èèÕ1
 æ
-java:S6541†"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 426 to 64, Complexity from 128 to 14, Nesting Level from 5 to 2, Number of Variables from 67 to 6.(ƒ›ôŸ8ˆƒÈáÕ1
+java:S6541æ"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 368 to 64, Complexity from 116 to 14, Nesting Level from 5 to 2, Number of Variables from 56 to 6.(ƒ›ôŸ8‹¯èèÕ1

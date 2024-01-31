@@ -2,9 +2,9 @@ package creation;
 
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.PDPage;
-import processing.Author;
-import processing.NumerationAuthorName;
 import processing.Processor;
+import processing.numeration.NumerationAuthorName;
+import processing.person.Author;
 
 import java.util.List;
 import java.util.Stack;
@@ -92,8 +92,7 @@ public class PageNumberStamp {
             final String content = authorNamePrefixBuilder + (authorNamePrefixBuilder.isEmpty() ? "" : " ") + pageString;
 
             // Numerations use the default "sentence" font style
-            var asText = new Text(content, Processor.getSentenceFont(),
-                    Processor.getSentenceFontSize(), Processor.getSentenceFontColour());
+            var asText = new Text(content, Processor.getSentenceFontData());
 
             // Calculates the starting x position of the text
             final ContentAlignment alignment = switch (Processor.getNumerationPosition()) {

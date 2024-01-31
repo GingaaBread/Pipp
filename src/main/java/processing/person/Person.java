@@ -1,4 +1,4 @@
-package processing;
+package processing.person;
 
 import error.IncorrectFormatException;
 import lombok.Data;

@@ -5,12 +5,19 @@ import creation.Text;
 import lombok.NonNull;
 import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
-import processing.*;
+import processing.AllowanceType;
+import processing.FontData;
+import processing.Processor;
 import processing.bibliography.BibliographySource;
 import processing.bibliography.Book;
+import processing.numeration.NumerationAuthorName;
+import processing.numeration.NumerationPosition;
+import processing.numeration.NumerationType;
+import warning.SelfCheckWarning;
+import warning.WarningQueue;
+import warning.WarningSeverity;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -31,8 +38,7 @@ public class MLA9 extends StyleGuide {
                         entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ", et. al. ";
             };
 
-            authorText = new Text(authorTextContent, Processor.getSentenceFont(), Processor.getSentenceFontSize(),
-                    Processor.getSentenceFontColour());
+            authorText = new Text(authorTextContent, Processor.getSentenceFontData());
         }
         return authorText;
     }
@@ -43,10 +49,12 @@ public class MLA9 extends StyleGuide {
             if (bookEntry.getPublicationName() != null && bookEntry.getPublicationYear() != null)
                 publisherTextContent = bookEntry.getPublicationName() + ", " + bookEntry.getPublicationYear() + ".";
             else if (bookEntry.getPublicationName() != null) {
-                // TODO print warning that year is missing
+                WarningQueue.enqueue(new SelfCheckWarning("5: The bibliography entry with the ID '" +
+                        entry.getId() + "' does not have a publication year.", WarningSeverity.HIGH));
                 publisherTextContent = bookEntry.getPublicationName() + ".";
             } else if (bookEntry.getPublicationYear() != null) {
-                // TODO print warning that pub name is missing
+                WarningQueue.enqueue(new SelfCheckWarning("4: The bibliography entry with the ID '" +
+                        entry.getId() + "' does not have a publication name.", WarningSeverity.HIGH));
                 publisherTextContent = bookEntry.getPublicationYear() + ".";
             }
         }
@@ -63,84 +71,48 @@ public class MLA9 extends StyleGuide {
 
     /**
      * MLA defines any easily readable font, which has a strongly contrasting italic version.
-     * Pipp uses the Times Roman font for MLA9.
+     * Pipp uses the Times Roman font in black in 12 points for MLA9.
      */
     @Override
-    public PDFont font() {
-        return new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN);
+    public FontData sentenceFontData() {
+        return new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN), 12, Color.BLACK);
     }
 
     /**
-     * MLA defines any easily readable font, which has a strongly contrasting default version.
-     * Pipp uses the italic Times font for MLA9.
+     * MLA defines any easily readable font, which has a strongly contrasting italic version.
+     * Pipp uses the italic Times Roman font in black in 12 points for MLA9.
      */
     @Override
-    public PDFont emphasisFont() {
-        return new PDType1Font(Standard14Fonts.FontName.TIMES_ITALIC);
+    public FontData emphasisFontData() {
+        return new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_ITALIC), 12, Color.BLACK);
     }
 
     /**
-     * MLA defines any easily readable font, which has a strongly contrasting default version.
-     * Pipp uses the italic Times font for MLA9.
+     * MLA defines work reference as emphasised references.
+     * Pipp uses the same font values as emphasised fonts.
      */
     @Override
-    public PDFont workFont() {
-        return new PDType1Font(Standard14Fonts.FontName.TIMES_ITALIC);
+    public FontData workFontData() {
+        return emphasisFontData();
     }
 
     /**
-     * MLA defines a font size of anywhere between 11 and 13 points.
-     * Pipp uses a font size of 12.
+     * MLA does not define formal aspects for chapters.
+     * Pipp uses bold Times New Roman in black in 22 points for level 1 chapters,
+     * bold Times New Roman in black in 18 points for level 2 chapters,
+     * bold Times New Roman in black in 14 points for level 3 chapters,
+     * bold Times New Roman in black in 12 points for level 4 chapters,
      */
     @Override
-    public int fontSize() {
-        return 12;
+    public FontData[] chapterFontData() {
+        return new FontData[]{
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 22, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 18, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 14, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 12, Color.BLACK)
+        };
     }
 
-    /**
-     * MLA defines a font size of anywhere between 11 and 13 points.
-     * Pipp uses a font size of 12.
-     */
-    @Override
-    public int emphasisFontSize() {
-        return 12;
-    }
-
-    /**
-     * MLA defines a font size of anywhere between 11 and 13 points.
-     * Pipp uses a font size of 12.
-     */
-    @Override
-    public int workFontSize() {
-        return 12;
-    }
-
-    /**
-     * MLA does not define a font colour.
-     * Pipp uses a black font colour.
-     */
-    @Override
-    public Color fontColour() {
-        return Color.black;
-    }
-
-    /**
-     * MLA does not define a font colour.
-     * Pipp uses a black font colour.
-     */
-    @Override
-    public Color emphasisFontColour() {
-        return Color.black;
-    }
-
-    /**
-     * MLA does not define a font colour.
-     * Pipp uses a black font colour.
-     */
-    @Override
-    public Color workFontColour() {
-        return Color.black;
-    }
 
     /**
      * MLA defines a margin of one inch to the top and bottom and both sides of the text
@@ -228,47 +200,38 @@ public class MLA9 extends StyleGuide {
 
     @Override
     public Text[] formatCitation(BibliographySource referenceSource, String content, String numeration) {
-        if (referenceSource instanceof Book book) {
-            final var citationBuilder = new StringBuilder();
-            citationBuilder.append("\"");
-            citationBuilder.append(content);
-            citationBuilder.append("\"");
-            citationBuilder.append(" ");
+        final var citationBuilder = new StringBuilder();
+        citationBuilder.append("\"");
+        citationBuilder.append(content);
+        citationBuilder.append("\"");
+        citationBuilder.append(" ");
 
-            citationBuilder.append("(");
-            if (book.getAuthors().length > 0) {
+        citationBuilder.append("(");
+        if (referenceSource.getAuthors().length > 0) {
 
-                // If there is only one author, display the last name in parentheses
-                if (book.getAuthors().length == 1) {
-                    citationBuilder.append(book.getAuthors()[0].getLastname());
-                    citationBuilder.append(" ");
-                }
-                // If there are two authors, display the last names of both in parentheses
-                else if (book.getAuthors().length == 2) {
-                    citationBuilder.append(book.getAuthors()[0].getLastname());
-                    citationBuilder.append(", ");
-                    citationBuilder.append(book.getAuthors()[1].getLastname());
-                    citationBuilder.append(" ");
-                }
-                // If there are three or more authors only display the first author's last name and "et. al."
-                else {
-                    citationBuilder.append(book.getAuthors()[0].getLastname());
-                    citationBuilder.append(" et. al. ");
-                }
+            // If there is only one author, display the last name in parentheses
+            if (referenceSource.getAuthors().length == 1) {
+                citationBuilder.append(referenceSource.getAuthors()[0].getLastname());
+                citationBuilder.append(" ");
             }
-
-            citationBuilder.append(numeration);
-            citationBuilder.append(").");
-
-            return new Text[]{new Text(
-                    citationBuilder.toString(),
-                    Processor.getSentenceFont(),
-                    Processor.getSentenceFontSize(),
-                    Processor.getSentenceFontColour())
-            };
+            // If there are two authors, display the last names of both in parentheses
+            else if (referenceSource.getAuthors().length == 2) {
+                citationBuilder.append(referenceSource.getAuthors()[0].getLastname());
+                citationBuilder.append(", ");
+                citationBuilder.append(referenceSource.getAuthors()[1].getLastname());
+                citationBuilder.append(" ");
+            }
+            // If there are three or more authors only display the first author's last name and "et. al."
+            else {
+                citationBuilder.append(referenceSource.getAuthors()[0].getLastname());
+                citationBuilder.append(" et. al. ");
+            }
         }
 
-        return new Text[0];
+        citationBuilder.append(numeration);
+        citationBuilder.append(").");
+
+        return new Text[]{new Text(citationBuilder.toString(), Processor.getSentenceFontData())};
     }
 
     @Override
@@ -287,16 +250,13 @@ public class MLA9 extends StyleGuide {
 
         final var titleText = new Text(
                 entry.getTitle() + ".",
-                Processor.getWorkFont(),
-                Processor.getWorkFontSize(),
-                Processor.getWorkFontColour()
+                Processor.getWorkFontData()
         );
         textList.add(titleText);
 
         String publisherTextContent = getPublisherTextContent(entry);
 
-        if (publisherTextContent != null) textList.add(new Text(publisherTextContent,
-                Processor.getSentenceFont(), Processor.getSentenceFontSize(), Processor.getSentenceFontColour()));
+        if (publisherTextContent != null) textList.add(new Text(publisherTextContent, Processor.getSentenceFontData()));
 
         return textList.toArray(Text[]::new);
     }

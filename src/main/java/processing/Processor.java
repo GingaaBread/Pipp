@@ -11,6 +11,8 @@ import frontend.ast.AST;
 import frontend.ast.BodyNode;
 import frontend.ast.config.Title;
 import frontend.ast.config.style.Citation;
+import frontend.ast.config.style.Font;
+import frontend.ast.config.style.Structure;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -20,6 +22,11 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import processing.bibliography.BibliographySource;
 import processing.bibliography.Book;
+import processing.numeration.NumerationAuthorName;
+import processing.numeration.NumerationPosition;
+import processing.numeration.NumerationType;
+import processing.person.Assessor;
+import processing.person.Author;
 import processing.style.MLA9;
 import processing.style.StyleGuide;
 import processing.style.StyleTable;
@@ -27,11 +34,7 @@ import warning.*;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -64,51 +67,16 @@ public class Processor {
     public static final float POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH;
     @Getter
     private static final HashMap<String, BibliographySource> bibliographyEntries = new HashMap<>();
-    /**
-     * Determines the main font family used throughout the document
-     */
+
     @Getter
-    private static PDFont sentenceFont;
-    /**
-     * Determines the main font size in points (pt.) used throughout the document
-     */
+    private static FontData sentenceFontData;
     @Getter
-    private static float sentenceFontSize;
-    /**
-     * Determines the main font size used throughout the document
-     */
+    private static FontData workFontData;
     @Getter
-    private static Color sentenceFontColour;
-    /**
-     * Determines the font family used for emphasis
-     */
+    private static FontData emphasisFontData;
     @Getter
-    private static PDFont emphasisFont;
-    /**
-     * Determines the font size in points (pt.) used throughout for emphasis
-     */
-    @Getter
-    private static float emphasisFontSize;
-    /**
-     * Determines the main font size used for emphasis
-     */
-    @Getter
-    private static Color emphasisFontColour;
-    /**
-     * Determines the font size in points (pt.) used throughout for work references
-     */
-    @Getter
-    private static float workFontSize;
-    /**
-     * Determines the main font size used for work references
-     */
-    @Getter
-    private static Color workFontColour;
-    /**
-     * Determines the font family used for work references
-     */
-    @Getter
-    private static PDFont workFont;
+    private static FontData[] chapterFontData;
+
     /**
      * Determines how the names of the authors should be inserted before the page number.
      * If there should not be a name before the page number, this value is null.
@@ -298,6 +266,7 @@ public class Processor {
                         entry.getId() + "' does not have a type.", WarningSeverity.CRITICAL));
             }
 
+            newEntry.setId(entry.getId());
             newEntry.setTitle(entry.getTitle().trim());
             newEntry.setAuthors(entry
                     .getAuthors()
@@ -533,32 +502,7 @@ public class Processor {
         } else numerationMargin = POINTS_PER_INCH * usedStyleGuide.numerationMargin();
 
         var structure = styleConfiguration.getStructure();
-
-        // Check if the user demands a custom font
-        if (structure.getSentence().getFont().getName() != null) {
-            Processor.sentenceFont = fontLookUp(structure.getSentence().getFont().getName());
-        } else Processor.sentenceFont = usedStyleGuide.font();
-
-        // Check if the user demands a custom font size
-        if (structure.getSentence().getFont().getSize() != null) {
-            try {
-                var asNumber = Integer.parseInt(structure.getSentence().getFont().getSize());
-                if (asNumber < 1) {
-                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                } else Processor.sentenceFontSize = asNumber;
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("13: Integer larger than zero expected.");
-            }
-        } else Processor.sentenceFontSize = usedStyleGuide.fontSize();
-
-        // Check if the user demands a custom font colour
-        if (structure.getSentence().getFont().getColour() != null) {
-            try {
-                sentenceFontColour = Color.decode(structure.getSentence().getFont().getColour());
-            } catch (NumberFormatException e) {
-                throw new IncorrectFormatException("4: Colour expected.");
-            }
-        } else sentenceFontColour = usedStyleGuide.fontColour();
+        processFonts(structure);
 
         var emphasis = structure.getEmphasis();
 
@@ -570,58 +514,6 @@ public class Processor {
                 default -> throw new IncorrectFormatException("5: Allowance type expected.");
             };
         } else allowEmphasis = usedStyleGuide.allowsEmphasis();
-
-        var emphasisFont = structure.getEmphasis().getFont();
-
-        if (emphasisFont.getName() != null) Processor.emphasisFont = fontLookUp(emphasisFont.getName());
-        else Processor.emphasisFont = usedStyleGuide.emphasisFont();
-
-        // Check if the user demands a custom font size
-        if (emphasisFont.getSize() != null) {
-            try {
-                var asNumber = Integer.parseInt(emphasisFont.getSize());
-                if (asNumber < 1) {
-                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                } else Processor.emphasisFontSize = asNumber;
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("13: Integer larger than zero expected.");
-            }
-        } else Processor.emphasisFontSize = usedStyleGuide.emphasisFontSize();
-
-        // Check if the user demands a custom font colour
-        if (emphasisFont.getColour() != null) {
-            try {
-                emphasisFontColour = Color.decode(emphasisFont.getColour());
-            } catch (NumberFormatException e) {
-                throw new IncorrectFormatException("4: Colour expected.");
-            }
-        } else emphasisFontColour = usedStyleGuide.emphasisFontColour();
-
-        var workFont = structure.getWork().getFont();
-
-        if (workFont.getName() != null) Processor.workFont = fontLookUp(workFont.getName());
-        else Processor.workFont = usedStyleGuide.workFont();
-
-        // Check if the user demands a custom font size
-        if (workFont.getSize() != null) {
-            try {
-                var asNumber = Integer.parseInt(workFont.getSize());
-                if (asNumber < 1) {
-                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                } else Processor.workFontSize = asNumber;
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("13: Integer larger than zero expected.");
-            }
-        } else Processor.workFontSize = usedStyleGuide.workFontSize();
-
-        // Check if the user demands a custom font colour
-        if (workFont.getColour() != null) {
-            try {
-                workFontColour = Color.decode(workFont.getColour());
-            } catch (NumberFormatException e) {
-                throw new IncorrectFormatException("4: Colour expected.");
-            }
-        } else workFontColour = usedStyleGuide.workFontColour();
 
         var paragraph = structure.getParagraph();
         var indentation = paragraph.getIndentation();
@@ -831,6 +723,42 @@ public class Processor {
         return usedStyleGuide.formatCitation(referenceSource, content, numeration);
     }
 
+    private static void processFonts(@NonNull Structure structure) {
+        sentenceFontData = fontNodeToData(structure.getSentence().getFont(), usedStyleGuide.sentenceFontData());
+        workFontData = fontNodeToData(structure.getWork().getFont(), usedStyleGuide.workFontData());
+        emphasisFontData = fontNodeToData(structure.getEmphasis().getFont(), usedStyleGuide.emphasisFontData());
+        // TODO Chapters here
+    }
+
+    private static @NonNull FontData fontNodeToData(@NonNull Font fontNode, @NonNull FontData alternativeDefaultData) {
+        final PDFont fontFamily = fontNode.getName() == null
+                ? alternativeDefaultData.font()
+                : fontLookUp(fontNode.getName());
+
+        final float fontSize;
+        if (fontNode.getSize() != null) {
+            try {
+                var asNumber = Integer.parseInt(fontNode.getSize());
+                if (asNumber < 1) {
+                    throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+                } else fontSize = asNumber;
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+            }
+        } else fontSize = alternativeDefaultData.fontSize();
+
+        final Color fontColour;
+        if (fontNode.getColour() != null) {
+            try {
+                fontColour = Color.decode(fontNode.getColour());
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException("4: Colour expected.");
+            }
+        } else fontColour = alternativeDefaultData.fontColor();
+
+        return new FontData(fontFamily, fontSize, fontColour);
+    }
+
     /**
      * Tries to convert the given font name into a PDFont object to be used during the document creation phase.
      * If the name starts with the @ prefix, it tries to use a windows path to the fonts-folder.
@@ -840,21 +768,6 @@ public class Processor {
      * @return the font as a PDFont object
      */
     private static @NonNull PDFont fontLookUp(@NonNull final String name) {
-        if (name.equals("test")) {
-            try {
-                var resource = Processor.class.getResource("/OpenSans-Regular.ttf");
-                try {
-                    var file = Paths.get(resource.toURI()).toFile();
-                    InputStream targetStream = new FileInputStream(file);
-                    return PDType0Font.load(PageAssembler.getDocument(), targetStream, false);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         // Check if the user is trying to import a font from their operating system
         if (name.startsWith("@")) {
             final String path = "C:\\Windows\\Fonts\\" + name.substring(1) + ".ttf";

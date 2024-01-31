@@ -52,7 +52,7 @@ public class ImageRenderer {
                               Float imageWidth, Float imageHeight) {
         try {
             final float availableWidth = Processor.getAvailableContentWidth();
-            final float leading = 1.2f * Processor.getSentenceFontSize() * Processor.getSpacing();
+            final float leading = 1.2f * TextRenderer.getMaxFontSizeOfCurrentLine() * Processor.getSpacing();
 
             int width;
             int height;

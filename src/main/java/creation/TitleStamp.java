@@ -32,14 +32,12 @@ public class TitleStamp {
                         .stream()
                         .map(titleText -> {
                             if (titleText.getWork() != null)
-                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.getWorkFont(),
-                                        Processor.getWorkFontSize(), Processor.getWorkFontColour());
+                                return new Text(titleText.getWork().getEmphasisedWork(), Processor.getWorkFontData());
                             else if (titleText.getEmphasis() != null)
-                                return new Text(titleText.getEmphasis().getEmphasisedText(), Processor.getEmphasisFont(),
-                                        Processor.getEmphasisFontSize(), Processor.getEmphasisFontColour());
+                                return new Text(titleText.getEmphasis().getEmphasisedText(),
+                                        Processor.getEmphasisFontData());
                             else
-                                return new Text(titleText.getText(), Processor.getSentenceFont(),
-                                        Processor.getSentenceFontSize(), Processor.getSentenceFontColour());
+                                return new Text(titleText.getText(), Processor.getSentenceFontData());
                         }).toList(),
                 ContentAlignment.CENTER
         );

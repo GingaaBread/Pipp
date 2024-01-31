@@ -2,7 +2,7 @@ package processing.bibliography;
 
 import lombok.Getter;
 import lombok.Setter;
-import processing.Author;
+import processing.person.Author;
 
 /**
  * A work represents any kind of work done that is referenced in the bibliography, which needs to be referenced.
@@ -13,6 +13,12 @@ import processing.Author;
 @Getter
 @Setter
 public class BibliographySource {
+
+    /**
+     * Determines the identifier of the work.
+     * Must be unique.
+     */
+    protected String id;
 
     /**
      * Determines the main title of the work. Different work types can interpret this differently.

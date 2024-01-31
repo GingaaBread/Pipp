@@ -4,5 +4,8 @@
     <inspection_tool class="EqualsWithItself" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoreNonFinalClassesInTest" value="true" />
     </inspection_tool>
+    <inspection_tool class="ExtractMethodRecommender" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="minLength" value="539" />
+    </inspection_tool>
   </profile>
 </component>

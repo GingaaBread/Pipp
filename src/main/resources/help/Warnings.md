@@ -415,3 +415,55 @@ bibliography
 		title "XYZ"
 		author "John Doe"
 ```
+
+### 44
+
+*Severity:*
+High
+
+*Description:*
+The bibliography entry with the ID '[ID]' does not have a publication name.
+
+*Cause:*
+This warning occurs when defining an item in the bibliography, but not using the `publication` configuration to
+define a publication name. This may be acceptable in some cases, where there is no known
+publisher, so it is up to you to check if this is correct or not.
+
+*To do:*
+Decide whether you want to include a publication name, if there is one, or not.
+
+*Example:*
+
+```pipp
+bibliography
+	id "1"
+		type "Book"
+		title "XYZ"
+		author "John Doe"
+```
+
+### 45
+
+*Severity:*
+High
+
+*Description:*
+The bibliography entry with the ID '[ID]' does not have a publication year.
+
+*Cause:*
+This warning occurs when defining an item in the bibliography, but not using the `publication` configuration to
+define a publication year. This may be acceptable in some cases, where there is no known
+publication date, so it is up to you to check if this is correct or not.
+
+*To do:*
+Decide whether you want to include a publication year, if there is one, or not.
+
+*Example:*
+
+```pipp
+bibliography
+	id "1"
+		type "Book"
+		title "XYZ"
+		author "John Doe"
+```

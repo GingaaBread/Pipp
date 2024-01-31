@@ -16,16 +16,21 @@ public class IncorrectFormatException extends PippException {
     public static final String ERR_MSG_2 = "2: Non-negative decimal expected.";
 
     /**
+     * Provides access to the 6 error message shown when a content alignment type (center, left, right, ...) is
+     * expected. Therefore, the string does not have to be copy-pasted over and over again.
+     */
+    public static final String ERR_MSG_6 = "6: Content alignment type expected.";
+
+    /**
      * Provides access to the 15 error message shown when a positive integer ending with the percentage character is
      * expected. Therefore, the string does not have to be copy-pasted over and over again.
      */
     public static final String ERR_MSG_3 = "15: Positive integer percentage expected.";
 
     /**
-     * Provides access to the 6 error message shown when a content alignment type (center, left, right, ...) is
-     * expected. Therefore, the string does not have to be copy-pasted over and over again.
+     * Provides access to the 13 error message shown when a positive integer is expected.
      */
-    public static final String ERR_MSG_6 = "6: Content alignment type expected.";
+    public static final String ERR_MSG_13 = "13: Integer larger than zero expected.";
 
     /**
      * The incorrect format exception type uses the error code 33.

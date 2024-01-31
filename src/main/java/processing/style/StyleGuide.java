@@ -4,14 +4,13 @@ import creation.ContentAlignment;
 import creation.Text;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDFont;
 import processing.AllowanceType;
-import processing.NumerationAuthorName;
-import processing.NumerationPosition;
-import processing.NumerationType;
+import processing.FontData;
 import processing.bibliography.BibliographySource;
+import processing.numeration.NumerationAuthorName;
+import processing.numeration.NumerationPosition;
+import processing.numeration.NumerationType;
 
-import java.awt.*;
 import java.time.LocalDate;
 
 /**
@@ -99,77 +98,14 @@ public abstract class StyleGuide {
     //// FONT ///
 
 
-    /**
-     * Determines the main font of the style guide.
-     * The main font is used for the default text provided by the user.
-     *
-     * @return - the {@link PDFont} that should be used by the creator class
-     */
-    public abstract PDFont font();
+    public abstract FontData sentenceFontData();
 
-    /**
-     * Determines the font used for emphasised text.
-     * An example use is using a foreign language in the document.
-     *
-     * @return - the {@link PDFont} that should be used for emphasised text
-     */
-    public abstract PDFont emphasisFont();
+    public abstract FontData workFontData();
 
-    /**
-     * Determines the font used for work references.
-     * This is usually the same as the emphasised font, but Pipp offers the ability to change them individually.
-     *
-     * @return - the {@link PDFont} that should be used for work references
-     */
-    public abstract PDFont workFont();
+    public abstract FontData emphasisFontData();
 
-    /**
-     * Determines the main font size of the style guide.
-     * For example, the recommended font size in MLA is 12 pt.
-     *
-     * @return - the font size as an integer
-     */
-    public abstract int fontSize();
+    public abstract FontData[] chapterFontData();
 
-    /**
-     * Determines the font size of the style guide used for emphasis.
-     * For example, the recommended font size in MLA is 12 pt.
-     *
-     * @return - the emphasis font size as an integer
-     */
-    public abstract int emphasisFontSize();
-
-    /**
-     * Determines the font size of the style guide used for work references.
-     * For example, the recommended font size in MLA is 12 pt.
-     *
-     * @return - the work font size as an integer
-     */
-    public abstract int workFontSize();
-
-    /**
-     * Determines the main font colour of the style guide.
-     * In most style guides this would simply be black
-     *
-     * @return - the colour representation as a PDColour
-     */
-    public abstract Color fontColour();
-
-    /**
-     * Determines the font colour of the style guide used for emphasis.
-     * In most style guides this would simply be black
-     *
-     * @return - the colour representation as a PDColour
-     */
-    public abstract Color emphasisFontColour();
-
-    /**
-     * Determines the font colour of the style guide used for work references.
-     * In most style guides this would simply be black
-     *
-     * @return - the colour representation as a PDColour
-     */
-    public abstract Color workFontColour();
 
     //// PARAGRAPH ////
 
