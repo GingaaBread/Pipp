@@ -1,11 +1,17 @@
 
 w
-java:S1192½"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T8Ş®èèÕ1
+java:S1192Á"ZDefine a constant instead of duplicating this literal "13: Page number expected." 4 times.(æÂ„T8‰Ï€Ö1
 ‚
-java:S1192Ì"dDefine a constant instead of duplicating this literal "5: Odd layout dimensions specified." 4 times.(µÍ»Ç8Ş®èèÕ1
+java:S1192Ğ"dDefine a constant instead of duplicating this literal "5: Odd layout dimensions specified." 4 times.(µÍ»Ç8‰Ï€Ö1
 q
-java:S3776æ"SRefactor this method to reduce its Cognitive Complexity from 214 to the 15 allowed.(ƒ›ôŸ8ñ®èèÕ1
+java:S3776ê"SRefactor this method to reduce its Cognitive Complexity from 214 to the 15 allowed.(ƒ›ôŸ8¸ŠÏ€Ö1
 P
-java:S1135Ú"2Complete the task associated to this TODO comment.(Ã×şø8‡¯èèÕ1
+java:S1135Ş"2Complete the task associated to this TODO comment.(Ã×şø8ÑŠÏ€Ö1
+F
+java:S1128$")Remove this unused import 'java.io.File'.(†Ğ¥Å8×ŠÏ€Ö1
+\
+java:S1128&":Remove this unused import 'java.io.FileNotFoundException'.(·î™ùÿÿÿÿ8àİĞ€Ö1
+Z
+java:S1128("8Remove this unused import 'java.net.URISyntaxException'.(Ä®íÿÿÿÿÿ8†ªÏ€Ö1
 æ
-java:S6541æ"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 368 to 64, Complexity from 116 to 14, Nesting Level from 5 to 2, Number of Variables from 56 to 6.(ƒ›ôŸ8‹¯èèÕ1
+java:S6541ê"ÇA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 368 to 64, Complexity from 116 to 14, Nesting Level from 5 to 2, Number of Variables from 56 to 6.(ƒ›ôŸ8×ŠÏ€Ö1

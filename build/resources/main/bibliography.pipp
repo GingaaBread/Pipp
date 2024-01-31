@@ -1,7 +1,7 @@
 bibliography
 	id "HP1"
 		type "Book"
-		title "Harry Potter and the Philosopher's Stone"
+		title "Härry Potter and the Philosopher's Stone"
 		author "J.K. Rowling"
 	id "HG"
 		type "Book"

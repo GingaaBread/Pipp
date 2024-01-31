@@ -34,7 +34,11 @@ import warning.*;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -772,7 +776,8 @@ public class Processor {
         if (name.startsWith("@")) {
             final String path = "C:\\Windows\\Fonts\\" + name.substring(1) + ".ttf";
             try {
-                return PDType0Font.load(PageAssembler.getDocument(), new File(path));
+                final var targetStream = new FileInputStream(Paths.get(path).toFile());
+                return PDType0Font.load(PageAssembler.getDocument(), targetStream, false);
             } catch (IOException e) {
                 throw new MissingMemberException("7: The specified windows font cannot be located.");
             }

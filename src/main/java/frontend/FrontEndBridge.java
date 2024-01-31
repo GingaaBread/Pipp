@@ -5,10 +5,8 @@ import frontend.lexical_analysis.Token;
 import frontend.parsing.Parser;
 import lombok.NonNull;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -106,8 +104,12 @@ public class FrontEndBridge {
             throw new IllegalStateException("Should not try to read the empty file. If you are trying to debug or " +
                     "test, use the second constructor, instead.");
 
-        try (var bibliographyReader = new BufferedReader(new FileReader(bibliographyFileToRead))) {
-            reader = new BufferedReader(new FileReader(documentFileToRead));
+        try (var bibliographyReader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(bibliographyFileToRead), StandardCharsets.UTF_8))) {
+            reader = new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream(documentFileToRead), StandardCharsets.UTF_8));
             scanner.resetFile(BIBLIOGRAPHY_FILE_PATH);
 
             if (bibliographyFileToRead != null) {

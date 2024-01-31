@@ -22,12 +22,8 @@ public class Main {
     public static void main(String[] args) {
         final var logger = Logger.getLogger(Main.class.getName());
 
-        // Specify the file path relative to the src/ folder
-
-
         final var documentFile = new File(FrontEndBridge.DOCUMENT_FILE_PATH);
         final var bibliographyFile = new File(FrontEndBridge.BIBLIOGRAPHY_FILE_PATH);
-
 
         // Compile the pipp and bibliography files
         new FrontEndBridge(documentFile, bibliographyFile).compile();
