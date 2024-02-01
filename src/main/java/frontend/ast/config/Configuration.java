@@ -1,6 +1,8 @@
 package frontend.ast.config;
 
 import frontend.ast.Node;
+import frontend.ast.config.person.Assessors;
+import frontend.ast.config.person.Authors;
 import frontend.ast.config.style.Style;
 import lombok.Getter;
 import lombok.Setter;

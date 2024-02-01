@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * The structure node groups together the structure configuration, consisting of paragraph, sentence, work, and
  * emphasis structure configurations.
@@ -40,6 +43,11 @@ public class Structure extends Node {
     private final EmphasisStructure emphasis = new EmphasisStructure();
 
     /**
+     * Contains all configured chapter levels
+     */
+    private final List<Chapter> chapters = new LinkedList<>();
+
+    /**
      * The structure node does not produce warnings, but prompts the structure nodes to check for warnings
      */
     @Override
@@ -48,6 +56,7 @@ public class Structure extends Node {
         sentence.checkForWarnings();
         work.checkForWarnings();
         emphasis.checkForWarnings();
+        chapters.forEach(Chapter::checkForWarnings);
     }
 
 }

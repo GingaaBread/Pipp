@@ -1,6 +1,6 @@
 package creation;
 
-import frontend.ast.BodyNode;
+import frontend.ast.structure.BodyNode;
 import processing.Processor;
 
 /**

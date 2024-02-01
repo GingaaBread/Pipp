@@ -8,11 +8,10 @@ import error.ContentException;
 import error.IncorrectFormatException;
 import error.MissingMemberException;
 import frontend.ast.AST;
-import frontend.ast.BodyNode;
-import frontend.ast.config.Title;
-import frontend.ast.config.style.Citation;
+import frontend.ast.config.style.*;
 import frontend.ast.config.style.Font;
-import frontend.ast.config.style.Structure;
+import frontend.ast.structure.BodyNode;
+import frontend.ast.config.Title;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -33,16 +32,12 @@ import processing.style.StyleTable;
 import warning.*;
 
 import java.awt.*;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -215,6 +210,9 @@ public class Processor {
     @Getter
     private static String publicationSemester;
 
+    private static boolean inchesUsed;
+    private static boolean mmUsed;
+
     /**
      * Prevents instantiation
      */
@@ -233,360 +231,18 @@ public class Processor {
      */
     public static void processAST(@NonNull final AST ast) {
         final var logger = Logger.getLogger(AST.class.getName());
-        logger.info("AST has been generated generated.");
 
-        isProcessingBibliography = true;
-        final var entries = ast.getBibliographySources();
-        entries.forEach(entry -> {
-            entry.checkForWarnings();
+        processBibliography(ast);
 
-            if (bibliographyEntries.containsKey(entry.getId()))
-                throw new ContentException("3: Bibliography entry with ID '" + entry.getId() + "' already exists.");
-
-            var newEntry = new BibliographySource();
-            if (entry.getType() != null) {
-                if (entry.getType().equals("Book")) {
-                    newEntry = new Book();
-
-                    if (entry.getPublication().getName() != null || entry.getPublication().getYear() != null) {
-                        final var year = entry.getPublication().getYear();
-                        if (year != null) ((Book) newEntry).setPublicationYear(year.trim());
-
-                        final var name = entry.getPublication().getName();
-                        if (name != null) ((Book) newEntry).setPublicationName(name.trim());
-                    } else {
-                        WarningQueue.enqueue(new SelfCheckWarning(
-                                "3: The bibliography entry with the ID '" + entry.getId() +
-                                        "' does not have a publication name or year.", WarningSeverity.CRITICAL));
-                    }
-                } else {
-                    WarningQueue.enqueue(new MissingMemberWarning(
-                            "2: The bibliography entry type '" + entry.getType() + "' is not supported.",
-                            WarningSeverity.HIGH));
-                }
-
-            } else {
-                WarningQueue.enqueue(new MissingMemberWarning("3: The bibliography entry with the ID '" +
-                        entry.getId() + "' does not have a type.", WarningSeverity.CRITICAL));
-            }
-
-            newEntry.setId(entry.getId());
-            newEntry.setTitle(entry.getTitle().trim());
-            newEntry.setAuthors(entry
-                    .getAuthors()
-                    .getAuthorList()
-                    .stream()
-                    .map(author -> {
-                        final Author newAuthor;
-                        if (author.getFirstname() == null) newAuthor = new Author(author.getName().trim());
-                        else newAuthor = new Author(author.getFirstname().trim(), author.getLastname().trim());
-
-                        if (author.getTitle() != null) newAuthor.setTitle(author.getTitle().trim());
-
-                        return newAuthor;
-                    })
-                    .toArray(Author[]::new)
-            );
-
-            bibliographyEntries.put(entry.getId(), newEntry);
-        });
-        isProcessingBibliography = false;
-
-        logger.info("Now checking AST for possible warnings");
         ast.checkForWarnings();
-
         documentBody = ast.getDocumentBody();
 
-        // Used to track a warning if both inches and mm are used, which may be considered inconsistent
-        boolean inchesUsed = false;
-        boolean mmUsed = false;
+        final var configuration = ast.getConfiguration();
 
-        var styleConfiguration = ast.getConfiguration().getStyle();
+        documentTitle = configuration.getTitle();
 
-        // Check if the user demands a different style than the default style
-        if (styleConfiguration.getBaseStyle() != null) {
-            // Try to apply that style
-            usedStyleGuide = StyleTable.nameToStyleGuide(ast.getConfiguration().getStyle().getBaseStyle());
-        } else {
-            // Use the default style, instead
-            usedStyleGuide = new MLA9();
-        }
-
-        var layout = styleConfiguration.getLayout();
-
-        // Check if the user demands a custom document dimension
-
-        float height;
-        if (layout.getHeight() != null) {
-            // Check if the user wants to use inches
-            if (layout.getHeight().endsWith("in")) {
-                inchesUsed = true;
-
-                var asNumber = layout.getHeight().substring(0, layout.getHeight().length() - 2);
-                height = POINTS_PER_INCH * Float.parseFloat(asNumber);
-            } else {
-                mmUsed = true;
-
-                height = POINTS_PER_MM * Float.parseFloat(layout.getHeight());
-            }
-        } else height = usedStyleGuide.pageFormat().getHeight();
-
-        if (height < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-        else if (height < 500)
-            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
-
-        float width;
-        if (layout.getWidth() != null) {
-            // Check if the user wants to use inches
-            if (layout.getWidth().endsWith("in")) {
-                inchesUsed = true;
-
-                var asNumber = layout.getWidth().substring(0, layout.getWidth().length() - 2);
-                width = POINTS_PER_INCH * Float.parseFloat(asNumber);
-            } else {
-                mmUsed = true;
-
-                width = POINTS_PER_MM * Float.parseFloat(layout.getWidth());
-            }
-        } else width = usedStyleGuide.pageFormat().getWidth();
-
-        if (width < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-        else if (width < 400)
-            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
-
-        documentTitle = ast.getConfiguration().getTitle();
-
-        // Set the document dimensions
-        dimensions = new PDRectangle(width, height);
-
-        // Check if the user demands a custom margin
-        if (layout.getMargin() != null) {
-            if (layout.getMargin().endsWith("in")) {
-                inchesUsed = true;
-
-                var asNumber = layout.getMargin().substring(0, layout.getMargin().length() - 2);
-                margin = POINTS_PER_INCH * Float.parseFloat(asNumber);
-            } else {
-                mmUsed = true;
-
-                margin = POINTS_PER_MM * Float.parseFloat(layout.getMargin());
-            }
-        } else margin = POINTS_PER_INCH * usedStyleGuide.margin();
-
-        if (margin < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-        else if (margin > 200)
-            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
-
-        // Check if the user demands a custom spacing
-        if (layout.getSpacing() != null) {
-            try {
-                Processor.spacing = Float.parseFloat(layout.getSpacing());
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("10: Incorrect spacing constant.");
-            }
-        } else Processor.spacing = usedStyleGuide.spacing();
-
-        if (spacing < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-        else if (spacing >= 3)
-            WarningQueue.enqueue(new UnlikelinessWarning("5: Odd layout dimensions specified.", WarningSeverity.HIGH));
-
-        var numeration = styleConfiguration.getNumeration();
-
-        // Check if the user demands a custom numeration type
-        if (numeration.getNumerationType() != null) {
-            numerationType = switch (numeration.getNumerationType()) {
-                case "Arabic" -> NumerationType.ARABIC;
-                case "Roman" -> NumerationType.ROMAN;
-                default -> throw new MissingMemberException("4: " + "The specified page numeration is either " +
-                        "missing or does not exist. Check if it has been imported correctly, or if you " +
-                        "have misspelled the numeration type in the configuration.");
-            };
-        } else numerationType = usedStyleGuide.numerationType();
-
-        // Check if the user demands a custom numeration position
-        if (numeration.getPosition() != null) {
-            numerationPosition = switch (numeration.getPosition()) {
-                case "Top Left" -> NumerationPosition.TOP_LEFT;
-                case "Top" -> NumerationPosition.TOP;
-                case "Top Right" -> NumerationPosition.TOP_RIGHT;
-                case "Bottom Left" -> NumerationPosition.BOTTOM_LEFT;
-                case "Bottom" -> NumerationPosition.BOTTOM;
-                case "Bottom Right" -> NumerationPosition.BOTTOM_RIGHT;
-                default -> throw new MissingMemberException("5: " + "The specified page position is either " +
-                        "missing or does not exist. Check if it has been imported correctly, or if you " +
-                        "have misspelled the numeration position in the configuration.");
-            };
-        } else numerationPosition = usedStyleGuide.numerationPosition();
-
-        if (numeration.getAuthorLimit() != null) {
-            if (numeration.getAuthorLimit().equals("None")) {
-                numerationLimit = null;
-            } else {
-                try {
-                    var asInt = Integer.parseInt(numeration.getAuthorLimit());
-                    if (asInt < 1) throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                    numerationLimit = asInt;
-                } catch (NumberFormatException e) {
-                    throw new IncorrectFormatException("13: Integer larger than zero expected.");
-                }
-            }
-        } else numerationLimit = usedStyleGuide.numerationLimit();
-
-        // Add all pages that the user desires to be skipped when adding the numeration stamp
-        skippedPages = new LinkedList<>();
-        for (var skippedPage : numeration.getSkippedPages()) {
-            // Check if the user provided a span (for example, 5-12)
-            if (skippedPage.contains("-")) {
-                String[] pageSpan = skippedPage.split("-");
-
-                if (pageSpan.length != 2) throw new IncorrectFormatException("11: A page span must include exactly" +
-                        " two page-numbers.");
-
-                try {
-                    int first = Integer.parseInt(pageSpan[0]);
-                    int second = Integer.parseInt(pageSpan[1]);
-
-                    if (first < 1 || second < 1) throw new IncorrectFormatException("13: Page number expected.");
-                    else if (first >= second) throw new IncorrectFormatException("12: The second page-number must " +
-                            "be greater than the first page-number in a page span.");
-
-                    for (int i = first; i < second; i++)
-                        skippedPages.add(i);
-                } catch (IllegalArgumentException e) {
-                    throw new IncorrectFormatException("13: Page number expected.");
-                }
-            } else {
-                try {
-                    int pageNumber = Integer.parseInt(skippedPage);
-
-                    if (pageNumber < 1) {
-                        throw new IncorrectFormatException("13: Page number expected.");
-                    } else skippedPages.add(pageNumber);
-                } catch (IllegalArgumentException e) {
-                    throw new IncorrectFormatException("13: Page number expected.");
-                }
-            }
-        }
-
-        // Check if the user demands a custom author name before the numeration
-        if (numeration.getAuthorName() != null) {
-            numerationAuthorName = switch (numeration.getAuthorName()) {
-                case "name" -> NumerationAuthorName.NAME;
-                case "firstname" -> NumerationAuthorName.FIRST_NAME;
-                case "lastname" -> NumerationAuthorName.LAST_NAME;
-                case "Full Name" -> NumerationAuthorName.FULL_NAME;
-                case "None" -> NumerationAuthorName.NONE;
-                default -> throw new IncorrectFormatException("14: Author numeration name expected.");
-            };
-        } else numerationAuthorName = usedStyleGuide.numerationAuthorName();
-
-        var pageNumerationMargin = numeration.getMargin();
-
-        // Check if the user demands a custom numeration margin
-        if (pageNumerationMargin != null) {
-            try {
-                float unit;
-                if (numeration.getMargin().endsWith("in")) {
-                    inchesUsed = true;
-
-                    pageNumerationMargin = pageNumerationMargin.substring(0, pageNumerationMargin.length() - 2);
-                    unit = POINTS_PER_INCH;
-                } else {
-                    unit = POINTS_PER_MM;
-
-                    mmUsed = true;
-                }
-
-                float asNumber = Float.parseFloat(pageNumerationMargin);
-                if (asNumber < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-                else numerationMargin = asNumber * unit;
-            } catch (NumberFormatException e) {
-                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-            }
-        } else numerationMargin = POINTS_PER_INCH * usedStyleGuide.numerationMargin();
-
-        var structure = styleConfiguration.getStructure();
-        processFonts(structure);
-
-        var emphasis = structure.getEmphasis();
-
-        if (emphasis.getAllowEmphasis() != null) {
-            allowEmphasis = switch (emphasis.getAllowEmphasis()) {
-                case "Yes" -> AllowanceType.YES;
-                case "No" -> AllowanceType.NO;
-                case "If Necessary" -> AllowanceType.IF_NECESSARY;
-                default -> throw new IncorrectFormatException("5: Allowance type expected.");
-            };
-        } else allowEmphasis = usedStyleGuide.allowsEmphasis();
-
-        var paragraph = structure.getParagraph();
-        var indentation = paragraph.getIndentation();
-
-        // Check if the user demands a custom paragraph indentation
-        if (indentation != null) {
-            try {
-                float unit;
-                if (indentation.endsWith("in")) {
-                    inchesUsed = true;
-
-                    indentation = indentation.substring(0, indentation.length() - 2);
-                    unit = POINTS_PER_INCH;
-                } else {
-                    unit = POINTS_PER_MM;
-
-                    mmUsed = true;
-                }
-
-                float asNumber = Float.parseFloat(indentation);
-                if (asNumber < 0) {
-                    throw new IncorrectFormatException("2: Non-negative decimal expected.");
-                } else paragraphIndentation = asNumber * unit;
-            } catch (IllegalArgumentException e) {
-                throw new IncorrectFormatException("2: Non-negative decimal expected.");
-            }
-        } else paragraphIndentation = usedStyleGuide.paragraphIndentation() * POINTS_PER_INCH;
-
-        if (paragraphIndentation > width)
-            throw new ConfigurationException("10: The specified paragraph indentation exceeds the page width.");
-
-        // Convert the given author nodes to actual author objects
-        var authors = ast.getConfiguration().getAuthors().getAuthorList();
-        Processor.authors = new Author[authors.size()];
-        int i = 0;
-        for (var author : authors) {
-            if (author.getName() == null) {
-                if (author.getFirstname().isBlank() || author.getLastname().isBlank() ||
-                        author.getId() != null && author.getId().isBlank() ||
-                        author.getTitle() != null && author.getTitle().isBlank())
-                    throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
-
-                var newAuthor = new Author(author.getFirstname(), author.getLastname());
-                newAuthor.setTitle(author.getTitle());
-                newAuthor.setId(author.getId());
-                Processor.authors[i] = newAuthor;
-            } else {
-                if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank() ||
-                        author.getTitle() != null && author.getTitle().isBlank())
-                    throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
-
-                var newAuthor = new Author(author.getName());
-                newAuthor.setTitle(author.getTitle());
-                newAuthor.setId(author.getId());
-                Processor.authors[i] = newAuthor;
-            }
-
-            for (int j = 0; j < i; j++) {
-                if (Processor.authors[j].nameToString().equals(Processor.authors[i].nameToString())) {
-                    WarningQueue.enqueue(new UnlikelinessWarning(
-                            "3: Two authors have the same name, which seems unlikely. " +
-                                    "Check if that is correct. \n\t 1: " +
-                                    Processor.authors[j] + ". \n\tAuthor 2: " + Processor.authors[i],
-                            WarningSeverity.CRITICAL));
-                }
-            }
-
-            i++;
-        }
+        processStyleConfiguration(configuration.getStyle());
+        processDocumentAuthors(configuration.getAuthors().getAuthorList());
 
         // Convert the given author nodes to actual author objects
         var assessors = ast.getConfiguration().getAssessors().getAssessorsList();
@@ -704,6 +360,382 @@ public class Processor {
         DocumentCreator.create();
     }
 
+    private static void processDocumentAuthors(ArrayList<frontend.ast.config.person.Author> authors) {
+        Processor.authors = new Author[authors.size()];
+        for (int i = 0; i < authors.size(); i++) {
+            processAuthor(authors.get(i), i);
+
+            for (int j = 0; j < i; j++) {
+                if (Processor.authors[j].nameToString().equals(Processor.authors[i].nameToString())) {
+                    WarningQueue.enqueue(new UnlikelinessWarning(
+                            "3: Two authors have the same name, which seems unlikely. " +
+                                    "Check if that is correct. \n\t 1: " +
+                                    Processor.authors[j] + ". \n\tAuthor 2: " + Processor.authors[i],
+                            WarningSeverity.CRITICAL));
+                }
+            }
+        }
+    }
+
+    private static void processAuthor(frontend.ast.config.person.Author author, int authorIndex) {
+        if (author.getName() == null) {
+            if (author.getFirstname().isBlank() || author.getLastname().isBlank() ||
+                    author.getId() != null && author.getId().isBlank() ||
+                    author.getTitle() != null && author.getTitle().isBlank())
+                throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
+
+            var newAuthor = new Author(author.getFirstname(), author.getLastname());
+            newAuthor.setTitle(author.getTitle());
+            newAuthor.setId(author.getId());
+            Processor.authors[authorIndex] = newAuthor;
+        } else {
+            if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank() ||
+                    author.getTitle() != null && author.getTitle().isBlank())
+                throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
+
+            var newAuthor = new Author(author.getName());
+            newAuthor.setTitle(author.getTitle());
+            newAuthor.setId(author.getId());
+            Processor.authors[authorIndex] = newAuthor;
+        }
+    }
+
+    private static void processStyleConfiguration(@NonNull final Style styleConfiguration) {
+        // Apply the default style or the style desired by the user
+        if (styleConfiguration.getBaseStyle() == null) usedStyleGuide = new MLA9();
+        else usedStyleGuide = StyleTable.nameToStyleGuide(styleConfiguration.getBaseStyle());
+
+        // Note that the layout MUST be processed before the structures because some warnings depend on the
+        // used dimensions
+        processLayout(styleConfiguration.getLayout());
+        processPageNumeration(styleConfiguration.getNumeration());
+        processStructures(styleConfiguration.getStructure());
+    }
+
+    private static void processStructures(Structure structure) {
+        processFonts(structure);
+        processEmphasisAllowance(structure.getEmphasis().getAllowEmphasis());
+        processParagraphIndentation(structure.getParagraph().getIndentation());
+    }
+
+    private static void processParagraphIndentation(String indentation) {
+        if (indentation != null) {
+            try {
+                float unit;
+                if (indentation.endsWith("in")) {
+                    inchesUsed = true;
+
+                    indentation = indentation.substring(0, indentation.length() - 2);
+                    unit = POINTS_PER_INCH;
+                } else {
+                    unit = POINTS_PER_MM;
+
+                    mmUsed = true;
+                }
+
+                float asNumber = Float.parseFloat(indentation);
+                if (asNumber < 0) {
+                    throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+                } else paragraphIndentation = asNumber * unit;
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+            }
+        } else paragraphIndentation = usedStyleGuide.paragraphIndentation() * POINTS_PER_INCH;
+
+        if (paragraphIndentation > dimensions.getWidth())
+            throw new ConfigurationException("10: The specified paragraph indentation exceeds the page width.");
+    }
+
+    private static void processEmphasisAllowance(String allow) {
+        if (allow != null) {
+            allowEmphasis = switch (allow) {
+                case "Yes" -> AllowanceType.YES;
+                case "No" -> AllowanceType.NO;
+                case "If Necessary" -> AllowanceType.IF_NECESSARY;
+                default -> throw new IncorrectFormatException("5: Allowance type expected.");
+            };
+        } else allowEmphasis = usedStyleGuide.allowsEmphasis();
+    }
+
+    private static void processPageNumeration(@NonNull final Numeration numeration) {
+        processNumerationType(numeration.getNumerationType());
+        processNumerationPosition(numeration.getPosition());
+        processNumerationMargin(numeration.getMargin());
+        processNumerationAuthorName(numeration.getAuthorName());
+        processNumerationAuthorLimit(numeration.getAuthorLimit());
+        processNumerationSkippedPages(numeration.getSkippedPages());
+    }
+
+    private static void processNumerationSkippedPages(List<String> skippedPagesList) {
+        skippedPages = new LinkedList<>();
+        for (var skippedPage : skippedPagesList) {
+            // Check if the user provided a span (for example, 5-12)
+            if (skippedPage.contains("-")) {
+                String[] pageSpan = skippedPage.split("-");
+                processPageSpan(pageSpan);
+            } else {
+                try {
+                    int pageNumber = Integer.parseInt(skippedPage);
+
+                    if (pageNumber < 1) {
+                        throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+                    } else skippedPages.add(pageNumber);
+                } catch (IllegalArgumentException e) {
+                    throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+                }
+            }
+        }
+    }
+
+    private static void processPageSpan(String[] pageSpan) {
+        if (pageSpan.length != 2)
+            throw new IncorrectFormatException("11: A page span must include exactly two page-numbers.");
+
+        try {
+            int first = Integer.parseInt(pageSpan[0]);
+            int second = Integer.parseInt(pageSpan[1]);
+
+            if (first < 1 || second < 1)
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+            else if (first >= second)
+                throw new IncorrectFormatException("12: The second page-number must be greater than the " +
+                        "first page-number in a page span.");
+
+            for (int i = first; i < second; i++)
+                skippedPages.add(i);
+        } catch (IllegalArgumentException e) {
+            throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+        }
+    }
+
+    private static void processNumerationMargin(String margin) {
+        if (margin != null) {
+            try {
+                float unit;
+                if (margin.endsWith("in")) {
+                    inchesUsed = true;
+
+                    margin = margin.substring(0, margin.length() - 2);
+                    unit = POINTS_PER_INCH;
+                } else {
+                    mmUsed = true;
+                    unit = POINTS_PER_MM;
+                }
+
+                float asNumber = Float.parseFloat(margin);
+                if (asNumber < 0) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+                else numerationMargin = asNumber * unit;
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+            }
+        } else numerationMargin = POINTS_PER_INCH * usedStyleGuide.numerationMargin();
+    }
+
+    private static void processNumerationAuthorName(final String authorName) {
+        if (authorName != null) {
+            numerationAuthorName = switch (authorName) {
+                case "name", "Name" -> NumerationAuthorName.NAME;
+                case "firstname", "Firstname" -> NumerationAuthorName.FIRST_NAME;
+                case "lastname", "Lastname" -> NumerationAuthorName.LAST_NAME;
+                case "Full Name" -> NumerationAuthorName.FULL_NAME;
+                case "None" -> NumerationAuthorName.NONE;
+                default -> throw new IncorrectFormatException("14: Author numeration name expected.");
+            };
+        } else numerationAuthorName = usedStyleGuide.numerationAuthorName();
+    }
+
+    private static void processNumerationAuthorLimit(final String authorLimit) {
+        if (authorLimit != null) {
+            if (authorLimit.equals("None")) {
+                numerationLimit = null;
+            } else {
+                try {
+                    var asInt = Integer.parseInt(authorLimit);
+                    if (asInt < 1) throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+                    numerationLimit = asInt;
+                } catch (NumberFormatException e) {
+                    throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_13);
+                }
+            }
+        } else numerationLimit = usedStyleGuide.numerationLimit();
+    }
+
+    private static void processNumerationPosition(final String position) {
+        if (position != null) {
+            numerationPosition = switch (position) {
+                case "Top Left" -> NumerationPosition.TOP_LEFT;
+                case "Top" -> NumerationPosition.TOP;
+                case "Top Right" -> NumerationPosition.TOP_RIGHT;
+                case "Bottom Left" -> NumerationPosition.BOTTOM_LEFT;
+                case "Bottom" -> NumerationPosition.BOTTOM;
+                case "Bottom Right" -> NumerationPosition.BOTTOM_RIGHT;
+                default -> throw new MissingMemberException("5: The specified page position does not exist.");
+            };
+        } else numerationPosition = usedStyleGuide.numerationPosition();
+    }
+
+    private static void processNumerationType(final String pageNumerationType) {
+        if (pageNumerationType != null) {
+            numerationType = switch (pageNumerationType) {
+                case "Arabic" -> NumerationType.ARABIC;
+                case "Roman" -> NumerationType.ROMAN;
+                default -> throw new MissingMemberException("4: The specified page numeration does not exist.");
+            };
+        } else numerationType = usedStyleGuide.numerationType();
+    }
+
+    private static void processLayout(@NonNull final Layout layout) {
+        final float specifiedWidth = processDocumentWidth(layout);
+        final float specifiedHeight = processDocumentHeight(layout);
+        dimensions = new PDRectangle(specifiedWidth, specifiedHeight);
+
+        processSideMargin(layout);
+        processTextSpacing(layout);
+    }
+
+    private static void processTextSpacing(@NonNull final Layout layout) {
+        if (layout.getSpacing() != null) {
+            try {
+                spacing = Float.parseFloat(layout.getSpacing());
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException("10: Incorrect spacing constant.");
+            }
+        } else spacing = usedStyleGuide.spacing();
+
+        if (spacing < 0)
+            throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (spacing >= 3)
+            WarningQueue.enqueue(new UnlikelinessWarning(UnlikelinessWarning.ERR_MSG_5, WarningSeverity.HIGH));
+
+    }
+
+    private static void processSideMargin(@NonNull final Layout layout) {
+        if (layout.getMargin() != null) {
+            if (layout.getMargin().endsWith("in")) {
+                inchesUsed = true;
+
+                final var asNumber = layout.getMargin().substring(0, layout.getMargin().length() - 2);
+                margin = POINTS_PER_INCH * Float.parseFloat(asNumber);
+            } else {
+                mmUsed = true;
+
+                margin = POINTS_PER_MM * Float.parseFloat(layout.getMargin());
+            }
+        } else margin = POINTS_PER_INCH * usedStyleGuide.margin();
+
+        if (margin < 0)
+            throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (margin > 200)
+            WarningQueue.enqueue(new UnlikelinessWarning(UnlikelinessWarning.ERR_MSG_5, WarningSeverity.HIGH));
+    }
+
+    private static float processDocumentWidth(@NonNull final Layout layout) {
+        final float width;
+        if (layout.getWidth() != null) {
+            if (layout.getWidth().endsWith("in")) {
+                inchesUsed = true;
+
+                final var asNumber = layout.getWidth().substring(0, layout.getWidth().length() - 2);
+                width = POINTS_PER_INCH * Float.parseFloat(asNumber);
+            } else {
+                mmUsed = true;
+
+                width = POINTS_PER_MM * Float.parseFloat(layout.getWidth());
+            }
+        } else width = usedStyleGuide.pageFormat().getWidth();
+
+        // Checks for warnings regarding the used width
+        if (width < 0)
+            throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (width < 400)
+            WarningQueue.enqueue(new UnlikelinessWarning(UnlikelinessWarning.ERR_MSG_5, WarningSeverity.HIGH));
+
+        return width;
+    }
+
+    private static float processDocumentHeight(@NonNull final Layout layout) {
+        final float height;
+        if (layout.getHeight() != null) {
+            if (layout.getHeight().endsWith("in")) {
+                inchesUsed = true;
+
+                final var asNumber = layout.getHeight().substring(0, layout.getHeight().length() - 2);
+                height = POINTS_PER_INCH * Float.parseFloat(asNumber);
+            } else {
+                mmUsed = true;
+
+                height = POINTS_PER_MM * Float.parseFloat(layout.getHeight());
+            }
+        } else height = usedStyleGuide.pageFormat().getHeight();
+
+        // Checks for warnings regarding the used height
+        if (height < 0)
+            throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+        else if (height < 500)
+            WarningQueue.enqueue(new UnlikelinessWarning(UnlikelinessWarning.ERR_MSG_5,WarningSeverity.HIGH));
+
+        return height;
+    }
+
+    private static void processBibliography(AST ast) {
+        isProcessingBibliography = true;
+        final var entries = ast.getBibliographySources();
+        entries.forEach(entry -> {
+            entry.checkForWarnings();
+
+            if (bibliographyEntries.containsKey(entry.getId()))
+                throw new ContentException("3: Bibliography entry with ID '" + entry.getId() + "' already exists.");
+
+            var newEntry = new BibliographySource();
+            if (entry.getType() != null) {
+                if (entry.getType().equals("Book")) {
+                    newEntry = new Book();
+
+                    if (entry.getPublication().getName() != null || entry.getPublication().getYear() != null) {
+                        final var year = entry.getPublication().getYear();
+                        if (year != null) ((Book) newEntry).setPublicationYear(year.trim());
+
+                        final var name = entry.getPublication().getName();
+                        if (name != null) ((Book) newEntry).setPublicationName(name.trim());
+                    } else {
+                        WarningQueue.enqueue(new SelfCheckWarning(
+                                "3: The bibliography entry with the ID '" + entry.getId() +
+                                        "' does not have a publication name or year.", WarningSeverity.CRITICAL));
+                    }
+                } else {
+                    WarningQueue.enqueue(new MissingMemberWarning(
+                            "2: The bibliography entry type '" + entry.getType() + "' is not supported.",
+                            WarningSeverity.HIGH));
+                }
+
+            } else {
+                WarningQueue.enqueue(new MissingMemberWarning("3: The bibliography entry with the ID '" +
+                        entry.getId() + "' does not have a type.", WarningSeverity.CRITICAL));
+            }
+
+            newEntry.setId(entry.getId());
+            newEntry.setTitle(entry.getTitle().trim());
+            newEntry.setAuthors(entry
+                    .getAuthors()
+                    .getAuthorList()
+                    .stream()
+                    .map(author -> {
+                        final Author newAuthor;
+                        if (author.getFirstname() == null) newAuthor = new Author(author.getName().trim());
+                        else newAuthor = new Author(author.getFirstname().trim(), author.getLastname().trim());
+
+                        if (author.getTitle() != null) newAuthor.setTitle(author.getTitle().trim());
+
+                        return newAuthor;
+                    })
+                    .toArray(Author[]::new)
+            );
+
+            bibliographyEntries.put(entry.getId(), newEntry);
+        });
+        isProcessingBibliography = false;
+    }
+
     /**
      * Looks up the proper entry in the bibliography and returns an array of text components used to render the
      * citation. Throws an error exception if the entry does not exist in the bibliography.
@@ -731,9 +763,36 @@ public class Processor {
         sentenceFontData = fontNodeToData(structure.getSentence().getFont(), usedStyleGuide.sentenceFontData());
         workFontData = fontNodeToData(structure.getWork().getFont(), usedStyleGuide.workFontData());
         emphasisFontData = fontNodeToData(structure.getEmphasis().getFont(), usedStyleGuide.emphasisFontData());
-        // TODO Chapters here
+
+        // Initially use all default configurations and then replace the user defined ones
+        chapterFontData = usedStyleGuide.chapterFontData();
+        var configuredChapters = structure.getChapters();
+        for (final Chapter chapter : configuredChapters) {
+            final var level = chapter.getAffectedLevel();
+            try {
+                final var asInt = Integer.parseInt(level);
+
+                if (asInt < 0)
+                    throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+                else if (asInt >= chapterFontData.length)
+                    throw new ConfigurationException("11: The specified chapter depth exceeds the maximum allowed by" +
+                            " the used style guide.");
+
+                chapterFontData[asInt] = fontNodeToData(chapter.getFont(), usedStyleGuide.chapterFontData()[asInt]);
+
+            } catch (NumberFormatException e) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
+            }
+        }
     }
 
+    /**
+     * Converts a font configuration AST node into processable font data, or uses its alternative default font data
+     * from the style guide.
+     * @param fontNode the AST node that contains the font configurations
+     * @param alternativeDefaultData the default values that should be used if there is no configuration given
+     * @return the font data to be used during further processing steps
+     */
     private static @NonNull FontData fontNodeToData(@NonNull Font fontNode, @NonNull FontData alternativeDefaultData) {
         final PDFont fontFamily = fontNode.getName() == null
                 ? alternativeDefaultData.font()

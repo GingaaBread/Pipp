@@ -1,6 +1,8 @@
 package frontend.ast;
 
+import frontend.ast.bibliography.BibliographySource;
 import frontend.ast.config.Configuration;
+import frontend.ast.structure.BodyNode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;

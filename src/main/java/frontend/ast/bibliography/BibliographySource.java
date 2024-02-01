@@ -1,6 +1,7 @@
-package frontend.ast;
+package frontend.ast.bibliography;
 
-import frontend.ast.config.Authors;
+import frontend.ast.Node;
+import frontend.ast.config.person.Authors;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

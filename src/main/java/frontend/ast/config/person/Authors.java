@@ -1,4 +1,4 @@
-package frontend.ast.config;
+package frontend.ast.config.person;
 
 import frontend.ast.Node;
 import lombok.Getter;

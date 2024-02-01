@@ -1,4 +1,4 @@
-package frontend.ast.config;
+package frontend.ast.config.person;
 
 import error.ConfigurationException;
 import error.MissingMemberException;

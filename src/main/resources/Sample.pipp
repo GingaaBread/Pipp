@@ -1,3 +1,15 @@
+config
+	style
+		of "MLA9"
+		structure
+			chapter "0"
+				font
+					name "@Arial"
+			chapter "3"
+				font
+					name "@Arial"
+
+
 
 
 "Schweiß und flüsternde Rekationen auf äußerst komische

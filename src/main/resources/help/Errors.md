@@ -240,6 +240,31 @@ config
 Change the layout width to be more than the paragraph indentation, or change the indentation to be less than the
 layout width.
 
+### 3111
+
+*Description:*
+The specified chapter depth exceeds the maximum allowed by the used style guide.
+
+*Cause*:
+This error occurs when configuring a chapter with a depth that exceeds the maximum depth.
+For example, a style guide that allows a maximum chapter nesting depth of five subchapters will cause an issue when
+you attempt to configure the sixth subchapter as it should not exist.
+
+*Example:*
+
+```pipp
+config
+	style
+		of "MLA9"
+		structure
+			chapter "999"
+#               ...
+```
+
+*Fix:*
+Change the layout width to be more than the paragraph indentation, or change the indentation to be less than the
+layout width.
+
 ## 3.2 Missing Member Errors
 
 ### 321
@@ -305,17 +330,12 @@ Use a proper style guide name
 ### 324
 
 *Description:*
-The specified page numeration is either missing or does not exist.
-Check if it has been imported correctly, or if you have misspelled
-the numeration type in the configuration.
+The specified page numeration does not exist.
 
 *Cause*:
 This error occurs when trying to use a numeration type, which
 the `Processor` cannot translate to an actual numeration type
-enum value.
-If you are using a pre-existing numeration type, make sure it is
-not spelled incorrectly. If it is a custom type, make sure it is
-imported correctly.
+enumeration constant.
 
 *Example:*
 
@@ -326,22 +346,17 @@ config
 ```
 
 *Fix:*
-Use a proper page numeration name
+Use a proper page numeration name like "Arabic" or "Roman"
 
 ### 325
 
 *Description:*
-The specified page position is either missing or does not exist.
-Check if it has been imported correctly, or if you have misspelled
-the numeration position in the configuration.
+The specified page position does not exist.
 
 *Cause*:
 This error occurs when trying to use a numeration position, which
 the `Processor` cannot translate to an actual numeration position
-enum value.
-If you are using a pre-existing numeration position, make sure it is
-not spelled incorrectly. If it is a custom position, make sure it is
-imported correctly.
+enumeration constant.
 
 *Example:*
 
@@ -352,7 +367,7 @@ config
 ```
 
 *Fix:*
-Use a proper page position name
+Use a proper page position name like "Top", "Bottom Left" or "Top Right"
 
 ### 326
 

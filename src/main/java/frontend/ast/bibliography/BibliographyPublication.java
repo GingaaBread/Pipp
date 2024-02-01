@@ -1,6 +1,7 @@
-package frontend.ast;
+package frontend.ast.bibliography;
 
 import error.MissingMemberException;
+import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

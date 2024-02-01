@@ -1,4 +1,4 @@
-package frontend.ast;
+package frontend.ast.structure;
 
 import creation.ContentAlignment;
 import creation.ImageRenderer;

@@ -1,4 +1,6 @@
-package frontend.ast;
+package frontend.ast.structure;
+
+import frontend.ast.Node;
 
 /**
  * The body node class provides a base class for nodes that are part of the document body.

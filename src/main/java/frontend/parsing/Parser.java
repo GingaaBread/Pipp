@@ -2,11 +2,17 @@ package frontend.parsing;
 
 import frontend.FrontEndBridge;
 import frontend.ast.*;
+import frontend.ast.bibliography.BibliographySource;
 import frontend.ast.config.*;
+import frontend.ast.config.person.Assessor;
+import frontend.ast.config.person.Author;
+import frontend.ast.config.style.Chapter;
 import frontend.ast.config.style.Citation;
 import frontend.ast.paragraph.Emphasise;
 import frontend.ast.paragraph.Paragraph;
 import frontend.ast.paragraph.Text;
+import frontend.ast.structure.Image;
+import frontend.ast.structure.NoArgumentStructure;
 import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
 import lombok.NonNull;
@@ -41,6 +47,7 @@ public class Parser {
     private static final String SKIP_KEYWORD = "skip";
     private static final String EMPHASISE_KEYWORD = "emphasise";
     private static final String WORK_KEYWORD = "work";
+    private static final String CHAPTER_KEYWORD = "chapter";
     private static final String COLOUR_KEYWORD = "colour";
     private static final String LAYOUT_KEYWORD = "layout";
     private static final String CONFIGURATION_KEYWORD = "config";
@@ -74,6 +81,7 @@ public class Parser {
     private static final String DOCUMENT_TITLE_CONTAINER_NAME = "Document Title";
     private static final String PARAGRAPH_CONTAINER_NAME = "paragraph";
     private static final String SENTENCE_STRUCTURE_CONTAINER_NAME = "Sentence Structure";
+    private static final String CHAPTER_STRUCTURE_CONTAINER_NAME = "Chapter Structure";
     private static final String EMPHASIS_STRUCTURE_CONTAINER_NAME = "Emphasis Structure";
     private static final String WORK_STRUCTURE_CONTAINER_NAME = "Work Structure";
     private static final String PUBLICATION_CONFIGURATION_CONTAINER_NAME = "Publication Configuration";
@@ -186,7 +194,7 @@ public class Parser {
             if (current.type != TokenType.INDENT)
                 throw new IllegalStateException(current.getDebugInfo().errorMessage("Should remain at the current " +
                         "indentation level (" + currentIndentationLevel + "). Instead" +
-                        " found unexpected token: " + current));
+                        " found unexpected token: " + current.value));
 
             if (Integer.parseInt(current.value) != currentIndentationLevel) indendationError();
             else if (frontEndBridge.containsTokens()) current = frontEndBridge.dequeueToken();
@@ -349,28 +357,30 @@ public class Parser {
         if (current.type == TokenType.NEW_LINE) {
             newline();
             expectIndentation();
-
-            if (isKeyword()) {
-                switch (current.value) {
-                    case NAME_KEYWORD, FIRST_NAME_KEYWORD, TITLE_KEYWORD -> nameSpecification();
-                    case OF_KEYWORD -> expectKeyword(it -> {
-                        consumeKeyword(OF_KEYWORD);
-
-                        if (current.type == TokenType.NEW_LINE) {
-                            newline();
-                            expectIndentation();
-                            nameSpecification();
-                            forgoIndentation();
-                        } else if (current.type == TokenType.TEXT) bibliographyInlineAuthor();
-                        else error();
-                    }, OF_KEYWORD);
-                    default -> error();
-                }
-            } else error();
-
+            explicitBibliographyItemAuthor();
             forgoIndentation();
         } else if (current.type == TokenType.TEXT) bibliographyInlineAuthor();
         else error();
+    }
+
+    private void explicitBibliographyItemAuthor() {
+        if (isKeyword()) {
+            switch (current.value) {
+                case NAME_KEYWORD, FIRST_NAME_KEYWORD, TITLE_KEYWORD -> nameSpecification();
+                case OF_KEYWORD -> expectKeyword(it -> {
+                    consumeKeyword(OF_KEYWORD);
+
+                    if (current.type == TokenType.NEW_LINE) {
+                        newline();
+                        expectIndentation();
+                        nameSpecification();
+                        forgoIndentation();
+                    } else if (current.type == TokenType.TEXT) bibliographyInlineAuthor();
+                    else error();
+                }, OF_KEYWORD);
+                default -> error();
+            }
+        } else error();
     }
 
     private void bibliographyInlineAuthor() {
@@ -404,22 +414,27 @@ public class Parser {
     // InstructionList := OptionalNewLine Instruction InstructionList | OptionalNewLine Instruction
     private void instructionList() {
         do {
-            if (current.type == TokenType.NEW_LINE) newline();
-            else if (current.type == TokenType.KEYWORD) {
-                switch (current.value) {
-                    case HEADER_KEYWORD -> header();
-                    case TITLE_KEYWORD -> title();
-                    case BLANK_KEYWORD -> blank();
-                    case IMAGE_KEYWORD -> image();
-                    case EMPHASISE_KEYWORD, WORK_KEYWORD, CITATION_KEYWORD -> paragraph();
-                    default -> error();
+            switch (current.type) {
+                case NEW_LINE -> newline();
+                case INDENT -> chapter();
+                case KEYWORD -> {
+                    switch (current.value) {
+                        case HEADER_KEYWORD -> header();
+                        case TITLE_KEYWORD -> title();
+                        case BLANK_KEYWORD -> blank();
+                        case IMAGE_KEYWORD -> image();
+                        case CHAPTER_KEYWORD -> chapter();
+                        case EMPHASISE_KEYWORD, WORK_KEYWORD, CITATION_KEYWORD -> paragraph();
+                        default -> error();
+                    }
                 }
-            } else paragraph();
+                default -> paragraph();
+            }
         } while (frontEndBridge.containsTokens() && (current.type == TokenType.TEXT ||
-                current.type == TokenType.NEW_LINE || isKeyword()
+                current.type == TokenType.NEW_LINE || current.type == TokenType.INDENT || isKeyword()
                 && (isKeyword(HEADER_KEYWORD) || isKeyword(TITLE_KEYWORD) || isKeyword(CITATION_KEYWORD) ||
                 isKeyword(EMPHASISE_KEYWORD) || isKeyword(WORK_KEYWORD) || isKeyword(BLANK_KEYWORD) ||
-                isKeyword(IMAGE_KEYWORD))));
+                isKeyword(IMAGE_KEYWORD) || isKeyword(CHAPTER_KEYWORD))));
     }
 
     /**
@@ -447,6 +462,26 @@ public class Parser {
         consumeKeyword(BLANK_KEYWORD);
         newline();
         ast.pushDocumentNode(new NoArgumentStructure(StructureType.BLANKPAGE));
+    }
+
+    /**
+     *  Chapter := (Tab)* "chapter" Textual
+     */
+    private void chapter() {
+        int level = 0;
+        while (current.type == TokenType.INDENT) {
+            level += indentTokenToInt();
+            consume(new Token(TokenType.INDENT, null));
+        }
+
+        consumeKeyword(CHAPTER_KEYWORD);
+        textual();
+
+        final var chapter = new frontend.ast.structure.Chapter();
+        chapter.setLevel(level);
+        chapter.setName(last.value);
+
+        ast.pushDocumentNode(chapter);
     }
 
     /**
@@ -998,9 +1033,7 @@ public class Parser {
     }
 
     /**
-     * StructureStyle := "structure" NewLine INDENT ParagraphStructureStyle DEDENT |
-     * "structure" NewLine INDENT SentenceStructureStyle DEDENT |
-     * "structure" NewLine INDENT EndnotesStructureStyle DEDENT
+     * StructureStyle := "structure" NewLine INDENT (*)StructureStyle DEDENT
      */
     private void structureStyle() {
         if (isKeyword()) {
@@ -1011,12 +1044,13 @@ public class Parser {
             expectKeyword(it -> {
                 switch (it) {
                     case PARAGRAPH_KEYWORD -> paragraphStructureStyle();
+                    case CHAPTER_KEYWORD -> chapterStructureStyle();
                     case SENTENCE_KEYWORD -> sentenceStructureStyle();
                     case WORK_KEYWORD -> workStructureStyle();
                     case EMPHASISE_KEYWORD -> emphasisStructureStyle();
                     default -> error();
                 }
-            }, PARAGRAPH_KEYWORD, SENTENCE_KEYWORD, WORK_KEYWORD, EMPHASISE_KEYWORD);
+            }, PARAGRAPH_KEYWORD, CHAPTER_KEYWORD, SENTENCE_KEYWORD, WORK_KEYWORD, EMPHASISE_KEYWORD);
 
             forgoIndentation();
         } else error();
@@ -1031,6 +1065,31 @@ public class Parser {
         newline();
         expectIndentation();
         sentenceStructureStyleList();
+        forgoIndentation();
+    }
+
+    /**
+     * ChapterStructureStyle := "chapter" NewLine INDENT SentenceStructureStyleList DEDENT
+     */
+    private void chapterStructureStyle() {
+        currentlyParsedContainer = CHAPTER_STRUCTURE_CONTAINER_NAME;
+        consumeKeyword(CHAPTER_KEYWORD);
+        textual();
+        final var currentChapter = new Chapter();
+        lastNode = currentChapter;
+        ((Chapter)lastNode).setAffectedLevel(last.value);
+        expectIndentation();
+
+        expectKeyword(it -> {
+            if (it.equals(FONT_KEYWORD)) {
+                font();
+            } else {
+                error();
+            }
+        }, FONT_KEYWORD);
+
+        ast.getConfiguration().getStyle().getStructure().getChapters().add(currentChapter);
+
         forgoIndentation();
     }
 
@@ -1130,55 +1189,60 @@ public class Parser {
     private void fontStyleList() {
         expectKeyword(it -> {
             switch (it) {
-                case NAME_KEYWORD -> {
-                    consumeKeyword(NAME_KEYWORD);
-                    textual();
-
-                    var structure = ast.getConfiguration().getStyle().getStructure();
-                    switch (currentlyParsedContainer) {
-                        case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setName(last.value);
-                        case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setName(last.value);
-                        case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setName(last.value);
-                        default -> error();
-                    }
-                }
-                case SIZE_KEYWORD -> {
-                    consumeKeyword(SIZE_KEYWORD);
-                    textual();
-
-                    var structure = ast.getConfiguration().getStyle().getStructure();
-                    switch (currentlyParsedContainer) {
-                        case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setSize(last.value);
-                        case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setSize(last.value);
-                        case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setSize(last.value);
-                        default -> error();
-                    }
-                }
-                case COLOUR_KEYWORD -> {
-                    consumeKeyword(COLOUR_KEYWORD);
-                    textual();
-
-                    var structure = ast.getConfiguration().getStyle().getStructure();
-                    switch (currentlyParsedContainer) {
-                        case SENTENCE_STRUCTURE_CONTAINER_NAME ->
-                                structure.getSentence().getFont().setColour(last.value);
-                        case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setColour(last.value);
-                        case EMPHASIS_STRUCTURE_CONTAINER_NAME ->
-                                structure.getEmphasis().getFont().setColour(last.value);
-                        default -> error();
-                    }
-                }
+                case NAME_KEYWORD -> fontName();
+                case SIZE_KEYWORD -> fontSize();
+                case COLOUR_KEYWORD -> fontColour();
                 default -> error();
             }
-
-            var structure = ast.getConfiguration().getStyle().getStructure();
-            lastNode = switch (currentlyParsedContainer) {
-                case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont();
-                case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont();
-                case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont();
-                default -> throw new IllegalStateException("Should be in either parsed container");
-            };
         }, NAME_KEYWORD, SIZE_KEYWORD, COLOUR_KEYWORD);
+    }
+
+    /**
+     * FontName := "name" Textual
+     */
+    private void fontName() {
+        consumeKeyword(NAME_KEYWORD);
+        textual();
+
+        var structure = ast.getConfiguration().getStyle().getStructure();
+        switch (currentlyParsedContainer) {
+            case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setName(last.value);
+            case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setName(last.value);
+            case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setName(last.value);
+            case CHAPTER_STRUCTURE_CONTAINER_NAME -> ((Chapter) lastNode).getFont().setName(last.value);
+            default -> error();
+        }
+    }
+
+    /**
+     * FontSize := "size" Textual
+     */
+    private void fontSize() {
+        consumeKeyword(SIZE_KEYWORD);
+        textual();
+
+        var structure = ast.getConfiguration().getStyle().getStructure();
+        switch (currentlyParsedContainer) {
+            case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setSize(last.value);
+            case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setSize(last.value);
+            case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setSize(last.value);
+            case CHAPTER_STRUCTURE_CONTAINER_NAME -> ((Chapter) lastNode).getFont().setSize(last.value);
+            default -> error();
+        }
+    }
+
+    private void fontColour() {
+        consumeKeyword(COLOUR_KEYWORD);
+        textual();
+
+        var structure = ast.getConfiguration().getStyle().getStructure();
+        switch (currentlyParsedContainer) {
+            case SENTENCE_STRUCTURE_CONTAINER_NAME -> structure.getSentence().getFont().setColour(last.value);
+            case WORK_STRUCTURE_CONTAINER_NAME -> structure.getWork().getFont().setColour(last.value);
+            case EMPHASIS_STRUCTURE_CONTAINER_NAME -> structure.getEmphasis().getFont().setColour(last.value);
+            case CHAPTER_STRUCTURE_CONTAINER_NAME -> ((Chapter) lastNode).getFont().setColour(last.value);
+            default -> error();
+        }
     }
 
     /**

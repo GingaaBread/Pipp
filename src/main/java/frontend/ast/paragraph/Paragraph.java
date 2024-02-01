@@ -1,7 +1,7 @@
 package frontend.ast.paragraph;
 
 import creation.ParagraphStamp;
-import frontend.ast.BodyNode;
+import frontend.ast.structure.BodyNode;
 import frontend.ast.Node;
 import lombok.NonNull;
 import lombok.ToString;

@@ -13,6 +13,11 @@ import lombok.NonNull;
 public class UnlikelinessWarning extends Warning {
 
     /**
+     * Provides access to the fifth error message warning about unlikely layout dimensions
+     */
+    public static String ERR_MSG_5 = "5: Odd layout dimensions specified.";
+
+    /**
      * Creates a new warning indicating that something is rather unlikely
      *
      * @param message  the message that should be shown to the user
