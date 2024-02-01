@@ -5,6 +5,7 @@ import processing.bibliography.BibliographySource;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class BibliographyStamp {
 
@@ -24,12 +25,12 @@ public class BibliographyStamp {
 
         PageCreator.createNewPage();
 
-//        TextRenderer.renderText(List.of(new Text(
-//                Processor.getUsedStyleGuide().formatBibliographyTitle(citedEntries),
-//                Processor.getChapterFontData()[0].font(),
-//                Processor.getChapterFontData()[0].fontSize(),
-//                Processor.getChapterFontData()[0].fontColor())
-//        ), ContentAlignment.CENTER);
+        TextRenderer.renderText(List.of(new Text(
+                Processor.getUsedStyleGuide().formatBibliographyTitle(citedEntries),
+                Processor.getChapterFontData()[0].font(),
+                Processor.getChapterFontData()[0].fontSize(),
+                Processor.getChapterFontData()[0].fontColor())
+        ), ContentAlignment.CENTER);
 
         // Sort entries by the lastname of the first author, or the title if there is no author
         final var sortedEntries = Processor

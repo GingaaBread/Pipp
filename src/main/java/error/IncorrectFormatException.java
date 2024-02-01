@@ -10,6 +10,11 @@ package error;
 public class IncorrectFormatException extends PippException {
 
     /**
+     * Provides access to the first error message shown when a British date format is expected but not given.
+     */
+    public static final String ERR_MSG_1 = "1: The specified date is not 'None' and does not adhere to " +
+            "the British date format: 'dd/MM/yyyy'. Date: ";
+    /**
      * Provides access to the second error message shown when there is no non-negative decimal number given.
      * Therefore, the string does not have to be copy-pasted over and over again.
      */

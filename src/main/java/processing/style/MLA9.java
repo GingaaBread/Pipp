@@ -31,11 +31,14 @@ public class MLA9 extends StyleGuide {
         final var amountOfAuthors = entry.getAuthors().length;
         if (amountOfAuthors > 0) {
             final String authorTextContent = switch (amountOfAuthors) {
-                case 1 -> entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ". ";
+                case 1 -> entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() +
+                        (entry.getAuthors()[0].getFirstname().endsWith(".") ? " " : ". ");
                 case 2 -> entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ", and " +
-                        entry.getAuthors()[1].getLastname() + ", " + entry.getAuthors()[1].getFirstname() + ". ";
+                        entry.getAuthors()[1].getLastname() + ", " + entry.getAuthors()[1].getFirstname() +
+                        (entry.getAuthors()[1].getFirstname().endsWith(".") ? " " : ". ");
                 default ->
-                        entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ", et. al. ";
+                        entry.getAuthors()[0].getLastname() + ", " + entry.getAuthors()[0].getFirstname() + ", et. al"
+                                + (entry.getAuthors()[0].getFirstname().endsWith(".") ? " " : ". ");
             };
 
             authorText = new Text(authorTextContent, Processor.getSentenceFontData());
@@ -47,15 +50,18 @@ public class MLA9 extends StyleGuide {
         String publisherTextContent = null;
         if (entry instanceof Book bookEntry) {
             if (bookEntry.getPublicationName() != null && bookEntry.getPublicationYear() != null)
-                publisherTextContent = bookEntry.getPublicationName() + ", " + bookEntry.getPublicationYear() + ".";
+                publisherTextContent = bookEntry.getPublicationName() + ", " + bookEntry.getPublicationYear() +
+                        (bookEntry.getPublicationYear().endsWith(".") ? "" : ".");
             else if (bookEntry.getPublicationName() != null) {
                 WarningQueue.enqueue(new SelfCheckWarning("5: The bibliography entry with the ID '" +
                         entry.getId() + "' does not have a publication year.", WarningSeverity.HIGH));
-                publisherTextContent = bookEntry.getPublicationName() + ".";
+                publisherTextContent = bookEntry.getPublicationName() +
+                        (bookEntry.getPublicationYear().endsWith(".") ? "" : ".");
             } else if (bookEntry.getPublicationYear() != null) {
                 WarningQueue.enqueue(new SelfCheckWarning("4: The bibliography entry with the ID '" +
                         entry.getId() + "' does not have a publication name.", WarningSeverity.HIGH));
-                publisherTextContent = bookEntry.getPublicationYear() + ".";
+                publisherTextContent = bookEntry.getPublicationYear() +
+                        (bookEntry.getPublicationYear().endsWith(".") ? "" : ".");
             }
         }
         return publisherTextContent;
@@ -249,7 +255,7 @@ public class MLA9 extends StyleGuide {
         if (authorText != null) textList.add(authorText);
 
         final var titleText = new Text(
-                entry.getTitle() + ".",
+                entry.getTitle() + (entry.getTitle().endsWith(".") ? "" : "."),
                 Processor.getWorkFontData()
         );
         textList.add(titleText);

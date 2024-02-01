@@ -160,27 +160,17 @@ g
 b
 2src/main/java/frontend/lexical_analysis/Token.java,4\e\4e5eef0fce576c59a2d34b449b792647ce1e50ba
 w
-G.idea/sonarlint/issuestore/a/c/ac9ca5adec5296fa49aeeeee14f5ffbcfa972780,5\b\5b9c2de723739a761b2f6a39719049ac1a61f557
-w
 G.idea/sonarlint/issuestore/a/d/ad538b65ca425747be2437ca22668e76b67e9191,f\1\f15b719bf8a0fa5795268f8c15d26cb14f4802f7
 w
 G.idea/sonarlint/issuestore/a/d/ad5fdc44fa7df38267acddcea5526d74b6b235ea,7\8\78317be27d7eaeac7bfe40971b062d3f44046fe5
 Å
 Q.idea/sonarlint/securityhotspotstore/a/1/a1931a25b48a0dda5dc2c73f18bbb276f9b07403,7\6\76a86f3b2142c8951d0491e0bc77dcf4c7d7c78c
-Å
-Q.idea/sonarlint/securityhotspotstore/a/5/a5b50a771fa07f07a9a71e46f22a212484435296,8\4\843ae1f1bd3623e7d8b4d900c6eb530538d0c773
 w
 G.idea/sonarlint/issuestore/3/6/36e3878b5a306fd0c4a0f3f6f0cfc5be0cac6d4b,7\1\71ea2aa438026197a24595ad06dc8eac37137b78
 w
 G.idea/sonarlint/issuestore/b/3/b3e05a2a44db94b0f3b6384645bb974354a3e250,e\a\ea898ef9d72afece78e5d99c0cc66673888baf2f
 Å
-Q.idea/sonarlint/securityhotspotstore/a/c/ac9ca5adec5296fa49aeeeee14f5ffbcfa972780,d\d\dd638a9c025d4df9c20767d78e922c697f5dcb98
-Å
 Q.idea/sonarlint/securityhotspotstore/2/1/21cb6fbb4b49c2c6a23ad08086ead6227df2da78,4\f\4f20d41791e87101ece5a975e6fafda5144e9e21
-Å
-Q.idea/sonarlint/securityhotspotstore/a/c/aca12b3567ae16b18d0e62e21573c25d080e3c4e,0\b\0bf2c329c8e06cf96c7afc15e36b8ed4a5d85219
-w
-G.idea/sonarlint/issuestore/3/a/3af871c24ff1fc9e1cf48a726db6f4011f13fdf9,b\e\be6aec0a9094d9ea8fabe07b12fc7a2290b7989b
 Å
 Q.idea/sonarlint/securityhotspotstore/a/d/ad5fdc44fa7df38267acddcea5526d74b6b235ea,6\e\6eb9c9534f33a458c6d17e041d98436bb57474ae
 Å
@@ -199,8 +189,6 @@ G.idea/sonarlint/issuestore/b/4/b468ab8f85a224630b8670577dd46174ee511711,0\9\09
 Q.idea/sonarlint/securityhotspotstore/b/4/b468ab8f85a224630b8670577dd46174ee511711,1\9\195c9c88b2eb0c0c7d61f05f8cfc4e58e7ef2bc2
 Å
 Q.idea/sonarlint/securityhotspotstore/2/a/2a941c70b394639525079f66c29c75d989d895f4,0\3\03dae0e390fe7489370ef4bd8626bca9463963c0
-w
-G.idea/sonarlint/issuestore/1/6/16036fbad42e6a17ff8d012f106d1cb1e3462f69,b\3\b3113314aacc36429dee7cbcb19f203db150d05b
 Å
 Q.idea/sonarlint/securityhotspotstore/2/b/2bb7bdc137e3ddacf5a2ac5eee2c51902b697880,f\5\f5e58555afa0d90e79c85e817f87b26b004ae53a
 Å
@@ -231,8 +219,6 @@ w
 G.idea/sonarlint/issuestore/c/5/c52bad3a82e84e5672cc5885881fc14fe3f3ee5d,4\1\41ff74c653f5207d97f76c9c3ecb7e70775c232a
 w
 G.idea/sonarlint/issuestore/c/6/c625b11038c3f5e4a8b40082124a3281e972b2d5,b\4\b46b9c618de366ba315a00995e5251cadbc40b8b
-Å
-Q.idea/sonarlint/securityhotspotstore/3/a/3af871c24ff1fc9e1cf48a726db6f4011f13fdf9,1\f\1fb9174d16564e7dcec5ded6f3a3090d3132b730
 Å
 Q.idea/sonarlint/securityhotspotstore/3/a/3ae56e23cbe285c7c152d276df4a84c8930c4695,9\6\96085ab69c52dadbc09f23829f953f4f46a0292f
 w
@@ -296,8 +282,6 @@ Q.idea/sonarlint/securityhotspotstore/5/8/584cd5231c4bbbd91a3b4df3918c4219a64f35
 N
 .idea/modules/TokensUebung.iml,4\3\43213edb326f4fadf8713a036a941db9d4782f5a
 w
-G.idea/sonarlint/issuestore/5/e/5e7c2707ff05f0d7b2634d8f12cf1c86a456758e,c\a\cad8590bf9a227fe198c672dde6d8ee83bca72d9
-w
 G.idea/sonarlint/issuestore/d/9/d94dc2f25edf26f7a023e8956d1a7be23a71c118,c\f\cf47d850c1620c3af764805fa434c3f1cd61adf6
 _
 /.idea/modules/org.example.TokensUebung.main.iml,b\1\b177a534b239c0a1353b8ec511bb9f9342a37e6a
@@ -322,10 +306,6 @@ G.idea/sonarlint/issuestore/6/6/66c35f2b0382d36cf7bc8c6633c58ce83d0ca662,e\7\e7
 w
 G.idea/sonarlint/issuestore/d/e/dec979aa05911c8a3d8f59c2b5416633d4582c63,d\7\d720fc8809dea3e378f2d8ad1785ffa900c1323d
 Å
-Q.idea/sonarlint/securityhotspotstore/5/e/5e7c2707ff05f0d7b2634d8f12cf1c86a456758e,a\3\a38127fe49854977ce528bf1a54f4a706bdbd4df
-w
-G.idea/sonarlint/issuestore/6/7/67fc6d4cd5146057033a99db32d8d06558b60c90,6\7\67604349396e9a2b4a71ca54825cd081f2cf7e58
-Å
 Q.idea/sonarlint/securityhotspotstore/d/e/dec979aa05911c8a3d8f59c2b5416633d4582c63,e\8\e87e1790f08bb370e2d71c01462d75efc171937f
 w
 G.idea/sonarlint/issuestore/e/3/e33332e05ee47fde9aa3d03131f5f750383be9f9,c\d\cd24dc49ae221fd9e3442cf677e5aee661776d6e
@@ -339,8 +319,6 @@ w
 G.idea/sonarlint/issuestore/7/7/774570c78060bd656d83bdc0810d78353fb7f0f8,b\f\bfa0657d1c1ef5bd8f6c1e3056942e694c27a934
 Å
 Q.idea/sonarlint/securityhotspotstore/e/4/e44a8606ce010ad9b89aafdfcee2ab49afbf6d10,9\0\90b119420229d7039add28319c2a0ee951218c45
-Å
-Q.idea/sonarlint/securityhotspotstore/6/7/67fc6d4cd5146057033a99db32d8d06558b60c90,f\7\f79eb179a993fd8549fba90fbff302d6f60b5e70
 w
 G.idea/sonarlint/issuestore/0/4/04f7ef4a3c5583bbc54b131e89a0780f5861b3d9,e\8\e876564514132835908e38e90d0f59d8719f4227
 Å
@@ -365,8 +343,6 @@ Q.idea/sonarlint/securityhotspotstore/7/7/774570c78060bd656d83bdc0810d78353fb7f0
 Q.idea/sonarlint/securityhotspotstore/f/f/ff9a3cb274581aa2654e65eb41fd1dc26cff6456,6\9\699b1e585e033b3d84d954d9595211cc39c122bf
 Å
 Q.idea/sonarlint/securityhotspotstore/f/f/ff47c6142ba26a74c026a26cfbcdf861a5e35948,6\f\6f8d221808c2cc9ef178f24d481aa6a0790c0d5f
-w
-G.idea/sonarlint/issuestore/0/c/0c7fee3c7b86a58e1469939c84cb7818815ef71d,8\0\809799c7f860d08e7a87f66ca12e105d329a48c2
 w
 G.idea/sonarlint/issuestore/f/b/fbfcf58a0b08057306b830712a1338043a5650c5,7\6\76c95398705bb588a50fe795b82c58d64747b7e7
 w
@@ -401,8 +377,6 @@ Q.idea/sonarlint/securityhotspotstore/8/3/83eda070b8dfc4aee06c287b891ec745a2633f
 Q.idea/sonarlint/securityhotspotstore/0/6/0697c5828fbc647f9b05bcc76f30b42ebe3e19e3,9\5\958bb8ec845f5da36eb6d71e0d702f012f4e7a46
 Å
 Q.idea/sonarlint/securityhotspotstore/8/3/83f4fbab3a571b7b5e09575d6ea440384094e3c6,a\1\a1c5373636afe8a851c4161c2047c1e24ec59053
-w
-G.idea/sonarlint/issuestore/8/6/864246fd9ef421b44ddaa0bd172ae1a47ad98dc4,1\3\13f7c597f9cfcbb18e8181fcb9aa0fc093c8232b
 Å
 Q.idea/sonarlint/securityhotspotstore/0/a/0ae9db79fe1f39070e05ec420f64be1b229b277d,b\a\bafedfd385f94d1c10ea498783e7bb05e3df7a4b
 w
@@ -413,12 +387,8 @@ Q.idea/sonarlint/securityhotspotstore/8/4/846ca1d08d0b9d646bdf948bd7eb2c9451612e
 Q.idea/sonarlint/securityhotspotstore/8/4/84c892244e78dd3456d2d9154dc24a114661edda,b\8\b8a61ba8fc224fb333bf141cf7063d2d05d99986
 w
 G.idea/sonarlint/issuestore/1/4/147b6316a6a13a9f50c8f32520050078560618e3,f\8\f85d77469b38cf6935cadfeeb9f639e889eff520
-Å
-Q.idea/sonarlint/securityhotspotstore/0/c/0c7fee3c7b86a58e1469939c84cb7818815ef71d,d\7\d7e5bc66a5bfddd52db81e6359f61d7efdd088e8
 w
 G.idea/sonarlint/issuestore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e,a\e\ae9ddf453f55affea2d6b9e3973cac1eb2efb4e1
-Å
-Q.idea/sonarlint/securityhotspotstore/8/6/864246fd9ef421b44ddaa0bd172ae1a47ad98dc4,0\f\0fc26ba45cd7058b7a9d312030971e304bcd7c88
 w
 G.idea/sonarlint/issuestore/8/a/8a3e30e2527fbbfb9e5779871adf6060b969bf70,3\9\39e89f5aedbd87da2dba4dd575096809fc018124
 w
@@ -450,8 +420,6 @@ G.idea/sonarlint/issuestore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0,f\0\f0
 Å
 Q.idea/sonarlint/securityhotspotstore/9/2/9262e74500c80977c1734349de3c5fd0b73b3837,6\c\6ce022350c109eee693df90a5b4c6d322ebb5f03
 Å
-Q.idea/sonarlint/securityhotspotstore/1/6/16036fbad42e6a17ff8d012f106d1cb1e3462f69,1\4\14547d821b31e4540c7e45fb70276a083ead0d2a
-Å
 Q.idea/sonarlint/securityhotspotstore/1/7/17e0f58d94f38234c3aa8a31a841e0ba745f34b7,1\0\106eaa016ad5d9a857d760b6102de279719d7102
 Å
 Q.idea/sonarlint/securityhotspotstore/9/5/9503804238d7f7d8207f833c0b56cdb32aa65d4f,8\1\81eab934084a775ab5794f227f3ad13b6d96ca84
@@ -459,8 +427,6 @@ w
 G.idea/sonarlint/issuestore/a/1/a1931a25b48a0dda5dc2c73f18bbb276f9b07403,c\f\cf88b83766380d4056d9e85657362af3bda9b97b
 Å
 Q.idea/sonarlint/securityhotspotstore/9/a/9a70e8e6a27f651f32c98c0f67f98c1a35404645,3\9\39d43abc58d452c2e69b52e01d240d050222c014
-w
-G.idea/sonarlint/issuestore/a/5/a5b50a771fa07f07a9a71e46f22a212484435296,6\4\64f907840f91f7b9e759e84142174b53b8d64563
 Å
 Q.idea/sonarlint/securityhotspotstore/1/9/198e2289e1b640973bdfe7e68f0921897b5a7fcd,9\1\914b912026e182bd6855d265c4be54b9a276b0be
 Å
@@ -529,3 +495,5 @@ g
 7src/main/java/frontend/ast/config/person/Assessors.java,f\2\f23356022e38c80a0d522b9ff6bfab97e96b120e
 o
 ?src/main/java/frontend/ast/bibliography/BibliographySource.java,e\4\e4932d24ac07ac64e2ea5311373a4d4950eb93ff
+r
+Bsrc/main/java/processing/bibliography/BibliographySourceTable.java,4\9\49e8f7d57c976b4a288a716be209d50d98544f77

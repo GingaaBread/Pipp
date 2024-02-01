@@ -1,5 +1,6 @@
 package frontend.ast.config.person;
 
+import error.ConfigurationException;
 import error.MissingMemberException;
 import frontend.ast.Node;
 import lombok.Getter;
@@ -50,10 +51,26 @@ public class Assessor extends Node {
     private String role;
 
     /**
-     * The Assessor node produces errors if any field is blank
+     * The Assessor node produces errors if any field is blank or if an incorrect name configuration is given
      */
     @Override
     public void checkForWarnings() {
+        checkBlankFields();
+        if (name == null && firstname == null && lastname == null)
+            throw new ConfigurationException("1: An assessor requires a name configuration, but neither " +
+                    "name, firstname nor lastname has been configured.");
+        else if (name != null && (firstname != null || lastname != null))
+            throw new ConfigurationException("2: An assessor can only be given a name configuration " +
+                    "OR a firstname and lastname configuration.");
+        else if (name == null && firstname != null && lastname == null)
+            throw new ConfigurationException("3: An assessor cannot only have a firstname configuration. " +
+                    "Either also provide a lastname configuration or only use the name configuration.");
+        else if (name == null && firstname == null)
+            throw new ConfigurationException("4: An assessor cannot only have a lastname configuration. " +
+                    "Either also provide a firstname configuration or only use the name configuration.");
+    }
+
+    private void checkBlankFields() {
         if (title != null && title.isBlank() ||
                 name != null && name.isBlank() ||
                 firstname != null && firstname.isBlank() ||

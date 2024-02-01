@@ -8,10 +8,11 @@ import error.ContentException;
 import error.IncorrectFormatException;
 import error.MissingMemberException;
 import frontend.ast.AST;
-import frontend.ast.config.style.*;
-import frontend.ast.config.style.Font;
-import frontend.ast.structure.BodyNode;
+import frontend.ast.config.Publication;
 import frontend.ast.config.Title;
+import frontend.ast.config.style.Font;
+import frontend.ast.config.style.*;
+import frontend.ast.structure.BodyNode;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -20,7 +21,7 @@ import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import processing.bibliography.BibliographySource;
-import processing.bibliography.Book;
+import processing.bibliography.BibliographySourceTable;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -37,7 +38,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -231,99 +234,32 @@ public class Processor {
      */
     public static void processAST(@NonNull final AST ast) {
         final var logger = Logger.getLogger(AST.class.getName());
-
-        processBibliography(ast);
+        processBibliography(ast.getBibliographySources());
+        logger.info("Successfully processed the bibliography");
 
         ast.checkForWarnings();
         documentBody = ast.getDocumentBody();
-
         final var configuration = ast.getConfiguration();
 
         documentTitle = configuration.getTitle();
-
         processStyleConfiguration(configuration.getStyle());
         processDocumentAuthors(configuration.getAuthors().getAuthorList());
+        processDocumentAssessors(configuration.getAssessors().getAssessorsList());
+        processPublication(configuration.getPublication());
 
-        // Convert the given author nodes to actual author objects
-        var assessors = ast.getConfiguration().getAssessors().getAssessorsList();
-        Processor.assessors = new Assessor[assessors.size()];
-        int j = 0;
-        for (var assessor : assessors) {
-            if (assessor.getName() == null && assessor.getFirstname() == null && assessor.getLastname() == null)
-                throw new ConfigurationException("1: An assessor requires a name configuration, but neither " +
-                        "name, firstname nor lastname has been configured.");
-            else if (assessor.getName() != null && (assessor.getFirstname() != null || assessor.getLastname() != null))
-                throw new ConfigurationException("2: An assessor can only be given a name configuration " +
-                        "OR a firstname and lastname configuration.");
-            else if (assessor.getName() == null && assessor.getFirstname() != null && assessor.getLastname() == null)
-                throw new ConfigurationException("3: An assessor cannot only have a firstname configuration. " +
-                        "Either also provide a lastname configuration or only use the name configuration.");
-            else if (assessor.getName() == null && assessor.getFirstname() == null)
-                throw new ConfigurationException("4: An assessor cannot only have a lastname configuration. " +
-                        "Either also provide a firstname configuration or only use the name configuration.");
+        if (inchesUsed && mmUsed)
+            WarningQueue.enqueue(new InconsistencyWarning("3: The style configuration uses both inches and " +
+                    "millimeters.", WarningSeverity.LOW));
 
-            if (assessor.getName() == null) {
-                if (assessor.getFirstname().isBlank() || assessor.getLastname().isBlank() ||
-                        assessor.getRole() != null && assessor.getRole().isBlank() ||
-                        assessor.getTitle() != null && assessor.getTitle().isBlank())
-                    throw new MissingMemberException("1: A text component cannot be blank.");
 
-                var newAssessor = new Assessor(assessor.getFirstname(), assessor.getLastname());
-                newAssessor.setTitle(assessor.getTitle());
-                newAssessor.setRole(assessor.getRole());
-                Processor.assessors[j] = newAssessor;
-            } else {
-                if (assessor.getName().isBlank() || assessor.getRole() != null && assessor.getRole().isBlank() ||
-                        assessor.getTitle() != null && assessor.getTitle().isBlank())
-                    throw new MissingMemberException("1: A text component cannot be blank.");
+        // After processing, start the creation process
+        logger.info("Successfully finished processing.");
+        DocumentCreator.create();
+    }
 
-                var newAssessor = new Assessor(assessor.getName());
-                newAssessor.setTitle(assessor.getTitle());
-                newAssessor.setRole(assessor.getRole());
-                Processor.assessors[j] = newAssessor;
-            }
-
-            for (int k = 0; k < j; k++) {
-                if (Processor.assessors[k].nameToString().equals(Processor.assessors[j].nameToString())) {
-                    WarningQueue.enqueue(new UnlikelinessWarning(
-                            "4: Two assessors have the same name, which seems unlikely. " +
-                                    "Check if that is correct. \n\tAssessor 1: " + Processor.assessors[k] +
-                                    ". \n\tAssessor 2: " + Processor.assessors[k],
-                            WarningSeverity.CRITICAL));
-                }
-            }
-
-            j++;
-        }
-
-        // Publication
-        var publication = ast.getConfiguration().getPublication();
-
-        // Check if the user demands to render the date
-        if (publication.getDate() != null) {
-            if (!publication.getDate().equals("None")) {
-                if (publication.getDate().length() != 10)
-                    throw new IncorrectFormatException("1: The specified date is not 'None' and does not adhere to " +
-                            "the British date format: 'dd/MM/yyyy' For example, June 3, 2023, is 03/06/2023. Date: " +
-                            publication.getDate());
-
-                for (int k = 0; k < 10; k++) {
-                    if (k == 2 || k == 5) {
-                        if (publication.getDate().charAt(k) != '/') {
-                            throw new IncorrectFormatException("1: The specified date is not 'None' and does not" +
-                                    " adhere to the British date format: 'dd/MM/yyyy'" +
-                                    " For example, June 3, 2023, is 03/06/2023. Date: " + publication.getDate());
-                        }
-                    } else if (!Character.isDigit(publication.getDate().charAt(k))) {
-                        throw new IncorrectFormatException("1: The specified date is not 'None' and does" +
-                                " not adhere to the British date format: 'dd/MM/yyyy'" +
-                                " For example, June 3, 2023, is 03/06/2023. Date: " + publication.getDate());
-                    }
-                }
-
-                publicationDate = LocalDate.parse(publication.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            } else publicationDate = null;
-        } else publicationDate = LocalDate.now();
+    private static void processPublication(@NonNull final Publication publication) {
+        processPublicationDate(publication.getDate());
+        processPublicationSemester(publication.getSemester());
 
         publicationTitle = publication.getTitle();
         publicationInstitution = publication.getInstitution();
@@ -331,33 +267,86 @@ public class Processor {
         if (publication.getChair() != null && publicationInstitution == null)
             throw new MissingMemberException("8: Cannot use a publication chair if no publication institution is defined.");
         else publicationChair = publication.getChair();
+    }
 
-        if (publication.getSemester() != null) {
-            publicationSemester = publication.getSemester();
+    private static void processPublicationSemester(String semester) {
+        if (semester == null) return;
+        var nonStandardSemester = (!semester.startsWith("WS ") && !semester.startsWith("SS ")) ||
+                publicationSemester.length() != 7 ||
+                !Character.isDigit(semester.charAt(3)) ||
+                !Character.isDigit(semester.charAt(4)) ||
+                !Character.isDigit(semester.charAt(5)) ||
+                !Character.isDigit(semester.charAt(6));
 
-            var nonStandardSemester = (!publicationSemester.startsWith("WS ") && !publicationSemester.startsWith("SS ")) ||
-                    publicationSemester.length() != 7 ||
-                    !Character.isDigit(publicationSemester.charAt(3)) ||
-                    !Character.isDigit(publicationSemester.charAt(4)) ||
-                    !Character.isDigit(publicationSemester.charAt(5)) ||
-                    !Character.isDigit(publicationSemester.charAt(6));
+        if (nonStandardSemester)
+            WarningQueue.enqueue(new SelfCheckWarning("2: The semester format used appears to deviate " +
+                    "from the standard \"WS XXXX\" or \"SS XXXX\" where XXXX is the year. While this may not be " +
+                    "an issue in your specific context or country, please self-check the format to ensure it" +
+                    " aligns with your intended representation.", WarningSeverity.LOW));
 
-            if (nonStandardSemester)
-                WarningQueue.enqueue(new SelfCheckWarning("2: The semester format used appears to deviate " +
-                        "from the standard \"WS XXXX\" or \"SS XXXX\" where XXXX is the year. While this may not be " +
-                        "an issue in your specific context or country, please self-check the format to ensure it" +
-                        " aligns with your intended representation.", WarningSeverity.LOW));
+        publicationSemester = semester;
+    }
+
+    private static void processPublicationDate(String date) {
+        if (date == null) {
+            publicationDate = LocalDate.now();
+            return;
+        } else if (date.equals("None")) {
+            publicationDate = null;
+            return;
+        } else if (date.length() != 10)
+            throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_1 + date);
+
+        for (int k = 0; k < 10; k++) {
+            if (k == 2 || k == 5) {
+                if (date.charAt(k) != '/')
+                    throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_1 + date);
+            } else if (!Character.isDigit(date.charAt(k))) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_1 + date);
+            }
         }
 
-        if (inchesUsed && mmUsed) WarningQueue.enqueue(new InconsistencyWarning(
-                "3: The style configuration uses both inches and millimeters.",
-                WarningSeverity.LOW));
+        publicationDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 
-        // For debugging purposes
-        logger.info("Finished processing.");
+    private static void processDocumentAssessors(ArrayList<frontend.ast.config.person.Assessor> assessorsList) {
+        Processor.assessors = new Assessor[assessorsList.size()];
+        for (int i = 0; i < assessorsList.size(); i++) {
+            processAssessor(assessorsList.get(i), i);
 
-        // Start the creation process
-        DocumentCreator.create();
+            for (int j = 0; j < i; j++) {
+                if (Processor.assessors[j].nameToString().equals(Processor.assessors[i].nameToString())) {
+                    WarningQueue.enqueue(new UnlikelinessWarning(
+                            "4: Two assessors have the same name, which seems unlikely. " +
+                                    "Check if that is correct. \n\tAssessor 1: " + Processor.assessors[j] +
+                                    ". \n\tAssessor 2: " + Processor.assessors[j],
+                            WarningSeverity.CRITICAL));
+                }
+            }
+        }
+    }
+
+    private static void processAssessor(frontend.ast.config.person.Assessor assessor, int assessorIndex) {
+        if (assessor.getName() == null) {
+            if (assessor.getFirstname().isBlank() || assessor.getLastname().isBlank() ||
+                    assessor.getRole() != null && assessor.getRole().isBlank() ||
+                    assessor.getTitle() != null && assessor.getTitle().isBlank())
+                throw new MissingMemberException("1: A text component cannot be blank.");
+
+            var newAssessor = new Assessor(assessor.getFirstname(), assessor.getLastname());
+            newAssessor.setTitle(assessor.getTitle());
+            newAssessor.setRole(assessor.getRole());
+            Processor.assessors[assessorIndex] = newAssessor;
+        } else {
+            if (assessor.getName().isBlank() || assessor.getRole() != null && assessor.getRole().isBlank() ||
+                    assessor.getTitle() != null && assessor.getTitle().isBlank())
+                throw new MissingMemberException("1: A text component cannot be blank.");
+
+            var newAssessor = new Assessor(assessor.getName());
+            newAssessor.setTitle(assessor.getTitle());
+            newAssessor.setRole(assessor.getRole());
+            Processor.assessors[assessorIndex] = newAssessor;
+        }
     }
 
     private static void processDocumentAuthors(ArrayList<frontend.ast.config.person.Author> authors) {
@@ -672,67 +661,26 @@ public class Processor {
         if (height < 0)
             throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
         else if (height < 500)
-            WarningQueue.enqueue(new UnlikelinessWarning(UnlikelinessWarning.ERR_MSG_5,WarningSeverity.HIGH));
+            WarningQueue.enqueue(new UnlikelinessWarning(UnlikelinessWarning.ERR_MSG_5, WarningSeverity.HIGH));
 
         return height;
     }
 
-    private static void processBibliography(AST ast) {
+    private static void processBibliography(final LinkedList<frontend.ast.bibliography.BibliographySource> entries) {
         isProcessingBibliography = true;
-        final var entries = ast.getBibliographySources();
+
         entries.forEach(entry -> {
             entry.checkForWarnings();
 
             if (bibliographyEntries.containsKey(entry.getId()))
                 throw new ContentException("3: Bibliography entry with ID '" + entry.getId() + "' already exists.");
-
-            var newEntry = new BibliographySource();
-            if (entry.getType() != null) {
-                if (entry.getType().equals("Book")) {
-                    newEntry = new Book();
-
-                    if (entry.getPublication().getName() != null || entry.getPublication().getYear() != null) {
-                        final var year = entry.getPublication().getYear();
-                        if (year != null) ((Book) newEntry).setPublicationYear(year.trim());
-
-                        final var name = entry.getPublication().getName();
-                        if (name != null) ((Book) newEntry).setPublicationName(name.trim());
-                    } else {
-                        WarningQueue.enqueue(new SelfCheckWarning(
-                                "3: The bibliography entry with the ID '" + entry.getId() +
-                                        "' does not have a publication name or year.", WarningSeverity.CRITICAL));
-                    }
-                } else {
-                    WarningQueue.enqueue(new MissingMemberWarning(
-                            "2: The bibliography entry type '" + entry.getType() + "' is not supported.",
-                            WarningSeverity.HIGH));
-                }
-
-            } else {
+            else if (entry.getType() == null)
                 WarningQueue.enqueue(new MissingMemberWarning("3: The bibliography entry with the ID '" +
                         entry.getId() + "' does not have a type.", WarningSeverity.CRITICAL));
-            }
 
-            newEntry.setId(entry.getId());
-            newEntry.setTitle(entry.getTitle().trim());
-            newEntry.setAuthors(entry
-                    .getAuthors()
-                    .getAuthorList()
-                    .stream()
-                    .map(author -> {
-                        final Author newAuthor;
-                        if (author.getFirstname() == null) newAuthor = new Author(author.getName().trim());
-                        else newAuthor = new Author(author.getFirstname().trim(), author.getLastname().trim());
-
-                        if (author.getTitle() != null) newAuthor.setTitle(author.getTitle().trim());
-
-                        return newAuthor;
-                    })
-                    .toArray(Author[]::new)
-            );
-
-            bibliographyEntries.put(entry.getId(), newEntry);
+            bibliographyEntries.put(entry.getId(), BibliographySourceTable.lookup(entry));
         });
+
         isProcessingBibliography = false;
     }
 
@@ -789,7 +737,8 @@ public class Processor {
     /**
      * Converts a font configuration AST node into processable font data, or uses its alternative default font data
      * from the style guide.
-     * @param fontNode the AST node that contains the font configurations
+     *
+     * @param fontNode               the AST node that contains the font configurations
      * @param alternativeDefaultData the default values that should be used if there is no configuration given
      * @return the font data to be used during further processing steps
      */
