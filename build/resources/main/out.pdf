@@ -215,26 +215,26 @@ stream
 0 0 0 sc
 BT
 72 460.80011 Td
-/F3 11 Tf
+/F3 22 Tf
 0 0 0 sc
-/F4 11 Tf
+/F4 22 Tf
 0 0 0 sc
-/F3 11 Tf
+/F3 22 Tf
 0 0 0 sc
 (Introduction) Tj
-/F3 11 Tf
+/F3 22 Tf
 0 0 0 sc
 ( of) Tj
-/F3 11 Tf
+/F3 22 Tf
 0 0 0 sc
 ( characters) Tj
-/F3 11 Tf
+/F3 22 Tf
 0 0 0 sc
 ( in ) Tj
-/F4 11 Tf
+/F4 22 Tf
 0 0 0 sc
 (King) Tj
-/F4 11 Tf
+/F4 22 Tf
 0 0 0 sc
 ( Rat) Tj
 ET
@@ -243,14 +243,14 @@ endstream
 endobj
 19 0 obj
 <<
-/Length 6163
+/Length 5656
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 403.20013 Td
+72 379.20013 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
@@ -788,6 +788,48 @@ BT
 0 0 0 sc
 ( critically) Tj
 0 -28.8 Td
+ET
+
+endstream
+endobj
+23 0 obj
+<<
+/Length 167
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 36 Td
+/F1 12 Tf
+0 0 0 sc
+202.332 0 Td
+/F1 12 Tf
+0 0 0 sc
+(Gino) Tj
+/F1 12 Tf
+0 0 0 sc
+( Glink) Tj
+/F1 12 Tf
+0 0 0 sc
+( 2) Tj
+ET
+
+endstream
+endobj
+24 0 obj
+<<
+/Length 1732
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 691.20001 Td
+/F1 12 Tf
+0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
 (assessing) Tj
@@ -837,48 +879,6 @@ BT
 0 0 0 sc
 ( as) Tj
 0 -28.8 Td
-ET
-
-endstream
-endobj
-24 0 obj
-<<
-/Length 167
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 36 Td
-/F1 12 Tf
-0 0 0 sc
-202.332 0 Td
-/F1 12 Tf
-0 0 0 sc
-(Gino) Tj
-/F1 12 Tf
-0 0 0 sc
-( Glink) Tj
-/F1 12 Tf
-0 0 0 sc
-( 2) Tj
-ET
-
-endstream
-endobj
-25 0 obj
-<<
-/Length 1225
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 691.20001 Td
-/F1 12 Tf
-0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
 (well) Tj
@@ -990,7 +990,7 @@ ET
 
 endstream
 endobj
-26 0 obj
+25 0 obj
 <<
 /Length 8474
 >>
@@ -999,7 +999,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 604.80005 Td
+72 576.00006 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
@@ -1814,42 +1814,23 @@ ET
 
 endstream
 endobj
-27 0 obj
+26 0 obj
 <<
-/Length 106
+/Length 73
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 86.40018 Td
-/F3 11 Tf
-0 0 0 sc
-/F3 11 Tf
-0 0 0 sc
-(Analysis) Tj
-ET
-
-endstream
-endobj
-28 0 obj
-<<
-/Length 72
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 0.00017 Td
-/F4 18 Tf
+72 57.60017 Td
+/F3 22 Tf
 0 0 0 sc
 ET
 
 endstream
 endobj
-32 0 obj
+31 0 obj
 <<
 /Length 167
 >>
@@ -1875,6 +1856,25 @@ ET
 
 endstream
 endobj
+32 0 obj
+<<
+/Length 107
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 691.20001 Td
+/F2 22 Tf
+0 0 0 sc
+/F2 22 Tf
+0 0 0 sc
+(Analysis) Tj
+ET
+
+endstream
+endobj
 33 0 obj
 <<
 /Length 109
@@ -1884,10 +1884,10 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 691.20001 Td
-/F2 18 Tf
+72 580.80005 Td
+/F3 18 Tf
 0 0 0 sc
-/F2 18 Tf
+/F3 18 Tf
 0 0 0 sc
 (Characters) Tj
 ET
@@ -1903,7 +1903,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 619.20001 Td
+72 508.80005 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
@@ -1962,13 +1962,13 @@ stream
 0 0 0 sc
 BT
 72 691.20001 Td
-/F2 11 Tf
+/F2 22 Tf
 0 0 0 sc
-206.04349 0 Td
-/F2 11 Tf
+178.08701 0 Td
+/F2 22 Tf
 0 0 0 sc
 (Work) Tj
-/F2 11 Tf
+/F2 22 Tf
 0 0 0 sc
 ( Cited) Tj
 ET
@@ -1984,7 +1984,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 662.40002 Td
+72 638.40002 Td
 /F1 12 Tf
 0 0 0 sc
 /F3 12 Tf
@@ -2019,23 +2019,25 @@ endstream
 endobj
 42 0 obj
 <<
-/Length 485
+/Length 482
 /Type /ObjStm
 /N 19
 /Filter /FlateDecode
-/First 128
+/First 126
 >>
 stream
-xœ­TQoÓ0ş+ßÛV!jûœØ	š&­¨BªÊ$&Bk‹Î®Ø¿ç©¦*hÉçœï¾û|w1ABÃh ²(AEªjXhK¨P”5J]$ñ¦‚e¬å0Š7¨F-	ZBIUA+Fm KFÃv¥,Û-cmPğ>±ÓÉ‰¸¾ß:ˆEsë:ˆ¹_w¸Ñ¬jÙ§ €™zøqw!±àÓÓ?Ã!>¸µofñ'nä”ƒù1ŠømëşÍ¡K×Å]»âLÅÀÆ\!¹8§ÊÙ”Ê@²•½U– L›¡ÊPÿ–·hZfD&È/9Ê}ƒB&—\Å‡òaU ŞsÎ'8ÄÇİ—4|öF1k:—w®ıë^/ã] Ş†U\ûpñÉ‡³ĞùGÃxÊ÷©ÙøÕËrÎâfıòŒã”ROg†ò\Pn-å–Rî'U‡‚hÌDşÏ‘SëÑ5ÑòiMt>•Îruq¨
-Z=W…œx¼>ó—¾\Rÿ°BÔgŸÓW=vißå¼uMŠ-~»Å÷©šÊ	ÄÙ.}íW>D\m|øÆÆÁÕÇpÑ$‡ã‹7$‰/M%‰dAú•TGRMú>¦;¼sÉµ1Å­o:ø€yß½e“ØcîîÄ–¯Î!ë¤—ò
+xœ­TÑnÓ@ü•yk#D|»çø|¨ªÔ´´ 
+)
+•x¨x0É©œHï"ûôïYûBŠPôÁózwvv=2CA£Ò(Ál0—%*pma £F9©`1Ñ5X¡byI0¥•|˜Ê@ªjÅRËRnaK­`…€TEĞˆLO(h'(	Ä’srRÜ<¬ŠYsç:×~ÙáV‹¦yßl 3€0õğÅyÜ„$rOO-GñÎ-}3ßq«ÆR,WE,wcû»”Î]7íB:•›p…äB’”»eàY	ålÊ¨ÊuQÁş”7kZaD&È/¥&»B&).e‡Û“F½=•°;ÉyÂ£x¿ù”†Ç>H(¦Mçò›ïº—óxß¯Ã".}¸CñÁ‡³ĞùÇÀá”oS³ò‹çåœÆÕòùSz°e˜z†·FÍöàü…¹Úçæ¿µÂÿé­ŸêÕyûë¬^—{õÚ?é­õjõ=Ä
+¯@W¿­ KÖy¤Rí›]›ı³ï¦œ·®I±ÅñÌ¯×ø:¦±¡8Û¤Ï}ğÊ‡ˆ«•_$8¤ú.šäp|ñŠ“Ò¤˜IkóBÑ‘RG£~Oi%	o\rmLqí›>àºßÎ¼I’qí¾ÅVşœC×Q/åäz9
 endstream
 endobj
 43 0 obj
 <<
-/Length 132
+/Length 133
 /Root 1 0 R
 /Info 41 0 R
-/ID [<B7DC7F4F0E000B2B8ED7A8711F015C46> <B7DC7F4F0E000B2B8ED7A8711F015C46>]
+/ID [<26E0E5F68FF67E2BF5E795DFA8DD8DA9> <26E0E5F68FF67E2BF5E795DFA8DD8DA9>]
 /Type /XRef
 /Size 44
 /Index [0 43]
@@ -2043,9 +2045,10 @@ endobj
 /Filter /FlateDecode
 >>
 stream
-xœÌ=a „áwöÇ®ßE£%ÇPX–M\Â%$J…ÄAtN¢Vi4î `¾âi&3üDAÄ<E[b©5,5ÒÂ>(z ø‚’%J§öEÙå‡ğ‘[ÓZÖÖø&W4³Õ•§ĞéX×z*½]?ÑæòÂú6PuCÛ3ÚíC>TıæÔ ª
+xœÌ;a EásçaÆsĞè($
+V VxO£UÛ…^$ÛPÛ†(t{PpÿâkîI.ğã@Yl‰¥V±L”Hû èâ3Jf(Úe=”ÂGnU«©Gƒ+]ĞüZİÖ´–{´œÚ­¡Ö¶Ö7´9¡í.ì]•oş´7Ù
 endstream
 endobj
 startxref
-20786
+20785
 %%EOF

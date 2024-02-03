@@ -1613,15 +1613,15 @@ public class Parser {
         listSeparator();
 
         consume(new Token(TokenType.TEXT, null));
-        citation.setCitedContent(last.value);
+        citation.setNumeration(last.value);
 
         if (current.type == TokenType.LIST_SEPARATOR) {
             listSeparator();
             textual();
-            citation.setNumeration(last.value);
+            citation.setCitedContent(last.value);
         } else if (current.type == TokenType.NEW_LINE) {
             newline();
-        }
+        } else error();
 
         currentParagraph.enqueueParagraphInstruction(citation);
     }

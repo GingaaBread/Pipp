@@ -238,10 +238,13 @@ public class MLA9 extends StyleGuide {
     @Override
     public Text[] formatCitation(BibliographySource referenceSource, String content, String numeration) {
         final var citationBuilder = new StringBuilder();
-        citationBuilder.append("\"");
-        citationBuilder.append(content);
-        citationBuilder.append("\"");
-        citationBuilder.append(" ");
+
+        if (content != null) {
+            citationBuilder.append("\"");
+            citationBuilder.append(content);
+            citationBuilder.append("\"");
+            citationBuilder.append(" ");
+        }
 
         citationBuilder.append("(");
         if (referenceSource.getAuthors().length > 0) {

@@ -728,12 +728,14 @@ public class Processor {
     public static Text[] processCitation(@NonNull final Citation citation) {
         final var source = citation.getSource().trim();
         final var referenceSource = bibliographyEntries.get(source);
-
         if (referenceSource == null)
             throw new ContentException("4: Bibliography entry with ID '" + source + "' does not exist.");
 
-        final var content = citation.getCitedContent().trim();
-        final var numeration = citation.getNumeration().trim();
+        var content = citation.getCitedContent();
+        if (content != null) content = content.trim();
+
+        var numeration = citation.getNumeration();
+        if (numeration != null) numeration = numeration.trim();
 
         // Mark the source as cited
         referenceSource.setHasBeenCited(true);
