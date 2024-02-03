@@ -1,4 +1,4 @@
-package processing;
+package processing.constant;
 
 /**
  * The AllowanceType enumeration allows expanding the traditional boolean logic to also include an

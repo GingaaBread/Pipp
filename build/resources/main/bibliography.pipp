@@ -4,7 +4,7 @@ bibliography
 		title "Harry Potter and the Philosopher's Stone"
 		author "J.K. Rowling"
 	id "HG"
-		type "Books"
+		type "Book"
 		author "Susan Collins"
 		title "The Hunger Games"
 		publication

@@ -20,7 +20,7 @@ import frontend.lexical_analysis.Token;
 import frontend.lexical_analysis.TokenType;
 import lombok.NonNull;
 import processing.Processor;
-import processing.StructureType;
+import processing.constant.StructureType;
 
 import java.util.function.Consumer;
 

@@ -180,6 +180,35 @@ bibliography
 		author "John Doe"
 ```
 
+## 24
+
+*Severity:*
+Low
+
+*Description:*
+The level of the chapter with the text '[Name]' has no defined font data in the used style guide.
+
+*Cause:*
+This warning occurs when the chapter level of a chapter is too deep as it no longer has a supported font, font size,
+or font colour in the used style guide. Pipp will use the font data of the deepest chapter level available in the
+style guide, but you might want to consider reducing the chapter depth if the depth is not supported by the style guide.
+
+*To do:*
+Reduce the chapter depth until the style guide supports its depth, or leave it with the consequence of using the
+font data of the deepest supported chapter level.
+
+*Example:*
+
+```pipp
+chapter "1"
+	chapter "1.1"
+		chapter "1.1.1"
+			chapter "1.1.1.1"
+				chapter "1.1.1.1.1"
+					chapter "1.1.1.1.1.1"
+						chapter "1.1.1.1.1.1.1"
+```
+
 # 3. Unlikeliness
 
 ## 31

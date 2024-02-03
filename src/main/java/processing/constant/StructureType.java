@@ -1,4 +1,4 @@
-package processing;
+package processing.constant;
 
 /**
  * The StructureType enumeration declares all structural keywords that can be used in Pipp.

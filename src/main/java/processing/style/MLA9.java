@@ -7,11 +7,12 @@ import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
-import processing.AllowanceType;
 import processing.FontData;
 import processing.Processor;
 import processing.bibliography.BibliographySource;
 import processing.bibliography.Book;
+import processing.constant.AllowanceType;
+import processing.constant.ChapterSpacingType;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -137,6 +138,16 @@ public class MLA9 extends StyleGuide {
                 new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 14, Color.BLACK),
                 new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 12, Color.BLACK)
         };
+    }
+
+    @Override
+    public ContentAlignment chapterAlignment() {
+        return ContentAlignment.LEFT;
+    }
+
+    @Override
+    public ChapterSpacingType chapterSpacingType() {
+        return ChapterSpacingType.LEADING_AND_EMPTY_LINE_BEFORE_AND_AFTER;
     }
 
 

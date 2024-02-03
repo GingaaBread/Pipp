@@ -4,9 +4,10 @@ import creation.content.ContentAlignment;
 import creation.content.text.Text;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import processing.AllowanceType;
 import processing.FontData;
 import processing.bibliography.BibliographySource;
+import processing.constant.AllowanceType;
+import processing.constant.ChapterSpacingType;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -110,6 +111,11 @@ public abstract class StyleGuide {
 
     public abstract FontData[] chapterEmphasisFontData();
 
+    //// CHAPTER ////
+
+    public abstract ContentAlignment chapterAlignment();
+
+    public abstract ChapterSpacingType chapterSpacingType();
 
     //// PARAGRAPH ////
 

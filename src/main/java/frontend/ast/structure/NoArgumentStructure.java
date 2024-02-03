@@ -1,7 +1,7 @@
 package frontend.ast.structure;
 
-import creation.stamp.HeaderStamp;
 import creation.page.PageCreator;
+import creation.stamp.HeaderStamp;
 import creation.stamp.TitleStamp;
 import error.PippException;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import processing.Processor;
-import processing.StructureType;
+import processing.constant.StructureType;
 
 /**
  * The no argument structure node contains a structure, which receives no arguments.

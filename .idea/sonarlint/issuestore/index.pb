@@ -453,3 +453,11 @@ a
 0src/main/java/creation/stamp/ParagraphStamp.java,d\7\d77282dd1aea0ad3d651d2ffc07e3522ad778173
 \
 ,src/main/java/creation/page/PageCreator.java,8\3\83b4117e7e2b03329fdf2bfc181b66dbcf2fb061
+i
+9src/main/java/processing/constant/ChapterLeadingType.java,2\b\2bd689fdad7679cec8b9dac6415eebd49962f2d1
+i
+9src/main/java/processing/constant/ChapterSpacingType.java,6\c\6c8f440edd4535891774ff9c355871d82fee6ab4
+d
+4src/main/java/processing/constant/AllowanceType.java,9\3\939935debad4522b6f6ae966e27273a847e584bb
+d
+4src/main/java/processing/constant/StructureType.java,e\3\e3480b49884ba563a67ba411573686bca9e748ed

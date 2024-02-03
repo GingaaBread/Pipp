@@ -1,5 +1,6 @@
 package processing;
 
+import creation.content.ContentAlignment;
 import creation.content.text.Text;
 import creation.document.DocumentCreator;
 import creation.page.PageAssembler;
@@ -22,6 +23,8 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import processing.bibliography.BibliographySource;
 import processing.bibliography.BibliographySourceTable;
+import processing.constant.AllowanceType;
+import processing.constant.ChapterSpacingType;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -82,7 +85,6 @@ public class Processor {
     private static FontData[] chapterWorkFontData;
     @Getter
     private static FontData[] chapterEmphasisFontData;
-
     /**
      * Determines how the names of the authors should be inserted before the page number.
      * If there should not be a name before the page number, this value is null.
@@ -148,29 +150,25 @@ public class Processor {
      */
     @Getter
     private static Title documentTitle;
-
-
-    //// SENTENCES ////
     /**
      * Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      * indented to
      */
     @Getter
     private static float paragraphIndentation;
+
+
+    //// SENTENCES ////
     /**
      * Determines if the user is allowed to use italic text in a sentence
      */
     @Getter
     private static AllowanceType allowEmphasis;
-
     /**
      * Yields true if the bibliography file is being processed and false if the document file is being processed
      */
     @Getter
     private static boolean isProcessingBibliography;
-
-
-    //// AUTHORS & ASSESSORS ////
     /**
      * Determines the authors that have worked on the document.
      * Note that this only includes the authors of the working document, it does not include authors that
@@ -178,6 +176,9 @@ public class Processor {
      */
     @Getter
     private static Author[] authors;
+
+
+    //// AUTHORS & ASSESSORS ////
     /**
      * Determines the assessors that may assess the document
      */
@@ -216,9 +217,12 @@ public class Processor {
      */
     @Getter
     private static String publicationSemester;
-
     private static boolean inchesUsed;
     private static boolean mmUsed;
+    @Getter
+    private static ContentAlignment chapterAlignment;
+    @Getter
+    private static ChapterSpacingType chapterSpacingType;
 
     /**
      * Prevents instantiation
@@ -258,7 +262,10 @@ public class Processor {
                     "millimeters.", WarningSeverity.LOW));
 
 
-        // After processing, start the creation process
+        System.out.println(chapterSpacingType);
+        System.out.println(chapterAlignment);
+
+//         After processing, start the creation process
         logger.info("Successfully finished processing.");
         DocumentCreator.create();
     }
@@ -407,10 +414,31 @@ public class Processor {
         processStructures(styleConfiguration.getStructure());
     }
 
-    private static void processStructures(Structure structure) {
+    private static void processStructures(final Structure structure) {
         processFonts(structure);
         processEmphasisAllowance(structure.getEmphasis().getAllowEmphasis());
         processParagraphIndentation(structure.getParagraph().getIndentation());
+        processChapters(structure.getChapters());
+    }
+
+    private static void processChapters(final Chapters chapters) {
+        if (chapters.getChapterAlignment() != null) {
+            try {
+                final var specifiedAlignment = chapters.getChapterAlignment().trim().toUpperCase();
+                chapterAlignment = ContentAlignment.valueOf(specifiedAlignment);
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_6);
+            }
+        } else chapterAlignment = usedStyleGuide.chapterAlignment();
+
+        if (chapters.getLineSpacing() != null) {
+            try {
+                final var specifiedSpacingType = chapters.getLineSpacing().trim().toUpperCase();
+                chapterSpacingType = ChapterSpacingType.valueOf(specifiedSpacingType);
+            } catch (IllegalArgumentException e) {
+                throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_6);
+            }
+        } else chapterSpacingType = usedStyleGuide.chapterSpacingType();
     }
 
     private static void processParagraphIndentation(String indentation) {
