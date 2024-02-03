@@ -1,6 +1,6 @@
 package frontend.ast.paragraph;
 
-import creation.Text;
+import creation.content.text.Text;
 import frontend.ast.Node;
 
 /**

@@ -1,6 +1,6 @@
 package frontend.ast.paragraph;
 
-import creation.ParagraphStamp;
+import creation.stamp.ParagraphStamp;
 import frontend.ast.structure.BodyNode;
 import frontend.ast.Node;
 import lombok.NonNull;

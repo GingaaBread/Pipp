@@ -1,8 +1,8 @@
 package frontend.ast.structure;
 
-import creation.HeaderStamp;
-import creation.PageCreator;
-import creation.TitleStamp;
+import creation.stamp.HeaderStamp;
+import creation.page.PageCreator;
+import creation.stamp.TitleStamp;
 import error.PippException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

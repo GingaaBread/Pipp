@@ -5,7 +5,7 @@ config
 	title "Heterotopias in King Rat"
 	publication
 #		Seminar / Kurs / Publikation / etc.
-		title "British Urban Fantasy"
+		title "British Urban Fantasy"a
 #		Wir können "date" auslassen, um das aktuelle Datum zu wählen
 		date "10/03/2021"
 	author "Gino Glink"

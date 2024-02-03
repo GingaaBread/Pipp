@@ -924,3 +924,23 @@ citation "My IDD", "XYZ"
 
 *Fix:*
 Change the ID to be the correct ID of the desired bibliography source.
+
+### 3345
+
+*Description:*
+Chapter '[Name]' is one or more chapter levels too deep.
+
+*Cause*:
+This error occurs when using a chapter with a level that would exceed the current chapter level by two or more.
+For example, after a chapter "1" may follow a subchapter "1.1", but not a sub-subchapter "1.1.1" or sub-sub-subchapter
+"1.1.1.1".
+
+*Example:*
+
+```pipp
+chapter "Introduction"
+				chapter "Too deep"
+```
+
+*Fix:*
+Change the chapter level by reducing indentation until its level is one higher than the current chapter level or less.

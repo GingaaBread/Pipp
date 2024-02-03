@@ -46,7 +46,7 @@ public class Text extends ParagraphInstruction {
      * @return the text node as a text component ready to be rendered
      */
     @Override
-    public creation.Text[] toTextComponent() {
-        return new creation.Text[]{new creation.Text(content, Processor.getSentenceFontData())};
+    public creation.content.text.Text[] toTextComponent() {
+        return new creation.content.text.Text[]{new creation.content.text.Text(content, Processor.getSentenceFontData())};
     }
 }

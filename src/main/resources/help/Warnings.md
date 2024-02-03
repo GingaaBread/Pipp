@@ -467,3 +467,25 @@ bibliography
 		title "XYZ"
 		author "John Doe"
 ```
+
+### 46
+
+*Severity:*
+Critical
+
+*Description:*
+The chapter '[Name]' is the only chapter instance of its level.
+
+*Cause:*
+This warning occurs when defining a single subchapter or basic chapter. Note that if there is only a single chapter
+instance or subchapter instance, it must usually be removed and have its content moved to the parent chapter.
+
+*To do:*
+Decide if you want to create another chapter of the same level, or if you want to remove the single chapter instance.
+It is NOT recommended, however, to keep the single instance.
+
+*Example:*
+
+```pipp
+chapter "Only chapter"
+```

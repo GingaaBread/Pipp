@@ -37,7 +37,7 @@ public class TitleText extends Node {
     /**
      * Creates a new TitleText, which is used as emphasis
      *
-     * @param emphasis - the emphasis specified by the user
+     * @param emphasis the emphasis specified by the user
      */
     public TitleText(@NonNull final Emphasis emphasis) {
         this.emphasis = emphasis;
@@ -46,7 +46,7 @@ public class TitleText extends Node {
     /**
      * Creates a new CitedText, which is used as a text
      *
-     * @param text - the textual content specified by the user
+     * @param text the textual content specified by the user
      */
     public TitleText(@NonNull final String text) {
         this.text = text;
@@ -55,7 +55,7 @@ public class TitleText extends Node {
     /**
      * Creates a new TitleText, which is used as a work emphasis
      *
-     * @param work - the work emphasis specified by the user
+     * @param work the work emphasis specified by the user
      */
     public TitleText(@NonNull final Work work) {
         this.work = work;

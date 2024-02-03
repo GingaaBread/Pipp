@@ -26,6 +26,7 @@ public class Scanner {
             "blank",
             "bold",
             "chapter",
+            "chapters",
             "chair",
             "citation",
             "config",

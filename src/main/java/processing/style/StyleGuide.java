@@ -1,7 +1,7 @@
 package processing.style;
 
-import creation.ContentAlignment;
-import creation.Text;
+import creation.content.ContentAlignment;
+import creation.content.text.Text;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import processing.AllowanceType;
@@ -104,7 +104,11 @@ public abstract class StyleGuide {
 
     public abstract FontData emphasisFontData();
 
-    public abstract FontData[] chapterFontData();
+    public abstract FontData[] chapterSentenceFontData();
+
+    public abstract FontData[] chapterWorkFontData();
+
+    public abstract FontData[] chapterEmphasisFontData();
 
 
     //// PARAGRAPH ////

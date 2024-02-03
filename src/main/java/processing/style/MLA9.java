@@ -1,7 +1,7 @@
 package processing.style;
 
-import creation.ContentAlignment;
-import creation.Text;
+import creation.content.ContentAlignment;
+import creation.content.text.Text;
 import lombok.NonNull;
 import lombok.Setter;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -110,12 +110,32 @@ public class MLA9 extends StyleGuide {
      * bold Times New Roman in black in 12 points for level 4 chapters,
      */
     @Override
-    public FontData[] chapterFontData() {
+    public FontData[] chapterSentenceFontData() {
         return new FontData[]{
                 new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 22, Color.BLACK),
                 new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 18, Color.BLACK),
                 new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 14, Color.BLACK),
                 new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD), 12, Color.BLACK)
+        };
+    }
+
+    @Override
+    public FontData[] chapterWorkFontData() {
+        return new FontData[]{
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 22, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 18, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 14, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 12, Color.BLACK)
+        };
+    }
+
+    @Override
+    public FontData[] chapterEmphasisFontData() {
+        return new FontData[]{
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 22, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 18, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 14, Color.BLACK),
+                new FontData(new PDType1Font(Standard14Fonts.FontName.TIMES_BOLD_ITALIC), 12, Color.BLACK)
         };
     }
 

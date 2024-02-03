@@ -1,6 +1,6 @@
 package frontend.ast.config.style;
 
-import creation.Text;
+import creation.content.text.Text;
 import error.MissingMemberException;
 import frontend.ast.paragraph.ParagraphInstruction;
 import lombok.Getter;

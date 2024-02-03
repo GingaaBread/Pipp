@@ -1,8 +1,8 @@
 package processing;
 
-import creation.DocumentCreator;
-import creation.PageAssembler;
-import creation.Text;
+import creation.content.text.Text;
+import creation.document.DocumentCreator;
+import creation.page.PageAssembler;
 import error.ConfigurationException;
 import error.ContentException;
 import error.IncorrectFormatException;
@@ -77,7 +77,11 @@ public class Processor {
     @Getter
     private static FontData emphasisFontData;
     @Getter
-    private static FontData[] chapterFontData;
+    private static FontData[] chapterSentenceFontData;
+    @Getter
+    private static FontData[] chapterWorkFontData;
+    @Getter
+    private static FontData[] chapterEmphasisFontData;
 
     /**
      * Determines how the names of the authors should be inserted before the page number.
@@ -233,7 +237,9 @@ public class Processor {
      * @param ast - the abstract syntax tree produced by the {@link frontend.parsing.Parser}
      */
     public static void processAST(@NonNull final AST ast) {
-        final var logger = Logger.getLogger(AST.class.getName());
+        final var logger = Logger.getLogger(Processor.class.getName());
+        logger.info(ast.toString());
+
         processBibliography(ast.getBibliographySources());
         logger.info("Successfully processed the bibliography");
 
@@ -713,21 +719,28 @@ public class Processor {
         emphasisFontData = fontNodeToData(structure.getEmphasis().getFont(), usedStyleGuide.emphasisFontData());
 
         // Initially use all default configurations and then replace the user defined ones
-        chapterFontData = usedStyleGuide.chapterFontData();
-        var configuredChapters = structure.getChapters();
-        for (final Chapter chapter : configuredChapters) {
+        chapterSentenceFontData = usedStyleGuide.chapterSentenceFontData();
+        chapterEmphasisFontData = usedStyleGuide.chapterEmphasisFontData();
+        chapterWorkFontData = usedStyleGuide.chapterWorkFontData();
+        for (final Chapter chapter : structure.getSingleChapters()) {
             final var level = chapter.getAffectedLevel();
             try {
                 final var asInt = Integer.parseInt(level);
 
                 if (asInt < 0)
                     throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
-                else if (asInt >= chapterFontData.length)
+                else if (asInt >= chapterSentenceFontData.length)
                     throw new ConfigurationException("11: The specified chapter depth exceeds the maximum allowed by" +
                             " the used style guide.");
 
-                chapterFontData[asInt] = fontNodeToData(chapter.getFont(), usedStyleGuide.chapterFontData()[asInt]);
+                chapterSentenceFontData[asInt] = fontNodeToData(chapter.getSentenceFont(),
+                        usedStyleGuide.chapterSentenceFontData()[asInt]);
 
+                chapterEmphasisFontData[asInt] = fontNodeToData(chapter.getEmphasisFont(),
+                        usedStyleGuide.chapterEmphasisFontData()[asInt]);
+
+                chapterWorkFontData[asInt] = fontNodeToData(chapter.getWorkFont(),
+                        usedStyleGuide.chapterWorkFontData()[asInt]);
             } catch (NumberFormatException e) {
                 throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_2);
             }

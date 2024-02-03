@@ -1,7 +1,7 @@
 package frontend.ast.structure;
 
-import creation.ContentAlignment;
-import creation.ImageRenderer;
+import creation.content.ContentAlignment;
+import creation.content.ImageRenderer;
 import error.IncorrectFormatException;
 import error.MissingMemberException;
 import lombok.Getter;

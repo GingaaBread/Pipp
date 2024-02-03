@@ -33,6 +33,11 @@ public class Structure extends Node {
     private final Sentence sentence = new Sentence();
 
     /**
+     * the chapters node contains information about all types of chapters, no matter the level.
+     */
+    private final Chapters chapters = new Chapters();
+
+    /**
      * This work structure node contains information about how work structures should be styled.
      */
     private final WorkStructure work = new WorkStructure();
@@ -45,7 +50,7 @@ public class Structure extends Node {
     /**
      * Contains all configured chapter levels
      */
-    private final List<Chapter> chapters = new LinkedList<>();
+    private final List<Chapter> singleChapters = new LinkedList<>();
 
     /**
      * The structure node does not produce warnings, but prompts the structure nodes to check for warnings
@@ -56,7 +61,8 @@ public class Structure extends Node {
         sentence.checkForWarnings();
         work.checkForWarnings();
         emphasis.checkForWarnings();
-        chapters.forEach(Chapter::checkForWarnings);
+        chapters.checkForWarnings();
+        singleChapters.forEach(Chapter::checkForWarnings);
     }
 
 }
