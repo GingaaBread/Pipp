@@ -75,10 +75,6 @@ Z
 .src/main/java/processing/style/StyleTable.java,2\e\2e1ebae0823d7d07dd6daad2790e325077608011
 G
 src/main/java/Main.java,e\4\e44a8606ce010ad9b89aafdfcee2ab49afbf6d10
-[
-+src/main/java/processing/StructureType.java,1\0\103fe397214c294829f9de3843f67959e7c5e170
-[
-+src/main/java/processing/AllowanceType.java,1\d\1d2cd151a772a431ecf280712105a612dbac012b
 S
 #src/main/java/frontend/ast/AST.java,a\1\a1931a25b48a0dda5dc2c73f18bbb276f9b07403
 _
@@ -236,8 +232,6 @@ _
 _
 /.idea/modules/org.example.TokensUebung.test.iml,7\a\7a3f4c27a1853d75f0d37b584e5bedf9a55ec62e
 w
-G.idea/sonarlint/issuestore/1/d/1d2cd151a772a431ecf280712105a612dbac012b,a\b\ab3dcd31f377b7f598db0725a3ac8c47231adcba
-w
 G.idea/sonarlint/issuestore/1/d/1d09414caecf329be068d422993dd4f8de7d4e9f,3\6\362dac6f0aaa027ba3a3892f8ca3e6f35c277bb7
 Å
 Q.idea/sonarlint/securityhotspotstore/5/9/59c49e443da684e0ad9ffd6b63e1ebba71ab1b72,1\6\1622603e154349d1dca8d138c4320a0caf07a549
@@ -300,8 +294,6 @@ G.idea/sonarlint/issuestore/8/3/83eda070b8dfc4aee06c287b891ec745a2633f6a,d\0\d0
 w
 G.idea/sonarlint/issuestore/8/4/84c892244e78dd3456d2d9154dc24a114661edda,7\6\7632b5dbac337ad28942b1141f8ad92011197f2d
 w
-G.idea/sonarlint/issuestore/1/0/103fe397214c294829f9de3843f67959e7c5e170,6\f\6faa78b6c81ba04f087fed375b0e799c87c9bb5a
-w
 G.idea/sonarlint/issuestore/8/4/846ca1d08d0b9d646bdf948bd7eb2c9451612e7f,4\e\4e4ca16da881591877d2b717dc8026d23c3182e8
 Å
 Q.idea/sonarlint/securityhotspotstore/8/2/8235ee7415982a2b62c7d1ebe60268c6b618fdf2,9\7\9713e306b32a0c75b03f35c6e7b52024e7f0f3e0
@@ -336,8 +328,6 @@ G.idea/sonarlint/issuestore/2/e/2e1ebae0823d7d07dd6daad2790e325077608011,4\4\44
 w
 G.idea/sonarlint/issuestore/9/2/9262e74500c80977c1734349de3c5fd0b73b3837,9\7\979f16179848e17243e496c18e395f1072d13c39
 Å
-Q.idea/sonarlint/securityhotspotstore/1/0/103fe397214c294829f9de3843f67959e7c5e170,1\7\175c6af3f75abb313d00a3ac0d4b93c1be7a2419
-Å
 Q.idea/sonarlint/securityhotspotstore/1/4/147b6316a6a13a9f50c8f32520050078560618e3,9\7\9709df29b3f9cd7d86dcde4636352dd764e68a15
 w
 G.idea/sonarlint/issuestore/9/5/9503804238d7f7d8207f833c0b56cdb32aa65d4f,a\9\a9f3fd9b63a61ec438ecdfdcd13ba46378b99eaf
@@ -363,8 +353,6 @@ w
 G.idea/sonarlint/issuestore/3/0/30e2cf48b38d2f4b14dc6fbca83e235576d18b7c,1\b\1b31817274a7459f5c954ba5809081eb2ef1aa86
 Å
 Q.idea/sonarlint/securityhotspotstore/1/d/1d09414caecf329be068d422993dd4f8de7d4e9f,a\2\a2992de27027a7f225f13ff1b4e0571a918bde7a
-Å
-Q.idea/sonarlint/securityhotspotstore/1/d/1d2cd151a772a431ecf280712105a612dbac012b,4\4\44d2db807044c061097f396c7a927ce87f4f7398
 k
 ;src/main/java/frontend/lexical_analysis/DebugTokenInfo.java,3\5\35440872c992b32ee8454df7b2f9c22065b63a5f
 u
@@ -453,8 +441,6 @@ a
 0src/main/java/creation/stamp/ParagraphStamp.java,d\7\d77282dd1aea0ad3d651d2ffc07e3522ad778173
 \
 ,src/main/java/creation/page/PageCreator.java,8\3\83b4117e7e2b03329fdf2bfc181b66dbcf2fb061
-i
-9src/main/java/processing/constant/ChapterLeadingType.java,2\b\2bd689fdad7679cec8b9dac6415eebd49962f2d1
 i
 9src/main/java/processing/constant/ChapterSpacingType.java,6\c\6c8f440edd4535891774ff9c355871d82fee6ab4
 d

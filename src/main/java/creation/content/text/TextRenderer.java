@@ -121,13 +121,14 @@ public class TextRenderer {
 
             var hasIndentedFirstPart = false;
             var hasAlreadyIndented = false;
+            var hasRenderedText = false;
 
             // Contains the currently created lines
             final var textBuilder = new LinkedList<Text>();
             final var rest = new LinkedList<Text>();
 
-            for (int k = 0; k < textComponentsToRender.size(); k++) {
-                var textPart = textComponentsToRender.get(k);
+            for (int textComponentIndex = 0; textComponentIndex < textComponentsToRender.size(); textComponentIndex++) {
+                var textPart = textComponentsToRender.get(textComponentIndex);
                 final var textPartFont = textPart.getFont();
                 final var textPartFontColour = textPart.getFontColour();
                 final var textPartFontSize = textPart.getFontSize();
@@ -136,7 +137,7 @@ public class TextRenderer {
                     maxFontSizeOfCurrentLine = textPartFontSize;
 
                 // Indents the first part if necessary
-                if (firstIndentation != null && k == 0) {
+                if (firstIndentation != null && textComponentIndex == 0) {
                     contentStream.newLineAtOffset(firstIndentation, 0f);
                     maximumWidth -= firstIndentation;
                     hasIndentedFirstPart = true;
@@ -156,7 +157,7 @@ public class TextRenderer {
 
                 for (int j = 0; j < words.length; j++) {
                     String word = words[j];
-                    isLastWordOfNotLastTextPart = j == words.length - 1 && k != textComponentsToRender.size() - 1;
+                    isLastWordOfNotLastTextPart = j == words.length - 1 && textComponentIndex != textComponentsToRender.size() - 1;
 
                     // Calculate the width of the entire line with a space and the current word
                     final float wordWidth = textPartFont.getStringWidth(
@@ -205,6 +206,7 @@ public class TextRenderer {
                             var textToRender = text.getContent();
 
                             contentStream.showText(textToRender);
+                            hasRenderedText = true;
                         }
 
                         maximumWidth = availableWidth;
@@ -235,6 +237,7 @@ public class TextRenderer {
                                             textPartFontSize, textPartFontColour));
                                 } else {
                                     contentStream.showText(currentLine);
+                                    hasRenderedText = true;
                                     contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0,
                                             -leading());
 
@@ -249,6 +252,7 @@ public class TextRenderer {
                             }
 
                             contentStream.showText(currentLine);
+                            hasRenderedText = true;
                             contentStream.newLineAtOffset(0, -leading());
                         } else {
                             final var currentLeading = leading();
@@ -303,6 +307,7 @@ public class TextRenderer {
 
                     // Display the text component
                     contentStream.showText(text.getContent());
+                    hasRenderedText = true;
                 }
 
                 PageCreator.currentYPosition -= leading();
@@ -341,8 +346,10 @@ public class TextRenderer {
                     itemBuilder.setLength(0);
                 }
 
+                final var noIndentationWasApplied = !hasRenderedText && firstIndentation != null;
+
                 renderNoContentText(collectedRest, alignment, PageCreator.currentYPosition,
-                        hasAlreadyIndented ? null : firstIndentation);
+                        noIndentationWasApplied || !hasAlreadyIndented ? firstIndentation : null);
                 PageCreator.currentPageIsEmpty = false;
             }
         } catch (IOException e) {

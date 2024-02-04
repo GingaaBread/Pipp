@@ -1,8 +1,8 @@
 package creation.stamp;
 
 import creation.content.ContentAlignment;
-import creation.page.PageCreator;
 import creation.content.text.TextRenderer;
+import creation.page.PageCreator;
 import frontend.ast.paragraph.ParagraphInstruction;
 import lombok.NonNull;
 import processing.Processor;

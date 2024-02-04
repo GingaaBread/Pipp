@@ -261,11 +261,7 @@ public class Processor {
             WarningQueue.enqueue(new InconsistencyWarning("3: The style configuration uses both inches and " +
                     "millimeters.", WarningSeverity.LOW));
 
-
-        System.out.println(chapterSpacingType);
-        System.out.println(chapterAlignment);
-
-//         After processing, start the creation process
+        // After processing, start the creation process
         logger.info("Successfully finished processing.");
         DocumentCreator.create();
     }

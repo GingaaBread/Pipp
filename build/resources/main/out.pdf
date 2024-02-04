@@ -7,7 +7,7 @@
 /Pages 2 0 R
 >>
 endobj
-10 0 obj
+8 0 obj
 <<
 /Length 167
 >>
@@ -33,7 +33,7 @@ ET
 
 endstream
 endobj
-11 0 obj
+9 0 obj
 <<
 /Length 135
 >>
@@ -55,7 +55,7 @@ ET
 
 endstream
 endobj
-12 0 obj
+10 0 obj
 <<
 /Length 176
 >>
@@ -80,7 +80,7 @@ ET
 
 endstream
 endobj
-13 0 obj
+11 0 obj
 <<
 /Length 134
 >>
@@ -102,7 +102,7 @@ ET
 
 endstream
 endobj
-14 0 obj
+12 0 obj
 <<
 /Length 131
 >>
@@ -124,7 +124,7 @@ ET
 
 endstream
 endobj
-15 0 obj
+13 0 obj
 <<
 /Length 170
 >>
@@ -149,7 +149,7 @@ ET
 
 endstream
 endobj
-16 0 obj
+14 0 obj
 <<
 /Length 162
 >>
@@ -174,7 +174,7 @@ ET
 
 endstream
 endobj
-17 0 obj
+15 0 obj
 <<
 /Length 230
 >>
@@ -205,52 +205,16 @@ ET
 
 endstream
 endobj
-18 0 obj
+16 0 obj
 <<
-/Length 281
+/Length 7313
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 460.80011 Td
-/F3 22 Tf
-0 0 0 sc
-/F4 22 Tf
-0 0 0 sc
-/F3 22 Tf
-0 0 0 sc
-(Introduction) Tj
-/F3 22 Tf
-0 0 0 sc
-( of) Tj
-/F3 22 Tf
-0 0 0 sc
-( characters) Tj
-/F3 22 Tf
-0 0 0 sc
-( in ) Tj
-/F4 22 Tf
-0 0 0 sc
-(King) Tj
-/F4 22 Tf
-0 0 0 sc
-( Rat) Tj
-ET
-
-endstream
-endobj
-19 0 obj
-<<
-/Length 5656
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 379.20013 Td
+72 489.6001 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
@@ -788,48 +752,6 @@ BT
 0 0 0 sc
 ( critically) Tj
 0 -28.8 Td
-ET
-
-endstream
-endobj
-23 0 obj
-<<
-/Length 167
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 36 Td
-/F1 12 Tf
-0 0 0 sc
-202.332 0 Td
-/F1 12 Tf
-0 0 0 sc
-(Gino) Tj
-/F1 12 Tf
-0 0 0 sc
-( Glink) Tj
-/F1 12 Tf
-0 0 0 sc
-( 2) Tj
-ET
-
-endstream
-endobj
-24 0 obj
-<<
-/Length 1732
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 691.20001 Td
-/F1 12 Tf
-0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
 (assessing) Tj
@@ -990,17 +912,69 @@ ET
 
 endstream
 endobj
-25 0 obj
+17 0 obj
 <<
-/Length 8474
+/Length 176
 >>
 stream
 /F1 12 Tf
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 576.00006 Td
+72 57.60017 Td
 36 0 Td
+/F1 12 Tf
+0 0 0 sc
+/F1 12 Tf
+0 0 0 sc
+/F1 12 Tf
+0 0 0 sc
+/F2 12 Tf
+0 0 0 sc
+/F1 12 Tf
+0 0 0 sc
+/F1 12 Tf
+0 0 0 sc
+ET
+
+endstream
+endobj
+23 0 obj
+<<
+/Length 167
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 36 Td
+/F1 12 Tf
+0 0 0 sc
+202.332 0 Td
+/F1 12 Tf
+0 0 0 sc
+(Gino) Tj
+/F1 12 Tf
+0 0 0 sc
+( Glink) Tj
+/F1 12 Tf
+0 0 0 sc
+( 2) Tj
+ET
+
+endstream
+endobj
+24 0 obj
+<<
+/Length 8493
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 691.20001 Td
 /F1 12 Tf
 0 0 0 sc
 /F1 12 Tf
@@ -1057,13 +1031,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( China) Tj
--36 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-<4D69E976696C6C659273> Tj
+<204D69E976696C6C659273> Tj
+0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-( novel.) Tj
+(novel.) Tj
 /F1 12 Tf
 0 0 0 sc
 ( Before) Tj
@@ -1103,19 +1077,19 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( new) Tj
-0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(identity) Tj
+( identity) Tj
 /F1 12 Tf
 0 0 0 sc
 ( as) Tj
 /F1 12 Tf
 0 0 0 sc
 ( a) Tj
+0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-( rat) Tj
+(rat) Tj
 /F1 12 Tf
 0 0 0 sc
 ( and) Tj
@@ -1170,18 +1144,16 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( manoeuvre) Tj
-0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-/F1 12 Tf
-0 0 0 sc
-(around) Tj
+( around) Tj
 /F1 12 Tf
 0 0 0 sc
 ( the) Tj
+0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-( city) Tj
+(city) Tj
 /F1 12 Tf
 0 0 0 sc
 ( in) Tj
@@ -1196,10 +1168,16 @@ BT
 ( vertical) Tj
 /F1 12 Tf
 0 0 0 sc
-( movement ) Tj
+( movement) Tj
 /F1 12 Tf
 0 0 0 sc
-(King) Tj
+( \(Rowling) Tj
+/F1 12 Tf
+0 0 0 sc
+( 77\).) Tj
+/F1 12 Tf
+0 0 0 sc
+( King) Tj
 /F1 12 Tf
 0 0 0 sc
 ( Rat) Tj
@@ -1224,13 +1202,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( sewers,) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(transitioning) Tj
+(sewers,) Tj
+/F1 12 Tf
+0 0 0 sc
+( transitioning) Tj
 /F1 12 Tf
 0 0 0 sc
 ( into) Tj
@@ -1273,13 +1251,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( with) Tj
-/F1 12 Tf
-0 0 0 sc
-( two) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(other) Tj
+(two) Tj
+/F1 12 Tf
+0 0 0 sc
+( other) Tj
 /F1 12 Tf
 0 0 0 sc
 ( rats) Tj
@@ -1325,13 +1303,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( sewers.) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(When) Tj
+(sewers.) Tj
+/F1 12 Tf
+0 0 0 sc
+( When) Tj
 /F1 12 Tf
 0 0 0 sc
 ( Saul) Tj
@@ -1380,13 +1358,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( all) Tj
-/F1 12 Tf
-0 0 0 sc
-( respect) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(and) Tj
+(respect) Tj
+/F1 12 Tf
+0 0 0 sc
+( and) Tj
 /F1 12 Tf
 0 0 0 sc
 ( submissiveness) Tj
@@ -1426,13 +1404,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( scene) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(context) Tj
+(scene) Tj
+/F1 12 Tf
+0 0 0 sc
+( context) Tj
 /F1 12 Tf
 0 0 0 sc
 ( illuminated,) Tj
@@ -1469,9 +1447,6 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( concept) Tj
-/F1 12 Tf
-0 0 0 sc
-( coined) Tj
 0 -28.8 Td
 /F2 12 Tf
 0 0 0 sc
@@ -1479,7 +1454,10 @@ BT
 0 0 0 sc
 /F1 12 Tf
 0 0 0 sc
-(by) Tj
+(coined) Tj
+/F1 12 Tf
+0 0 0 sc
+( by) Tj
 /F1 12 Tf
 0 0 0 sc
 ( French) Tj
@@ -1519,13 +1497,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( the) Tj
-/F1 12 Tf
-0 0 0 sc
-( French) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(journal) Tj
+(French) Tj
+/F1 12 Tf
+0 0 0 sc
+( journal) Tj
 /F1 12 Tf
 0 0 0 sc
 <204172636869746563747572652D4D6F7576656D656E742D436F6E74696E756974E9> Tj
@@ -1556,15 +1534,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( a) Tj
-/F1 12 Tf
-0 0 0 sc
-( lecture) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
+(lecture) Tj
 /F1 12 Tf
 0 0 0 sc
-(given) Tj
+( given) Tj
 /F1 12 Tf
 0 0 0 sc
 ( by) Tj
@@ -1594,20 +1570,20 @@ BT
 ( heterotopias) Tj
 /F1 12 Tf
 0 0 0 sc
-( as ) Tj
+( as) Tj
 /F1 12 Tf
 0 0 0 sc
-("[...]) Tj
+( "[...]) Tj
 /F1 12 Tf
 0 0 0 sc
 ( real) Tj
-/F1 12 Tf
-0 0 0 sc
-( places,) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(actual) Tj
+(places,) Tj
+/F1 12 Tf
+0 0 0 sc
+( actual) Tj
 /F1 12 Tf
 0 0 0 sc
 ( places,) Tj
@@ -1650,13 +1626,13 @@ BT
 /F1 12 Tf
 0 0 0 sc
 ( sorts) Tj
-/F1 12 Tf
-0 0 0 sc
-( of) Tj
 0 -28.8 Td
 /F1 12 Tf
 0 0 0 sc
-(actually) Tj
+(of) Tj
+/F1 12 Tf
+0 0 0 sc
+( actually) Tj
 /F1 12 Tf
 0 0 0 sc
 ( realized) Tj
@@ -1814,6 +1790,25 @@ ET
 
 endstream
 endobj
+25 0 obj
+<<
+/Length 107
+>>
+stream
+/F1 12 Tf
+/DeviceRGB cs
+0 0 0 sc
+BT
+72 172.80019 Td
+/F3 22 Tf
+0 0 0 sc
+/F3 22 Tf
+0 0 0 sc
+(Analysis) Tj
+ET
+
+endstream
+endobj
 26 0 obj
 <<
 /Length 73
@@ -1823,14 +1818,14 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 57.60017 Td
-/F3 22 Tf
+72 62.40018 Td
+/F4 18 Tf
 0 0 0 sc
 ET
 
 endstream
 endobj
-31 0 obj
+30 0 obj
 <<
 /Length 167
 >>
@@ -1856,26 +1851,7 @@ ET
 
 endstream
 endobj
-32 0 obj
-<<
-/Length 107
->>
-stream
-/F1 12 Tf
-/DeviceRGB cs
-0 0 0 sc
-BT
-72 691.20001 Td
-/F2 22 Tf
-0 0 0 sc
-/F2 22 Tf
-0 0 0 sc
-(Analysis) Tj
-ET
-
-endstream
-endobj
-33 0 obj
+31 0 obj
 <<
 /Length 109
 >>
@@ -1884,17 +1860,17 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 580.80005 Td
-/F3 18 Tf
+72 691.20001 Td
+/F2 18 Tf
 0 0 0 sc
-/F3 18 Tf
+/F2 18 Tf
 0 0 0 sc
 (Characters) Tj
 ET
 
 endstream
 endobj
-34 0 obj
+32 0 obj
 <<
 /Length 248
 >>
@@ -1903,7 +1879,7 @@ stream
 /DeviceRGB cs
 0 0 0 sc
 BT
-72 508.80005 Td
+72 619.20001 Td
 36 0 Td
 /F1 12 Tf
 0 0 0 sc
@@ -1926,7 +1902,7 @@ ET
 
 endstream
 endobj
-38 0 obj
+36 0 obj
 <<
 /Length 167
 >>
@@ -1952,7 +1928,7 @@ ET
 
 endstream
 endobj
-39 0 obj
+37 0 obj
 <<
 /Length 149
 >>
@@ -1975,7 +1951,7 @@ ET
 
 endstream
 endobj
-40 0 obj
+38 0 obj
 <<
 /Length 348
 >>
@@ -2017,38 +1993,35 @@ ET
 
 endstream
 endobj
-42 0 obj
+40 0 obj
 <<
-/Length 482
+/Length 474
 /Type /ObjStm
-/N 19
+/N 18
 /Filter /FlateDecode
-/First 126
+/First 120
 >>
 stream
-xú≠T—n”@¸ïyk#D|ªÁ¯|®™‘¥¥†
-)
-ïx®x0…©úHÔ"˚ÙÔY˚BäPÙ¡ûÛzwvv=2CA£“(¡l0ó%*pma†£F9©`1—5X°byI0•ï|ò @™j≈RÀRnaK≠`çÖûÄTE–àLO(h'(	ƒísrR‹<¨äYsÁ:◊~Ÿ·Vã¶yﬂl 3Ä0ı≈y‹Ñ$rOO-GÒŒ-}3çﬂq´∆R,WE,wc˚ªîŒ]7ÌB:ïõpÖ‰Bíûîªe‡Y	Âl ® êuQù¡˛î7kZaD&»/•&ªB&).eá€ìFΩ=ï∞;…y¬Å£xø˘îÜ«>H(¶MÁÚõÔ∫óÛxﬂØ√".}∏CÒ¡á≥–˘«¿·îoS≥ÚãÁÂú∆’Ú˘Sz∞eòûzÜ∑FÕˆ‡¸Öπ⁄ÁÊøµ¬ˇÈ≠üÍ’yù˚Î¨^ó{ı⁄?È≠ıjıèé=ƒ
-Ø@Wø≠ K÷y§RÌõ]õ˝≥Ô¶ú∑ÆI±≈ÒÃØ◊¯:¶±°8€§œ} áà´ï_$8§˙.ö‰p|Òäì“§òIkÛB—ëRG£~Oi%	o\rmLqÌõ>‡∫ﬂŒºIíqÌæ≈V˛úC◊Q/Â‰zç9
+xú≠îQo”0«ø ˇm´µ}NúMì÷çT!Ue“&BkãŒÆÿ∑Áèi•àá¯íÀ›˝/?˚Bê–0àJî†Ç`@¶B]J®Ö.†îeí(+R0DúÅJr"«÷úS£ëÏl–pò÷h
+Éî*q)∂5ª(•ééƒ≈Ì∆BÃ€k€CÃ‹™«ïÊnI2.õåŒŒOßaÎ#7z|¸8‚É]πv~‡Jé%“eÒZ5iÂ‘ÖÌ√∂[≤R1T„Z>ZY3ã5YYf£≤°lÓ∫ ô™Ã∆dS˝jnﬁv\9%w8eîå-ÀOô‹É˘[ÜxÒq˚9è…© &moÛõwc˚◊ãp”zà∑~VŒ_C\:‚{wÔÿø‰˚ÿÆ›ÚokÓç\5OôSFJ)eFdv±$˘gòb™”—Ã∑È@ˇ#‚IXØ˛/·}*ÓÕóÍß|u•3M;¡6/Å}Ü·ﬁ˝ÈﬂfNg}7·ıÆ˛ÙãStø›˙—@ùv∂ç°√·‹m6¯6Vc9Ç8Ÿ∆/…yÓ|¿˘⁄˘ØÏB]gm¥8<{Cíî‘JJ"Cı+©§<•çåkxg£ÌB◊ˆp≥¥}ã6rƒÃﬁ~ˇ«’QjÂ'ìRiz
 endstream
 endobj
-43 0 obj
+41 0 obj
 <<
-/Length 133
+/Length 124
 /Root 1 0 R
-/Info 41 0 R
-/ID [<26E0E5F68FF67E2BF5E795DFA8DD8DA9> <26E0E5F68FF67E2BF5E795DFA8DD8DA9>]
+/Info 39 0 R
+/ID [<A83C4A4934BD6BAEE8BA1588F06C976F> <A83C4A4934BD6BAEE8BA1588F06C976F>]
 /Type /XRef
-/Size 44
-/Index [0 43]
+/Size 42
+/Index [0 41]
 /W [1 2 1]
 /Filter /FlateDecode
 >>
 stream
-xúÃ;a E·sÁa∆s–Ë($
-V†VxO£U€Ö^$€P€Ü(t{Ppˇ‚kÓI.„@Ylâ•V±LîH˚†ËÅ‚3Jf(⁄e=î¬GnU´©GÉ+]–¸Z›÷¥ñ{¥ú⁄≠é°÷∂é÷7¥9°Ì.Ï]ïo˛¥7Ÿ
+xúÀ=Q E·sﬂº1√`(f2$b*øô˝ÿÅeHDkZçhÌA≈}≈◊ú‹¸DM`ô»Çe-“ >(<QvFqçÚô}Q—†ˆùæ=+¨¥æ4†≈m¢›“¶≤°ç¥m—ª¶>∂⁄&⁄ø–·ééß‘ßÍ*˛.é•
 endstream
 endobj
 startxref
-20785
+20559
 %%EOF
