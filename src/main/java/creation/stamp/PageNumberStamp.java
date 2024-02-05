@@ -1,9 +1,9 @@
 package creation.stamp;
 
 import creation.content.ContentAlignment;
-import creation.page.PageCreator;
 import creation.content.text.Text;
 import creation.content.text.TextRenderer;
+import creation.page.PageCreator;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.PDPage;
 import processing.Processor;
@@ -118,7 +118,7 @@ public class PageNumberStamp {
 
             if (Processor.getNumerationLimit() == null) {
                 if (TextRenderer.textFitsInOneLine(asText)) {
-                    TextRenderer.renderNoContentText(List.of(asText), alignment, y, null);
+                    TextRenderer.renderNoContentText(List.of(asText), alignment, y, null, false, false);
                 } else if (Processor.getAuthors().length > 1 &&
                         Processor.getNumerationAuthorName() != NumerationAuthorName.NONE) {
                     var firstAuthorOnlyText = new Text(firstAuthorName + " et al. " + pageString,
@@ -126,10 +126,10 @@ public class PageNumberStamp {
 
                     // Check if the first name and et al. would fit in one line
                     if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
-                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y, null);
+                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y, null, false, false);
                         // If not, only the page number is rendered
                     else {
-                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null);
+                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null, false, false);
                     }
                 }
             } else {
@@ -139,15 +139,15 @@ public class PageNumberStamp {
 
                     // Check if the first name and et al. would fit in one line
                     if (TextRenderer.textFitsInOneLine(firstAuthorOnlyText))
-                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y, null);
+                        TextRenderer.renderNoContentText(List.of(firstAuthorOnlyText), alignment, y, null, false, false);
                         // If not, only the page number is rendered
                     else {
-                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null);
+                        TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null, false, false);
                     }
                 } else if (TextRenderer.textFitsInOneLine(asText)) {
-                    TextRenderer.renderNoContentText(List.of(asText), alignment, y, null);
+                    TextRenderer.renderNoContentText(List.of(asText), alignment, y, null, false, false);
                 } else {
-                    TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null);
+                    TextRenderer.renderNoContentText(List.of(pageText), alignment, y, null, false, false);
                 }
             }
 

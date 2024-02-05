@@ -99,7 +99,9 @@ public class TextRenderer {
     public static void renderNoContentText(@NonNull final List<Text> textComponentsToRender,
                                            @NonNull final ContentAlignment alignment,
                                            final float startY,
-                                           final Float firstIndentation) {
+                                           final Float firstIndentation,
+                                           final boolean inverseIndentation,
+                                           final boolean hasAppliedReverseIndentation) {
         try {
             final float availableWidth = Processor.getAvailableContentWidth();
             float maximumWidth = availableWidth;
@@ -138,8 +140,11 @@ public class TextRenderer {
 
                 // Indents the first part if necessary
                 if (firstIndentation != null && textComponentIndex == 0) {
-                    contentStream.newLineAtOffset(firstIndentation, 0f);
-                    maximumWidth -= firstIndentation;
+                    if (!inverseIndentation || hasAppliedReverseIndentation) {
+                        contentStream.newLineAtOffset(firstIndentation, 0f);
+                        maximumWidth -= firstIndentation;
+                    }
+
                     hasIndentedFirstPart = true;
                     hasAlreadyIndented = true;
                 }
@@ -214,6 +219,7 @@ public class TextRenderer {
                         textBuilder.clear();
 
                         // Check if the word is too long to fit in one line
+                        // TODO Take indentation into consideration
                         if (wordWidth > maximumWidth) {
                             var currentLine = word;
                             var nextLineWidth = wordWidth;
@@ -237,7 +243,6 @@ public class TextRenderer {
                                             textPartFontSize, textPartFontColour));
                                 } else {
                                     contentStream.showText(currentLine);
-                                    hasRenderedText = true;
                                     contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0,
                                             -leading());
 
@@ -259,9 +264,16 @@ public class TextRenderer {
                             PageCreator.currentYPosition -= currentLeading;
                             resetMaxFontSize();
 
-                            contentStream.newLineAtOffset(hasIndentedFirstPart ? -firstIndentation : 0, -currentLeading);
+                            if (firstIndentation != null && inverseIndentation && hasAlreadyIndented) {
+                                contentStream.newLineAtOffset(hasIndentedFirstPart && !hasAppliedReverseIndentation ?
+                                        firstIndentation : 0, -currentLeading);
+                                maximumWidth -= firstIndentation;
+                            } else {
+                                contentStream.newLineAtOffset(hasIndentedFirstPart &&
+                                        firstIndentation != null && !hasAppliedReverseIndentation
+                                        ? -firstIndentation : 0, -currentLeading);
+                            }
                             hasIndentedFirstPart = false;
-
                             textBuilder.addLast(new Text(word + (isLastWordOfNotLastTextPart || isFirstWord ?
                                     " " : ""), textPart.getFont(), textPart.getFontSize(), textPart.getFontColour()));
 
@@ -348,8 +360,15 @@ public class TextRenderer {
 
                 final var noIndentationWasApplied = !hasRenderedText && firstIndentation != null;
 
-                renderNoContentText(collectedRest, alignment, PageCreator.currentYPosition,
-                        noIndentationWasApplied || !hasAlreadyIndented ? firstIndentation : null);
+                renderNoContentText(
+                        collectedRest,
+                        alignment,
+                        PageCreator.currentYPosition,
+                        inverseIndentation || noIndentationWasApplied || !hasAlreadyIndented ? firstIndentation : null,
+                        inverseIndentation,
+                        !noIndentationWasApplied && hasAlreadyIndented && inverseIndentation
+                );
+
                 PageCreator.currentPageIsEmpty = false;
             }
         } catch (IOException e) {
@@ -370,7 +389,8 @@ public class TextRenderer {
     public static void renderText(@NonNull final List<Text> textComponentsToRender,
                                   @NonNull final ContentAlignment alignment,
                                   final float startY) {
-        renderNoContentText(textComponentsToRender, alignment, startY, null);
+        renderNoContentText(textComponentsToRender, alignment, startY, null, false,
+                false);
 
         // Now that there has been at least one line rendered on the current page, update the flag
         PageCreator.currentPageIsEmpty = false;
@@ -383,12 +403,15 @@ public class TextRenderer {
      * @param alignment              the desired text alignment
      * @param startY                 the start y position of the text render
      * @param indentation            the amount of indentation in inches
+     * @param inverseIndentation     should the indentation type be reversed (hanging indentation) or not
      */
     public static void renderIndentedText(@NonNull final List<Text> textComponentsToRender,
                                           @NonNull final ContentAlignment alignment,
                                           final float startY,
-                                          final float indentation) {
-        renderNoContentText(textComponentsToRender, alignment, startY, indentation);
+                                          final float indentation,
+                                          final boolean inverseIndentation) {
+        renderNoContentText(textComponentsToRender, alignment, startY, indentation, inverseIndentation,
+                false);
 
         // Now that there has been at least one line rendered on the current page, update the flag
         PageCreator.currentPageIsEmpty = false;

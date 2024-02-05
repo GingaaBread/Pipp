@@ -42,7 +42,7 @@ public class ParagraphStamp {
                 .collect(Collectors.toCollection(LinkedList::new));
 
         TextRenderer.renderIndentedText(instructionTexts, ContentAlignment.LEFT, PageCreator.currentYPosition,
-                Processor.getParagraphIndentation());
+                Processor.getParagraphIndentation(), false);
     }
 
 }

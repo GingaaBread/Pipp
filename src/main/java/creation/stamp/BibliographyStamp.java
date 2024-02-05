@@ -11,12 +11,28 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * The bibliography stamp class is used to render the bibliography section of the document on the current
+ * document position. It retrieves all bibliography entries that have been cited at least once, and renders
+ * them on a new, separate page. It introduces the bibliography section using a bibliography title, which uses
+ * the first chapter font data. The entries are sorted lexicographically by the first author's last name, or the work
+ * title if there is no author. The works are rendered using hanging (inverse) indentation.
+ *
+ * @version 1.0
+ * @since 1.0
+ */
 public class BibliographyStamp {
 
+    /**
+     * Prevents instantiation
+     */
     private BibliographyStamp() {
         throw new UnsupportedOperationException("Should not instantiate static helper class");
     }
 
+    /**
+     * Renders the bibliography section on a new page.
+     */
     public static void stampBibliography() {
         final var citedEntries = Processor
                 .getBibliographyEntries()
@@ -48,10 +64,13 @@ public class BibliographyStamp {
                 }))
                 .toList();
 
-        // TODO: Change into hanging indentation
-        sortedEntries.forEach(entry -> TextRenderer.renderText(
-                Arrays.stream(Processor.getUsedStyleGuide().formatBibliographyEntry(entry)).toList(),
-                ContentAlignment.LEFT)
+        sortedEntries.forEach(entry -> TextRenderer.renderIndentedText(
+                        Arrays.stream(Processor.getUsedStyleGuide().formatBibliographyEntry(entry)).toList(),
+                        ContentAlignment.LEFT,
+                        PageCreator.currentYPosition,
+                        Processor.getParagraphIndentation(),
+                        true
+                )
         );
 
         PageCreator.currentPageIsEmpty = false;

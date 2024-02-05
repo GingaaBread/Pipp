@@ -11,6 +11,15 @@ config
 	assessor "A. Neef"
 header
 title
+citation "HG", "5"
+citation "1", "5"
+citation "2", "5"
+citation "3", "5"
+citation "4", "5"
+citation "5", "5"
+
+"EOmrpwotopetnpwteonwpetonpEOmrpwotopetnpwteonwpetonpEOmrpwotopetnpwteonwpetonpEOmrpwotopetnpwteonwpetonp"
+
 "In this paper, I intend to outline heterotopian qualities in the urban fantasy novel"
 work "King Rat"
 "by China Miéville. Due to the inherently tiny scope of this paper, I focus on one
@@ -56,6 +65,20 @@ other real emplacements that can be found within the culture are, at the
 same time, represented, contested, and reversed, sorts of places that
 are outside all places, although they are actually localizable. [...]
 I shall call these places ‘heterotopias’"
+
+"Lorem ipsum"
+
+"Lorem ipsum"
+
+"Lorem ipsum"
+
+"Lorem ipsum"
+
+"Lorem lized utopias in which the real emplacements, all the
+       other real emplacements that can be found within the culture are, at the
+       same time, represented, contested, and reversed, sorts of places that
+       are outside all places, although they are actually localizable. [...]
+       I shall call these places heterotopias"
 
 chapter "Analysis"
 
