@@ -51,12 +51,12 @@ public class AST {
     }
 
     /**
-     * Adds the specified document node to the top of the stack.
-     * The stack contains the body of the document.
+     * Adds the specified document node to the front of the queue.
+     * The queue contains the body of the document.
      *
-     * @param node - the node that should be added to the top of the stack
+     * @param node - the node that should be added to the front of the queue
      */
-    public void pushDocumentNode(@NonNull final BodyNode node) {
+    public void enqueueDocumentNode(@NonNull final BodyNode node) {
         documentBody.addLast(node);
     }
 
@@ -65,6 +65,8 @@ public class AST {
      */
     public void checkForWarnings() {
         configuration.checkForWarnings();
+        bibliographySources.forEach(BibliographySource::checkForWarnings);
+        documentBody.forEach(BodyNode::checkForWarnings);
     }
 
 }

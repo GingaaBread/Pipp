@@ -244,10 +244,11 @@ public class Processor {
         final var logger = Logger.getLogger(Processor.class.getName());
         logger.info(ast.toString());
 
+        ast.checkForWarnings();
+
         processBibliography(ast.getBibliographySources());
         logger.info("Successfully processed the bibliography");
 
-        ast.checkForWarnings();
         documentBody = ast.getDocumentBody();
         final var configuration = ast.getConfiguration();
 
@@ -700,8 +701,6 @@ public class Processor {
         isProcessingBibliography = true;
 
         entries.forEach(entry -> {
-            entry.checkForWarnings();
-
             if (bibliographyEntries.containsKey(entry.getId()))
                 throw new ContentException("3: Bibliography entry with ID '" + entry.getId() + "' already exists.");
             else if (entry.getType() == null)

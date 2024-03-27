@@ -479,27 +479,7 @@ citation
 ```
 
 *Fix:*
-Add an `id` to the citation instruction.
-
-### 3211
-
-*Description:*
-Cannot use a citation without citing actual content from the source.
-
-*Cause*:
-This error occurs when trying to use a citation using the `citation` keyword, but leaving out the `of` keyword.
-The keyword is used to specify the cited content from the source, so it must not be left out.
-
-*Example:*
-
-```pipp
-citation
-    id "XYZ"
-# But what content should be cited?
-```
-
-*Fix:*
-Add an `of` to the citation instruction.
+Add an `id` to the citation instruction
 
 ## 3.3 Incorrect Format Errors
 
@@ -846,7 +826,7 @@ Use the proper percentage format `x%`, where x is a positive integer.
 
 ## 3.4 Content Errors
 
-### 3341
+### 341
 
 *Description:*
 Image with ID '[ID]' is too large to fit on a single page.
@@ -864,7 +844,7 @@ img "VeryLarge.png"
 *Fix:*
 Resize the image using either `size` or `width` / `height`, or change the `layout` dimensions.
 
-### 3342
+### 342
 
 *Description:*
 Image with ID '[ID]' is too wide to fit on a page.
@@ -882,7 +862,7 @@ img "VeryWide.png"
 *Fix:*
 Resize the image using either `size` or `width` / `height`, or change the `layout` dimensions.
 
-### 3343
+### 343
 
 *Description:*
 Bibliography entry with ID '[ID]' already exists.
@@ -903,7 +883,7 @@ bibliography
 *Fix:*
 Change the ID to be a unique ID.
 
-### 3344
+### 344
 
 *Description:*
 Bibliography entry with ID '[ID]' does not exist.
@@ -925,7 +905,7 @@ citation "My IDD", "XYZ"
 *Fix:*
 Change the ID to be the correct ID of the desired bibliography source.
 
-### 3345
+### 345
 
 *Description:*
 Chapter '[Name]' is one or more chapter levels too deep.

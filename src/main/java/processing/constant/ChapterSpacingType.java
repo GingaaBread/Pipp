@@ -18,6 +18,6 @@ public enum ChapterSpacingType {
      * If used, the default leading as well as a single empty line before and after the chapter text is used.
      * The standard sentence font data is used for the empty line height calculation.
      */
-    LEADING_AND_EMPTY_LINE_BEFORE_AND_AFTER
+    EXTRA_LINE
 
 }

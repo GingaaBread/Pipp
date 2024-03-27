@@ -2,6 +2,7 @@ package creation.page;
 
 import creation.stamp.PageNumberStamp;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.pdfbox.pdmodel.PDPage;
 import processing.Processor;
 
@@ -13,12 +14,6 @@ import processing.Processor;
  * @since 1.0
  */
 public class PageCreator {
-
-    /**
-     * Yields true if there is no content rendered on the current page except for the page number stamp.
-     * Note that classes that add content to the current page should set this flag to false.
-     */
-    public static boolean currentPageIsEmpty = true;
     /**
      * Marks the y position of the current page.
      * This is used to know where to render a new line, and is reset whenever
@@ -26,8 +21,14 @@ public class PageCreator {
      */
     public static float currentYPosition;
     /**
+     * Yields true if there is no content rendered on the current page except for the page number stamp.
+     * Note that classes that add content to the current page should set this flag to false.
+     */
+    @Setter
+    private static boolean currentPageIsEmpty = true;
+    /**
      * The currently considered page in the document.
-     * Note that finished pages cannot be written to anymore, only this instance can be written to.
+     * Note that finished pages cannot be written to any more, only this instance can be written to.
      */
     @Getter
     private static PDPage current;

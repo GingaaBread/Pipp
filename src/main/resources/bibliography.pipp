@@ -16,7 +16,6 @@ bibliography
 		title "Some Title"
 	id "2"
 		type "Book"
-		author "Some One"
 		title "Some Title"
 	id "3"
 		type "Book"

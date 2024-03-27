@@ -18,7 +18,7 @@ public enum ContentAlignment {
      * The CENTER alignment aligns the rendered content in the center of the page.
      * This can particularly useful when rendering titles or other texts that should stand out.
      */
-    CENTER,
+    CENTRE,
 
     /**
      * The RIGHT alignment aligns the rendered text to the right side of the x-dimension.

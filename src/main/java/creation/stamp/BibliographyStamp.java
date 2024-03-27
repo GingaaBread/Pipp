@@ -50,7 +50,7 @@ public class BibliographyStamp {
                 Processor.getChapterSentenceFontData()[0].font(),
                 Processor.getChapterSentenceFontData()[0].fontSize(),
                 Processor.getChapterSentenceFontData()[0].fontColor())
-        ), ContentAlignment.CENTER);
+        ), ContentAlignment.CENTRE);
 
         // Sort entries by the lastname of the first author, or the title if there is no author
         final var sortedEntries = Processor
@@ -73,7 +73,7 @@ public class BibliographyStamp {
                 )
         );
 
-        PageCreator.currentPageIsEmpty = false;
+        PageCreator.setCurrentPageIsEmpty(false);
     }
 
 }

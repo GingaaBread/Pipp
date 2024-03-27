@@ -147,7 +147,7 @@ public class MLA9 extends StyleGuide {
 
     @Override
     public ChapterSpacingType chapterSpacingType() {
-        return ChapterSpacingType.LEADING_AND_EMPTY_LINE_BEFORE_AND_AFTER;
+        return ChapterSpacingType.EXTRA_LINE;
     }
 
 
@@ -169,7 +169,7 @@ public class MLA9 extends StyleGuide {
 
     @Override
     public ContentAlignment defaultImageAlignment() {
-        return ContentAlignment.CENTER;
+        return ContentAlignment.CENTRE;
     }
 
     /**

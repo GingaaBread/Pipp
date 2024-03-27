@@ -38,7 +38,7 @@ public class Chapter extends BodyNode {
      */
     @Override
     public void checkForWarnings() {
-        if (level <= 0) throw new IllegalStateException("Chapter level should never be non-positive");
+        if (level < 0) throw new IllegalStateException("Chapter level should never be negative");
         title.checkForWarnings();
     }
 

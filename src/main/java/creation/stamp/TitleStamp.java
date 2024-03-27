@@ -29,7 +29,7 @@ public class TitleStamp {
         if (title.getTexts().isEmpty())
             throw new MissingMemberException("2: Cannot render a title if no title has been configured.");
 
-        TextRenderer.renderText(title.asTextList(), ContentAlignment.CENTER);
+        TextRenderer.renderText(title.asTextList(), ContentAlignment.CENTRE);
     }
 
 }

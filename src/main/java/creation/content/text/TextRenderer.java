@@ -191,7 +191,7 @@ public class TextRenderer {
                     else if (wordWidth > maximumWidth &&
                             textPartFont.getStringWidth(word) / 1000 * textPartFontSize > maximumWidth) {
                         // When trying to center the text, we first need to calculate the total width for our offset
-                        if (alignment == ContentAlignment.CENTER) {
+                        if (alignment == ContentAlignment.CENTRE) {
                             final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() -
                                     currentLineWidth) / 2 - Processor.getMargin();
                             contentStream.newLineAtOffset(-lastXOffset, 0);
@@ -303,7 +303,7 @@ public class TextRenderer {
             // If there is still one last remaining line, it should be displayed
             if (rest.isEmpty()) {
                 // When trying to center the text, we first need to calculate the total width for our offset
-                if (alignment == ContentAlignment.CENTER) {
+                if (alignment == ContentAlignment.CENTRE) {
                     final float xOffset = (PageCreator.getCurrent().getMediaBox().getWidth() - currentLineWidth) / 2
                             - Processor.getMargin();
                     contentStream.newLineAtOffset(xOffset, 0);
@@ -369,7 +369,7 @@ public class TextRenderer {
                         !noIndentationWasApplied && hasAlreadyIndented && inverseIndentation
                 );
 
-                PageCreator.currentPageIsEmpty = false;
+                PageCreator.setCurrentPageIsEmpty(false);
             }
         } catch (IOException e) {
             throw new PippException("Could not print text to the current line");
@@ -393,7 +393,7 @@ public class TextRenderer {
                 false);
 
         // Now that there has been at least one line rendered on the current page, update the flag
-        PageCreator.currentPageIsEmpty = false;
+        PageCreator.setCurrentPageIsEmpty(false);
     }
 
     /**
@@ -414,7 +414,7 @@ public class TextRenderer {
                 false);
 
         // Now that there has been at least one line rendered on the current page, update the flag
-        PageCreator.currentPageIsEmpty = false;
+        PageCreator.setCurrentPageIsEmpty(false);
     }
 
     /**

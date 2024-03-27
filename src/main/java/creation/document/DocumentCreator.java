@@ -22,7 +22,7 @@ public class DocumentCreator {
      * Determines the path to the file, where the final document should be saved.
      * It will be saved under the specified name.
      */
-    public static final String OUTPUT_PATH = "src/main/resources/out.pdf";
+    private static final String OUTPUT_PATH = "src/main/resources/out.pdf";
 
     /**
      * Prevents instantiation
@@ -38,7 +38,7 @@ public class DocumentCreator {
      */
     public static void create() {
         // Set the metadata
-        DocumentMetaDataWriter.writeMetaData();
+        DocumentMetadataWriter.writeMetadata();
 
         // The PDF at least has one empty page
         PageCreator.createNewPage();

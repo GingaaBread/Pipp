@@ -8,7 +8,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
  * the final PDF document. Once the last page should be added to the document,
  * the @method commitCurrentPage is used.
  *
- * @author Gino Glink
  * @version 1.0
  * @since 1.0
  */
@@ -18,7 +17,14 @@ public class PageAssembler {
      * Represents the final document that will be rendered as a PDF
      */
     @Getter
-    private final static PDDocument document = new PDDocument();
+    private static final PDDocument document = new PDDocument();
+
+    /**
+     * Prevents instantiation
+     */
+    private PageAssembler() {
+        throw new UnsupportedOperationException("Should not instantiate static helper class");
+    }
 
     /**
      * Adds the current page to the document.

@@ -32,7 +32,7 @@ public class DebugTokenInfo {
     private String currentLine;
 
     public String errorMessage(@NonNull final String description) {
-        String caretBuilder = " ".repeat(currentLine.length()) + "^";
+        var caretBuilder = " ".repeat(currentLine.length()) + "^";
         return "\n" + filePath + ":" + lineNumber + " " + description + "\n" + currentLine + "\n" + caretBuilder;
     }
 }

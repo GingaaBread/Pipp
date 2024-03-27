@@ -447,3 +447,9 @@ d
 4src/main/java/processing/constant/AllowanceType.java,9\3\939935debad4522b6f6ae966e27273a847e584bb
 d
 4src/main/java/processing/constant/StructureType.java,e\3\e3480b49884ba563a67ba411573686bca9e748ed
+f
+6src/main/java/frontend/lexical_analysis/TokenType.java,2\9\29921340c5ae4d1217be10ea7badfb38cbb05a11
+k
+;src/main/java/creation/document/DocumentMetadataWriter.java,1\3\13906234f0e9f347e3e77bb0edcf358f3ed2ecb7
+V
+&src/main/java/error/PippException.java,1\6\16d9a51dc8c8867381b6982d7c5dfba4457545a5

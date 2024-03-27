@@ -13,12 +13,12 @@ import java.util.Calendar;
  * @version 1.0
  * @since 1.0
  */
-public class DocumentMetaDataWriter {
+public class DocumentMetadataWriter {
 
     /**
      * Prevents instantiation
      */
-    private DocumentMetaDataWriter() {
+    private DocumentMetadataWriter() {
         throw new UnsupportedOperationException("Should not instantiate static helper class");
     }
 
@@ -26,30 +26,32 @@ public class DocumentMetaDataWriter {
      * Uses the data specified in the {@link Processor} to write metadata to the document.
      * This includes the current compiler version, the names of the authors, the creation date, etc.
      */
-    public static void writeMetaData() {
+    public static void writeMetadata() {
         // Get the document metadata from the assembler
-        var info = PageAssembler.getDocument().getDocumentInformation();
+        final var info = PageAssembler.getDocument().getDocumentInformation();
 
-        // Set the creator to Pipp's current version
+        // Set the creator to Pipp and its current compiler version
         info.setCreator("Pipp v." + Processor.COMPILER_VERSION);
 
         // Set the author metadata to all authors using their first and last names separated by a comma
         final var authors = Processor.getAuthors();
         if (authors.length > 0) {
-            var nameBuilder = new StringBuilder();
+            final var nameBuilder = new StringBuilder();
             for (var author : authors) {
                 nameBuilder.append(author.nameToString());
                 nameBuilder.append(", ");
             }
 
+            final var authorsAsString = nameBuilder.substring(0, nameBuilder.toString().length() - 2);
+
             // Also remove the last comma
-            info.setAuthor(nameBuilder.substring(0, nameBuilder.toString().length() - 2));
+            info.setAuthor(authorsAsString);
         }
 
         // Set the creation date metadata to the specified publication date
         final var publicationDate = Processor.getPublicationDate();
         if (publicationDate != null) {
-            var calendar = Calendar.getInstance();
+            final var calendar = Calendar.getInstance();
             //noinspection MagicConstant
             calendar.set(
                     publicationDate.getYear(),

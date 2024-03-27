@@ -24,20 +24,6 @@ import java.time.LocalDate;
  */
 public abstract class StyleGuide {
 
-    /**
-     * Helper method to determine if a character is a punctuation character.
-     * A punctuation character is a full-stop, question mark, exclamation mark,
-     * comma, semicolon or colon.
-     *
-     * @param character - the character that should be checked
-     * @return - true if the character is a punctuation character, false if it is not
-     */
-    public static boolean isPunctuation(char character) {
-        return character == '.' || character == '?' || character == '!' ||
-                character == ',' || character == ';' || character == ':';
-    }
-
-
     //// General Layout ////
 
     /**

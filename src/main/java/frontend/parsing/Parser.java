@@ -110,7 +110,6 @@ public class Parser {
      */
     private Token current;
 
-
     /**
      * Tracks the current paragraph in order to be able to add paragraph instructions to it when parsing
      * its children, and then add the paragraph with the child nodes to the document body.
@@ -216,7 +215,7 @@ public class Parser {
      * @param requiredToken - the required token compared to the current token
      */
     private void consume(final Token requiredToken) {
-        var lastCurrent = current;
+        var priorCurrent = current;
 
         if (isKeyword() && requiredToken.type == TokenType.KEYWORD &&
                 current.value.equals(requiredToken.value) || current.type != TokenType.KEYWORD &&
@@ -224,7 +223,7 @@ public class Parser {
             if (frontEndBridge.containsTokens()) current = frontEndBridge.dequeueToken();
         } else throw new IllegalArgumentException("Unexpected token: " + current + ". Expected: " + requiredToken);
 
-        if (lastCurrent.type != TokenType.NEW_LINE && lastCurrent.type != TokenType.INDENT) last = lastCurrent;
+        if (priorCurrent.type != TokenType.NEW_LINE && priorCurrent.type != TokenType.INDENT) last = priorCurrent;
     }
 
     /**
@@ -399,7 +398,7 @@ public class Parser {
     /**
      * S := Document | epsilon
      */
-    public void s() {
+    public void start() {
         if (frontEndBridge.containsTokens()) {
             current = frontEndBridge.dequeueToken();
             document();
@@ -447,7 +446,7 @@ public class Parser {
     private void title() {
         consumeKeyword(TITLE_KEYWORD);
         newline();
-        ast.pushDocumentNode(new NoArgumentStructure(StructureType.TITLE));
+        ast.enqueueDocumentNode(new NoArgumentStructure(StructureType.TITLE));
     }
 
     /**
@@ -456,7 +455,7 @@ public class Parser {
     private void header() {
         consumeKeyword(HEADER_KEYWORD);
         newline();
-        ast.pushDocumentNode(new NoArgumentStructure(StructureType.HEADER));
+        ast.enqueueDocumentNode(new NoArgumentStructure(StructureType.HEADER));
     }
 
     /**
@@ -465,7 +464,7 @@ public class Parser {
     private void blank() {
         consumeKeyword(BLANK_KEYWORD);
         newline();
-        ast.pushDocumentNode(new NoArgumentStructure(StructureType.BLANKPAGE));
+        ast.enqueueDocumentNode(new NoArgumentStructure(StructureType.BLANKPAGE));
     }
 
     /**
@@ -496,7 +495,7 @@ public class Parser {
             chapter.getTitle().add(new TitleText(last.value));
         } else error();
 
-        ast.pushDocumentNode(chapter);
+        ast.enqueueDocumentNode(chapter);
     }
 
     /**
@@ -551,7 +550,7 @@ public class Parser {
             }
         }, ID_KEYWORD, WIDTH_KEYWORD, HEIGHT_KEYWORD, SIZE_KEYWORD, DISPLAY_KEYWORD);
 
-        ast.pushDocumentNode((Image) lastNode);
+        ast.enqueueDocumentNode((Image) lastNode);
         forgoIndentation();
     }
 
@@ -568,7 +567,7 @@ public class Parser {
             if (current.type == TokenType.LIST_SEPARATOR) sizedImageInlineDeclaration();
         } else error();
 
-        ast.pushDocumentNode((Image) lastNode);
+        ast.enqueueDocumentNode((Image) lastNode);
     }
 
     private void sizedImageInlineDeclaration() {
@@ -1561,7 +1560,7 @@ public class Parser {
 
         newline();
 
-        ast.pushDocumentNode(currentParagraph);
+        ast.enqueueDocumentNode(currentParagraph);
         currentParagraph = null;
     }
 

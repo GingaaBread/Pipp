@@ -128,7 +128,7 @@ public class FrontEndBridge {
             read();
 
             scanner.submitToken();
-            if (!tokens.isEmpty()) parser.s();
+            if (!tokens.isEmpty()) parser.start();
 
             reader.close();
         } catch (IOException e) {

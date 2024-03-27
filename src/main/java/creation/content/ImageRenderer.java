@@ -1,14 +1,17 @@
 package creation.content;
 
+import creation.content.text.TextRenderer;
 import creation.page.PageAssembler;
 import creation.page.PageCreator;
-import creation.content.text.TextRenderer;
 import error.ContentException;
 import error.MissingMemberException;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import processing.Processor;
+import warning.UnlikelinessWarning;
+import warning.WarningQueue;
+import warning.WarningSeverity;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,14 +60,17 @@ public class ImageRenderer {
             final float availableWidth = Processor.getAvailableContentWidth();
             final float leading = 1.2f * TextRenderer.getMaxFontSizeOfCurrentLine() * Processor.getSpacing();
 
-            int width;
-            int height;
-            PDImageXObject imageObject = tryCreateImageObject(imageId);
+            final var imageObject = tryCreateImageObject(imageId);
 
-            width = imageObject.getWidth();
-            height = imageObject.getHeight();
+            int width = imageObject.getWidth();
+            int height = imageObject.getHeight();
 
             if (imageSize != null) {
+                if (imageWidth != null || imageHeight != null)
+                    WarningQueue.enqueue(new UnlikelinessWarning("The image \"" + imageId +
+                            "\" uses both absolute and relative proportions, leading to its absolute dimensions " +
+                            "being ignored.", WarningSeverity.LOW));
+
                 float scale = imageSize / 100.0f;
                 width = (Math.round(imageObject.getWidth() * scale));
                 height = (Math.round(imageObject.getHeight() * scale));
@@ -75,7 +81,7 @@ public class ImageRenderer {
 
             var targetYPosition = PageCreator.currentYPosition - height;
 
-            // Check if the image does not fit on the current page anymore
+            // Check if the image does not fit on the current page any more
             if (targetYPosition < Processor.getMargin()) {
                 PageCreator.createNewPage();
                 targetYPosition = PageCreator.currentYPosition - height;
@@ -88,18 +94,18 @@ public class ImageRenderer {
             if (width > availableWidth)
                 throw new ContentException("2: Image with ID '" + imageId + "' is too wide to fit on a page.");
 
-            final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
-                    PDPageContentStream.AppendMode.APPEND, false);
-
             final float targetXPosition = switch (imageAlignment) {
                 case LEFT -> Processor.getMargin();
                 case RIGHT -> availableWidth - width + Processor.getMargin();
-                case CENTER -> Processor.getMargin() + (availableWidth / 2) - (width / 2f);
+                case CENTRE -> Processor.getMargin() + (availableWidth / 2) - (width / 2f);
             };
+
+            final var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
+                    PDPageContentStream.AppendMode.APPEND, false);
 
             contentStream.drawImage(imageObject, targetXPosition, targetYPosition, width, height);
             PageCreator.currentYPosition -= leading + height;
-            PageCreator.currentPageIsEmpty = false;
+            PageCreator.setCurrentPageIsEmpty(false);
 
             contentStream.close();
         } catch (IOException e) {

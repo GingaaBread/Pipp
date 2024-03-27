@@ -27,19 +27,21 @@ public class PageNumberStamp {
      * If trying to stamp a page object, which exists on the stack, an exception is thrown.
      */
     private static final Stack<PDPage> stampedPages = new Stack<>();
-
     /**
      * Contains the page number that should be rendered next.
      * If a page is skipped, the value is NOT incremented, which means that the next page after a skipped page
      * receives the page number, the skipped page would have received.
      */
     private static int nextNumber = 1;
-
     /**
      * The number index is ALWAYS incremented, even if the page is skipped.
      * This is used to address and identify the individual pages.
      */
     private static int numberIndex = 1;
+
+    private PageNumberStamp() {
+        throw new UnsupportedOperationException("Should not instantiate static helper class");
+    }
 
     /**
      * Adds a page number stamp to the current page.
@@ -102,7 +104,7 @@ public class PageNumberStamp {
             final ContentAlignment alignment = switch (Processor.getNumerationPosition()) {
                 case TOP_LEFT, BOTTOM_LEFT -> ContentAlignment.LEFT;
                 case TOP_RIGHT, BOTTOM_RIGHT -> ContentAlignment.RIGHT;
-                case TOP, BOTTOM -> ContentAlignment.CENTER;
+                case TOP, BOTTOM -> ContentAlignment.CENTRE;
             };
 
             // Calculates the starting y position of the text

@@ -148,7 +148,7 @@ public class Image extends BodyNode {
         return switch (alignment) {
             case "Left" -> ContentAlignment.LEFT;
             case "Right" -> ContentAlignment.RIGHT;
-            case "Center" -> ContentAlignment.CENTER;
+            case "Center" -> ContentAlignment.CENTRE;
             default -> throw new IncorrectFormatException(IncorrectFormatException.ERR_MSG_6);
         };
     }

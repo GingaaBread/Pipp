@@ -369,6 +369,32 @@ config
             height "1in"
 ```
 
+## 35
+
+*Severity:*
+Low
+
+*Description:*
+The image "[ID]" uses both absolute and relative proportions, leading to its absolute dimensions being ignored.
+
+*Cause:*
+This warning occurs when using both width / height and size to define the size of an image. Because the size keyword
+sizes the image relative to its default dimensions, further defining the width or height of the image has no impact
+on the rendered image.
+
+*To do:*
+Delete either the absolute or relative definition to avoid confusions.
+
+*Example:*
+
+```pipp
+image
+	id "Dog.png"
+	width "25"
+	height "25"
+	size "30%"
+```
+
 # 4. Self-Checks
 
 ## 41

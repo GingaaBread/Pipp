@@ -46,9 +46,8 @@ public class Citation extends ParagraphInstruction {
         if (source == null) throw new MissingMemberException("10: Cannot use a citation without referencing a " +
                 "source from the bibliography.");
         if (source.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
-        if (citedContent == null) throw new MissingMemberException("11: Cannot use a citation without citing " +
-                "actual content from the source.");
-        if (citedContent.isBlank()) throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
+        if (citedContent != null && citedContent.isBlank())
+            throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
         if (numeration != null && numeration.isBlank())
             throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }

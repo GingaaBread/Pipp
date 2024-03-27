@@ -68,7 +68,9 @@ public class ChapterHandler {
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() == 1)
-                .flatMap(entry -> definedChapters.stream().filter(chapter -> chapter.getLevel() == entry.getKey()))
+                .flatMap(entry -> definedChapters
+                        .stream()
+                        .filter(chapter -> chapter.getLevel() == entry.getKey()))
                 .toList()
                 .forEach(instance -> WarningQueue.enqueue(new SelfCheckWarning(
                         "6: The chapter '" + instance.getTitle().getTextsSeparated() +

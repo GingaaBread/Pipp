@@ -50,7 +50,7 @@ public class ChapterStamp {
                 })
                 .toList();
 
-        if (Processor.getChapterSpacingType() == ChapterSpacingType.LEADING_AND_EMPTY_LINE_BEFORE_AND_AFTER) {
+        if (Processor.getChapterSpacingType() == ChapterSpacingType.EXTRA_LINE) {
             // Use the default sentence font for the leading calculation
             final float leading = 1.2f * Processor.getSentenceFontData().fontSize() * Processor.getSpacing();
             PageCreator.currentYPosition -= leading;
@@ -58,7 +58,7 @@ public class ChapterStamp {
 
         TextRenderer.renderText(asList, Processor.getChapterAlignment());
 
-        if (Processor.getChapterSpacingType() == ChapterSpacingType.LEADING_AND_EMPTY_LINE_BEFORE_AND_AFTER) {
+        if (Processor.getChapterSpacingType() == ChapterSpacingType.EXTRA_LINE) {
             // Use the default sentence font for the leading calculation
             final float leading = 1.2f * Processor.getSentenceFontData().fontSize() * Processor.getSpacing();
             PageCreator.currentYPosition -= leading;
