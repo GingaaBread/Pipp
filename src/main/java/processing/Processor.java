@@ -368,9 +368,20 @@ public class Processor {
                 if (Processor.authors[j].nameToString().equals(Processor.authors[i].nameToString())) {
                     WarningQueue.enqueue(new UnlikelinessWarning(
                             "3: Two authors have the same name, which seems unlikely. " +
-                                    "Check if that is correct. \n\t 1: " +
+                                    "Check if that is correct. \n\tAuthor 1: " +
                                     Processor.authors[j] + ". \n\tAuthor 2: " + Processor.authors[i],
                             WarningSeverity.CRITICAL));
+                }
+
+                if (Processor.authors[j] != null && Processor.authors[i] != null &&
+                        Processor.authors[j].getEmailAddress() != null &&
+                        Processor.authors[i].getEmailAddress() != null &&
+                        Processor.authors[j].getEmailAddress().equals(Processor.authors[i].getEmailAddress())) {
+                    WarningQueue.enqueue(new UnlikelinessWarning(
+                            "7: Two authors have the same email address, which seems unlikely. " +
+                                    "Check if that is correct. \n\tAuthor 1: " +
+                                    Processor.authors[j].getEmailAddress() + ". \n\tAuthor 2: " +
+                                    Processor.authors[i].getEmailAddress(), WarningSeverity.CRITICAL));
                 }
             }
         }
@@ -384,8 +395,12 @@ public class Processor {
                 throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
 
             var newAuthor = new Author(author.getFirstname(), author.getLastname());
+
             newAuthor.setTitle(author.getTitle());
             newAuthor.setId(author.getId());
+            newAuthor.setEmailAddress(author.getEmailAddress());
+            newAuthor.setArea(author.getArea());
+
             Processor.authors[authorIndex] = newAuthor;
         } else {
             if (author.getName().isBlank() || author.getId() != null && author.getId().isBlank() ||
@@ -393,8 +408,12 @@ public class Processor {
                 throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
 
             var newAuthor = new Author(author.getName());
+
             newAuthor.setTitle(author.getTitle());
             newAuthor.setId(author.getId());
+            newAuthor.setEmailAddress(author.getEmailAddress());
+            newAuthor.setArea(author.getArea());
+
             Processor.authors[authorIndex] = newAuthor;
         }
     }

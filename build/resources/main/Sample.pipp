@@ -7,10 +7,17 @@ config
 		institution "TU Dortmund"
 		chair "Anglistik und Amerikanistik"
 		date "10/03/2021"
-	author "Gino Glink"
+	author
+		of
+			name "Peter Funnasy"
+			area "Lehramt GyGe"
+		of
+			firstname "Mo"
+			lastname "Benneger"
+			email "mo.bann@gmail.com"
 	assessor "A. Neef"
+
 header
-title
 
 "In this paper, I intend to outline heterotopian qualities in the urban fantasy novel"
 work "King Rat"

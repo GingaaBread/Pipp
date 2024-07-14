@@ -6,6 +6,11 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import warning.UnlikelinessWarning;
+import warning.WarningQueue;
+import warning.WarningSeverity;
+
+import java.util.regex.Pattern;
 
 /**
  * The assessor node contains properties for setting the name and role of the assessor
@@ -51,10 +56,40 @@ public class Assessor extends Node {
     private String role;
 
     /**
+     * The non-blank mail address of the assessor.
+     * This is null if none is specified.
+     */
+    private String emailAddress;
+
+    /**
+     * The non-blank area of the assessor.
+     * This is null if none is specified.
+     */
+    private String area;
+
+    private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
+    /**
      * The Assessor node produces errors if any field is blank or if an incorrect name configuration is given
      */
     @Override
     public void checkForWarnings() {
+        if (emailAddress != null) {
+            var mailIsValid = EMAIL_ADDRESS_PATTERN.matcher(emailAddress).matches();
+            if (!mailIsValid) {
+                WarningQueue.enqueue(new UnlikelinessWarning("6: The email address '[" +
+                        emailAddress + "]' seems incorrect.", WarningSeverity.HIGH));
+            }
+        }
+
         checkBlankFields();
         if (name == null && firstname == null && lastname == null)
             throw new ConfigurationException("1: An assessor requires a name configuration, but neither " +
@@ -75,6 +110,8 @@ public class Assessor extends Node {
                 name != null && name.isBlank() ||
                 firstname != null && firstname.isBlank() ||
                 lastname != null && lastname.isBlank() ||
+                area != null && area.isBlank() ||
+                emailAddress != null && emailAddress.isBlank() ||
                 role != null && role.isBlank())
             throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }

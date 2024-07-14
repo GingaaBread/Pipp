@@ -6,6 +6,11 @@ import frontend.ast.Node;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import warning.UnlikelinessWarning;
+import warning.WarningQueue;
+import warning.WarningSeverity;
+
+import java.util.regex.Pattern;
 
 /**
  * The author node represents an author of the document
@@ -49,10 +54,40 @@ public class Author extends Node {
     private String id;
 
     /**
+     * The non-blank mail address of the author.
+     * This is null if none is specified.
+     */
+    private String emailAddress;
+
+    /**
+     * The non-blank area of the author.
+     * This is null if none is specified.
+     */
+    private String area;
+
+    private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
+    /**
      * The author node produces warnings if the name is not set up correctly or if there are blank fields
      */
     @Override
     public void checkForWarnings() {
+        if (emailAddress != null) {
+            var mailIsValid = EMAIL_ADDRESS_PATTERN.matcher(emailAddress).matches();
+            if (!mailIsValid) {
+                WarningQueue.enqueue(new UnlikelinessWarning("6: The email address '[" +
+                    emailAddress + "]' seems incorrect.", WarningSeverity.HIGH));
+            }
+        }
+
         if (name == null && firstname == null && lastname == null)
             throw new ConfigurationException("6: An author requires a name configuration, but neither " +
                     "name, firstname nor lastname has been configured.");
@@ -75,6 +110,8 @@ public class Author extends Node {
                 name != null && name.isBlank() ||
                 firstname != null && firstname.isBlank() ||
                 lastname != null && lastname.isBlank() ||
+                area != null && area.isBlank() ||
+                emailAddress != null && emailAddress.isBlank() ||
                 id != null && id.isBlank())
             throw new MissingMemberException(MissingMemberException.ERR_MSG_1);
     }

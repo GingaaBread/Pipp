@@ -395,6 +395,66 @@ image
 	size "30%"
 ```
 
+## 36
+
+*Severity:*
+High
+
+*Description:*
+The email address '[MAIL]' seems incorrect.
+
+*Cause:*
+This warning occurs when defining an email address that does not appear to match official standards.
+Note that email validation can be faulty and produce false negatives.
+
+*To do:*
+Check the specified email address.
+
+*Example:*
+
+```pipp
+author
+    name "John Doe"
+    email "johndoe"
+# correct: email "john.doe@mail.com"
+```
+
+## 37
+
+*Severity:*
+Critical
+
+*Description:*
+Two authors have the same email address, which seems unlikely.
+Check if that is correct. Author 1: (email).
+Author 2: (email)
+
+*Cause:*
+This warning occurs when creating at least two authors
+in the `author` configuration, which have the same email address.
+It seems highly unlikely that multiple authors share the same email address,
+and can be a common issue when copy and pasting an author and forgetting to change
+the email. However, since multiple authors can share email addresses in rare cases, this
+is not an enforced error.
+
+*To do:*
+Decide whether you really want to have authors
+with the same email.
+
+*Example:*
+
+```pipp
+config
+    author
+        of
+            name "John Doe"
+            email "john.doe@mail.com"
+        of
+            name "Another Author"
+            email "john.doe@mail.com"
+```
+
+
 # 4. Self-Checks
 
 ## 41

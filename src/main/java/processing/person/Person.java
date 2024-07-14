@@ -36,6 +36,19 @@ public class Person {
     private String lastname;
 
     /**
+     * Defines the working area of the author.
+     * For example, "Teaching".
+     * This is null if there is no area.
+     */
+    private String area;
+
+    /**
+     *  The trimmed and validated email address of the author.
+     *  This is null if there is no email.
+     */
+    private String emailAddress;
+
+    /**
      * Creates a new Person by parsing the name string.
      * This will try to separate the first name from the last name.
      * Trailing white space is removed and the last space marks the end of the first name,

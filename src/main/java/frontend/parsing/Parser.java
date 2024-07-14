@@ -33,15 +33,15 @@ import java.util.function.Consumer;
  */
 public class Parser {
 
-    /// CONSTANTS
-
     private static final String AUTHOR_KEYWORD = "author";
+    private static final String AREA_KEYWORD = "area";
     private static final String YEAR_KEYWORD = "year";
     private static final String BIBLIOGRAPHY_KEYWORD = "bibliography";
     private static final String SEMESTER_KEYWORD = "semester";
     private static final String INSTITUTION_KEYWORD = "institution";
     private static final String CHAIR_KEYWORD = "chair";
     private static final String DATE_KEYWORD = "date";
+    private static final String EMAIL_KEYWORD = "email";
     private static final String ASSESSOR_KEYWORD = "assessor";
     private static final String FIRST_NAME_KEYWORD = "firstname";
     private static final String LAST_NAME_KEYWORD = "lastname";
@@ -817,7 +817,7 @@ public class Parser {
         if (isKeyword()) {
             currentlyParsedContainer = AUTHOR_CONTAINER_NAME;
             switch (current.value) {
-                case NAME_KEYWORD, FIRST_NAME_KEYWORD, TITLE_KEYWORD -> nameSpecificationWithOptId();
+                case NAME_KEYWORD, FIRST_NAME_KEYWORD, TITLE_KEYWORD, EMAIL_KEYWORD, AREA_KEYWORD -> nameSpecificationWithOptId();
                 case OF_KEYWORD -> authorList();
                 default -> error();
             }
@@ -853,16 +853,56 @@ public class Parser {
      */
     private void nameSpecificationWithOptId() {
         nameSpecification();
-        if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
-                frontEndBridge.lookahead(0).value.equals(ID_KEYWORD)) {
-            remainIndentation();
-            consume(new Token(TokenType.KEYWORD, ID_KEYWORD));
-            textual();
 
-            if (currentlyParsedContainer.equals(AUTHOR_CONTAINER_NAME)) {
-                ((Author) lastNode).setId(last.value);
-            }
+        if (frontEndBridge.lookahead(0).type == TokenType.KEYWORD &&
+                (frontEndBridge.lookahead(0).value.equals(ID_KEYWORD) ||
+                frontEndBridge.lookahead(0).value.equals(AREA_KEYWORD) ||
+                frontEndBridge.lookahead(0).value.equals(EMAIL_KEYWORD))
+        ) {
+            remainIndentation();
+
+            expectKeyword(it -> {
+                switch (it) {
+                    case ID_KEYWORD -> authorId();
+                    case AREA_KEYWORD -> authorArea();
+                    case EMAIL_KEYWORD -> authorEmail();
+                    default -> error();
+                }
+            }, ID_KEYWORD, AREA_KEYWORD, EMAIL_KEYWORD);
         }
+    }
+
+    private void authorId() {
+        if (currentlyParsedContainer.equals(AUTHOR_CONTAINER_NAME)) {
+            if (isKeyword(ID_KEYWORD)) {
+                consume(new Token(TokenType.KEYWORD, ID_KEYWORD));
+                textual();
+            } else error();
+
+            ((Author) lastNode).setId(last.value);
+        } else error();
+    }
+
+    private void authorArea() {
+        if (currentlyParsedContainer.equals(AUTHOR_CONTAINER_NAME)) {
+            if (isKeyword(AREA_KEYWORD)) {
+                consume(new Token(TokenType.KEYWORD, AREA_KEYWORD));
+                textual();
+            } else error();
+
+            ((Author) lastNode).setArea(last.value);
+        } else error();
+    }
+
+    private void authorEmail() {
+        if (currentlyParsedContainer.equals(AUTHOR_CONTAINER_NAME)) {
+            if (isKeyword(EMAIL_KEYWORD)) {
+                consume(new Token(TokenType.KEYWORD, EMAIL_KEYWORD));
+                textual();
+            } else error();
+
+            ((Author) lastNode).setEmailAddress(last.value);
+        } else error();
     }
 
     /**
