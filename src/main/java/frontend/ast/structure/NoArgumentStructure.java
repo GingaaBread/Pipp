@@ -2,6 +2,7 @@ package frontend.ast.structure;
 
 import creation.page.PageCreator;
 import creation.stamp.HeaderStamp;
+import creation.stamp.TitlePageStamp;
 import creation.stamp.TitleStamp;
 import error.PippException;
 import lombok.AllArgsConstructor;
@@ -45,7 +46,7 @@ public class NoArgumentStructure extends BodyNode {
     public void handleBodyElement() {
         switch (type) {
             case TITLE -> TitleStamp.renderTitle();
-            case HEADER -> HeaderStamp.renderHeader();
+            case HEADER -> TitlePageStamp.renderTitlePage();
             case BLANKPAGE -> PageCreator.createBlankPage(
                     Processor.getDocumentBody().getLast() == this);
             default -> throw new PippException("Document type " + type + " is not yet implemented!");
