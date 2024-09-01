@@ -924,3 +924,26 @@ chapter "Introduction"
 
 *Fix:*
 Change the chapter level by reducing indentation until its level is one higher than the current chapter level or less.
+
+### 346
+
+*Description:*
+The page format is too narrow to render author details.
+
+*Cause*:
+This error occurs when using a page layout that cannot display at least one detail of an author. All details **must** be displayed in a single line.
+
+*Example:*
+
+```pipp
+config
+    author "John Doe"
+    style
+        of "MLA9"
+        layout
+#           too narrow to fit "John Doe" in a single line:
+            width "0.01in"
+```
+
+*Fix:*
+Increase the width of the document to allow the author details to be rendered in a single line.

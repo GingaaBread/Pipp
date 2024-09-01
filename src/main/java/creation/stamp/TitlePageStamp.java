@@ -3,11 +3,12 @@ package creation.stamp;
 import creation.content.ContentAlignment;
 import creation.content.text.Text;
 import creation.content.text.TextRenderer;
-import creation.page.PageAssembler;
 import creation.page.PageCreator;
+import error.PippException;
 import processing.Processor;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.LinkedList;
 
 public class TitlePageStamp extends IntroductoryStamp {
 
@@ -42,17 +43,26 @@ public class TitlePageStamp extends IntroductoryStamp {
      * Renders all authors one after another using left content alignment.
      */
     protected static void renderAuthorsIfAnyExist() {
+        final var texts = new LinkedList<Text>();
+
         for (var author : Processor.getAuthors()) {
-            TextRenderer.renderLeftAlignedText(author.nameToString());
+            texts.add(new Text(author.nameToString(), Processor.getSentenceFontData()));
 
             if (author.getArea() != null)
-                TextRenderer.renderLeftAlignedText(author.getArea());
+                texts.add(new Text(author.getArea(), Processor.getSentenceFontData()));
 
             if (author.getId() != null)
-                TextRenderer.renderLeftAlignedText(author.getId());
+                texts.add(new Text(author.getId(), Processor.getSentenceFontData()));
+
 
             if (author.getEmailAddress() != null)
-                TextRenderer.renderLeftAlignedText(author.getEmailAddress());
+                texts.add(new Text(author.getEmailAddress(), Processor.getSentenceFontData()));
+        }
+
+        try {
+            TextRenderer.renderBottomLeftText(texts);
+        } catch (IOException e) {
+            throw new PippException("Could not render the title page");
         }
     }
 }

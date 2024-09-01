@@ -3,7 +3,9 @@ package creation.content.text;
 import creation.content.ContentAlignment;
 import creation.page.PageAssembler;
 import creation.page.PageCreator;
+import error.ContentException;
 import error.PippException;
+import frontend.lexical_analysis.DebugTokenInfo;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -436,4 +438,40 @@ public class TextRenderer {
         return textWidth <= availableWidth;
     }
 
+    /**
+     *  Renders text at the bottom left side of the page WITHOUT taking layouts into consideration.
+     *  This is done by creating a new page text stream that is independent on the one used by the other text
+     *  renderer methods. It throws an error if any text content from the list would not fit into its line.
+     * @param texts - the non-null list of text components to render at the bottom left position
+     */
+    public static void renderBottomLeftText(@NonNull LinkedList<Text> texts) throws IOException {
+        final var amountOfLines = texts.size();
+        final var initialYPosition = Processor.getMargin();
+        final var initialXPosition = Processor.getMargin();
+
+        var contentStream = new PDPageContentStream(PageAssembler.getDocument(), PageCreator.getCurrent(),
+                PDPageContentStream.AppendMode.APPEND, false);
+
+        for (int i = 0; i < amountOfLines; i++) {
+            final var text = texts.get(i);
+            final var lineIndex = i + 1;
+
+            if (textFitsInOneLine(text)) {
+                // Sets up the content stream
+                contentStream.setFont(text.getFont(), text.getFontSize());
+                contentStream.setNonStrokingColor(text.getFontColour());
+                contentStream.beginText();
+                contentStream.newLine();
+                System.out.println(i);
+                contentStream.newLineAtOffset(initialXPosition, initialYPosition + 1.2f * Processor.getSpacing() * text.getFontSize() * lineIndex);
+
+                contentStream.showText(text.getContent());
+                contentStream.endText();
+            } else {
+                throw new ContentException("6: The page format is too narrow to render author details.");
+            }
+        }
+
+        contentStream.close();
+    }
 }
