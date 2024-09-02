@@ -25,6 +25,7 @@ import processing.bibliography.BibliographySource;
 import processing.bibliography.BibliographySourceTable;
 import processing.constant.AllowanceType;
 import processing.constant.ChapterSpacingType;
+import processing.constant.HeaderType;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -150,6 +151,10 @@ public class Processor {
      */
     @Getter
     private static Title documentTitle;
+
+    @Getter
+    private static HeaderType headerType;
+
     /**
      * Determines the paragraph indentation, which is the amount of space that a new paragraph will be
      * indented to
@@ -257,6 +262,9 @@ public class Processor {
         processDocumentAuthors(configuration.getAuthors().getAuthorList());
         processDocumentAssessors(configuration.getAssessors().getAssessorsList());
         processPublication(configuration.getPublication());
+
+        // TODO add configuration
+        headerType = usedStyleGuide.headerType();
 
         if (inchesUsed && mmUsed)
             WarningQueue.enqueue(new InconsistencyWarning("3: The style configuration uses both inches and " +

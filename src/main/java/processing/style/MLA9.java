@@ -13,6 +13,7 @@ import processing.bibliography.BibliographySource;
 import processing.bibliography.Book;
 import processing.constant.AllowanceType;
 import processing.constant.ChapterSpacingType;
+import processing.constant.HeaderType;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -170,6 +171,11 @@ public class MLA9 extends StyleGuide {
     @Override
     public ContentAlignment defaultImageAlignment() {
         return ContentAlignment.CENTRE;
+    }
+
+    @Override
+    public HeaderType headerType() {
+        return HeaderType.FULL_TITLE_PAGE;
     }
 
     /**

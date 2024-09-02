@@ -8,6 +8,7 @@ import processing.FontData;
 import processing.bibliography.BibliographySource;
 import processing.constant.AllowanceType;
 import processing.constant.ChapterSpacingType;
+import processing.constant.HeaderType;
 import processing.numeration.NumerationAuthorName;
 import processing.numeration.NumerationPosition;
 import processing.numeration.NumerationType;
@@ -32,6 +33,12 @@ public abstract class StyleGuide {
      * @return the alignment as an enumeration constant
      */
     public abstract ContentAlignment defaultImageAlignment();
+
+    /**
+     * Determines what header type is rendered on the first page
+     * @return the type as an enumeration constant
+     */
+    public abstract HeaderType headerType();
 
     /**
      * Defines the page format of the style guide.

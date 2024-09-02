@@ -2,10 +2,12 @@ package creation.document;
 
 import creation.handler.BodyHandler;
 import creation.handler.ChapterHandler;
+import creation.handler.HeaderHandler;
 import creation.page.PageAssembler;
 import creation.page.PageCreator;
 import creation.stamp.BibliographyStamp;
 import error.PippException;
+import processing.Processor;
 
 import java.io.IOException;
 
@@ -40,8 +42,14 @@ public class DocumentCreator {
         // Set the metadata
         DocumentMetadataWriter.writeMetadata();
 
+        // This must be done BEFORE the first page is created
+        HeaderHandler.handlePageNumeration();
+
         // The PDF at least has one empty page
         PageCreator.createNewPage();
+
+        // The header is rendered (or not) BEFORE the body elements
+        HeaderHandler.handleHeader();
 
         // Create the document's body elements
         BodyHandler.handleAll();
