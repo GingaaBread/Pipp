@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="frontend.lexical_analysis.syntax.BibliographyTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-14T11:46:04" hostname="LAPTOP" time="0.008">
+  <properties/>
+  <testcase name="bibliography_Keyword_is_Required()" classname="frontend.lexical_analysis.syntax.BibliographyTests" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
